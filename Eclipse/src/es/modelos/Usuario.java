@@ -1,7 +1,5 @@
 package es.modelos;
 
-//import javax.swing.ImageIcon;
-
 public class Usuario {
 	
 	private String correo;
