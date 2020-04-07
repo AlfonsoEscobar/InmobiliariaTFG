@@ -22,51 +22,41 @@ public class Anuncio {
 		this.fecha_ultima_actualizacion = fecha_ultima_actualizacion;
 	}
 
-
 	public String getId_inmueble() {
 		return id_inmueble;
 	}
-
 
 	public void setId_inmueble(String id_inmueble) {
 		this.id_inmueble = id_inmueble;
 	}
 
-
 	public boolean isTipo_anuncio() {
 		return tipo_anuncio;
 	}
-
 
 	public void setTipo_anuncio(boolean tipo_anuncio) {
 		this.tipo_anuncio = tipo_anuncio;
 	}
 
-
 	public float getPrecio() {
 		return precio;
 	}
-
 
 	public void setPrecio(float precio) {
 		this.precio = precio;
 	}
 
-
 	public Date getFecha_anuncio() {
 		return fecha_anuncio;
 	}
-
 
 	public void setFecha_anuncio(Date fecha_anuncio) {
 		this.fecha_anuncio = fecha_anuncio;
 	}
 
-
 	public Date getFecha_ultima_actualizacion() {
 		return fecha_ultima_actualizacion;
 	}
-
 
 	public void setFecha_ultima_actualizacion(Date fecha_ultima_actualizacion) {
 		this.fecha_ultima_actualizacion = fecha_ultima_actualizacion;

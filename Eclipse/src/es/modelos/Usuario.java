@@ -11,11 +11,11 @@ public class Usuario {
 	private String telefono;
 	private String telefono2;
 	private Image imagen_prefil;
-	
+
 	public Usuario() {
 		
 	}
-	
+
 	public Usuario(String correo, String contrasena, String id_usuario, String nombre, String telefono,
 					String telefono2, Image imagen_prefil) {
 		this.correo = correo;

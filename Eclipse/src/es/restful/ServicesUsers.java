@@ -3,16 +3,12 @@ package es.restful;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import java.net.URI;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -49,13 +45,13 @@ public class ServicesUsers {
 			responsestatus = Response.Status.INTERNAL_SERVER_ERROR;
 		}
 		
-		
 		if (responsestatus == Response.Status.OK)
 			return Response.ok(listaUsuario).build();
 		else
 			return Response.status(responsestatus).build();
 		
 	}
+	
 	
 	@PUT
 	@Path("/{correo}")
@@ -69,34 +65,27 @@ public class ServicesUsers {
 		return Response.status(responseStatus).build();
 	}
 	
+	
 	@POST
 	@Consumes(APPLICATION_JSON)
 	public Response postUsuario(@Context UriInfo uriInfo, Usuario usuario) {
 		
 		Response.Status responseStatus = Response.Status.OK;
 		int generatedId = -1;
+		//int affectedRows = 0;
 		
-		//responseStatus = UsuarioDao.insertar(usuario);
+		//affectedRows = UsuarioDao.insertar(usuario);
 		
 /*
-		try {
-			Connection connection = dataSource.getConnection();
-			PreparedStatement statement = connection.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS);
-			statement.setString(1, usuario.getLogin());
-			statement.setString(2, usuario.getNombre());
-			statement.setString(3, usuario.getPrimerApellido());
 			int affectedRows = statement.executeUpdate();
-			if (affectedRows == 0)
+			if (affectedRows == 0){
 				responseStatus = Response.Status.NOT_FOUND;
-			else {
+			}else {
 				ResultSet generatedKeys = statement.getGeneratedKeys();
 				if (generatedKeys.next())
 					generatedId = generatedKeys.getInt(1);
 			}
 
-		} catch (SQLException e) {
-			responseStatus = Response.Status.INTERNAL_SERVER_ERROR;
-		}
 */
 		
 		if (responseStatus == Response.Status.OK) {
@@ -105,6 +94,22 @@ public class ServicesUsers {
 			return Response.created(uri).build();
 		} else
 			return Response.status(responseStatus).build();
+	}
+	
+	
+	@DELETE
+	@Path("/{correo}")
+	public Response deleteUsuario(@PathParam("correo") String correo) {
+
+		Response.Status responseStatus = Response.Status.OK;
+
+		int affectedRows = 0;
+		
+		if (affectedRows == 0) {
+			responseStatus = Response.Status.NOT_FOUND;
+		}
+		
+		return Response.status(responseStatus).build();
 	}
 	
 	
