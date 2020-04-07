@@ -10,7 +10,6 @@ public class Fotografia {
 	}
 
 	public Fotografia(String ruta, String tipo_hab, String inmueble) {
-		super();
 		this.ruta = ruta;
 		this.tipo_hab = tipo_hab;
 		this.inmueble = inmueble;

@@ -1,6 +1,6 @@
 package es.modelos;
 
-import java.awt.Image;
+//import javax.swing.ImageIcon;
 
 public class Usuario {
 	
@@ -8,23 +8,19 @@ public class Usuario {
 	private String contrasena;
 	private String id_usuario;
 	private String nombre;
-	private String telefono;
+	private String telefono1;
 	private String telefono2;
-	private Image imagen_prefil;
-
-	public Usuario() {
-		
-	}
-
-	public Usuario(String correo, String contrasena, String id_usuario, String nombre, String telefono,
-					String telefono2, Image imagen_prefil) {
+	private byte[] imagen_perfil;
+	
+	
+	public Usuario(String correo, String contrasena, String nombre, String telefono1,
+					String telefono2, byte[] imagen_perfil) {
 		this.correo = correo;
 		this.contrasena = contrasena;
-		this.id_usuario = id_usuario;
 		this.nombre = nombre;
-		this.telefono = telefono;
+		this.telefono1 = telefono1;
 		this.telefono2 = telefono2;
-		this.imagen_prefil = imagen_prefil;
+		this.imagen_perfil = imagen_perfil;
 	}
 	
 	public String getCorreo() {
@@ -59,12 +55,12 @@ public class Usuario {
 		this.nombre = nombre;
 	}
 	
-	public String getTelefono() {
-		return telefono;
+	public String getTelefono1() {
+		return telefono1;
 	}
 	
-	public void setTelefono(String telefono) {
-		this.telefono = telefono;
+	public void setTelefono1(String telefono1) {
+		this.telefono1 = telefono1;
 	}
 	
 	public String getTelefono2() {
@@ -75,12 +71,12 @@ public class Usuario {
 		this.telefono2 = telefono2;
 	}
 	
-	public Image getImagen_prefil() {
-		return imagen_prefil;
+	public byte[] getImagen_perfil() {
+		return imagen_perfil;
 	}
 	
-	public void setImagen_prefil(Image imagen_prefil) {
-		this.imagen_prefil = imagen_prefil;
+	public void setImagen_perfil(byte[] imagen_perfil) {
+		this.imagen_perfil = imagen_perfil;
 	}
 
 }

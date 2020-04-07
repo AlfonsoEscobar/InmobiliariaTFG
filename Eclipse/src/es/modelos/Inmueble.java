@@ -1,3 +1,4 @@
+/*Los atributos booleanos los utilizaremos para comprobar si existe o no ese servicio en el inmueble. True será sí, false no.*/
 package es.modelos;
 
 public class Inmueble {
@@ -18,7 +19,7 @@ public class Inmueble {
 	private String tipo_obra;
 	private String equipamiento;
 	private String exteriores;
-	private boolean garage;
+	private boolean garaje;
 	private boolean trastero;
 	private boolean ascensor;
 	private boolean ultima_Planta;
@@ -30,7 +31,7 @@ public class Inmueble {
 	public Inmueble(String provincia, String localidad, String calle, int numero, int piso, String puerta,
 			String id_inmueble, String propietario, String descripcion, float metros2, int num_hab,
 			int num_banos, String tipo_edificacion, String tipo_obra, String equipamiento, String exteriores,
-			boolean garage, boolean trastero, boolean ascensor, boolean ultima_Planta, boolean mascotas) {
+			boolean garaje, boolean trastero, boolean ascensor, boolean ultima_Planta, boolean mascotas) {
 		this.provincia = provincia;
 		this.localidad = localidad;
 		this.calle = calle;
@@ -47,7 +48,7 @@ public class Inmueble {
 		this.tipo_obra = tipo_obra;
 		this.equipamiento = equipamiento;
 		this.exteriores = exteriores;
-		this.garage = garage;
+		this.garaje = garaje;
 		this.trastero = trastero;
 		this.ascensor = ascensor;
 		this.ultima_Planta = ultima_Planta;
@@ -182,12 +183,12 @@ public class Inmueble {
 		this.exteriores = exteriores;
 	}
 
-	public boolean isGarage() {
-		return garage;
+	public boolean isGaraje() {
+		return garaje;
 	}
 
-	public void setGarage(boolean garage) {
-		this.garage = garage;
+	public void setGaraje(boolean garaje) {
+		this.garaje = garaje;
 	}
 
 	public boolean isTrastero() {

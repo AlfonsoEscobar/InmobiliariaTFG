@@ -4,12 +4,12 @@ public class Favorito {
 	
 	private String usuario_fav;
 	private String inmueble_fav;
-	private String tipo_anuncio;
+	private boolean tipo_anuncio;
 	
 	public Favorito() {
 	}
 
-	public Favorito(String usuario_fav, String inmueble_fav, String tipo_anuncio) {
+	public Favorito(String usuario_fav, String inmueble_fav, boolean tipo_anuncio) {
 		super();
 		this.usuario_fav = usuario_fav;
 		this.inmueble_fav = inmueble_fav;
@@ -32,11 +32,11 @@ public class Favorito {
 		this.inmueble_fav = inmueble_fav;
 	}
 
-	public String getTipo_anuncio() {
+	public boolean getTipo_anuncio() {
 		return tipo_anuncio;
 	}
 
-	public void setTipo_anuncio(String tipo_anuncio) {
+	public void setTipo_anuncio(boolean tipo_anuncio) {
 		this.tipo_anuncio = tipo_anuncio;
 	}
 	
