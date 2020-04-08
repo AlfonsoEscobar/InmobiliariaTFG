@@ -9,11 +9,11 @@ public class Inmueble {
 	private int numero;
 	private int piso;
 	private String puerta;
-	private String id_inmueble;
-	private String propietario;
+	private int id_inmueble;
+	private int propietario;
 	private String descripcion;
 	private float metros2;
-	private int num_hab;
+	private int num_habitaciones;
 	private int num_banos;
 	private String tipo_edificacion;
 	private String tipo_obra;
@@ -22,27 +22,27 @@ public class Inmueble {
 	private boolean garaje;
 	private boolean trastero;
 	private boolean ascensor;
-	private boolean ultima_Planta;
+	private boolean ultima_planta;
 	private boolean mascotas;
 	
 	public Inmueble() {
 	}
 
 	public Inmueble(String provincia, String localidad, String calle, int numero, int piso, String puerta,
-			String id_inmueble, String propietario, String descripcion, float metros2, int num_hab,
+			int propietario, String descripcion, float metros2, int num_hab,
 			int num_banos, String tipo_edificacion, String tipo_obra, String equipamiento, String exteriores,
-			boolean garaje, boolean trastero, boolean ascensor, boolean ultima_Planta, boolean mascotas) {
+			boolean garaje, boolean trastero, boolean ascensor, boolean ultima_planta, boolean mascotas) {
 		this.provincia = provincia;
 		this.localidad = localidad;
 		this.calle = calle;
 		this.numero = numero;
 		this.piso = piso;
 		this.puerta = puerta;
-		this.id_inmueble = id_inmueble;
+		this.id_inmueble = 0;//Le daremos valor al insertarlo en la base de datos
 		this.propietario = propietario;
 		this.descripcion = descripcion;
 		this.metros2 = metros2;
-		this.num_hab = num_hab;
+		this.num_habitaciones = num_hab;
 		this.num_banos = num_banos;
 		this.tipo_edificacion = tipo_edificacion;
 		this.tipo_obra = tipo_obra;
@@ -51,7 +51,7 @@ public class Inmueble {
 		this.garaje = garaje;
 		this.trastero = trastero;
 		this.ascensor = ascensor;
-		this.ultima_Planta = ultima_Planta;
+		this.ultima_planta = ultima_planta;
 		this.mascotas = mascotas;
 	}
 
@@ -103,19 +103,19 @@ public class Inmueble {
 		this.puerta = puerta;
 	}
 
-	public String getId_inmueble() {
+	public int getId_inmueble() {
 		return id_inmueble;
 	}
 
-	public void setId_inmueble(String id_inmueble) {
+	public void setId_inmueble(int id_inmueble) {
 		this.id_inmueble = id_inmueble;
 	}
 
-	public String getPropietario() {
+	public int getPropietario() {
 		return propietario;
 	}
 
-	public void setPropietario(String propietario) {
+	public void setPropietario(int propietario) {
 		this.propietario = propietario;
 	}
 
@@ -135,12 +135,12 @@ public class Inmueble {
 		this.metros2 = metros2;
 	}
 
-	public int getNum_hab() {
-		return num_hab;
+	public int getNum_habitaciones() {
+		return num_habitaciones;
 	}
 
-	public void setNum_hab(int num_hab) {
-		this.num_hab = num_hab;
+	public void setNum_habitaciones(int num_hab) {
+		this.num_habitaciones = num_hab;
 	}
 
 	public int getNum_banos() {
@@ -207,12 +207,12 @@ public class Inmueble {
 		this.ascensor = ascensor;
 	}
 
-	public boolean isUltima_Planta() {
-		return ultima_Planta;
+	public boolean isUltima_planta() {
+		return ultima_planta;
 	}
 
-	public void setUltima_Planta(boolean ultima_Planta) {
-		this.ultima_Planta = ultima_Planta;
+	public void setUltima_planta(boolean ultima_Planta) {
+		this.ultima_planta = ultima_Planta;
 	}
 
 	public boolean isMascotas() {

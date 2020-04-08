@@ -15,13 +15,13 @@ public class MySQLFotografiaDAO implements FotografiaDAO {
 	}
 
 	@Override
-	public int modificar(Fotografia object) throws DAOException {
+	public int modificar(String value, Fotografia object) throws DAOException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int elminiar(Fotografia object) throws DAOException {
+	public int elminiar(String value) throws DAOException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -44,6 +44,6 @@ public class MySQLFotografiaDAO implements FotografiaDAO {
 		return null;
 	}
 
-	
+
 
 }
