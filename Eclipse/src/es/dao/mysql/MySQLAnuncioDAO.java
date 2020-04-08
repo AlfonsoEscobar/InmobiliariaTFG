@@ -15,13 +15,13 @@ public class MySQLAnuncioDAO implements AnuncioDAO{
 	}
 
 	@Override
-	public int modificar(Anuncio object) throws DAOException {
+	public int modificar(String value, Anuncio object) throws DAOException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int elminiar(Anuncio object) throws DAOException {
+	public int elminiar(String value) throws DAOException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -44,5 +44,6 @@ public class MySQLAnuncioDAO implements AnuncioDAO{
 		return null;
 	}
 
+	
 	
 }

@@ -19,17 +19,19 @@ public class MySQLUsuarioDAO implements UsuarioDAO{
 	final String UPDATE = "UPDATE USUARIO SET contrasena = ?, nombre = ?, telefono1 = ?, telefono2 = ?, imagen_pefil = ? WHERE correo = ?";
 	final String DELETE = "DELETE FROM USUARIO WHERE correo = ?";
 	final String GETALL = "SELECT id_usuario, correo, nombre, telefono1, telefono2, imagen_perfil FROM USUARIO";
-	final String GETONE = "SELECT id_usuario, correo, contrasena, nombre, telefono1, telefono2, imagen_perfil WHERE correo = ?";
+	final String GETONE = "SELECT id_usuario, correo, contrasena, nombre, telefono1, telefono2, imagen_perfil FROM USUARIO WHERE correo = ?";
 	final String IDMAX = "SELECT MAX(id_usuario) FROM USUARIO";
 	
 	private Connection conexion;
 	
-	public MySQLUsuarioDAO(DataSource conexion) throws DAOException {
+	public MySQLUsuarioDAO(DataSource conexion) {
 		try {
 			this.conexion = conexion.getConnection();
-		}catch (SQLException ex) {
-			throw new DAOException("Imposible realizar la conexión", ex);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
 	}
 	
 	@Override

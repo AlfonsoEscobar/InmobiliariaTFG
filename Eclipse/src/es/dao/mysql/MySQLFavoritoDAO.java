@@ -15,13 +15,13 @@ public class MySQLFavoritoDAO implements FavoritoDAO{
 	}
 
 	@Override
-	public int modificar(Favorito object) throws DAOException {
+	public int modificar(String value, Favorito object) throws DAOException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int elminiar(Favorito object) throws DAOException {
+	public int elminiar(String value) throws DAOException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -43,6 +43,7 @@ public class MySQLFavoritoDAO implements FavoritoDAO{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 	
 

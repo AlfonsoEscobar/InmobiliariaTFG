@@ -10,7 +10,7 @@ CREATE TABLE USUARIO(
 	nombre varchar(50) NOT NULL,
 	telefono1 varchar(9) NOT NULL,
 	telefono2 varchar(9),
-	foto_perfil MEDIUMBLOB
+	imagen_perfil MEDIUMBLOB
 ) ENGINE=INNODB;
 
 create index 'fk_a_usuario' on USUARIO(id_usuario);
