@@ -6,7 +6,7 @@ use inmoviliaria;
 CREATE TABLE USUARIO(
 	correo varchar(40) PRIMARY KEY,
 	contrasena varchar(64) NOT NULL,
-	id_usuario varchar(8) NOT NULL,
+	id_usuario int(7) NOT NULL,
 	nombre varchar(50) NOT NULL,
 	telefono1 varchar(9) NOT NULL,
 	telefono2 varchar(9),
@@ -22,8 +22,8 @@ CREATE TABLE INMUEBLE(
 	numero int(2),
 	piso int(2),
 	puerta varchar(4),
-	id_inmueble varchar(8),
-	propietario varchar(8) not null,
+	id_inmueble int(7),
+	propietario int(7) not null,
 	descripcion text NOT NULL,
 	metros2 dec(5,2) NOT NULL, 
 	num_habitaciones int(2) NOT NULL,
@@ -44,7 +44,7 @@ CREATE TABLE INMUEBLE(
 create index 'fk_a_inmueble' on INMUEBLE(id_inmueble);
 
 CREATE TABLE ANUNCIO(
-	id_inmueble varchar(8),
+	id_inmueble int(7),
 	tipo_anuncio bool,
 	precio dec(8,2) NOT NULL,
 	fecha_anunciado date,
@@ -56,8 +56,8 @@ CREATE TABLE ANUNCIO(
 create index 'fk_a_anuncio' on ANUNCIO(id_inmueble, tipo_anuncio);
 
 CREATE TABLE FAVORITO(
-	usuario_favorito varchar(8),
-	inmueble_favorito varchar(8),
+	usuario_favorito int(7),
+	inmueble_favorito int(7),
 	tipo_anuncio bool,
 	CONSTRAINT 'pk_favorito' PRIMARY KEY (usuario_favorito, inmueble_favorito, tipo_anuncio),
 	CONSTRAINT 'fk_favorito_usuario' FOREIGN KEY (usuario_favorito) REFERENCES USUARIO(id_usuario),

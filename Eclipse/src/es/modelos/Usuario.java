@@ -6,7 +6,7 @@ public class Usuario {
 	
 	private String correo;
 	private String contrasena;
-	private String id_usuario;
+	private int id_usuario;
 	private String nombre;
 	private String telefono1;
 	private String telefono2;
@@ -21,6 +21,7 @@ public class Usuario {
 		this.telefono1 = telefono1;
 		this.telefono2 = telefono2;
 		this.imagen_perfil = imagen_perfil;
+		this.id_usuario = 0;//Lo asignaremos cuando vayamos a insertarlo en la base de datos
 	}
 	
 	public String getCorreo() {
@@ -39,12 +40,12 @@ public class Usuario {
 		this.contrasena = contrasena;
 	}
 	
-	public String getId_usuario() {
+	public int getId_usuario() {
 		return id_usuario;
 	}
 	
-	public void setId_usuario(String id_usuario) {
-		this.id_usuario = id_usuario;
+	public void setId_usuario(int string) {
+		this.id_usuario = string;
 	}
 	
 	public String getNombre() {
