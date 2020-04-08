@@ -2,10 +2,13 @@ package es.restful;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.sql.DataSource;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -18,6 +21,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import es.modelos.Inmueble;
@@ -29,6 +33,11 @@ import es.modelos.Usuario;
 public class ServicesProperty {
 	
 	List<Inmueble> listapisos = new ArrayList<>();
+	
+	@Inject
+	private DataSource dataSource;
+	
+	//MySQLInmuebleDAO claseInmueble = new MySQLInmuebleDAO(dataSource);
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -109,20 +118,26 @@ public class ServicesProperty {
 	public Response postUsuario(@Context UriInfo uriInfo, Inmueble inmueble) {
 		
 		Response.Status responseStatus = Response.Status.OK;
-		//int generatedId = -1;
+		int generatedId = -1;
 		int affectedRows = 0;
 		
-		//affectedRows = MySQLInmuebleDao.insertar(inmueble);
-		
+/*		try {
+			affectedRows = claseUsuario.insertar(inmueble);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+			
 		if (affectedRows == 0){
 			responseStatus = Response.Status.NOT_FOUND;
 		}
-
-		if (responseStatus != Response.Status.OK) {
+		
+		if (responseStatus == Response.Status.OK) {
+			UriBuilder uriBuilder = uriInfo.getRequestUriBuilder();
+			URI uri = uriBuilder.path(Integer.toString(generatedId)).build();
+			return Response.created(uri).build();
+		} else
 			return Response.status(responseStatus).build();
-		} 
-			
-		return null;
 	}
 	
 
@@ -134,7 +149,7 @@ public class ServicesProperty {
 
 		int affectedRows = 0;
 		
-		//affectedRows = MySQLInmueble.borrar(id_inmueble);
+		//affectedRows = MySQLInmuebleDAO.eliminar(id_inmueble);
 		
 		
 		if (affectedRows == 0) {
