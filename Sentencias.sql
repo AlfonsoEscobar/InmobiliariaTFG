@@ -65,7 +65,9 @@ CREATE TABLE FAVORITO(
 	usuario_favorito int(7),
 	inmueble_favorito int(7),
 	tipo_anuncio varchar(20),
-	PRIMARY KEY (usuario_favorito, inmueble_favorito, tipo_anuncio)
+	CONSTRAINT 'pk_favorito' PRIMARY KEY (usuario_favorito, inmueble_favorito, tipo_anuncio),
+	CONSTRAINT 'fk_favorito_usuario' FOREIGN KEY (usuario_favorito) REFERENCES USUARIO(id_usuario),
+	CONSTRAINT 'fk_favorito_anuncio' FOREIGN KEY (inmueble_favorito, tipo_anuncio) REFERENCES ANUNCIO(id_inmueble, tipo_anuncio)
 ) ENGINE=INNODB;
 
 ALTER TABLE `inmobiliaria`.`favorito` 
@@ -74,9 +76,10 @@ add index `fk_a_favorito`  (usuario_favorito, inmueble_favorito, tipo_anuncio as
 
 CREATE TABLE FOTOGRAFIA(
 	ruta varchar(25),
-	tipo_habitacion varchar(20),
+	tipo_habitacion varchar2(20),
 	inmueble int(7) NOT NULL,
-	PRIMARY KEY (ruta),
+	CONSTRAINT 'pk_fotografia' PRIMARY KEY (ruta),
+	CONSTRAINT 'fk_fotografia_inmueble' FOREIGN KEY (inmueble) REFERENCES INMUEBLE(id_inmueble)
 ) ENGINE=INNODB;
 
 

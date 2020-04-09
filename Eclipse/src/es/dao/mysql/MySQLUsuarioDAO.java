@@ -97,7 +97,7 @@ public class MySQLUsuarioDAO implements UsuarioDAO{
 	
 
 	@Override
-	public int elminiar(String correo) throws DAOException {
+	public int eliminar(String correo) throws DAOException {
 		PreparedStatement stat = null;
 		int filasAfectadas;
 		try {

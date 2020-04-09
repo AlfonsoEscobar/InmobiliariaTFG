@@ -12,7 +12,7 @@ public class Inmueble {
 	private int id_inmueble;
 	private int propietario;
 	private String descripcion;
-	private float metros2;
+	private double metros2;
 	private int num_habitaciones;
 	private int num_banos;
 	private String tipo_edificacion;
@@ -29,7 +29,7 @@ public class Inmueble {
 	}
 
 	public Inmueble(String provincia, String localidad, String calle, int numero, int piso, String puerta,
-			int propietario, String descripcion, float metros2, int num_hab,
+			int propietario, String descripcion, double metros2, int num_hab,
 			int num_banos, String tipo_edificacion, String tipo_obra, String equipamiento, String exteriores,
 			boolean garaje, boolean trastero, boolean ascensor, boolean ultima_planta, boolean mascotas) {
 		this.provincia = provincia;
@@ -127,11 +127,11 @@ public class Inmueble {
 		this.descripcion = descripcion;
 	}
 
-	public float getMetros2() {
+	public double getMetros2() {
 		return metros2;
 	}
 
-	public void setMetros2(float metros2) {
+	public void setMetros2(double metros2) {
 		this.metros2 = metros2;
 	}
 

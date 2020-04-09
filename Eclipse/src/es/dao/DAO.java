@@ -7,7 +7,7 @@ public interface DAO<O, V> {
 	
 	int modificar(V value, O object) throws DAOException;
 	
-	int elminiar (V value) throws DAOException;
+	int eliminar (V value) throws DAOException;
 	
 	List<O> obtenerPorParametro(V value) throws DAOException; 
 	
