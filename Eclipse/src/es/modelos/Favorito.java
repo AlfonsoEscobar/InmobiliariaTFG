@@ -2,42 +2,40 @@ package es.modelos;
 
 public class Favorito {
 	
-	private String usuario_fav;
-	private String inmueble_fav;
-	private boolean tipo_anuncio;
+	private int usuario_favorito;
+	private int inmueble_favorito;
+	private String tipo_anuncio;
 	
-	public Favorito() {
-	}
-
-	public Favorito(String usuario_fav, String inmueble_fav, boolean tipo_anuncio) {
-		super();
-		this.usuario_fav = usuario_fav;
-		this.inmueble_fav = inmueble_fav;
+	public Favorito(int usuario_favorito, int inmueble_favorito, String tipo_anuncio) {
+		this.usuario_favorito = usuario_favorito;
+		this.inmueble_favorito = inmueble_favorito;
 		this.tipo_anuncio = tipo_anuncio;
 	}
 
-	public String getUsuario_fav() {
-		return usuario_fav;
+	public int getUsuario_favorito() {
+		return usuario_favorito;
 	}
 
-	public void setUsuario_fav(String usuario_fav) {
-		this.usuario_fav = usuario_fav;
+	public void setUsuario_favorito(int usuario_favorito) {
+		this.usuario_favorito = usuario_favorito;
 	}
 
-	public String getInmueble_fav() {
-		return inmueble_fav;
+	public int getInmueble_favorito() {
+		return inmueble_favorito;
 	}
 
-	public void setInmueble_fav(String inmueble_fav) {
-		this.inmueble_fav = inmueble_fav;
+	public void setInmueble_favorito(int inmueble_favorito) {
+		this.inmueble_favorito = inmueble_favorito;
 	}
 
-	public boolean getTipo_anuncio() {
+	public String getTipo_anuncio() {
 		return tipo_anuncio;
 	}
 
-	public void setTipo_anuncio(boolean tipo_anuncio) {
+	public void setTipo_anuncio(String tipo_anuncio) {
 		this.tipo_anuncio = tipo_anuncio;
 	}
 	
+	
+
 }

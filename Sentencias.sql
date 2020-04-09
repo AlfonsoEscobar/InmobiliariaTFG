@@ -31,7 +31,7 @@ CREATE TABLE INMUEBLE(
 	tipo_edificacion varchar(20),
 	tipo_obra varchar(30),
 	equipamiento varchar(100),
-	exteriores varchar(30) default false,
+	exteriores varchar(30),
 	garaje bool default false,
 	trastero bool default false,
 	ascensor bool default false,
@@ -45,7 +45,7 @@ create index 'fk_a_inmueble' on INMUEBLE(id_inmueble);
 
 CREATE TABLE ANUNCIO(
 	id_inmueble int(7),
-	tipo_anuncio bool,
+	tipo_anuncio varchar(20),
 	precio dec(8,2) NOT NULL,
 	fecha_anunciado date,
 	fecha_ultima_actualizacion date,
@@ -58,7 +58,7 @@ create index 'fk_a_anuncio' on ANUNCIO(id_inmueble, tipo_anuncio);
 CREATE TABLE FAVORITO(
 	usuario_favorito int(7),
 	inmueble_favorito int(7),
-	tipo_anuncio bool,
+	tipo_anuncio varchar(20),
 	CONSTRAINT 'pk_favorito' PRIMARY KEY (usuario_favorito, inmueble_favorito, tipo_anuncio),
 	CONSTRAINT 'fk_favorito_usuario' FOREIGN KEY (usuario_favorito) REFERENCES USUARIO(id_usuario),
 	CONSTRAINT 'fk_favorito_anuncio' FOREIGN KEY (inmueble_favorito, tipo_anuncio) REFERENCES ANUNCIO(id_inmueble, tipo_anuncio)
@@ -69,7 +69,7 @@ create index 'fk_a_favorito' on FAVORITO(usuario_favorito, inmueble_favorito, ti
 CREATE TABLE FOTOGRAFIA(
 	ruta varchar(25),
 	tipo_habitacion varchar2(20),
-	inmueble varchar(8) NOT NULL,
+	inmueble int(7) NOT NULL,
 	CONSTRAINT 'pk_fotografia' PRIMARY KEY (ruta),
 	CONSTRAINT 'fk_fotografia_inmueble' FOREIGN KEY (inmueble) REFERENCES INMUEBLE(id_inmueble)
 ) ENGINE=INNODB;

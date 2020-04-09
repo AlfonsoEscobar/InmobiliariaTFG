@@ -6,16 +6,16 @@ import java.util.Date;
 
 public class Anuncio {
 	
-	private String id_inmueble;
-	private boolean tipo_anuncio;
-	private float precio;
+	private int id_inmueble;
+	private String tipo_anuncio;
+	private double precio;
 	private Date fecha_anuncio;
 	private Date fecha_ultima_actualizacion;
 	
 	public Anuncio() {
 	}
 
-	public Anuncio(String id_inmueble, boolean tipo_anuncio, float precio, Date fecha_anuncio,
+	public Anuncio(int id_inmueble, String tipo_anuncio, double precio, Date fecha_anuncio,
 					Date fecha_ultima_actualizacion) {
 		this.id_inmueble = id_inmueble;
 		this.tipo_anuncio = tipo_anuncio;
@@ -24,27 +24,27 @@ public class Anuncio {
 		this.fecha_ultima_actualizacion = fecha_ultima_actualizacion;
 	}
 
-	public String getId_inmueble() {
+	public int getId_inmueble() {
 		return id_inmueble;
 	}
 
-	public void setId_inmueble(String id_inmueble) {
+	public void setId_inmueble(int id_inmueble) {
 		this.id_inmueble = id_inmueble;
 	}
 
-	public boolean isTipo_anuncio() {
+	public String getTipo_anuncio() {
 		return tipo_anuncio;
 	}
 
-	public void setTipo_anuncio(boolean tipo_anuncio) {
+	public void setTipo_anuncio(String tipo_anuncio) {
 		this.tipo_anuncio = tipo_anuncio;
 	}
 
-	public float getPrecio() {
+	public double getPrecio() {
 		return precio;
 	}
 
-	public void setPrecio(float precio) {
+	public void setPrecio(double precio) {
 		this.precio = precio;
 	}
 

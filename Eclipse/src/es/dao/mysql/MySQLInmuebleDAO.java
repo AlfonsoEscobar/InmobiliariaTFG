@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -20,11 +21,13 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 			+ "num_habitaciones, num_banos, tipo_edificacion, tipo_obra, equipamiento, exteriores, garaje, trastero, ascensor, ultima_planta, mascotas) "
 			+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 	final String DELETE = "DELETE FROM INMUEBLE WHERE id_inmueble = ?";
+	final String UPDATE = "UPDATE INMUEBLE SET provincia = ?, localidad = ?, calle = ?, numero = ?, piso = ?, puerta = ?, descripcion = ?, metros2 = ?,"
+			+ " num_habitaciones = ?, num_banos = ?, tipo_edificacion = ?, tipo_obra = ?, equipamiento = ?, exteriores = ?, garaje = ?, trastero = ?,"
+			+ " ascensor = ?, ultima_planta = ?, mascotas = ? WHERE id_inmueble = ?";
 	final String GETONE = "SELECT * FROM INMUEBLE WHERE id_inmueble = ?";
+	final String GETALL = "SELECT * FROM INMUEBLE";
 	final String IDMAX = "SELECT MAX(id_inmueble) FROM INMUEBLE";
-	/*final String UPDATE = "UPDATE USUARIO SET contrasena = ?, nombre = ?, telefono1 = ?, telefono2 = ?, imagen_pefil = ? WHERE correo = ?";
-	final String GETALL = "SELECT id_usuario, correo, nombre, telefono1, telefono2, imagen_perfil FROM USUARIO";
-	*/
+	
 	
 	private Connection conexion;
 	
@@ -56,7 +59,7 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 			stat.setInt(7, inmueble.getId_inmueble());
 			stat.setInt(8, inmueble.getPropietario());
 			stat.setString(9, inmueble.getDescripcion());
-			stat.setFloat(10, inmueble.getMetros2());
+			stat.setDouble(10, inmueble.getMetros2());
 			stat.setInt(11, inmueble.getNum_habitaciones());
 			stat.setInt(12, inmueble.getNum_banos());
 			stat.setString(13, inmueble.getTipo_edificacion());
@@ -84,13 +87,49 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 	}
 
 	@Override
-	public int modificar(Integer value, Inmueble object) throws DAOException {
-		// TODO Auto-generated method stub
-		return 0;
+	public int modificar(Integer id, Inmueble inmueble) throws DAOException {
+		PreparedStatement stat = null;
+		int filasModificadas = 0;
+		try {
+			stat = conexion.prepareStatement(UPDATE);
+			stat.setString(1, inmueble.getProvincia());
+			stat.setString(2, inmueble.getLocalidad());
+			stat.setString(3, inmueble.getCalle());
+			stat.setInt(4, inmueble.getNumero());
+			stat.setInt(5, inmueble.getPiso());
+			stat.setString(6, inmueble.getPuerta());
+			stat.setString(7, inmueble.getDescripcion());
+			stat.setDouble(8, inmueble.getMetros2());
+			stat.setInt(9, inmueble.getNum_habitaciones());
+			stat.setInt(10, inmueble.getNum_banos());
+			stat.setString(11, inmueble.getTipo_edificacion());
+			stat.setString(12, inmueble.getTipo_obra());
+			stat.setString(13, inmueble.getEquipamiento());
+			stat.setString(14, inmueble.getExteriores());
+			stat.setBoolean(15, inmueble.isGaraje());
+			stat.setBoolean(16, inmueble.isTrastero());
+			stat.setBoolean(17, inmueble.isAscensor());
+			stat.setBoolean(18, inmueble.isUltima_planta());
+			stat.setBoolean(19, inmueble.isMascotas());
+			stat.setInt(20, id);
+			filasModificadas = stat.executeUpdate();
+		}catch (SQLException ex){
+			throw new DAOException("Error en SQL", ex);
+		}finally {
+			if (stat != null) {
+				try {
+					stat.close();
+				}catch (SQLException ex) {
+					throw new DAOException("Error en SQL", ex);
+				}
+			}
+			
+		}
+		return filasModificadas;
 	}
 
 	@Override
-	public int elminiar(Integer id) throws DAOException {
+	public int eliminar(Integer id) throws DAOException {
 		PreparedStatement stat = null;
 		int filasEliminadas = 0;
 		try {
@@ -162,8 +201,35 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 
 	@Override
 	public List<Inmueble> obtenerTodos() throws DAOException {
-		// TODO Auto-generated method stub
-		return null;
+		PreparedStatement stat = null;
+		ResultSet rs = null;
+		List <Inmueble> inmuebles = new ArrayList<>();
+		try {
+			stat = conexion.prepareStatement(GETALL);
+			rs = stat.executeQuery();
+			while(rs.next()) {
+				inmuebles.add(convertir(rs));
+			}
+		}catch(SQLException ex){
+			throw new DAOException("Error en SQL", ex);
+		}finally {
+			if(rs != null) {
+				try {
+					rs.close();
+				}catch(SQLException ex) {
+					throw new DAOException("Error en SQL", ex);
+				}
+			}
+			if(stat != null) {
+				try {
+					stat.close();
+				}catch(SQLException ex) {
+					throw new DAOException("Error en SQL", ex);
+				}
+			}
+			
+		}
+		return inmuebles;
 	}
 	
 	private Inmueble convertir(ResultSet rs) throws SQLException {
@@ -228,11 +294,4 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 			}
 		}
 	}
-
-	
-
-	
-	
-	
-
 }
