@@ -25,6 +25,7 @@ public class MySQLUsuarioDAO implements UsuarioDAO{
 	private Connection conexion;
 	
 	public MySQLUsuarioDAO(DataSource conexion) {
+
 		try {
 			this.conexion = conexion.getConnection();
 		} catch (SQLException e) {
@@ -209,7 +210,7 @@ public class MySQLUsuarioDAO implements UsuarioDAO{
 		return usuario;
 	}
 	
-	private void otorgarId (Usuario usuario) throws DAOException  {
+	private void otorgarId(Usuario usuario) throws DAOException  {
 		PreparedStatement stat = null;
 		ResultSet rs = null;
 		int max = 0;

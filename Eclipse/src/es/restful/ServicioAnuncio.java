@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.sql.DataSource;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -15,38 +17,45 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
-import es.modelos.Usuario;
+import es.dao.DAOException;
+import es.modelos.Anuncio;
 
 @ApplicationScoped
-@Path("/user")
-public class ServicesUsers {
+@Path("/anuncio")
+public class ServicioAnuncio {
+
 	
-	List<Usuario> listaUsuario = new ArrayList<>();
+	List<Anuncio> listaAnuncio = new ArrayList<>();
+	
+	@Inject
+	private DataSource dataSource;
+	
+	//MySQLAnuncioDAO claseAnuncio = new MySQLAnuncioDAO(dataSource);
 	
 	@GET
-	@Path("/{correo}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getUsuario(@PathParam("correo") String correo) {
+	public Response getAnuncio(@QueryParam("tipo") String tipo){
 		
 		Response.Status responsestatus = Response.Status.OK;
 		
-		//El correo que recibo por el Path se lo paso a la clase de javi
-		// Usuario user = la clase java de javi que devuelve un usuario
+		//List<Anuncio> listaAnuncios = claseAnuncio.obternerTodos(tipo);
 		
 		
-		// en vez de listaUsuario seria el usuario que devuelve javi
-		if(listaUsuario.isEmpty()) {
+		
+		if(listaAnuncio.isEmpty()) {
 			responsestatus = Response.Status.INTERNAL_SERVER_ERROR;
 		}
 		
+		
 		if (responsestatus == Response.Status.OK)
-			return Response.ok(listaUsuario).build();
+			return Response.ok(listaAnuncio).build();
 		else
 			return Response.status(responsestatus).build();
 		
@@ -54,39 +63,47 @@ public class ServicesUsers {
 	
 	
 	@PUT
-	@Path("/{correo}")
+	@Path("/{id_anuncio}")
 	@Consumes(APPLICATION_JSON)
-	public Response putUsuario(@PathParam("correo") String correo, Usuario usuario) {
+	public Response putAnuncio(@PathParam("id_anuncio") String id_inmueble, Anuncio anuncio) {
 		
 		Response.Status responseStatus = Response.Status.OK;
-
-		//responseStatus = UsuarioDao.modificar(correo, usuario);
+		int affectedRows = 0;
+		
+		/*
+		try {
+		responseStatus = claseAnuncio.modificar(id_inmueble, anuncio);
+		} catch (DAOException e) {
+			responseStatus = Response.Status.INTERNAL_SERVER_ERROR;
+		}
+		*/
+		
+		if(affectedRows == 0) {
+			responseStatus = Response.Status.NOT_FOUND;
+		}
 
 		return Response.status(responseStatus).build();
+		
 	}
 	
 	
 	@POST
 	@Consumes(APPLICATION_JSON)
-	public Response postUsuario(@Context UriInfo uriInfo, Usuario usuario) {
+	public Response postAnuncio(@Context UriInfo uriInfo, Anuncio anuncio) {
 		
 		Response.Status responseStatus = Response.Status.OK;
 		int generatedId = -1;
-		//int affectedRows = 0;
+		int affectedRows = 0;
 		
-		//affectedRows = UsuarioDao.insertar(usuario);
-		
-/*
-			int affectedRows = statement.executeUpdate();
-			if (affectedRows == 0){
-				responseStatus = Response.Status.NOT_FOUND;
-			}else {
-				ResultSet generatedKeys = statement.getGeneratedKeys();
-				if (generatedKeys.next())
-					generatedId = generatedKeys.getInt(1);
-			}
-
-*/
+/*		try {
+			affectedRows = claseAnuncio.insertar(anuncio);
+		} catch (DAOException e) {
+			responseStatus = Response.Status.INTERNAL_SERVER_ERROR;
+		}*/
+			
+		if (affectedRows == 0){
+			responseStatus = Response.Status.NOT_FOUND;
+		}
 		
 		if (responseStatus == Response.Status.OK) {
 			UriBuilder uriBuilder = uriInfo.getRequestUriBuilder();
@@ -96,20 +113,26 @@ public class ServicesUsers {
 			return Response.status(responseStatus).build();
 	}
 	
-	
+
 	@DELETE
-	@Path("/{correo}")
-	public Response deleteUsuario(@PathParam("correo") String correo) {
+	@Path("/{id_anuncio}")
+	public Response deleteAnuncio(@PathParam("id_anuncio") int id) {
 
 		Response.Status responseStatus = Response.Status.OK;
-
 		int affectedRows = 0;
+		
+/*		try {
+		//affectedRows = claseAnuncio.eliminar(id);
+		} catch (DAOException e) {
+			responseStatus = Response.Status.INTERNAL_SERVER_ERROR;
+		}*/
 		
 		if (affectedRows == 0) {
 			responseStatus = Response.Status.NOT_FOUND;
 		}
 		
 		return Response.status(responseStatus).build();
+		
 	}
 	
 	
