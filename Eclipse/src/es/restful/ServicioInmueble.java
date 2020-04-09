@@ -24,29 +24,34 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
+import es.dao.DAOException;
+import es.dao.mysql.MySQLInmuebleDAO;
 import es.modelos.Inmueble;
 import es.modelos.Usuario;
 
 
 @ApplicationScoped
-@Path("/property")
-public class ServicesProperty {
-	
-	List<Inmueble> listapisos = new ArrayList<>();
+@Path("/inmueble")
+public class ServicioInmueble {
 	
 	@Inject
 	private DataSource dataSource;
 	
-	//MySQLInmuebleDAO claseInmueble = new MySQLInmuebleDAO(dataSource);
+	MySQLInmuebleDAO claseInmueble = new MySQLInmuebleDAO(dataSource);
 	
 	@GET
+	@Path("/{localidad}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getPisos(@QueryParam("tipo") String tipo,
-							 @QueryParam("localidad") String localidad){
+	public Response getInmueble(@PathParam("localidad") String localidad){
 		
+		List<Inmueble> listapisos = new ArrayList<>();
 		Response.Status responsestatus = Response.Status.OK;
 		
-		//List<Inmueble> listapisos = MySqlInmueble.select(tipo, localidad);
+		try {
+			listapisos = claseInmueble.obtenerPorParametro(localidad);
+		} catch (DAOException e) {
+			responsestatus = Response.Status.NOT_FOUND;
+		}
 		
 		if(listapisos.isEmpty()) {
 			responsestatus = Response.Status.INTERNAL_SERVER_ERROR;
@@ -63,22 +68,23 @@ public class ServicesProperty {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getPisos(@QueryParam("tipo") String tipo,
-							 @QueryParam("localidad") String localidad,
-							 @QueryParam("piso") int piso,
-							 @QueryParam("metros2") float metros2,
-							 @QueryParam("num_hab") int num_hab,
-							 @QueryParam("num_banos") int num_banos,
-							 @QueryParam("tipo_edificacion") String tipo_edificacion,
-							 @QueryParam("tipo_obra") String tipo_obra,
-							 @QueryParam("equipamiento") String equipamiento,
-							 @QueryParam("exteriores") String exteriores,
-							 @QueryParam("garaje") boolean garaje,
-							 @QueryParam("trastero") boolean trastero,
-							 @QueryParam("ascensor") boolean ascensor,
-							 @QueryParam("ultima_planta") boolean ultima_planta,
-							 @QueryParam("mascotas") boolean mascotas){
+	public Response getInmueble(@QueryParam("tipo") String tipo,
+							 	@QueryParam("localidad") String localidad,
+							 	@QueryParam("piso") int piso,
+							 	@QueryParam("metros2") float metros2,
+							 	@QueryParam("num_hab") int num_hab,
+							 	@QueryParam("num_banos") int num_banos,
+							 	@QueryParam("tipo_edificacion") String tipo_edificacion,
+							 	@QueryParam("tipo_obra") String tipo_obra,
+							 	@QueryParam("equipamiento") String equipamiento,
+							 	@QueryParam("exteriores") String exteriores,
+							 	@QueryParam("garaje") boolean garaje,
+							 	@QueryParam("trastero") boolean trastero,
+							 	@QueryParam("ascensor") boolean ascensor,
+							 	@QueryParam("ultima_planta") boolean ultima_planta,
+							 	@QueryParam("mascotas") boolean mascotas){
 		
+		List<Inmueble> listapisos = new ArrayList<>();
 		Response.Status responsestatus = Response.Status.OK;
 		
 		
@@ -98,15 +104,19 @@ public class ServicesProperty {
 	@PUT
 	@Path("/{id_inmueble}")
 	@Consumes(APPLICATION_JSON)
-	public Response putUsuario(@PathParam("id_inmueble") String id_inmueble, Usuario usuario) {
+	public Response putInmueble(@PathParam("id_inmueble") int id, Inmueble inmueble) {
 		
 		Response.Status responseStatus = Response.Status.OK;
-		int filas = 0;
+		int affectedRows = 0;
 		
-		//responseStatus = MySQLInmuebleDao.modificar(correo, usuario);
+		try {
+			affectedRows = claseInmueble.modificar(id, inmueble);
+		} catch (DAOException e) {
+			responseStatus = Response.Status.INTERNAL_SERVER_ERROR;
+		}
 		
-		if(filas == 0) {
-			
+		if(affectedRows == 0) {
+			responseStatus = Response.Status.NOT_FOUND;
 		}
 
 		return Response.status(responseStatus).build();
@@ -115,18 +125,17 @@ public class ServicesProperty {
 	
 	@POST
 	@Consumes(APPLICATION_JSON)
-	public Response postUsuario(@Context UriInfo uriInfo, Inmueble inmueble) {
+	public Response postInmueble(@Context UriInfo uriInfo, Inmueble inmueble) {
 		
 		Response.Status responseStatus = Response.Status.OK;
 		int generatedId = -1;
 		int affectedRows = 0;
 		
-/*		try {
-			affectedRows = claseUsuario.insertar(inmueble);
+		try {
+			affectedRows = claseInmueble.insertar(inmueble);
 		} catch (DAOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
+			responseStatus = Response.Status.INTERNAL_SERVER_ERROR;
+		}
 			
 		if (affectedRows == 0){
 			responseStatus = Response.Status.NOT_FOUND;
@@ -143,13 +152,17 @@ public class ServicesProperty {
 
 	@DELETE
 	@Path("/{id_inmueble}")
-	public Response deleteUsuario(@PathParam("id_inmueble") String id_inmueble) {
+	public Response deleteInmueble(@PathParam("id_inmueble") int id) {
 
 		Response.Status responseStatus = Response.Status.OK;
 
 		int affectedRows = 0;
 		
-		//affectedRows = MySQLInmuebleDAO.eliminar(id_inmueble);
+		try {
+			affectedRows = claseInmueble.elminiar(id);
+		} catch (DAOException e) {
+			responseStatus = Response.Status.INTERNAL_SERVER_ERROR;
+		}
 		
 		
 		if (affectedRows == 0) {

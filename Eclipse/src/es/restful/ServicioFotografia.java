@@ -24,38 +24,37 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
-import es.dao.DAOException;
-import es.modelos.Anuncio;
+import es.modelos.Fotografia;
 
 @ApplicationScoped
-@Path("/anuncio")
-public class ServicioAnuncio {
-
+@Path("/fotografia")
+public class ServicioFotografia {
 	
-	List<Anuncio> listaAnuncio = new ArrayList<>();
+	
+	List<Fotografia> listaFotografia = new ArrayList<>();
 	
 	@Inject
 	private DataSource dataSource;
 	
-	//MySQLAnuncioDAO claseAnuncio = new MySQLAnuncioDAO(dataSource);
+	//MySQLFotografiaDAO claseFotografia = new MySQLAnuncioDAO(dataSource);
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAnuncio(@QueryParam("tipo") String tipo){
+	public Response getFotografia(@QueryParam("tipo") String tipo){
 		
 		Response.Status responsestatus = Response.Status.OK;
 		
-		//List<Anuncio> listaAnuncios = claseAnuncio.obternerTodos(tipo);
+		//List<Fotografia> listaFotografia = MySQLFotografiaDAO.obternerTodos(tipo);
 		
 		
 		
-		if(listaAnuncio.isEmpty()) {
+		if(listaFotografia.isEmpty()) {
 			responsestatus = Response.Status.INTERNAL_SERVER_ERROR;
 		}
 		
 		
 		if (responsestatus == Response.Status.OK)
-			return Response.ok(listaAnuncio).build();
+			return Response.ok(listaFotografia).build();
 		else
 			return Response.status(responsestatus).build();
 		
@@ -63,16 +62,16 @@ public class ServicioAnuncio {
 	
 	
 	@PUT
-	@Path("/{id_anuncio}")
+	@Path("/{id_fotografia}")
 	@Consumes(APPLICATION_JSON)
-	public Response putAnuncio(@PathParam("id_anuncio") String id_inmueble, Anuncio anuncio) {
+	public Response putFotografia(@PathParam("id_fotografia") String id, Fotografia foto) {
 		
 		Response.Status responseStatus = Response.Status.OK;
 		int affectedRows = 0;
 		
 		/*
 		try {
-		responseStatus = claseAnuncio.modificar(id_inmueble, anuncio);
+		responseStatus = claseFotografia.modificar(id, foto);
 		} catch (DAOException e) {
 			responseStatus = Response.Status.INTERNAL_SERVER_ERROR;
 		}
@@ -83,20 +82,19 @@ public class ServicioAnuncio {
 		}
 
 		return Response.status(responseStatus).build();
-		
 	}
 	
 	
 	@POST
 	@Consumes(APPLICATION_JSON)
-	public Response postAnuncio(@Context UriInfo uriInfo, Anuncio anuncio) {
+	public Response postFotografia(@Context UriInfo uriInfo, Fotografia foto) {
 		
 		Response.Status responseStatus = Response.Status.OK;
 		int generatedId = -1;
 		int affectedRows = 0;
 		
 /*		try {
-			affectedRows = claseAnuncio.insertar(anuncio);
+			affectedRows = claseFotografia.insertar(foto);
 		} catch (DAOException e) {
 			responseStatus = Response.Status.INTERNAL_SERVER_ERROR;
 		}*/
@@ -115,14 +113,14 @@ public class ServicioAnuncio {
 	
 
 	@DELETE
-	@Path("/{id_anuncio}")
-	public Response deleteAnuncio(@PathParam("id_anuncio") int id) {
+	@Path("/{id_fotografia}")
+	public Response deleteFotografia(@PathParam("id_fotografia") int id) {
 
 		Response.Status responseStatus = Response.Status.OK;
 		int affectedRows = 0;
 		
 /*		try {
-		//affectedRows = claseAnuncio.eliminar(id);
+		//affectedRows = claseFotografia.eliminar(id);
 		} catch (DAOException e) {
 			responseStatus = Response.Status.INTERNAL_SERVER_ERROR;
 		}*/
@@ -132,8 +130,8 @@ public class ServicioAnuncio {
 		}
 		
 		return Response.status(responseStatus).build();
-		
 	}
+	
 	
 	
 }
