@@ -159,7 +159,7 @@ public class ServicioInmueble {
 		int affectedRows = 0;
 		
 		try {
-			affectedRows = claseInmueble.elminiar(id);
+			affectedRows = claseInmueble.eliminar(id);
 		} catch (DAOException e) {
 			responseStatus = Response.Status.INTERNAL_SERVER_ERROR;
 		}

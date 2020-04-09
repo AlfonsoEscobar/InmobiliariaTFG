@@ -3,6 +3,11 @@ package es.restful;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import java.net.URI;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -26,7 +31,6 @@ import es.dao.mysql.MySQLUsuarioDAO;
 import es.modelos.Usuario;
 
 
-
 @ApplicationScoped
 @Path("/usuario")
 public class ServicioUsuario {
@@ -34,26 +38,34 @@ public class ServicioUsuario {
 	@Inject
 	private DataSource dataSource;
 
-	MySQLUsuarioDAO claseUsuario = new MySQLUsuarioDAO(dataSource);
-
+	private MySQLUsuarioDAO claseUsuario;
+	
 	@GET
 	@Path("/{correo}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getUsuario(@PathParam("correo") String correo) {
 
+		claseUsuario = new MySQLUsuarioDAO(dataSource);
+		
 		Response.Status responsestatus = Response.Status.OK;
-		Usuario usuario = null;
+		Usuario usuario = new Usuario();
 
 		try {
 			usuario = claseUsuario.obtener(correo);
+			
 		} catch (DAOException e) {
 			responsestatus = Response.Status.INTERNAL_SERVER_ERROR;
 		}
 
-		if (responsestatus == Response.Status.OK)
+		if(usuario.getCorreo().equals("")) {
+			responsestatus = Response.Status.NOT_FOUND;
+		}
+		
+		if (responsestatus == Response.Status.OK) {
 			return Response.ok(usuario).build();
-		else
+		}else {
 			return Response.status(responsestatus).build();
+		}
 
 	}
 
@@ -117,7 +129,7 @@ public class ServicioUsuario {
 		int affectedRows = 0;
 
 		try {
-			affectedRows = claseUsuario.elminiar(correo);
+			affectedRows = claseUsuario.eliminar(correo);
 		} catch (DAOException e) {
 			responseStatus = Response.Status.INTERNAL_SERVER_ERROR;
 		}
