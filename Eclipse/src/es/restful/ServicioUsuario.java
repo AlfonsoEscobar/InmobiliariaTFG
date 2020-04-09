@@ -26,6 +26,7 @@ import es.dao.mysql.MySQLUsuarioDAO;
 import es.modelos.Usuario;
 
 
+
 @ApplicationScoped
 @Path("/usuario")
 public class ServicioUsuario {

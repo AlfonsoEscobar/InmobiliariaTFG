@@ -8,7 +8,7 @@ import javax.sql.DataSource;
 @ApplicationScoped
 public class ProveedorDeDataSource {
 	
-	@Resource(name="jdbc/")
+	@Resource(name="jdbc/MySqlinmobiliaria")
 	@Produces
 	private DataSource dataSource;
 }

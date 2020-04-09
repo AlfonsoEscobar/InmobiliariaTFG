@@ -1,7 +1,7 @@
 
-CREATE database inmoviliaria;
+CREATE database inmobiliaria;
 
-use inmoviliaria;
+use inmobiliaria;
 
 CREATE TABLE USUARIO(
 	correo varchar(40) PRIMARY KEY,
@@ -13,7 +13,9 @@ CREATE TABLE USUARIO(
 	imagen_perfil MEDIUMBLOB
 ) ENGINE=INNODB;
 
-create index 'fk_a_usuario' on USUARIO(id_usuario);
+ALTER TABLE `inmobiliaria`.`usuario` 
+add index `fk_a_usuario`  (id_usuario asc) visible;
+;
 
 CREATE TABLE INMUEBLE(
 	provincia varchar(25),
@@ -31,45 +33,81 @@ CREATE TABLE INMUEBLE(
 	tipo_edificacion varchar(20),
 	tipo_obra varchar(30),
 	equipamiento varchar(100),
-	exteriores varchar(30) default false,
+	exteriores varchar(30),
 	garaje bool default false,
 	trastero bool default false,
 	ascensor bool default false,
 	ultima_planta bool default false,
 	mascotas bool default false,
-	CONSTRAINT 'pk_inmueble' PRIMARY KEY (provincia, localidad, calle, numero, piso, puerta),
-	CONSTRAINT 'fk_inmueble_usuario' FOREIGN KEY (propietario) REFERENCES USUARIO(id_usuario)
+	PRIMARY KEY (provincia, localidad, calle, numero, piso, puerta)
 ) ENGINE=INNODB ;
 
 create index 'fk_a_inmueble' on INMUEBLE(id_inmueble);
 
+ALTER TABLE `inmobiliaria`.`inmueble` 
+add index `fk_a_inmueble`  (id_inmueble asc) visible;
+;
+
 CREATE TABLE ANUNCIO(
 	id_inmueble int(7),
-	tipo_anuncio bool,
+	tipo_anuncio varchar(20),
 	precio dec(8,2) NOT NULL,
 	fecha_anunciado date,
 	fecha_ultima_actualizacion date,
-	CONSTRAINT 'pk_anuncio' PRIMARY KEY (id_inmueble, tipo_anuncio),
-	CONSTRAINT 'fk_anuncio_inmueble' FOREIGN KEY (id_inmueble) REFERENCES INMUEBLE(id_inmueble)
+	PRIMARY KEY (id_inmueble, tipo_anuncio)
 ) ENGINE=INNODB;
 
-create index 'fk_a_anuncio' on ANUNCIO(id_inmueble, tipo_anuncio);
+ALTER TABLE `inmobiliaria`.`anuncio` 
+add index `fk_a_anuncio`  (usuario_favorito, inmueble_favorito, tipo_anuncio asc) visible;
+;
 
 CREATE TABLE FAVORITO(
 	usuario_favorito int(7),
 	inmueble_favorito int(7),
-	tipo_anuncio bool,
-	CONSTRAINT 'pk_favorito' PRIMARY KEY (usuario_favorito, inmueble_favorito, tipo_anuncio),
-	CONSTRAINT 'fk_favorito_usuario' FOREIGN KEY (usuario_favorito) REFERENCES USUARIO(id_usuario),
-	CONSTRAINT 'fk_favorito_anuncio' FOREIGN KEY (inmueble_favorito, tipo_anuncio) REFERENCES ANUNCIO(id_inmueble, tipo_anuncio)
+	tipo_anuncio varchar(20),
+	PRIMARY KEY (usuario_favorito, inmueble_favorito, tipo_anuncio)
 ) ENGINE=INNODB;
 
-create index 'fk_a_favorito' on FAVORITO(usuario_favorito, inmueble_favorito, tipo_anuncio);
+ALTER TABLE `inmobiliaria`.`favorito` 
+add index `fk_a_favorito`  (usuario_favorito, inmueble_favorito, tipo_anuncio asc) visible;
+;
 
 CREATE TABLE FOTOGRAFIA(
 	ruta varchar(25),
-	tipo_habitacion varchar2(20),
-	inmueble varchar(8) NOT NULL,
-	CONSTRAINT 'pk_fotografia' PRIMARY KEY (ruta),
-	CONSTRAINT 'fk_fotografia_inmueble' FOREIGN KEY (inmueble) REFERENCES INMUEBLE(id_inmueble)
+	tipo_habitacion varchar(20),
+	inmueble int(7) NOT NULL,
+	PRIMARY KEY (ruta),
 ) ENGINE=INNODB;
+
+
+Alter table `inmobiliaria`.`inmueble`
+add constraint `fk_inmueble`
+  foreign key (`propietario`)
+  references `inmobiliaria`.`usuario` (`id_usuario`)
+  on delete no action
+  on delete no action;
+
+
+ALTER TABLE `inmobiliaria`.`anuncio` 
+ADD CONSTRAINT `fk_anuncio`
+  FOREIGN KEY (`id_inmueble`)
+  REFERENCES `inmobiliaria`.`inmueble` (`id_inmueble`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+
+ALTER TABLE `inmobiliaria`.`fotografia` 
+ADD CONSTRAINT `fk_fotografia`
+  FOREIGN KEY (`inmueble`)
+  REFERENCES `inmobiliaria`.`inmueble` (`id_inmueble`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+
+
+
+
+
+
+
+
