@@ -105,10 +105,13 @@ public class ServicioUsuario {
 		claseUsuario = new MySQLUsuarioDAO(dataSource);
 		
 		Response.Status responseStatus = Response.Status.OK;
-		int generatedId = -1;
+
 		int affectedRows = 0;
 		
 		try {
+			int id = claseUsuario.maximoId();
+			usuario.setId_usuario(id);
+			
 			affectedRows = claseUsuario.insertar(usuario);
 			
 			/*Connection connection = dataSource.getConnection();
@@ -134,15 +137,6 @@ public class ServicioUsuario {
 		} catch (DAOException e) {
 			responseStatus = Response.Status.INTERNAL_SERVER_ERROR;
 		}
-			
-		
-		
-		if (responseStatus != Response.Status.OK) {
-			/*UriBuilder uriBuilder = uriInfo.getRequestUriBuilder();
-			URI uri = uriBuilder.path(Integer.toString(generatedId)).build();
-			return Response.created(uri).build();*/
-		
-		} 
 		
 		return Response.status(responseStatus).build();
 	}

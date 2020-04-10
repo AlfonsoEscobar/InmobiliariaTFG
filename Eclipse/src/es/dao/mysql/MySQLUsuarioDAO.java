@@ -4,10 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.sql.DataSource;
+import javax.ws.rs.core.Response;
 
 import es.dao.DAOException;
 import es.dao.UsuarioDAO;
@@ -43,11 +46,11 @@ public class MySQLUsuarioDAO implements UsuarioDAO{
 			stat = conexion.prepareStatement(INSERT);
 			stat.setString(1, usuario.getCorreo());
 			stat.setString(2, usuario.getContrasena());
-			stat.setInt(3, obtenerMaxId() + 1);
+			stat.setInt(3, usuario.getId_usuario());
 			stat.setString(4, usuario.getNombre());
 			stat.setString(5, usuario.getTelefono1());
 			stat.setString(6, usuario.getTelefono2());
-			stat.setBytes(7, null);//usuario.getImagen_perfil());
+			stat.setString(7, null);//usuario.getImagen_perfil());
 			filasModificadas = stat.executeUpdate();
 		}catch (SQLException ex){
 			throw new DAOException("Error en SQL", ex);
@@ -213,7 +216,7 @@ public class MySQLUsuarioDAO implements UsuarioDAO{
 		ResultSet rs = null;
 		int max = 0;
 		try {
-			stat = conexion.prepareStatement(IDMAX);
+			stat = conexion.prepareStatement(GETALL);
 			rs = stat.executeQuery();
 			if(rs.next()) {
 				max = rs.getInt("id_usuario");
@@ -245,5 +248,24 @@ public class MySQLUsuarioDAO implements UsuarioDAO{
 	/*private void otorgarId(Usuario usuario) throws DAOException  {
 		usuario.setId_usuario(obtenerMaxId() + 1);
 	}*/
+	
+	
+	public int maximoId() {
+		int max = 10;
+		try {
+			
+			Statement statement = conexion.createStatement();
 
+			ResultSet resultSet = statement.executeQuery("SELECT MAX(id_usuario) FROM usuario");
+
+			if (resultSet.next()) {
+				max = resultSet.getInt("id_usuario");
+			}
+
+		} catch (SQLException e) {
+			
+		}
+		
+		return max + 1;
+	}
 }
