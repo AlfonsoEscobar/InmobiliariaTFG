@@ -15,12 +15,12 @@ import es.modelos.Favorito;
 
 public class MySQLFavoritoDAO implements FavoritoDAO {
 
-	final String INSERT = "INSERT INTO FAVORITO(usuario_favorito, inmueble_favorito, tipo_anuncio) VALUES(?,?,?)";
-	final String DELETE = "DELETE FROM FAVORITO WHERE usuario_favorito = ? and inmueble_favorito = ? and tipo_anuncio = ?";
-	final String DELETEALL = "DELETE FROM FAVORITO WHERE usuario_favorito = ?";
-	final String GETONE = "SELECT * FROM FAVORITO WHERE usuario_favorito = ? and inmueble_favorito = ? and tipo_anuncio = ?";
-	final String GETFAVUSER = "SELECT FROM FAVORITO WHERE usuario_favorito = ?";
-	final String GETALL = "SELECT * FROM FAVORITO";
+	final String INSERT = "INSERT INTO favorito(usuario_favorito, inmueble_favorito, tipo_anuncio) VALUES(?,?,?)";
+	final String DELETE = "DELETE FROM favorito WHERE usuario_favorito = ? and inmueble_favorito = ? and tipo_anuncio = ?";
+	final String DELETEALL = "DELETE FROM favorito WHERE usuario_favorito = ?";
+	final String GETONE = "SELECT * FROM favorito WHERE usuario_favorito = ? and inmueble_favorito = ? and tipo_anuncio = ?";
+	final String GETFAVUSER = "SELECT FROM favorito WHERE usuario_favorito = ?";
+	final String GETALL = "SELECT * FROM favorito";
 
 	private Connection conexion;
 

@@ -17,16 +17,16 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 
 	
 	
-	final String INSERT = "INSERT INTO INMUEBLE(provincia, localidad, calle, numero, piso, puerta, id_inmueble, propietario, descripcion, metros2,"
+	final String INSERT = "INSERT INTO inmueble(provincia, localidad, calle, numero, piso, puerta, id_inmueble, propietario, descripcion, metros2,"
 			+ "num_habitaciones, num_banos, tipo_edificacion, tipo_obra, equipamiento, exteriores, garaje, trastero, ascensor, ultima_planta, mascotas) "
 			+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-	final String DELETE = "DELETE FROM INMUEBLE WHERE id_inmueble = ?";
+	final String DELETE = "DELETE FROM inmueble WHERE id_inmueble = ?";
 	final String UPDATE = "UPDATE INMUEBLE SET provincia = ?, localidad = ?, calle = ?, numero = ?, piso = ?, puerta = ?, descripcion = ?, metros2 = ?,"
 			+ " num_habitaciones = ?, num_banos = ?, tipo_edificacion = ?, tipo_obra = ?, equipamiento = ?, exteriores = ?, garaje = ?, trastero = ?,"
 			+ " ascensor = ?, ultima_planta = ?, mascotas = ? WHERE id_inmueble = ?";
-	final String GETONE = "SELECT * FROM INMUEBLE WHERE id_inmueble = ?";
-	final String GETALL = "SELECT * FROM INMUEBLE";
-	final String IDMAX = "SELECT MAX(id_inmueble) FROM INMUEBLE";
+	final String GETONE = "SELECT * FROM inmueble WHERE id_inmueble = ?";
+	final String GETALL = "SELECT * FROM inmueble";
+	final String IDMAX = "SELECT MAX(id_inmueble) FROM inmueble";
 	
 	
 	private Connection conexion;

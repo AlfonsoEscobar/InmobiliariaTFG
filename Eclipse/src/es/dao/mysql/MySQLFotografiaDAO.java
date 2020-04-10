@@ -15,11 +15,11 @@ import es.modelos.Fotografia;
 
 public class MySQLFotografiaDAO implements FotografiaDAO {
 
-	final String INSERT = "INSERT INTO FOTOGRAFIA(ruta, tipo_habitacion, inmueble) VALUES(?,?,?)";
-	final String DELETE = "DELETE FROM FOTOGRAFIA WHERE ruta = ?";
-	final String GETONE = "SELECT * FROM FOTOGRAFIA WHERE ruta = ?";
-	final String GETTYPE = "SELECT FROM FOTOGRAFIA WHERE tipo_habitacion = ?";
-	final String GETALL = "SELECT * FROM FOTOGRAFIA";
+	final String INSERT = "INSERT INTO fotografia(ruta, tipo_habitacion, inmueble) VALUES(?,?,?)";
+	final String DELETE = "DELETE FROM fotografia WHERE ruta = ?";
+	final String GETONE = "SELECT * FROM fotografia WHERE ruta = ?";
+	final String GETTYPE = "SELECT FROM fotografia WHERE tipo_habitacion = ?";
+	final String GETALL = "SELECT * FROM fotografia";
 
 	private Connection conexion;
 

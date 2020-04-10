@@ -20,14 +20,14 @@ import es.modelos.Usuario;
 
 public class MySQLAnuncioDAO implements AnuncioDAO {
 
-	final String INSERT = "INSERT INTO ANUNCIO(id_inmueble, tipo_anuncio, precio, fecha_anuncio, fecha_ultima_actualizacion) "
+	final String INSERT = "INSERT INTO anuncio(id_inmueble, tipo_anuncio, precio, fecha_anuncio, fecha_ultima_actualizacion) "
 			+ "VALUES(?,?,?,? ?)";
-	final String DELETE = "DELETE FROM ANUNCIO WHERE id_inmueble = ? and tipo_anuncio = ?";
-	final String UPDATE = "UPDATE ANUNCIO SET tipo_anuncio = ?, precio = ?, WHERE id_inmueble = ? and tipo_anuncio = ?";
-	final String UPDATEDATE = "UPDATE ANUNCIO SET fecha_ultima_actualizacion = ? WHERE id_inmueble = ? and tipo_anuncio = ?";
-	final String GETONE = "SELECT * FROM ANUNCIO WHERE id_inmueble = ? and tipo_anuncio = ?";
-	final String GETTYPE = "SELECT FROM ANUNCIO WHERE tipo_anuncio = ?";
-	final String GETALL = "SELECT * FROM ANUNCIO";
+	final String DELETE = "DELETE FROM anuncio WHERE id_inmueble = ? and tipo_anuncio = ?";
+	final String UPDATE = "UPDATE anuncio SET tipo_anuncio = ?, precio = ?, WHERE id_inmueble = ? and tipo_anuncio = ?";
+	final String UPDATEDATE = "UPDATE anuncio SET fecha_ultima_actualizacion = ? WHERE id_inmueble = ? and tipo_anuncio = ?";
+	final String GETONE = "SELECT * FROM anuncio WHERE id_inmueble = ? and tipo_anuncio = ?";
+	final String GETTYPE = "SELECT FROM anuncio WHERE tipo_anuncio = ?";
+	final String GETALL = "SELECT * FROM anuncio";
 	
 
 	private Connection conexion;
