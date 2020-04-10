@@ -39,7 +39,7 @@ public class MySQLUsuarioDAO implements UsuarioDAO{
 	public int insertar(Usuario usuario) throws DAOException {
 		PreparedStatement stat = null;
 		int filasModificadas = 0;
-		otorgarId(usuario);
+		//otorgarId(usuario);
 		try {
 			stat = conexion.prepareStatement(INSERT);
 			stat.setString(1, usuario.getCorreo());
@@ -116,10 +116,9 @@ public class MySQLUsuarioDAO implements UsuarioDAO{
 			}
 		}
 		return filasAfectadas;
-		
-		
 	}
 
+	
 	@Override
 	public List<Usuario> obtenerPorParametro(String k) throws DAOException {
 		return null;
@@ -219,8 +218,6 @@ public class MySQLUsuarioDAO implements UsuarioDAO{
 			rs = stat.executeQuery();
 			if(rs.next()) {
 				max = rs.getInt("id_usuario");
-			}else if(rs.equals(null)){
-				max = 0;
 			}else {
 				throw new DAOException ("No se ha encontrado ningún registro");
 			}

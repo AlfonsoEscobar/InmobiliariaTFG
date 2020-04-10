@@ -75,6 +75,8 @@ public class ServicioUsuario {
 	@Consumes(APPLICATION_JSON)
 	public Response putUsuario(@PathParam("correo") String correo, Usuario usuario) {
 
+		claseUsuario = new MySQLUsuarioDAO(dataSource);
+		
 		Response.Status responseStatus = Response.Status.OK;
 		int affectedRows = 0;
 
@@ -110,7 +112,7 @@ public class ServicioUsuario {
 			affectedRows = claseUsuario.insertar(usuario);
 			
 			/*Connection connection = dataSource.getConnection();
-			PreparedStatement statement = connection.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS);
+			PreparedStatement statement = connection.prepareStatement(sqlQuery);
 			statement.setString(1, usuario.getCorreo());
 			statement.setString(2, usuario.getContrasena());
 			statement.setInt(3, usuario.getId_usuario());
@@ -122,7 +124,7 @@ public class ServicioUsuario {
 			affectedRows = statement.executeUpdate();*/
 			
 			if (affectedRows == 0){
-			responseStatus = Response.Status.NOT_FOUND;
+				responseStatus = Response.Status.NOT_FOUND;
 			}else {
 				/*ResultSet generatedKeys = statement.getGeneratedKeys();
 				if (generatedKeys.next())
@@ -135,12 +137,14 @@ public class ServicioUsuario {
 			
 		
 		
-		if (responseStatus == Response.Status.OK) {
-			UriBuilder uriBuilder = uriInfo.getRequestUriBuilder();
+		if (responseStatus != Response.Status.OK) {
+			/*UriBuilder uriBuilder = uriInfo.getRequestUriBuilder();
 			URI uri = uriBuilder.path(Integer.toString(generatedId)).build();
-			return Response.created(uri).build();
-		} else
-			return Response.status(responseStatus).build();
+			return Response.created(uri).build();*/
+		
+		} 
+		
+		return Response.status(responseStatus).build();
 	}
 	
 	
