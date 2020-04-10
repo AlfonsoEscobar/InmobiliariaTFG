@@ -45,8 +45,8 @@ public class Usuario {
 		return id_usuario;
 	}
 	
-	public void setId_usuario(int string) {
-		this.id_usuario = string;
+	public void setId_usuario(int id) {
+		this.id_usuario = id;
 	}
 	
 	public String getNombre() {

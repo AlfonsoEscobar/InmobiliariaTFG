@@ -57,7 +57,7 @@ public class ServicioUsuario {
 			responsestatus = Response.Status.INTERNAL_SERVER_ERROR;
 		}
 
-		if(usuario.getCorreo().equals("")) {
+		if(usuario.getCorreo().equals(null)) {
 			responsestatus = Response.Status.NOT_FOUND;
 		}
 		
@@ -97,19 +97,43 @@ public class ServicioUsuario {
 	@Consumes(APPLICATION_JSON)
 	public Response postUsuario(@Context UriInfo uriInfo, Usuario usuario) {
 		
+		//String sqlQuery = "INSERT INTO usuario (correo, contrasena, id_usuario, nombre, telefono1,"
+		//		+ "telefono2, imagen_perfil) VALUES(?, ?, ?, ?, ?, ?, ?)";
+		
+		claseUsuario = new MySQLUsuarioDAO(dataSource);
+		
 		Response.Status responseStatus = Response.Status.OK;
 		int generatedId = -1;
 		int affectedRows = 0;
 		
 		try {
 			affectedRows = claseUsuario.insertar(usuario);
+			
+			/*Connection connection = dataSource.getConnection();
+			PreparedStatement statement = connection.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS);
+			statement.setString(1, usuario.getCorreo());
+			statement.setString(2, usuario.getContrasena());
+			statement.setInt(3, usuario.getId_usuario());
+			statement.setString(4, usuario.getNombre());
+			statement.setString(5, usuario.getTelefono1());
+			statement.setString(6, usuario.getTelefono2());
+			statement.setString(7, null);
+			
+			affectedRows = statement.executeUpdate();*/
+			
+			if (affectedRows == 0){
+			responseStatus = Response.Status.NOT_FOUND;
+			}else {
+				/*ResultSet generatedKeys = statement.getGeneratedKeys();
+				if (generatedKeys.next())
+					generatedId = generatedKeys.getInt(1);*/
+			}
+			
 		} catch (DAOException e) {
 			responseStatus = Response.Status.INTERNAL_SERVER_ERROR;
 		}
 			
-		if (affectedRows == 0){
-			responseStatus = Response.Status.NOT_FOUND;
-		}
+		
 		
 		if (responseStatus == Response.Status.OK) {
 			UriBuilder uriBuilder = uriInfo.getRequestUriBuilder();
@@ -124,6 +148,7 @@ public class ServicioUsuario {
 	@Path("/{correo}")
 	public Response deleteUsuario(@PathParam("correo") String correo) {
 
+		claseUsuario = new MySQLUsuarioDAO(dataSource);
 		Response.Status responseStatus = Response.Status.OK;
 
 		int affectedRows = 0;

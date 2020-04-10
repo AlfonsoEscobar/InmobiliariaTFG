@@ -15,12 +15,12 @@ import es.modelos.Usuario;
 
 public class MySQLUsuarioDAO implements UsuarioDAO{
 
-	final String INSERT = "INSERT INTO USUARIO(correo, contrasena, id_usuario, nombre, telefono1, telefono2, imagen_perfil) VALUES(?,?,?,?,?,?,?)";
-	final String UPDATE = "UPDATE USUARIO SET contrasena = ?, nombre = ?, telefono1 = ?, telefono2 = ?, imagen_pefil = ? WHERE correo = ?";
-	final String DELETE = "DELETE FROM USUARIO WHERE correo = ?";
-	final String GETALL = "SELECT id_usuario, correo, nombre, telefono1, telefono2, imagen_perfil FROM USUARIO";
+	final String INSERT = "INSERT INTO usuario(correo, contrasena, id_usuario, nombre, telefono1, telefono2, imagen_perfil) VALUES(?,?,?,?,?,?,?)";
+	final String UPDATE = "UPDATE usuario SET contrasena = ?, nombre = ?, telefono1 = ?, telefono2 = ?, imagen_pefil = ? WHERE correo = ?";
+	final String DELETE = "DELETE FROM usuario WHERE correo = ?";
+	final String GETALL = "SELECT id_usuario, correo, nombre, telefono1, telefono2, imagen_perfil FROM usuario";
 	final String GETONE = "SELECT id_usuario, correo, contrasena, nombre, telefono1, telefono2, imagen_perfil FROM usuario WHERE correo = ?";
-	final String IDMAX = "SELECT MAX(id_usuario) FROM USUARIO";
+	final String IDMAX = "SELECT MAX(id_usuario) FROM usuario";
 	
 	private Connection conexion;
 	
@@ -48,7 +48,7 @@ public class MySQLUsuarioDAO implements UsuarioDAO{
 			stat.setString(4, usuario.getNombre());
 			stat.setString(5, usuario.getTelefono1());
 			stat.setString(6, usuario.getTelefono2());
-			stat.setBytes(7,usuario.getImagen_perfil());
+			stat.setBytes(7, null);//usuario.getImagen_perfil());
 			filasModificadas = stat.executeUpdate();
 		}catch (SQLException ex){
 			throw new DAOException("Error en SQL", ex);
