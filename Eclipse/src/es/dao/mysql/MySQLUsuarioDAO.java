@@ -39,12 +39,11 @@ public class MySQLUsuarioDAO implements UsuarioDAO{
 	public int insertar(Usuario usuario) throws DAOException {
 		PreparedStatement stat = null;
 		int filasModificadas = 0;
-		//otorgarId(usuario);
 		try {
 			stat = conexion.prepareStatement(INSERT);
 			stat.setString(1, usuario.getCorreo());
 			stat.setString(2, usuario.getContrasena());
-			stat.setInt(3, usuario.getId_usuario());
+			stat.setInt(3, obtenerMaxId() + 1);
 			stat.setString(4, usuario.getNombre());
 			stat.setString(5, usuario.getTelefono1());
 			stat.setString(6, usuario.getTelefono2());
@@ -209,7 +208,7 @@ public class MySQLUsuarioDAO implements UsuarioDAO{
 		return usuario;
 	}
 	
-	private void otorgarId(Usuario usuario) throws DAOException  {
+	public int obtenerMaxId () throws DAOException {
 		PreparedStatement stat = null;
 		ResultSet rs = null;
 		int max = 0;
@@ -221,7 +220,6 @@ public class MySQLUsuarioDAO implements UsuarioDAO{
 			}else {
 				throw new DAOException ("No se ha encontrado ningún registro");
 			}
-			usuario.setId_usuario(max + 1);
 		}catch(SQLException ex){
 			throw new DAOException("Error en SQL", ex);
 		}finally {
@@ -240,6 +238,12 @@ public class MySQLUsuarioDAO implements UsuarioDAO{
 				}
 			}
 		}
+		return max;
 	}
+	
+	
+	/*private void otorgarId(Usuario usuario) throws DAOException  {
+		usuario.setId_usuario(obtenerMaxId() + 1);
+	}*/
 
 }
