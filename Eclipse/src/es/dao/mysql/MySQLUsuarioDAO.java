@@ -4,13 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.sql.DataSource;
-import javax.ws.rs.core.Response;
 
 import es.dao.DAOException;
 import es.dao.UsuarioDAO;
@@ -20,6 +17,7 @@ public class MySQLUsuarioDAO implements UsuarioDAO{
 
 	final String INSERT = "INSERT INTO usuario(correo, contrasena, id_usuario, nombre, telefono1, telefono2, imagen_perfil) VALUES(?,?,?,?,?,?,?)";
 	final String UPDATE = "UPDATE usuario SET contrasena = ?, nombre = ?, telefono1 = ?, telefono2 = ?, imagen_pefil = ? WHERE correo = ?";
+	final String UPDATE2 = "UPDATE usuario SET contrasena = ?, nombre = ?, telefono1 = ?, telefono2 = ?, imagen_pefil = ? WHERE id_usuario = ?";
 	final String DELETE = "DELETE FROM usuario WHERE correo = ?";
 	final String GETALL = "SELECT id_usuario, correo, nombre, telefono1, telefono2, imagen_perfil FROM usuario";
 	final String GETONE = "SELECT id_usuario, correo, contrasena, nombre, telefono1, telefono2, imagen_perfil FROM usuario WHERE correo = ?";
@@ -80,6 +78,35 @@ public class MySQLUsuarioDAO implements UsuarioDAO{
 			stat.setString(4, usuario.getTelefono2());
 			stat.setBytes(5, usuario.getImagen_perfil());
 			stat.setString(6, correo);
+			filasAfectadas = stat.executeUpdate();
+		}catch (SQLException ex){
+			throw new DAOException("Error en SQL", ex);
+		}finally {
+			if (stat != null) {
+				try {
+					stat.close();
+				}catch (SQLException ex) {
+					throw new DAOException("Error en SQL", ex);
+				}
+			}
+			
+		}
+		return filasAfectadas;
+		
+	}
+	
+	
+	public int modificar(int id, Usuario usuario) throws DAOException {
+		PreparedStatement stat = null;
+		int filasAfectadas = 0;
+		try {
+			stat = conexion.prepareStatement(UPDATE2);
+			stat.setString(1, usuario.getContrasena());
+			stat.setString(2, usuario.getNombre());
+			stat.setString(3, usuario.getTelefono1());
+			stat.setString(4, usuario.getTelefono2());
+			stat.setBytes(5, usuario.getImagen_perfil());
+			stat.setInt(6, id);
 			filasAfectadas = stat.executeUpdate();
 		}catch (SQLException ex){
 			throw new DAOException("Error en SQL", ex);
