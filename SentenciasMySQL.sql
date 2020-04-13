@@ -6,14 +6,14 @@ use inmobiliaria;
 CREATE TABLE `usuario` (
   `correo` varchar(40) NOT NULL,
   `contrasena` varchar(64) NOT NULL,
-  `id_usuario` int NOT NULL,
+  `id_usuario` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
   `telefono1` varchar(9) NOT NULL,
   `telefono2` varchar(9) DEFAULT NULL,
   `imagen_perfil` mediumblob,
   PRIMARY KEY (`correo`),
   KEY `fk_a_idUsuario` (`id_usuario`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
 CREATE TABLE `inmueble` (
@@ -23,7 +23,7 @@ CREATE TABLE `inmueble` (
   `numero` int NOT NULL,
   `piso` int NOT NULL,
   `puerta` varchar(4) NOT NULL,
-  `id_inmueble` int NOT NULL,
+  `id_inmueble` int NOT NULL AUTO_INCREMENT,
   `propietario` int NOT NULL,
   `descripcion` text NOT NULL,
   `metros2` decimal(5,2) NOT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE `inmueble` (
   KEY `fk_inmueble_idx` (`propietario`),
   KEY `fk_a_inmueble` (`id_inmueble`),
   CONSTRAINT `fk_inmueble` FOREIGN KEY (`propietario`) REFERENCES `usuario` (`id_usuario`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
 CREATE TABLE `anuncio` (
@@ -55,7 +55,7 @@ CREATE TABLE `anuncio` (
   PRIMARY KEY (`id_inmueble`,`tipo_anuncio`),
   KEY `fk_a_anuncio` (`id_inmueble`,`tipo_anuncio`),
   CONSTRAINT `fk_anuncio` FOREIGN KEY (`id_inmueble`) REFERENCES `inmueble` (`id_inmueble`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
 CREATE TABLE `favorito` (
@@ -68,7 +68,7 @@ CREATE TABLE `favorito` (
   KEY `fk_favorito_1_idx` (`inmueble_favorito`,`tipo_anuncio`),
   CONSTRAINT `fk_favorito` FOREIGN KEY (`usuario_favorito`) REFERENCES `usuario` (`id_usuario`),
   CONSTRAINT `fk_favorito_1` FOREIGN KEY (`inmueble_favorito`, `tipo_anuncio`) REFERENCES `anuncio` (`id_inmueble`, `tipo_anuncio`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
 CREATE TABLE `fotografia` (
@@ -78,6 +78,6 @@ CREATE TABLE `fotografia` (
   PRIMARY KEY (`ruta`),
   KEY `fk_fotografia_idx` (`inmueble`),
   CONSTRAINT `fk_fotografia` FOREIGN KEY (`inmueble`) REFERENCES `inmueble` (`id_inmueble`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 

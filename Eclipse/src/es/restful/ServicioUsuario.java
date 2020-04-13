@@ -56,10 +56,6 @@ public class ServicioUsuario {
 		} catch (DAOException e) {
 			responsestatus = Response.Status.INTERNAL_SERVER_ERROR;
 		}
-
-		if(usuario.getCorreo().equals(null)) {
-			responsestatus = Response.Status.NOT_FOUND;
-		}
 		
 		if (responsestatus == Response.Status.OK) {
 			return Response.ok(usuario).build();
@@ -71,17 +67,18 @@ public class ServicioUsuario {
 
 
 	@PUT
-	@Path("/{correo}")
-	@Consumes(APPLICATION_JSON)
-	public Response putUsuario(@PathParam("correo") String correo, Usuario usuario) {
-
-		claseUsuario = new MySQLUsuarioDAO(dataSource);
+	@Path("/{id_usuario}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response putUsuario(@PathParam("id_usuario") int id, Usuario usuario) {
+		
+		//claseUsuario = new MySQLUsuarioDAO(dataSource);
 		
 		Response.Status responseStatus = Response.Status.OK;
 		int affectedRows = 0;
 
 		try {
-			affectedRows = claseUsuario.modificar(correo, usuario);
+			affectedRows = claseUsuario.modificar(id, usuario);
+			
 		} catch (DAOException e) {
 			responseStatus = Response.Status.INTERNAL_SERVER_ERROR;
 		}
@@ -96,11 +93,8 @@ public class ServicioUsuario {
 
 
 	@POST
-	@Consumes(APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
 	public Response postUsuario(@Context UriInfo uriInfo, Usuario usuario) {
-		
-		//String sqlQuery = "INSERT INTO usuario (correo, contrasena, id_usuario, nombre, telefono1,"
-		//		+ "telefono2, imagen_perfil) VALUES(?, ?, ?, ?, ?, ?, ?)";
 		
 		claseUsuario = new MySQLUsuarioDAO(dataSource);
 		
@@ -109,29 +103,12 @@ public class ServicioUsuario {
 		int affectedRows = 0;
 		
 		try {
-			int id = claseUsuario.maximoId();
-			usuario.setId_usuario(id);
 			
 			affectedRows = claseUsuario.insertar(usuario);
 			
-			/*Connection connection = dataSource.getConnection();
-			PreparedStatement statement = connection.prepareStatement(sqlQuery);
-			statement.setString(1, usuario.getCorreo());
-			statement.setString(2, usuario.getContrasena());
-			statement.setInt(3, usuario.getId_usuario());
-			statement.setString(4, usuario.getNombre());
-			statement.setString(5, usuario.getTelefono1());
-			statement.setString(6, usuario.getTelefono2());
-			statement.setString(7, null);
-			
-			affectedRows = statement.executeUpdate();*/
 			
 			if (affectedRows == 0){
 				responseStatus = Response.Status.NOT_FOUND;
-			}else {
-				/*ResultSet generatedKeys = statement.getGeneratedKeys();
-				if (generatedKeys.next())
-					generatedId = generatedKeys.getInt(1);*/
 			}
 			
 		} catch (DAOException e) {

@@ -248,24 +248,5 @@ public class MySQLUsuarioDAO implements UsuarioDAO{
 	/*private void otorgarId(Usuario usuario) throws DAOException  {
 		usuario.setId_usuario(obtenerMaxId() + 1);
 	}*/
-	
-	
-	public int maximoId() {
-		int max = 10;
-		try {
-			
-			Statement statement = conexion.createStatement();
 
-			ResultSet resultSet = statement.executeQuery("SELECT MAX(id_usuario) FROM usuario");
-
-			if (resultSet.next()) {
-				max = resultSet.getInt("id_usuario");
-			}
-
-		} catch (SQLException e) {
-			
-		}
-		
-		return max + 1;
-	}
 }

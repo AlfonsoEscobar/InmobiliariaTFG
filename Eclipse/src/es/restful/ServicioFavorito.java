@@ -24,6 +24,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
+import es.dao.DAOException;
+import es.dao.mysql.MySQLFavoritoDAO;
+import es.modelos.Anuncio;
 import es.modelos.Favorito;
 
 @ApplicationScoped
@@ -37,27 +40,36 @@ public class ServicioFavorito {
 	@Inject
 	private DataSource dataSource;
 	
-	//MySQLFavoritoDAO claseFavorito = new MySQLFavoritoDAO(dataSource);
+	MySQLFavoritoDAO claseFavorito;
 	
 	@GET
+	@Path("/{id_usuario}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getFavorito(@QueryParam("tipo") String tipo){
+	public Response getFavorito(@PathParam("id_usuario") int id){
 		
-		Response.Status responsestatus = Response.Status.OK;
+		claseFavorito = new MySQLFavoritoDAO(dataSource);
 		
-		//List<Anuncio> listaAnuncios = claseFavorito.obternerTodos(tipo);
+		Response.Status respuesta = Response.Status.OK;
+		
+		try {
+			
+			List<Favorito> listaFavorito = claseFavorito.obtenerPorParametro(id);
+			
+		} catch (DAOException e) {
+			respuesta = Response.Status.NOT_FOUND;
+		}
 		
 		
 		
 		if(listaFavorito.isEmpty()) {
-			responsestatus = Response.Status.INTERNAL_SERVER_ERROR;
+			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
 		}
 		
 		
-		if (responsestatus == Response.Status.OK)
+		if (respuesta == Response.Status.OK)
 			return Response.ok(listaFavorito).build();
 		else
-			return Response.status(responsestatus).build();
+			return Response.status(respuesta).build();
 		
 	}
 	
@@ -65,20 +77,22 @@ public class ServicioFavorito {
 	@PUT
 	@Path("/{id_favorito}")
 	@Consumes(APPLICATION_JSON)
-	public Response putFavorito(@PathParam("id_favorito") String id, Favorito favorito) {
+	public Response putFavorito(@PathParam("id_favorito") int id, Favorito favorito) {
+		
+		claseFavorito = new MySQLFavoritoDAO(dataSource);
 		
 		Response.Status responseStatus = Response.Status.OK;
-		int affectedRows = 0;
+		int filasModificadas = 0;
 		
-		/*
+		
 		try {
-		responseStatus = claseFavorito.modificar(id, favorito);
+			filasModificadas = claseFavorito.modificar(id, favorito);
 		} catch (DAOException e) {
 			responseStatus = Response.Status.INTERNAL_SERVER_ERROR;
 		}
-		*/
 		
-		if(affectedRows == 0) {
+		
+		if(filasModificadas == 0) {
 			responseStatus = Response.Status.NOT_FOUND;
 		}
 
@@ -93,15 +107,17 @@ public class ServicioFavorito {
 		
 		Response.Status responseStatus = Response.Status.OK;
 		int generatedId = -1;
-		int affectedRows = 0;
+		int filasModificadas = 0;
 		
-/*		try {
-			affectedRows = claseFavorito.insertar(favorito);
+		try {
+			
+			filasModificadas = claseFavorito.insertar(favorito);
+			
 		} catch (DAOException e) {
 			responseStatus = Response.Status.INTERNAL_SERVER_ERROR;
-		}*/
+		}
 			
-		if (affectedRows == 0){
+		if (filasModificadas == 0){
 			responseStatus = Response.Status.NOT_FOUND;
 		}
 		
@@ -119,15 +135,17 @@ public class ServicioFavorito {
 	public Response deleteFavorito(@PathParam("id_favorito") int id) {
 
 		Response.Status responseStatus = Response.Status.OK;
-		int affectedRows = 0;
+		int filasModificadas = 0;
 		
-/*		try {
-		//affectedRows = claseFavorito.eliminar(id);
+		try {
+			
+			filasModificadas = claseFavorito.eliminar(id);
+			
 		} catch (DAOException e) {
 			responseStatus = Response.Status.INTERNAL_SERVER_ERROR;
-		}*/
+		}
 		
-		if (affectedRows == 0) {
+		if (filasModificadas == 0) {
 			responseStatus = Response.Status.NOT_FOUND;
 		}
 		

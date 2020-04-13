@@ -25,6 +25,7 @@ import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import es.dao.DAOException;
+import es.dao.mysql.MySQLAnuncioDAO;
 import es.modelos.Anuncio;
 
 @ApplicationScoped
@@ -37,27 +38,34 @@ public class ServicioAnuncio {
 	@Inject
 	private DataSource dataSource;
 	
-	//MySQLAnuncioDAO claseAnuncio = new MySQLAnuncioDAO(dataSource);
+	MySQLAnuncioDAO claseAnuncio;
 	
 	@GET
+	@Path("/{tipo}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAnuncio(@QueryParam("tipo") String tipo){
+	public Response getAnuncio(@PathParam("tipo") String tipo){
 		
-		Response.Status responsestatus = Response.Status.OK;
+		claseAnuncio = new MySQLAnuncioDAO(dataSource);
 		
-		//List<Anuncio> listaAnuncios = claseAnuncio.obternerTodos(tipo);
+		Response.Status respuesta = Response.Status.OK;
 		
-		
+		try {
+			
+			List<Anuncio> listaAnuncios = claseAnuncio.obtenerPorParametro(tipo);
+			
+		} catch (DAOException e) {
+			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
+		}
 		
 		if(listaAnuncio.isEmpty()) {
-			responsestatus = Response.Status.INTERNAL_SERVER_ERROR;
+			respuesta = Response.Status.NOT_FOUND;
 		}
 		
 		
-		if (responsestatus == Response.Status.OK)
+		if (respuesta == Response.Status.OK)
 			return Response.ok(listaAnuncio).build();
 		else
-			return Response.status(responsestatus).build();
+			return Response.status(respuesta).build();
 		
 	}
 	
@@ -67,22 +75,26 @@ public class ServicioAnuncio {
 	@Consumes(APPLICATION_JSON)
 	public Response putAnuncio(@PathParam("id_anuncio") String id_inmueble, Anuncio anuncio) {
 		
-		Response.Status responseStatus = Response.Status.OK;
-		int affectedRows = 0;
+		claseAnuncio = new MySQLAnuncioDAO(dataSource);
 		
-		/*
+		Response.Status respuesta = Response.Status.OK;
+		int filasModificadas = 0;
+		
+		
 		try {
-		responseStatus = claseAnuncio.modificar(id_inmueble, anuncio);
+			
+			filasModificadas = claseAnuncio.modificar(id_inmueble, anuncio);
+			
 		} catch (DAOException e) {
-			responseStatus = Response.Status.INTERNAL_SERVER_ERROR;
+			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
 		}
-		*/
 		
-		if(affectedRows == 0) {
-			responseStatus = Response.Status.NOT_FOUND;
+		
+		if(filasModificadas == 0) {
+			respuesta = Response.Status.NOT_FOUND;
 		}
 
-		return Response.status(responseStatus).build();
+		return Response.status(respuesta).build();
 		
 	}
 	
@@ -91,47 +103,56 @@ public class ServicioAnuncio {
 	@Consumes(APPLICATION_JSON)
 	public Response postAnuncio(@Context UriInfo uriInfo, Anuncio anuncio) {
 		
-		Response.Status responseStatus = Response.Status.OK;
-		int generatedId = -1;
-		int affectedRows = 0;
+		claseAnuncio = new MySQLAnuncioDAO(dataSource);
 		
-/*		try {
-			affectedRows = claseAnuncio.insertar(anuncio);
-		} catch (DAOException e) {
-			responseStatus = Response.Status.INTERNAL_SERVER_ERROR;
-		}*/
+		Response.Status respuesta = Response.Status.OK;
+		int generatedId = -1;
+		int filasModificadas = 0;
+		
+		try {
 			
-		if (affectedRows == 0){
-			responseStatus = Response.Status.NOT_FOUND;
+			filasModificadas = claseAnuncio.insertar(anuncio);
+			
+		} catch (DAOException e) {
+			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
+		}
+			
+		if (filasModificadas == 0){
+			respuesta = Response.Status.NOT_FOUND;
 		}
 		
-		if (responseStatus == Response.Status.OK) {
+		if (respuesta == Response.Status.OK) {
 			UriBuilder uriBuilder = uriInfo.getRequestUriBuilder();
 			URI uri = uriBuilder.path(Integer.toString(generatedId)).build();
 			return Response.created(uri).build();
 		} else
-			return Response.status(responseStatus).build();
+			return Response.status(respuesta).build();
 	}
 	
 
 	@DELETE
-	@Path("/{id_anuncio}")
-	public Response deleteAnuncio(@PathParam("id_anuncio") int id) {
+	@Path("/{id_inmueble}/{tipo_anuncio}")
+	public Response deleteAnuncio(@PathParam("id_inmueble") int id,
+								  @PathParam("tipo_anuncio") String tipo) {
 
-		Response.Status responseStatus = Response.Status.OK;
-		int affectedRows = 0;
+		claseAnuncio = new MySQLAnuncioDAO(dataSource);
 		
-/*		try {
-		//affectedRows = claseAnuncio.eliminar(id);
+		Response.Status respuesta = Response.Status.OK;
+		int filasModificadas = 0;
+		
+		try {
+			
+			filasModificadas = claseAnuncio.eliminar(id, tipo);
+			
 		} catch (DAOException e) {
-			responseStatus = Response.Status.INTERNAL_SERVER_ERROR;
-		}*/
-		
-		if (affectedRows == 0) {
-			responseStatus = Response.Status.NOT_FOUND;
+			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
 		}
 		
-		return Response.status(responseStatus).build();
+		if (filasModificadas == 0) {
+			respuesta = Response.Status.NOT_FOUND;
+		}
+		
+		return Response.status(respuesta).build();
 		
 	}
 	

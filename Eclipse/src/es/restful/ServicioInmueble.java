@@ -37,7 +37,7 @@ public class ServicioInmueble {
 	@Inject
 	private DataSource dataSource;
 	
-	MySQLInmuebleDAO claseInmueble = new MySQLInmuebleDAO(dataSource);
+	MySQLInmuebleDAO claseInmueble;
 	
 	@GET
 	@Path("/{localidad}")
@@ -46,6 +46,8 @@ public class ServicioInmueble {
 		
 		List<Inmueble> listapisos = new ArrayList<>();
 		Response.Status responsestatus = Response.Status.OK;
+		
+		claseInmueble = new MySQLInmuebleDAO(dataSource);
 		
 		try {
 			listapisos = claseInmueble.obtenerPorParametro(localidad);
@@ -66,51 +68,20 @@ public class ServicioInmueble {
 	}
 	
 	
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getInmueble(@QueryParam("tipo") String tipo,
-							 	@QueryParam("localidad") String localidad,
-							 	@QueryParam("piso") int piso,
-							 	@QueryParam("metros2") float metros2,
-							 	@QueryParam("num_hab") int num_hab,
-							 	@QueryParam("num_banos") int num_banos,
-							 	@QueryParam("tipo_edificacion") String tipo_edificacion,
-							 	@QueryParam("tipo_obra") String tipo_obra,
-							 	@QueryParam("equipamiento") String equipamiento,
-							 	@QueryParam("exteriores") String exteriores,
-							 	@QueryParam("garaje") boolean garaje,
-							 	@QueryParam("trastero") boolean trastero,
-							 	@QueryParam("ascensor") boolean ascensor,
-							 	@QueryParam("ultima_planta") boolean ultima_planta,
-							 	@QueryParam("mascotas") boolean mascotas){
-		
-		List<Inmueble> listapisos = new ArrayList<>();
-		Response.Status responsestatus = Response.Status.OK;
-		
-		
-		if(listapisos.isEmpty()) {
-			responsestatus = Response.Status.INTERNAL_SERVER_ERROR;
-		}
-		
-		
-		if (responsestatus == Response.Status.OK)
-			return Response.ok(listapisos).build();
-		else
-			return Response.status(responsestatus).build();
-		
-	}
-	
-	
 	@PUT
 	@Path("/{id_inmueble}")
 	@Consumes(APPLICATION_JSON)
 	public Response putInmueble(@PathParam("id_inmueble") int id, Inmueble inmueble) {
 		
+		claseInmueble = new MySQLInmuebleDAO(dataSource);
+		
 		Response.Status responseStatus = Response.Status.OK;
 		int affectedRows = 0;
 		
 		try {
+			
 			affectedRows = claseInmueble.modificar(id, inmueble);
+			
 		} catch (DAOException e) {
 			responseStatus = Response.Status.INTERNAL_SERVER_ERROR;
 		}
@@ -126,6 +97,8 @@ public class ServicioInmueble {
 	@POST
 	@Consumes(APPLICATION_JSON)
 	public Response postInmueble(@Context UriInfo uriInfo, Inmueble inmueble) {
+		
+		claseInmueble = new MySQLInmuebleDAO(dataSource);
 		
 		Response.Status responseStatus = Response.Status.OK;
 		int generatedId = -1;
@@ -154,6 +127,8 @@ public class ServicioInmueble {
 	@Path("/{id_inmueble}")
 	public Response deleteInmueble(@PathParam("id_inmueble") int id) {
 
+		claseInmueble = new MySQLInmuebleDAO(dataSource);
+		
 		Response.Status responseStatus = Response.Status.OK;
 
 		int affectedRows = 0;
