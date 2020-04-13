@@ -17,9 +17,9 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 
 	
 	
-	final String INSERT = "INSERT INTO inmueble(provincia, localidad, calle, numero, piso, puerta, id_inmueble, propietario, descripcion, metros2,"
+	final String INSERT = "INSERT INTO inmueble(provincia, localidad, calle, numero, piso, puerta, propietario, descripcion, metros2,"
 			+ "num_habitaciones, num_banos, tipo_edificacion, tipo_obra, equipamiento, exteriores, garaje, trastero, ascensor, ultima_planta, mascotas) "
-			+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 	final String DELETE = "DELETE FROM inmueble WHERE id_inmueble = ?";
 	final String UPDATE = "UPDATE INMUEBLE SET provincia = ?, localidad = ?, calle = ?, numero = ?, piso = ?, puerta = ?, descripcion = ?, metros2 = ?,"
 			+ " num_habitaciones = ?, num_banos = ?, tipo_edificacion = ?, tipo_obra = ?, equipamiento = ?, exteriores = ?, garaje = ?, trastero = ?,"
@@ -47,7 +47,6 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 	public int insertar(Inmueble inmueble) throws DAOException {
 		PreparedStatement stat = null;
 		int filasModificadas = 0;
-		otorgarId(inmueble);
 		try {
 			stat = conexion.prepareStatement(INSERT);
 			stat.setString(1, inmueble.getProvincia());
@@ -56,21 +55,20 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 			stat.setInt(4, inmueble.getNumero());
 			stat.setInt(5, inmueble.getPiso());
 			stat.setString(6, inmueble.getPuerta());
-			stat.setInt(7, inmueble.getId_inmueble());
-			stat.setInt(8, inmueble.getPropietario());
-			stat.setString(9, inmueble.getDescripcion());
-			stat.setDouble(10, inmueble.getMetros2());
-			stat.setInt(11, inmueble.getNum_habitaciones());
-			stat.setInt(12, inmueble.getNum_banos());
-			stat.setString(13, inmueble.getTipo_edificacion());
-			stat.setString(14, inmueble.getTipo_obra());
-			stat.setString(15, inmueble.getEquipamiento());
-			stat.setString(16, inmueble.getExteriores());
-			stat.setBoolean(17, inmueble.isGaraje());
-			stat.setBoolean(18, inmueble.isTrastero());
-			stat.setBoolean(19, inmueble.isAscensor());
-			stat.setBoolean(21, inmueble.isUltima_planta());
-			stat.setBoolean(21, inmueble.isMascotas());
+			stat.setInt(7, inmueble.getPropietario());
+			stat.setString(8, inmueble.getDescripcion());
+			stat.setDouble(9, inmueble.getMetros2());
+			stat.setInt(10, inmueble.getNum_habitaciones());
+			stat.setInt(11, inmueble.getNum_banos());
+			stat.setString(12, inmueble.getTipo_edificacion());
+			stat.setString(13, inmueble.getTipo_obra());
+			stat.setString(14, inmueble.getEquipamiento());
+			stat.setString(15, inmueble.getExteriores());
+			stat.setBoolean(16, inmueble.isGaraje());
+			stat.setBoolean(17, inmueble.isTrastero());
+			stat.setBoolean(18, inmueble.isAscensor());
+			stat.setBoolean(19, inmueble.isUltima_planta());
+			stat.setBoolean(20, inmueble.isMascotas());
 			filasModificadas = stat.executeUpdate();
 		}catch (SQLException ex){
 			throw new DAOException("Error en SQL", ex);
@@ -260,21 +258,18 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 		return inmueble;
 	}
 	
-	private void otorgarId (Inmueble inmueble) throws DAOException  {
+	public int obtenerMaxId () throws DAOException {
 		PreparedStatement stat = null;
 		ResultSet rs = null;
 		int max = 0;
 		try {
-			stat = conexion.prepareStatement(IDMAX);
+			stat = conexion.prepareStatement(GETALL);
 			rs = stat.executeQuery();
 			if(rs.next()) {
-				max = rs.getInt("id_inmueble");
-			}else if(rs.equals(null)){
-				max = 0;
+				max = rs.getInt("id_usuario");
 			}else {
 				throw new DAOException ("No se ha encontrado ningún registro");
 			}
-			inmueble.setId_inmueble(max + 1);
 		}catch(SQLException ex){
 			throw new DAOException("Error en SQL", ex);
 		}finally {
@@ -293,5 +288,7 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 				}
 			}
 		}
+		return max;
 	}
+	
 }
