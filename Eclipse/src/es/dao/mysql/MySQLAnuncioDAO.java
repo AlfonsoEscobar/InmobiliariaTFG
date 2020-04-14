@@ -15,8 +15,6 @@ import javax.sql.DataSource;
 import es.dao.AnuncioDAO;
 import es.dao.DAOException;
 import es.modelos.Anuncio;
-import es.modelos.Inmueble;
-import es.modelos.Usuario;
 
 public class MySQLAnuncioDAO implements AnuncioDAO {
 

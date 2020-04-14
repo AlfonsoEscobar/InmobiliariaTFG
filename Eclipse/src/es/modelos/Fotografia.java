@@ -5,7 +5,7 @@ public class Fotografia {
 	private String ruta;
 	private String tipo_habitacion;
 	private int inmueble;
-	
+
 	public Fotografia() {
 	}
 

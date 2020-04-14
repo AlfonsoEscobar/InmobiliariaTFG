@@ -15,15 +15,28 @@ import es.modelos.Usuario;
 
 public class MySQLUsuarioDAO implements UsuarioDAO{
 
-	final String INSERT = "INSERT INTO usuario(correo, contrasena, id_usuario, nombre, telefono1, telefono2, imagen_perfil) VALUES(?,?,?,?,?,?,?)";
-	final String UPDATE = "UPDATE usuario SET contrasena = ?, nombre = ?, telefono1 = ?, telefono2 = ?, imagen_pefil = ? WHERE correo = ?";
-	final String UPDATE2 = "UPDATE usuario SET contrasena = ?, nombre = ?, telefono1 = ?, telefono2 = ?, imagen_pefil = ? WHERE id_usuario = ?";
+	final String INSERT = "INSERT INTO usuario(correo, contrasena, id_usuario, nombre,"
+							+ "telefono1, telefono2, imagen_perfil) VALUES(?,?,?,?,?,?,?)";
+	
+	final String UPDATE = "UPDATE usuario SET contrasena = ?, nombre = ?, telefono1 = ?,"
+							+ "telefono2 = ?, imagen_pefil = ? WHERE correo = ?";
+	
+	//Quite la imagen de perfil por que daba errores
+	final String UPDATE2 = "UPDATE usuario SET contrasena = ?, nombre = ?, telefono1 = ?,"
+							+ "telefono2 = ? WHERE id_usuario = ?";
+	
 	final String DELETE = "DELETE FROM usuario WHERE correo = ?";
-	final String GETALL = "SELECT id_usuario, correo, nombre, telefono1, telefono2, imagen_perfil FROM usuario";
-	final String GETONE = "SELECT id_usuario, correo, contrasena, nombre, telefono1, telefono2, imagen_perfil FROM usuario WHERE correo = ?";
+	
+	final String GETALL = "SELECT id_usuario, correo, nombre, telefono1, telefono2,"
+							+ "imagen_perfil FROM usuario";
+	
+	final String GETONE = "SELECT id_usuario, correo, contrasena, nombre, telefono1,"
+							+ "telefono2, imagen_perfil FROM usuario WHERE correo = ?";
+	
 	final String IDMAX = "SELECT MAX(id_usuario) FROM usuario";
 	
 	private Connection conexion;
+	
 	
 	public MySQLUsuarioDAO(DataSource conexion) {
 
@@ -97,17 +110,24 @@ public class MySQLUsuarioDAO implements UsuarioDAO{
 	
 	
 	public int modificar(int id, Usuario usuario) throws DAOException {
+		
 		PreparedStatement stat = null;
 		int filasAfectadas = 0;
+		
 		try {
+
 			stat = conexion.prepareStatement(UPDATE2);
+
 			stat.setString(1, usuario.getContrasena());
 			stat.setString(2, usuario.getNombre());
 			stat.setString(3, usuario.getTelefono1());
 			stat.setString(4, usuario.getTelefono2());
-			stat.setBytes(5, usuario.getImagen_perfil());
-			stat.setInt(6, id);
+			//stat.setString(5, null);
+			//stat.setInt(6, id);
+			stat.setInt(5, id);
+			
 			filasAfectadas = stat.executeUpdate();
+
 		}catch (SQLException ex){
 			throw new DAOException("Error en SQL", ex);
 		}finally {
@@ -120,8 +140,9 @@ public class MySQLUsuarioDAO implements UsuarioDAO{
 			}
 			
 		}
+
 		return filasAfectadas;
-		
+
 	}
 	
 
@@ -166,7 +187,7 @@ public class MySQLUsuarioDAO implements UsuarioDAO{
 			if(rs.next()) {
 				usuario = convertir(rs);
 			}else {
-				throw new DAOException("No se ha encontrado ningún registro");
+				//throw new DAOException("No se ha encontrado ningún registro");
 			}
 		}catch(SQLException ex){
 			throw new DAOException("Error en SQL", ex);

@@ -2,7 +2,6 @@ package es.restful;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,11 +16,9 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import es.dao.DAOException;
@@ -31,9 +28,6 @@ import es.modelos.Anuncio;
 @ApplicationScoped
 @Path("/anuncio")
 public class ServicioAnuncio {
-
-	
-	List<Anuncio> listaAnuncio = new ArrayList<>();
 	
 	@Inject
 	private DataSource dataSource;
@@ -49,9 +43,11 @@ public class ServicioAnuncio {
 		
 		Response.Status respuesta = Response.Status.OK;
 		
+		List<Anuncio> listaAnuncio = null;
+		
 		try {
 			
-			List<Anuncio> listaAnuncios = claseAnuncio.obtenerPorParametro(tipo);
+			listaAnuncio = claseAnuncio.obtenerPorParametro(tipo);
 			
 		} catch (DAOException e) {
 			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
@@ -106,7 +102,6 @@ public class ServicioAnuncio {
 		claseAnuncio = new MySQLAnuncioDAO(dataSource);
 		
 		Response.Status respuesta = Response.Status.OK;
-		int generatedId = -1;
 		int filasModificadas = 0;
 		
 		try {
@@ -121,12 +116,8 @@ public class ServicioAnuncio {
 			respuesta = Response.Status.NOT_FOUND;
 		}
 		
-		if (respuesta == Response.Status.OK) {
-			UriBuilder uriBuilder = uriInfo.getRequestUriBuilder();
-			URI uri = uriBuilder.path(Integer.toString(generatedId)).build();
-			return Response.created(uri).build();
-		} else
-			return Response.status(respuesta).build();
+		return Response.status(respuesta).build();
+		
 	}
 	
 

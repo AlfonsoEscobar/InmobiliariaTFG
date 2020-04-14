@@ -1,13 +1,8 @@
 package es.restful;
 
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-
-import java.net.URI;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -23,7 +18,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import es.dao.DAOException;
@@ -39,7 +33,7 @@ public class ServicioUsuario {
 	private DataSource dataSource;
 
 	private MySQLUsuarioDAO claseUsuario;
-	
+
 	@GET
 	@Path("/{correo}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -47,20 +41,25 @@ public class ServicioUsuario {
 
 		claseUsuario = new MySQLUsuarioDAO(dataSource);
 		
-		Response.Status responsestatus = Response.Status.OK;
+		Response.Status respuesta = Response.Status.OK;
 		Usuario usuario = new Usuario();
 
 		try {
+			
 			usuario = claseUsuario.obtener(correo);
 			
+			if(usuario == null) {
+				respuesta = Response.Status.NOT_FOUND;
+			}
+			
 		} catch (DAOException e) {
-			responsestatus = Response.Status.INTERNAL_SERVER_ERROR;
+			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
 		}
 		
-		if (responsestatus == Response.Status.OK) {
+		if (respuesta == Response.Status.OK) {
 			return Response.ok(usuario).build();
 		}else {
-			return Response.status(responsestatus).build();
+			return Response.status(respuesta).build();
 		}
 
 	}
@@ -70,25 +69,41 @@ public class ServicioUsuario {
 	@Path("/{id_usuario}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response putUsuario(@PathParam("id_usuario") int id, Usuario usuario) {
+
+		claseUsuario = new MySQLUsuarioDAO(dataSource);
+
+		String UPDATE2 = "UPDATE usuario SET contrasena = ?, nombre = ?, telefono1 = ?,"
+								+ "telefono2 = ? WHERE id_usuario = ?";
 		
-		//claseUsuario = new MySQLUsuarioDAO(dataSource);
-		
-		Response.Status responseStatus = Response.Status.OK;
-		int affectedRows = 0;
+		Response.Status respuesta = Response.Status.OK;
+		int filasModificadas = 0;
 
 		try {
-			affectedRows = claseUsuario.modificar(id, usuario);
+
+			filasModificadas = claseUsuario.modificar(id, usuario);
 			
+			/*Connection connection = dataSource.getConnection();
+			PreparedStatement stat = connection.prepareStatement(UPDATE2);
+			
+			stat.setString(1, usuario.getContrasena());
+			stat.setString(2, usuario.getNombre());
+			stat.setString(3, usuario.getTelefono1());
+			stat.setString(4, usuario.getTelefono2());
+			stat.setInt(5, id);
+
+			filasModificadas = stat.executeUpdate();*/
+			
+
+			if(filasModificadas == 0) {
+				respuesta = Response.Status.NOT_FOUND;
+			}
+
 		} catch (DAOException e) {
-			responseStatus = Response.Status.INTERNAL_SERVER_ERROR;
-		}
-		
-		if(affectedRows == 0) {
-			responseStatus = Response.Status.NOT_FOUND;
+			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
 		}
 
-		return Response.status(responseStatus).build();
-		
+		return Response.status(respuesta).build();
+
 	}
 
 
@@ -98,24 +113,24 @@ public class ServicioUsuario {
 		
 		claseUsuario = new MySQLUsuarioDAO(dataSource);
 		
-		Response.Status responseStatus = Response.Status.OK;
+		Response.Status respuesta = Response.Status.OK;
 
-		int affectedRows = 0;
+		int filasModificadas = 0;
 		
 		try {
 			
-			affectedRows = claseUsuario.insertar(usuario);
+			filasModificadas = claseUsuario.insertar(usuario);
 			
 			
-			if (affectedRows == 0){
-				responseStatus = Response.Status.NOT_FOUND;
+			if (filasModificadas == 0){
+				respuesta = Response.Status.NOT_FOUND;
 			}
 			
 		} catch (DAOException e) {
-			responseStatus = Response.Status.INTERNAL_SERVER_ERROR;
+			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
 		}
 		
-		return Response.status(responseStatus).build();
+		return Response.status(respuesta).build();
 	}
 	
 	
@@ -124,21 +139,23 @@ public class ServicioUsuario {
 	public Response deleteUsuario(@PathParam("correo") String correo) {
 
 		claseUsuario = new MySQLUsuarioDAO(dataSource);
-		Response.Status responseStatus = Response.Status.OK;
+		Response.Status respuesta = Response.Status.OK;
 
-		int affectedRows = 0;
+		int filasModificadas = 0;
 
 		try {
-			affectedRows = claseUsuario.eliminar(correo);
+			
+			filasModificadas = claseUsuario.eliminar(correo);
+			
 		} catch (DAOException e) {
-			responseStatus = Response.Status.INTERNAL_SERVER_ERROR;
+			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
 		}
 		
-		if (affectedRows == 0) {
-			responseStatus = Response.Status.NOT_FOUND;
+		if (filasModificadas == 0) {
+			respuesta = Response.Status.NOT_FOUND;
 		}
 		
-		return Response.status(responseStatus).build();
+		return Response.status(respuesta).build();
 	}
 	
 }
