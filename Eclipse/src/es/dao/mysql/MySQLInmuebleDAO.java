@@ -18,12 +18,13 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 
 	
 	
+
 	final String INSERT = "INSERT INTO inmueble(provincia, localidad, calle, numero, piso, puerta,"
 							+ "propietario, descripcion, metros2, num_habitaciones, num_banos,"
 							+ "tipo_edificacion, tipo_obra, equipamiento, exteriores, garaje,"
 							+ "trastero, ascensor, ultima_planta, mascotas) "
 							+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-	
+
 	final String DELETE = "DELETE FROM inmueble WHERE id_inmueble = ?";
 	
 	final String UPDATE = "UPDATE inmueble SET provincia = ?, localidad = ?, calle = ?, numero = ?,"
@@ -80,7 +81,7 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 			stat.setBoolean(18, inmueble.isAscensor());
 			stat.setBoolean(19, inmueble.isUltima_planta());
 			stat.setBoolean(20, inmueble.isMascotas());
-			
+
 			filasModificadas = stat.executeUpdate();
 			
 		}catch (SQLException ex){
@@ -337,24 +338,20 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 		return inmueble;
 	}
 	
-	
-	//Ya no sirve puesto que se generan solos
-	
-	private void otorgarId (Inmueble inmueble) throws DAOException  {
+
+	public int obtenerMaxId () throws DAOException {
+
 		PreparedStatement stat = null;
 		ResultSet rs = null;
 		int max = 0;
 		try {
-			stat = conexion.prepareStatement(IDMAX);
+			stat = conexion.prepareStatement(GETALL);
 			rs = stat.executeQuery();
 			if(rs.next()) {
-				max = rs.getInt("id_inmueble");
-			}else if(rs.equals(null)){
-				max = 0;
+				max = rs.getInt("id_usuario");
 			}else {
 				throw new DAOException ("No se ha encontrado ningún registro");
 			}
-			inmueble.setId_inmueble(max + 1);
 		}catch(SQLException ex){
 			throw new DAOException("Error en SQL", ex);
 		}finally {
@@ -373,5 +370,7 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 				}
 			}
 		}
+		return max;
 	}
+	
 }

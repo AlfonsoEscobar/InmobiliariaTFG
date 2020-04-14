@@ -15,6 +15,7 @@ import es.modelos.Usuario;
 
 public class MySQLUsuarioDAO implements UsuarioDAO{
 
+
 	final String INSERT = "INSERT INTO usuario(correo, contrasena, id_usuario, nombre,"
 							+ "telefono1, telefono2, imagen_perfil) VALUES(?,?,?,?,?,?,?)";
 	
@@ -24,7 +25,7 @@ public class MySQLUsuarioDAO implements UsuarioDAO{
 	//Quite la imagen de perfil por que daba errores
 	final String UPDATE2 = "UPDATE usuario SET contrasena = ?, nombre = ?, telefono1 = ?,"
 							+ "telefono2 = ? WHERE id_usuario = ?";
-	
+
 	final String DELETE = "DELETE FROM usuario WHERE correo = ?";
 	
 	final String GETALL = "SELECT id_usuario, correo, nombre, telefono1, telefono2,"
@@ -57,11 +58,10 @@ public class MySQLUsuarioDAO implements UsuarioDAO{
 			stat = conexion.prepareStatement(INSERT);
 			stat.setString(1, usuario.getCorreo());
 			stat.setString(2, usuario.getContrasena());
-			stat.setInt(3, usuario.getId_usuario());
-			stat.setString(4, usuario.getNombre());
-			stat.setString(5, usuario.getTelefono1());
-			stat.setString(6, usuario.getTelefono2());
-			stat.setString(7, null);//usuario.getImagen_perfil());
+			stat.setString(3, usuario.getNombre());
+			stat.setString(4, usuario.getTelefono1());
+			stat.setString(5, usuario.getTelefono2());
+			stat.setBytes(6, null);//usuario.getImagen_perfil());
 			filasModificadas = stat.executeUpdate();
 		}catch (SQLException ex){
 			throw new DAOException("Error en SQL", ex);
