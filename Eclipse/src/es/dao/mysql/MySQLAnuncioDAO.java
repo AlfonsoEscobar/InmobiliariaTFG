@@ -26,7 +26,6 @@ public class MySQLAnuncioDAO implements AnuncioDAO {
 	final String GETONE = "SELECT * FROM anuncio WHERE id_inmueble = ? and tipo_anuncio = ?";
 	final String GETTYPE = "SELECT FROM anuncio WHERE tipo_anuncio = ?";
 	final String GETALL = "SELECT * FROM anuncio";
-	
 
 	private Connection conexion;
 

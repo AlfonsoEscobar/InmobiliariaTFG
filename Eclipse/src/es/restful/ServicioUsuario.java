@@ -139,6 +139,7 @@ public class ServicioUsuario {
 	public Response deleteUsuario(@PathParam("correo") String correo) {
 
 		claseUsuario = new MySQLUsuarioDAO(dataSource);
+
 		Response.Status respuesta = Response.Status.OK;
 
 		int filasModificadas = 0;

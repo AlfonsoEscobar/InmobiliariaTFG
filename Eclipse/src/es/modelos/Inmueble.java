@@ -1,4 +1,11 @@
-/*Los atributos booleanos los utilizaremos para comprobar si existe o no ese servicio en el inmueble. True será sí, false no.*/
+
+/*
+ *
+ * Los atributos booleanos los utilizaremos para comprobar si existe
+ * o no ese servicio en el inmueble. True será sí, false no.
+ * 
+ */
+
 package es.modelos;
 
 public class Inmueble {
