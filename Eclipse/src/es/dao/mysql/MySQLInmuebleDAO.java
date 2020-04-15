@@ -19,15 +19,15 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 	
 	
 
-	final String INSERT = "INSERT INTO inmueble(provincia, localidad, calle, numero, piso, puerta,"
+	final String INSERT = "INSERT INTO inmueble(provincia, localidad, calle, numero, escalera, piso, puerta, "
 							+ "propietario, descripcion, metros2, num_habitaciones, num_banos,"
 							+ "tipo_edificacion, tipo_obra, equipamiento, exteriores, garaje,"
 							+ "trastero, ascensor, ultima_planta, mascotas) "
-							+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+							+ "VALUES(?,?, ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 	final String DELETE = "DELETE FROM inmueble WHERE id_inmueble = ?";
 	
-	final String UPDATE = "UPDATE inmueble SET provincia = ?, localidad = ?, calle = ?, numero = ?,"
+	final String UPDATE = "UPDATE inmueble SET provincia = ?, localidad = ?, calle = ?, numero = ?, escalera = ?, "
 							+ "piso = ?, puerta = ?, descripcion = ?, metros2 = ?,"
 							+ "num_habitaciones = ?, num_banos = ?, tipo_edificacion = ?,"
 							+ "tipo_obra = ?, equipamiento = ?, exteriores = ?, garaje = ?, trastero = ?,"
@@ -64,23 +64,24 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 			stat.setString(1, inmueble.getProvincia());
 			stat.setString(2, inmueble.getLocalidad());
 			stat.setString(3, inmueble.getCalle());
-			stat.setInt(4, inmueble.getNumero());
-			stat.setInt(5, inmueble.getPiso());
-			stat.setString(6, inmueble.getPuerta());
-			stat.setInt(7, inmueble.getPropietario());
-			stat.setString(8, inmueble.getDescripcion());
-			stat.setDouble(9, inmueble.getMetros2());
-			stat.setInt(10, inmueble.getNum_habitaciones());
-			stat.setInt(11, inmueble.getNum_banos());
-			stat.setString(12, inmueble.getTipo_edificacion());
-			stat.setString(13, inmueble.getTipo_obra());
-			stat.setString(14, inmueble.getEquipamiento());
-			stat.setString(15, inmueble.getExteriores());
-			stat.setBoolean(16, inmueble.isGaraje());
-			stat.setBoolean(17, inmueble.isTrastero());
-			stat.setBoolean(18, inmueble.isAscensor());
-			stat.setBoolean(19, inmueble.isUltima_planta());
-			stat.setBoolean(20, inmueble.isMascotas());
+			stat.setString(4, inmueble.getEscalera());
+			stat.setInt(5, inmueble.getNumero());
+			stat.setInt(6, inmueble.getPiso());
+			stat.setString(7, inmueble.getPuerta());
+			stat.setInt(8, inmueble.getPropietario());
+			stat.setString(9, inmueble.getDescripcion());
+			stat.setDouble(10, inmueble.getMetros2());
+			stat.setInt(11, inmueble.getNum_habitaciones());
+			stat.setInt(12, inmueble.getNum_banos());
+			stat.setString(13, inmueble.getTipo_edificacion());
+			stat.setString(14, inmueble.getTipo_obra());
+			stat.setString(15, inmueble.getEquipamiento());
+			stat.setString(16, inmueble.getExteriores());
+			stat.setBoolean(17, inmueble.isGaraje());
+			stat.setBoolean(18, inmueble.isTrastero());
+			stat.setBoolean(19, inmueble.isAscensor());
+			stat.setBoolean(20, inmueble.isUltima_planta());
+			stat.setBoolean(21, inmueble.isMascotas());
 
 			filasModificadas = stat.executeUpdate();
 			
@@ -92,7 +93,7 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 					stat.close();
 				}catch (SQLException ex) {
 					throw new DAOException("Error en SQL", ex);
-				}
+				} 
 			}
 		}
 		return filasModificadas;
@@ -114,22 +115,23 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 			stat.setString(2, inmueble.getLocalidad());
 			stat.setString(3, inmueble.getCalle());
 			stat.setInt(4, inmueble.getNumero());
-			stat.setInt(5, inmueble.getPiso());
-			stat.setString(6, inmueble.getPuerta());
-			stat.setString(7, inmueble.getDescripcion());
-			stat.setDouble(8, inmueble.getMetros2());
-			stat.setInt(9, inmueble.getNum_habitaciones());
-			stat.setInt(10, inmueble.getNum_banos());
-			stat.setString(11, inmueble.getTipo_edificacion());
-			stat.setString(12, inmueble.getTipo_obra());
-			stat.setString(13, inmueble.getEquipamiento());
-			stat.setString(14, inmueble.getExteriores());
-			stat.setBoolean(15, inmueble.isGaraje());
-			stat.setBoolean(16, inmueble.isTrastero());
-			stat.setBoolean(17, inmueble.isAscensor());
-			stat.setBoolean(18, inmueble.isUltima_planta());
-			stat.setBoolean(19, inmueble.isMascotas());
-			stat.setInt(20, id);
+			stat.setString(5, inmueble.getEscalera());
+			stat.setInt(6, inmueble.getPiso());
+			stat.setString(7, inmueble.getPuerta());
+			stat.setString(8, inmueble.getDescripcion());
+			stat.setDouble(9, inmueble.getMetros2());
+			stat.setInt(10, inmueble.getNum_habitaciones());
+			stat.setInt(11, inmueble.getNum_banos());
+			stat.setString(12, inmueble.getTipo_edificacion());
+			stat.setString(13, inmueble.getTipo_obra());
+			stat.setString(14, inmueble.getEquipamiento());
+			stat.setString(15, inmueble.getExteriores());
+			stat.setBoolean(16, inmueble.isGaraje());
+			stat.setBoolean(17, inmueble.isTrastero());
+			stat.setBoolean(18, inmueble.isAscensor());
+			stat.setBoolean(19, inmueble.isUltima_planta());
+			stat.setBoolean(20, inmueble.isMascotas());
+			stat.setInt(21, id);
 		
 			filasModificadas = stat.executeUpdate();
 		
@@ -312,11 +314,12 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 		String localidad = rs.getString("localidad");
 		String calle = rs.getString("calle");
 		int numero = rs.getInt("numero");
+		String escalera = rs.getString("escalera");
 		int piso = rs.getInt("piso");
 		String puerta = rs.getString("puerta");
 		int id_inmueble = rs.getInt("id_inmueble");
 		int propietario = rs.getInt("propietario");
-		String descripcion = rs.getString("comentario");
+		String descripcion = rs.getString("descripcion");
 		double metros2 = rs.getDouble("metros2");
 		int num_habitaciones = rs.getInt("num_habitaciones");
 		int num_banos = rs.getInt("num_banos");
@@ -330,7 +333,7 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 		boolean ultima_planta = rs.getBoolean("ultima_planta");
 		boolean mascotas = rs.getBoolean("mascotas");
 		
-		Inmueble inmueble = new Inmueble(provincia, localidad, calle, numero, piso, puerta, propietario, descripcion, metros2, num_habitaciones, 
+		Inmueble inmueble = new Inmueble(provincia, localidad, calle, numero, escalera, piso, puerta, propietario, descripcion, metros2, num_habitaciones, 
 				num_banos, tipo_edificacion, tipo_obra, equipamiento, exteriores, garaje, trastero, ascensor, ultima_planta, mascotas);
 		
 		inmueble.setId_inmueble(id_inmueble);

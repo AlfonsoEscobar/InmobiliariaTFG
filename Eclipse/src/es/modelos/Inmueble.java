@@ -7,6 +7,7 @@ public class Inmueble {
 	private String localidad;
 	private String calle;
 	private int numero;
+	private String escalera;
 	private int piso;
 	private String puerta;
 	private int id_inmueble;
@@ -28,7 +29,7 @@ public class Inmueble {
 	public Inmueble() {
 	}
 
-	public Inmueble(String provincia, String localidad, String calle, int numero, int piso, String puerta,
+	public Inmueble(String provincia, String localidad, String calle, int numero, String escalera, int piso, String puerta,
 			int propietario, String descripcion, double metros2, int num_hab,
 			int num_banos, String tipo_edificacion, String tipo_obra, String equipamiento, String exteriores,
 			boolean garaje, boolean trastero, boolean ascensor, boolean ultima_planta, boolean mascotas) {
@@ -36,6 +37,7 @@ public class Inmueble {
 		this.localidad = localidad;
 		this.calle = calle;
 		this.numero = numero;
+		this.escalera = escalera;
 		this.piso = piso;
 		this.puerta = puerta;
 		this.id_inmueble = 0;//Le daremos valor al insertarlo en la base de datos
@@ -85,6 +87,14 @@ public class Inmueble {
 
 	public void setNumero(int numero) {
 		this.numero = numero;
+	}
+	
+	public String getEscalera() {
+		return this.escalera;
+	}
+	
+	public void setEscalera(String escalera) {
+		this.escalera = escalera;
 	}
 
 	public int getPiso() {
