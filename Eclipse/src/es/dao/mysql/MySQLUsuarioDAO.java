@@ -285,7 +285,7 @@ public class MySQLUsuarioDAO implements UsuarioDAO{
 			if(rs.next()) {
 				max = rs.getInt("id_usuario");
 			}else {
-				throw new DAOException ("No se ha encontrado ningún registro");
+				//throw new DAOException ("No se ha encontrado ningún registro");
 			}
 		}catch(SQLException ex){
 			throw new DAOException("Error en SQL", ex);

@@ -166,7 +166,7 @@ public class MySQLFavoritoDAO implements FavoritoDAO {
 			if(rs.next()) {
 				favorito = convertir(rs);
 			}else {
-				throw new DAOException("No se ha encontrado ningún registro");
+				//throw new DAOException("No se ha encontrado ningún registro");
 			}
 		}catch(SQLException ex){
 			throw new DAOException("Error en SQL", ex);

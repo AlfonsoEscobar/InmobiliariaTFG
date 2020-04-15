@@ -134,7 +134,7 @@ public class MySQLFotografiaDAO implements FotografiaDAO {
 			if(rs.next()) {
 				fotografia = convertir(rs);
 			}else {
-				throw new DAOException("No se ha encontrado ningún registro");
+				//throw new DAOException("No se ha encontrado ningún registro");
 			}
 		}catch(SQLException ex){
 			throw new DAOException("Error en SQL", ex);

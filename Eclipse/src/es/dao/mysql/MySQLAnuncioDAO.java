@@ -25,6 +25,7 @@ public class MySQLAnuncioDAO implements AnuncioDAO {
 	final String UPDATEDATE = "UPDATE anuncio SET fecha_ultima_actualizacion = ? WHERE id_inmueble = ? and tipo_anuncio = ?";
 	final String GETONE = "SELECT * FROM anuncio WHERE id_inmueble = ? and tipo_anuncio = ?";
 	final String GETTYPE = "SELECT FROM anuncio WHERE tipo_anuncio = ?";
+	final String GETLOCTYP = "SELECT * FROM anuncio, WHERE tipo_anuncio = ? and id_inmueble = (SELECT id_inmueble FROM inmueble WHERE localidad = ?)";
 	final String GETALL = "SELECT * FROM anuncio";
 
 	private Connection conexion;
@@ -185,6 +186,40 @@ public class MySQLAnuncioDAO implements AnuncioDAO {
 		}
 		return anuncios;
 	}
+	
+	public List<Anuncio> obtenerPorParametro(String localidad, String tipo_anuncio) throws DAOException {
+		PreparedStatement stat = null;
+		ResultSet rs = null;
+		List <Anuncio> anuncios = new ArrayList<>();
+		try {
+			stat = conexion.prepareStatement(GETLOCTYP);
+			stat.setString(1, tipo_anuncio);
+			stat.setString(2, localidad);
+			rs = stat.executeQuery();
+			while(rs.next()) {
+				anuncios.add(convertir(rs));
+			}
+		}catch(SQLException ex){
+			throw new DAOException("Error en SQL", ex);
+		}finally {
+			if(rs != null) {
+				try {
+					rs.close();
+				}catch(SQLException ex) {
+					throw new DAOException("Error en SQL", ex);
+				}
+			}
+			if(stat != null) {
+				try {
+					stat.close();
+				}catch(SQLException ex) {
+					throw new DAOException("Error en SQL", ex);
+				}
+			}
+			
+		}
+		return anuncios;
+	}
 
 	@Override
 	public Anuncio obtener(String value) throws DAOException {
@@ -204,7 +239,7 @@ public class MySQLAnuncioDAO implements AnuncioDAO {
 			if(rs.next()) {
 				anuncio = convertir(rs);
 			}else {
-				throw new DAOException("No se ha encontrado ningún registro");
+				//throw new DAOException("No se ha encontrado ningún registro");
 			}
 		}catch(SQLException ex){
 			throw new DAOException("Error en SQL", ex);
