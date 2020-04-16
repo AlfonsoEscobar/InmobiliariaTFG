@@ -34,6 +34,7 @@ public class ServicioFavorito {
 	
 	MySQLFavoritoDAO claseFavorito;
 	
+	
 	@GET
 	@Path("/{id_usuario}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -54,11 +55,46 @@ public class ServicioFavorito {
 		}
 		
 		
-		
-		if(listaFavorito.isEmpty()) {
-			respuesta = Response.Status.NOT_FOUND;
+		if(listaFavorito != null) {
+			if(listaFavorito.isEmpty()) {
+				respuesta = Response.Status.NOT_FOUND;
+			}
 		}
 		
+		if (respuesta == Response.Status.OK)
+			return Response.ok(listaFavorito).build();
+		else
+			return Response.status(respuesta).build();
+		
+	}
+	
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getFavoritoT(){
+		
+		claseFavorito = new MySQLFavoritoDAO(dataSource);
+		
+		Response.Status respuesta = Response.Status.OK;
+		
+		List<Favorito> listaFavorito = null;
+		
+		try {
+			
+			listaFavorito = claseFavorito.obtenerTodos();
+			
+		} catch (DAOException e) {
+			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
+		}
+		
+		
+		if(listaFavorito != null) {
+			if(listaFavorito.isEmpty()) {
+				respuesta = Response.Status.NOT_FOUND;
+			}
+		}else {
+			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
+		}
 		
 		if (respuesta == Response.Status.OK)
 			return Response.ok(listaFavorito).build();
@@ -70,7 +106,7 @@ public class ServicioFavorito {
 	
 	@PUT
 	@Path("/{id_favorito}")
-	@Consumes(APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
 	public Response putFavorito(@PathParam("id_favorito") int id, Favorito favorito) {
 		
 		claseFavorito = new MySQLFavoritoDAO(dataSource);
@@ -98,7 +134,7 @@ public class ServicioFavorito {
 	
 	
 	@POST
-	@Consumes(APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
 	public Response postFavorito(@Context UriInfo uriInfo, Favorito favorito) {
 		
 		Response.Status respuesta = Response.Status.OK;
@@ -119,7 +155,7 @@ public class ServicioFavorito {
 		return Response.status(respuesta).build();
 		
 	}
-	
+
 
 	@DELETE
 	@Path("/{id_favorito}")

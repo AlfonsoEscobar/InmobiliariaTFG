@@ -19,9 +19,12 @@ import es.modelos.Anuncio;
 
 public class MySQLAnuncioDAO implements AnuncioDAO {
 
-	final String INSERT = "INSERT INTO anuncio(id_inmueble, tipo_anuncio, precio,"
+	/*final String INSERT = "INSERT INTO anuncio(id_inmueble, tipo_anuncio, precio,"
 							+ "fecha_anuncio, fecha_ultima_actualizacion) "
-							+ "VALUES(?,?,?,? ?)";
+							+ "VALUES(?,?,?,?,?)";
+	*/
+	final String INSERT = "INSERT INTO anuncio(id_inmueble, tipo_anuncio, precio)"
+							+ "VALUES(?,?,?)";
 	
 	final String DELETE = "DELETE FROM anuncio WHERE id_inmueble = ? and tipo_anuncio = ?";
 	
@@ -53,33 +56,42 @@ public class MySQLAnuncioDAO implements AnuncioDAO {
 		}
 	}
 
-	
+	/*
+	 * 	FUNCIONA
+	 */
 	@Override
 	public int insertar(Anuncio anuncio) throws DAOException {
+		
 		PreparedStatement stat = null;
 		int filasInsertadas = 0;
-		{
-			try {
-				stat = conexion.prepareStatement(INSERT);
-				stat.setInt(1, anuncio.getId_inmueble());
-				stat.setString(2, anuncio.getTipo_anuncio());
-				stat.setDouble(3, anuncio.getPrecio());
-				stat.setDate(4, (Date) anuncio.getFecha_anuncio());
-				stat.setDate(5, (Date) anuncio.getFecha_ultima_actualizacion());
-				filasInsertadas = stat.executeUpdate();
-			} catch (SQLException ex) {
-				throw new DAOException("Error en SQL", ex);
-			} finally {
-				if (stat != null) {
-					try {
-						stat.close();
-					} catch (SQLException ex) {
-						throw new DAOException("Error en SQL", ex);
-					}
+		
+		try {
+
+			stat = conexion.prepareStatement(INSERT);
+			stat.setInt(1, anuncio.getId_inmueble());
+			stat.setString(2, anuncio.getTipo_anuncio());
+			stat.setDouble(3, anuncio.getPrecio());
+			//stat.setString(4, null);//(Date) anuncio.getFecha_anuncio());
+			//stat.setString(5, null);//(Date) anuncio.getFecha_ultima_actualizacion());
+			
+			filasInsertadas = stat.executeUpdate();
+
+		} catch (SQLException ex) {
+			throw new DAOException("Error en SQL", ex);
+		} finally {
+			
+			if (stat != null) {
+				try {
+					stat.close();
+				} catch (SQLException ex) {
+					throw new DAOException("Error en SQL", ex);
 				}
 			}
-			return filasInsertadas;
+			
 		}
+		
+		return filasInsertadas;
+
 	}
 
 	
@@ -150,7 +162,9 @@ public class MySQLAnuncioDAO implements AnuncioDAO {
 		return 0;
 	}
 
-	
+	/*
+	 * 	FUNCIONA
+	 */
 	public int eliminar(int id, String tipo_anuncio) throws DAOException {
 		PreparedStatement stat = null;
 		int filasEliminadas = 0;
@@ -208,7 +222,9 @@ public class MySQLAnuncioDAO implements AnuncioDAO {
 		return anuncios;
 	}
 	
-	
+	/*
+	 * 	FUNCIONA
+	 */
 	public List<Anuncio> obtenerPorParametro(String localidad, String tipo_anuncio) throws DAOException {
 		
 		PreparedStatement stat = null;
@@ -298,18 +314,25 @@ public class MySQLAnuncioDAO implements AnuncioDAO {
 		return anuncio;
 	}
 
-	
+	/*
+	 * 	FUNCIONA
+	 */
 	@Override
 	public List<Anuncio> obtenerTodos() throws DAOException {
+		
 		PreparedStatement stat = null;
 		ResultSet rs = null;
-		List <Anuncio> anuncios = new ArrayList<>();
+		List <Anuncio> anuncios = new LinkedList<>();
+		
 		try {
+		
 			stat = conexion.prepareStatement(GETALL);
 			rs = stat.executeQuery();
+			
 			while(rs.next()) {
 				anuncios.add(convertir(rs));
 			}
+			
 		}catch(SQLException ex){
 			throw new DAOException("Error en SQL", ex);
 		}finally {
@@ -334,12 +357,17 @@ public class MySQLAnuncioDAO implements AnuncioDAO {
 
 	
 	private Anuncio convertir(ResultSet rs) throws SQLException {
+		
 		int id_inmueble = rs.getInt("id_inmueble");
 		String tipo_anuncio = rs.getString("tipo_anuncio");
 		double precio = rs.getDouble("precio");
-		Date fecha_anuncio = rs.getDate("fecha_anuncio");
-		Date fecha_ultima_actualizacion = rs.getDate("fecha_ultima_actualizacion");
-		Anuncio anuncio = new Anuncio(id_inmueble, tipo_anuncio, precio, fecha_anuncio, fecha_ultima_actualizacion);
+		//Date fecha_anuncio = rs.getDate("fecha_anuncio");
+		//Date fecha_ultima_actualizacion = rs.getDate("fecha_ultima_actualizacion");
+		
+		//Anuncio anuncio = new Anuncio(id_inmueble, tipo_anuncio, precio, fecha_anuncio, fecha_ultima_actualizacion);
+		
+		Anuncio anuncio = new Anuncio(id_inmueble, tipo_anuncio, precio, null, null);
+		
 		return anuncio;
 	}
 }

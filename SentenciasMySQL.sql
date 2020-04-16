@@ -94,14 +94,11 @@ insert into inmueble values("Madrid", "Villaverde", "inventada", 15, 1, "B", "dr
 insert into anuncio values(1, "alquiler", 500, null, null);
 insert into anuncio values(2, "alquiler", 750, null, null);
 insert into anuncio values(3, "alquiler", 650, null, null);
+insert into anuncio values(3, "venta", 650, null, null);
 
 
-
-
-
-
-
-
-
+insert into favorito values(6, 2, "venta");
+insert into favorito values(6, 2, "alquiler");
+insert into favorito values(4, 3, "alquiler");
 
 
