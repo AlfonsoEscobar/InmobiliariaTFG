@@ -19,12 +19,12 @@ import es.modelos.Anuncio;
 public class MySQLAnuncioDAO implements AnuncioDAO {
 
 	final String INSERT = "INSERT INTO anuncio(id_inmueble, tipo_anuncio, precio, fecha_anuncio, fecha_ultima_actualizacion) "
-			+ "VALUES(?,?,?,? ?)";
+			+ "VALUES(?,?,?,?,?)";
 	final String DELETE = "DELETE FROM anuncio WHERE id_inmueble = ? and tipo_anuncio = ?";
-	final String UPDATE = "UPDATE anuncio SET tipo_anuncio = ?, precio = ?, WHERE id_inmueble = ? and tipo_anuncio = ?";
+	final String UPDATE = "UPDATE anuncio SET precio = ?, WHERE id_inmueble = ? and tipo_anuncio = ?";
 	final String UPDATEDATE = "UPDATE anuncio SET fecha_ultima_actualizacion = ? WHERE id_inmueble = ? and tipo_anuncio = ?";
 	final String GETONE = "SELECT * FROM anuncio WHERE id_inmueble = ? and tipo_anuncio = ?";
-	final String GETTYPE = "SELECT FROM anuncio WHERE tipo_anuncio = ?";
+	final String GETTYPE = "SELECT * FROM anuncio WHERE tipo_anuncio = ?";
 	final String GETLOCTYP = "SELECT * FROM anuncio, WHERE tipo_anuncio = ? and id_inmueble = (SELECT id_inmueble FROM inmueble WHERE localidad = ?)";
 	final String GETALL = "SELECT * FROM anuncio";
 	
@@ -74,15 +74,14 @@ public class MySQLAnuncioDAO implements AnuncioDAO {
 		return 0;
 	}
 
-	public int modificar(int id, String tipo_anuncio, double nuevoPrecio, String nuevoTipoAnuncio) throws DAOException {
+	public int modificar(int id, String tipo_anuncio, double nuevoPrecio) throws DAOException {
 		PreparedStatement stat = null;
 		int filasModificadas = 0;
 		try {
 			stat = conexion.prepareStatement(UPDATE);
-			stat.setString(1, nuevoTipoAnuncio);
-			stat.setDouble(2, nuevoPrecio);
-			stat.setInt(3, id);
-			stat.setString(4, tipo_anuncio);
+			stat.setDouble(1, nuevoPrecio);
+			stat.setInt(2, id);
+			stat.setString(3, tipo_anuncio);
 			filasModificadas = stat.executeUpdate();
 		} catch (SQLException ex) {
 			throw new DAOException("Error en SQL", ex);
