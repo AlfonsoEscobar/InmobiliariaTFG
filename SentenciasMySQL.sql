@@ -15,7 +15,6 @@ CREATE TABLE `usuario` (
   KEY `fk_a_idUsuario` (`id_usuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
 CREATE TABLE `inmueble` (
   `provincia` varchar(25) NOT NULL,
   `localidad` varchar(25) NOT NULL,
@@ -80,5 +79,29 @@ CREATE TABLE `fotografia` (
   KEY `fk_fotografia_idx` (`inmueble`),
   CONSTRAINT `fk_fotografia` FOREIGN KEY (`inmueble`) REFERENCES `inmueble` (`id_inmueble`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+insert into usuario values("alfonso@gmail.es", "alfonso123", 0, "Alfonso Escobar", "111111111", "222222222", null);
+insert into usuario values("jorge@gmail.es", "jorge123", 0, "Jorge Sierra", "333333333", "444444444", null);
+insert into usuario values("javier@gmail.es", "javier123", 0, "Javier Mencia", "555555555", null, null);
+
+
+insert into inmueble values("Madrid", "Leganes", "indias", 9, 2, "A", "unica", 0, 1, "Este piso mola", 70, 3, 1, "piso", "segunda mano", "aire acondicionado", "terraza", 0, 0, 1, 0, 1);
+insert into inmueble values("Madrid", "Fuenlabrada", "Falsa", 2, 4, "C", "unica", 0, 2, "Este piso es la leche", 95, 2, 1, "piso", "segunda mano", "aire acondicionado", "terraza", 1, 1, 1, 0, 1);
+insert into inmueble values("Madrid", "Villaverde", "inventada", 15, 1, "B", "drch", 0, 3, "Este piso no esta mal", 85, 2, 1, "piso", "nuevo", "aire acondicionado", "terraza", 1, 1, 1, 0, 1);
+
+
+insert into anuncio values(1, "alquiler", 500, null, null);
+insert into anuncio values(2, "alquiler", 750, null, null);
+insert into anuncio values(3, "alquiler", 650, null, null);
+
+
+
+
+
+
+
+
+
 
 
