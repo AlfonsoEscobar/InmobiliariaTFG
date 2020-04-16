@@ -16,10 +16,7 @@ import es.modelos.Inmueble;
 
 public class MySQLInmuebleDAO implements InmuebleDAO {
 
-	
-	
-
-	final String INSERT = "INSERT INTO inmueble(provincia, localidad, calle, numero, escalera, piso, puerta, "
+	final String INSERT = "INSERT INTO inmueble(provincia, localidad, calle, numero, piso, puerta,"
 							+ "propietario, descripcion, metros2, num_habitaciones, num_banos,"
 							+ "tipo_edificacion, tipo_obra, equipamiento, exteriores, garaje,"
 							+ "trastero, ascensor, ultima_planta, mascotas) "
@@ -191,7 +188,7 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 
 
 	/*
-	 *  NO FUNCIONA creo que es el metodo convertir()
+	 *   FUNCIONA
 	 */
 	@Override
 	public Inmueble obtener(Integer id) throws DAOException {
@@ -246,7 +243,7 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 	
 	
 	/*
-	 *  NO FUNCIONA creo que es el metodo convertir()
+	 *  FUNCIONA
 	 */
 	@Override
 	public List<Inmueble> obtenerTodos() throws DAOException {

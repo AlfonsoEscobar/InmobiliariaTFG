@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.LinkedList;
 
 import javax.sql.DataSource;
 
@@ -18,6 +19,7 @@ import es.modelos.Anuncio;
 
 public class MySQLAnuncioDAO implements AnuncioDAO {
 
+<<<<<<< HEAD
 	final String INSERT = "INSERT INTO anuncio(id_inmueble, tipo_anuncio, precio, fecha_anuncio, fecha_ultima_actualizacion) "
 			+ "VALUES(?,?,?,?,?)";
 	final String DELETE = "DELETE FROM anuncio WHERE id_inmueble = ? and tipo_anuncio = ?";
@@ -27,10 +29,33 @@ public class MySQLAnuncioDAO implements AnuncioDAO {
 	final String GETTYPE = "SELECT * FROM anuncio WHERE tipo_anuncio = ?";
 	final String GETLOCTYP = "SELECT * FROM anuncio, WHERE tipo_anuncio = ? and id_inmueble = (SELECT id_inmueble FROM inmueble WHERE localidad = ?)";
 	final String GETALL = "SELECT * FROM anuncio";
+=======
+	final String INSERT = "INSERT INTO anuncio(id_inmueble, tipo_anuncio, precio,"
+							+ "fecha_anuncio, fecha_ultima_actualizacion) "
+							+ "VALUES(?,?,?,? ?)";
 	
+	final String DELETE = "DELETE FROM anuncio WHERE id_inmueble = ? and tipo_anuncio = ?";
+	
+	final String UPDATE = "UPDATE anuncio SET tipo_anuncio = ?, precio = ? "
+							+ "WHERE id_inmueble = ? and tipo_anuncio = ?";
+	
+	final String UPDATEDATE = "UPDATE anuncio SET fecha_ultima_actualizacion = ? "
+								+ "WHERE id_inmueble = ? and tipo_anuncio = ?";
+	
+	final String GETONE = "SELECT * FROM anuncio WHERE id_inmueble = ? and tipo_anuncio = ?";
+	
+	final String GETTYPE = "SELECT FROM anuncio WHERE tipo_anuncio = ?";
+>>>>>>> 60e7174f5156636eba755011c9c302647cf1eb57
+	
+	final String GETLOCTYP = "SELECT * FROM anuncio WHERE tipo_anuncio = ? and "
+								+ "id_inmueble = (SELECT id_inmueble FROM inmueble WHERE localidad = ?)";
+	
+	final String GETALL = "SELECT * FROM anuncio";
 
 	private Connection conexion;
 
+	
+	
 	public MySQLAnuncioDAO(DataSource conexion) {
 		try {
 			this.conexion = conexion.getConnection();
@@ -40,6 +65,7 @@ public class MySQLAnuncioDAO implements AnuncioDAO {
 		}
 	}
 
+	
 	@Override
 	public int insertar(Anuncio anuncio) throws DAOException {
 		PreparedStatement stat = null;
@@ -68,13 +94,19 @@ public class MySQLAnuncioDAO implements AnuncioDAO {
 		}
 	}
 
+	
 	@Override
 	public int modificar(String value, Anuncio object) throws DAOException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+<<<<<<< HEAD
 	public int modificar(int id, String tipo_anuncio, double nuevoPrecio) throws DAOException {
+=======
+	
+	public int modificar(int id, String tipo_anuncio, double nuevoPrecio, String nuevoTipoAnuncio) throws DAOException {
+>>>>>>> 60e7174f5156636eba755011c9c302647cf1eb57
 		PreparedStatement stat = null;
 		int filasModificadas = 0;
 		try {
@@ -96,6 +128,7 @@ public class MySQLAnuncioDAO implements AnuncioDAO {
 		}
 		return filasModificadas;
 	}
+	
 	
 	public int actualizarFecha(int id, String tipo_anuncio) throws DAOException {
 		PreparedStatement stat = null;
@@ -125,12 +158,14 @@ public class MySQLAnuncioDAO implements AnuncioDAO {
 		return filasActualizadas;
 	}
 
+	
 	@Override
 	public int eliminar(String value) throws DAOException {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	
 	public int eliminar(int id, String tipo_anuncio) throws DAOException {
 		PreparedStatement stat = null;
 		int filasEliminadas = 0;
@@ -153,6 +188,7 @@ public class MySQLAnuncioDAO implements AnuncioDAO {
 		return filasEliminadas;
 	}
 
+	
 	@Override
 	public List<Anuncio> obtenerPorParametro(String tipo_anuncio) throws DAOException {
 		PreparedStatement stat = null;
@@ -187,21 +223,30 @@ public class MySQLAnuncioDAO implements AnuncioDAO {
 		return anuncios;
 	}
 	
+	
 	public List<Anuncio> obtenerPorParametro(String localidad, String tipo_anuncio) throws DAOException {
+		
 		PreparedStatement stat = null;
+		
 		ResultSet rs = null;
-		List <Anuncio> anuncios = new ArrayList<>();
+		
+		List <Anuncio> anuncios = new LinkedList<>();
+		
 		try {
+			
 			stat = conexion.prepareStatement(GETLOCTYP);
 			stat.setString(1, tipo_anuncio);
 			stat.setString(2, localidad);
 			rs = stat.executeQuery();
+			
 			while(rs.next()) {
 				anuncios.add(convertir(rs));
 			}
+			
 		}catch(SQLException ex){
 			throw new DAOException("Error en SQL", ex);
 		}finally {
+			
 			if(rs != null) {
 				try {
 					rs.close();
@@ -209,6 +254,7 @@ public class MySQLAnuncioDAO implements AnuncioDAO {
 					throw new DAOException("Error en SQL", ex);
 				}
 			}
+			
 			if(stat != null) {
 				try {
 					stat.close();
@@ -218,14 +264,18 @@ public class MySQLAnuncioDAO implements AnuncioDAO {
 			}
 			
 		}
+		
 		return anuncios;
+		
 	}
 
+	
 	@Override
 	public Anuncio obtener(String value) throws DAOException {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
 	
 	public Anuncio obtener(int id, String tipo_anuncio) throws DAOException{
 		PreparedStatement stat = null;
@@ -263,6 +313,7 @@ public class MySQLAnuncioDAO implements AnuncioDAO {
 		return anuncio;
 	}
 
+	
 	@Override
 	public List<Anuncio> obtenerTodos() throws DAOException {
 		PreparedStatement stat = null;
@@ -296,6 +347,7 @@ public class MySQLAnuncioDAO implements AnuncioDAO {
 		return anuncios;
 	}
 
+	
 	private Anuncio convertir(ResultSet rs) throws SQLException {
 		int id_inmueble = rs.getInt("id_inmueble");
 		String tipo_anuncio = rs.getString("tipo_anuncio");

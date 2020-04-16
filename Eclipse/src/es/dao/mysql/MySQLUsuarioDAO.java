@@ -16,8 +16,8 @@ import es.modelos.Usuario;
 public class MySQLUsuarioDAO implements UsuarioDAO{
 
 
-	final String INSERT = "INSERT INTO usuario(correo, contrasena, id_usuario, nombre,"
-							+ "telefono1, telefono2, imagen_perfil) VALUES(?,?,?,?,?,?,?)";
+	final String INSERT = "INSERT INTO usuario(correo, contrasena, nombre,"
+							+ "telefono1, telefono2, imagen_perfil) VALUES(?,?,?,?,?,?)";
 	
 	final String UPDATE = "UPDATE usuario SET contrasena = ?, nombre = ?, telefono1 = ?,"
 							+ "telefono2 = ?, imagen_pefil = ? WHERE correo = ?";
@@ -50,6 +50,10 @@ public class MySQLUsuarioDAO implements UsuarioDAO{
 		
 	}
 	
+	/*
+	 * 	FUNCIONA
+	 */
+	
 	@Override
 	public int insertar(Usuario usuario) throws DAOException {
 		PreparedStatement stat = null;
@@ -61,7 +65,7 @@ public class MySQLUsuarioDAO implements UsuarioDAO{
 			stat.setString(3, usuario.getNombre());
 			stat.setString(4, usuario.getTelefono1());
 			stat.setString(5, usuario.getTelefono2());
-			stat.setBytes(6, null);//usuario.getImagen_perfil());
+			stat.setString(6, null);
 			filasModificadas = stat.executeUpdate();
 		}catch (SQLException ex){
 			throw new DAOException("Error en SQL", ex);
@@ -78,6 +82,10 @@ public class MySQLUsuarioDAO implements UsuarioDAO{
 		return filasModificadas;
 		
 	}
+	
+	/*
+	 * 	FUNCIONA
+	 */
 
 	@Override
 	public int modificar(String correo, Usuario usuario) throws DAOException {
@@ -108,7 +116,9 @@ public class MySQLUsuarioDAO implements UsuarioDAO{
 		
 	}
 	
-	
+	/*
+	 * 	FUNCIONA
+	 */
 	public int modificar(int id, Usuario usuario) throws DAOException {
 		
 		PreparedStatement stat = null;
@@ -145,7 +155,9 @@ public class MySQLUsuarioDAO implements UsuarioDAO{
 
 	}
 	
-
+	/*
+	 * 	FUNCIONA
+	 */
 	@Override
 	public int eliminar(String correo) throws DAOException {
 		PreparedStatement stat = null;
@@ -174,6 +186,10 @@ public class MySQLUsuarioDAO implements UsuarioDAO{
 		return null;
 	}
 
+	
+	/*
+	 * 	FUNCIONA
+	 */
 	@Override
 	public Usuario obtener(String correo) throws DAOException {
 		PreparedStatement stat = null;

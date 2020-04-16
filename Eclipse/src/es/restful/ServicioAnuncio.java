@@ -34,29 +34,60 @@ public class ServicioAnuncio {
 	
 	MySQLAnuncioDAO claseAnuncio;
 	
+	
 	@GET
-	@Path("/{tipo}")
+	@Path("/{tipo}/{localidad}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAnuncio(@PathParam("tipo") String tipo){
+	public Response getAnuncio(@PathParam("tipo") String tipo,
+							   @PathParam("localidad") String localidad){
 		
 		claseAnuncio = new MySQLAnuncioDAO(dataSource);
-		
 		Response.Status respuesta = Response.Status.OK;
-		
 		List<Anuncio> listaAnuncio = null;
 		
 		try {
 			
-			listaAnuncio = claseAnuncio.obtenerPorParametro(tipo);
+			listaAnuncio = claseAnuncio.obtenerPorParametro(localidad, tipo);
 			
 		} catch (DAOException e) {
 			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
 		}
 		
-		if(listaAnuncio.isEmpty()) {
-			respuesta = Response.Status.NOT_FOUND;
+		if(listaAnuncio != null) {
+			if(listaAnuncio.isEmpty()) {
+				respuesta = Response.Status.NOT_FOUND;
+			}
 		}
 		
+		if (respuesta == Response.Status.OK)
+			return Response.ok(listaAnuncio).build();
+		else
+			return Response.status(respuesta).build();
+		
+	}
+	
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getAnuncioT(){
+		
+		claseAnuncio = new MySQLAnuncioDAO(dataSource);
+		Response.Status respuesta = Response.Status.OK;
+		List<Anuncio> listaAnuncio = null;
+		
+		try {
+			
+			listaAnuncio = claseAnuncio.obtenerTodos();
+			
+		} catch (DAOException e) {
+			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
+		}
+		
+		if(listaAnuncio != null) {
+			if(listaAnuncio.isEmpty()) {
+				respuesta = Response.Status.NOT_FOUND;
+			}
+		}
 		
 		if (respuesta == Response.Status.OK)
 			return Response.ok(listaAnuncio).build();
