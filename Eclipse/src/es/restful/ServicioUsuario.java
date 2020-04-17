@@ -1,9 +1,5 @@
 package es.restful;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.sql.DataSource;
@@ -72,9 +68,6 @@ public class ServicioUsuario {
 
 		claseUsuario = new MySQLUsuarioDAO(dataSource);
 
-		String UPDATE2 = "UPDATE usuario SET contrasena = ?, nombre = ?, telefono1 = ?,"
-								+ "telefono2 = ? WHERE id_usuario = ?";
-		
 		Response.Status respuesta = Response.Status.OK;
 		int filasModificadas = 0;
 
@@ -82,18 +75,7 @@ public class ServicioUsuario {
 
 			filasModificadas = claseUsuario.modificar(id, usuario);
 			
-			/*Connection connection = dataSource.getConnection();
-			PreparedStatement stat = connection.prepareStatement(UPDATE2);
 			
-			stat.setString(1, usuario.getContrasena());
-			stat.setString(2, usuario.getNombre());
-			stat.setString(3, usuario.getTelefono1());
-			stat.setString(4, usuario.getTelefono2());
-			stat.setInt(5, id);
-
-			filasModificadas = stat.executeUpdate();*/
-			
-
 			if(filasModificadas == 0) {
 				respuesta = Response.Status.NOT_FOUND;
 			}

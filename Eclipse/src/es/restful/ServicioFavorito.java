@@ -1,8 +1,6 @@
 package es.restful;
 
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
