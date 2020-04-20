@@ -12,6 +12,10 @@ public class InfoUsuario {
 	private LinkedList<Anuncio> anuncios;
 	private LinkedList<Favorito> favoritos;
 
+	public InfoUsuario() {
+		
+	}
+	
 	public InfoUsuario(String nombreUsuario, String correoUsuario, String telefono1, String telefono2,
 			LinkedList<Inmueble> inmuebles, LinkedList<Anuncio> anuncios, LinkedList<Favorito> favoritos) {
 		super();

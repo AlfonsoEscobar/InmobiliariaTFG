@@ -32,18 +32,19 @@ public class MySQLUsuarioDAO implements UsuarioDAO {
 
 	final String DELETE = "DELETE FROM usuario WHERE correo = ?";
 
-	final String GETALL = "SELECT id_usuario, correo, nombre, telefono1, telefono2," + "imagen_perfil FROM usuario";
+	final String GETALL = "SELECT id_usuario, correo, nombre, telefono1, telefono2, imagen_perfil FROM usuario";
 
 	final String GETONE = "SELECT id_usuario, correo, contrasena, nombre, telefono1,"
-			+ "telefono2, imagen_perfil FROM usuario WHERE correo = ?";
+						+ "telefono2, imagen_perfil FROM usuario WHERE correo = ?";
 
 	final String INFOUSER = "SELECT correo, nombre, telefono1, telefono2 FROM usuario WHERE id_usuario = ?";
 
-	final String INFOINMUEBLES = "SELECET * FROM inmueble WHERE propietario = ?";
+	final String INFOINMUEBLES = "SELECT * FROM inmueble WHERE propietario = ?";
 
-	final String INFOANUNCIOS = "SELECT * FROM anuncio WHERE id_inmueble = (SELECT id_inmueble FROM propietario = ?)";
+	final String INFOANUNCIOS = "SELECT * FROM anuncio WHERE id_inmueble = "
+									+ "(SELECT id_inmueble FROM inmueble WHERE propietario = ?)";
 
-	final String INFOFAVORITOS = "SELECT * FROM favortio WHERE id_usuario = ?";
+	final String INFOFAVORITOS = "SELECT * FROM favorito WHERE usuario_favorito = ?";
 
 	final String VERIFICAR = "SELECT * FROM usuario WHERE correo = ? and contrasena = ?";
 
@@ -58,7 +59,6 @@ public class MySQLUsuarioDAO implements UsuarioDAO {
 		try {
 			this.conexion = conexion.getConnection();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -240,19 +240,27 @@ public class MySQLUsuarioDAO implements UsuarioDAO {
 		return usuario;
 	}
 	
-	//Para implementar este método he copiado los métodos de convertir de cada clase; método que convierte en objetos Java fila de la base de datos.
+	
+	//Para implementar este método he copiado los métodos de convertir de cada clase; 
+	//método que convierte en objetos Java fila de la base de datos.
+	
 	public InfoUsuario obtenerInfoUsuario (int id_usuario) throws DAOException {
-		InfoUsuario infoUser;
+		
+		InfoUsuario infoUser = null;
 		PreparedStatement statUser = null, statInmu = null, statAnun = null , statFav = null;
 		ResultSet rsUser = null, rsInmu = null, rsAnun = null, rsFav = null;
 		String correo = "", nombre = "", telefono1 = "", telefono2 = "";
 		LinkedList<Inmueble> inmuebles = new LinkedList<Inmueble>();
 		LinkedList<Anuncio> anuncios = new LinkedList<Anuncio>();
 		LinkedList<Favorito> favoritos = new LinkedList<Favorito>();
+		
 		try {
+			
+			// Recibiendo el usuario
 			statUser = conexion.prepareStatement(INFOUSER);
 			statUser.setInt(1, id_usuario);
 			rsUser = statUser.executeQuery();
+			
 			if(rsUser.next()) {
 				correo = rsUser.getString("correo");
 				nombre = rsUser.getString("nombre");
@@ -260,31 +268,42 @@ public class MySQLUsuarioDAO implements UsuarioDAO {
 				telefono2 = rsUser.getString("telefono2");
 			}
 			
+			// Recibiendo los inmueble
 			statInmu = conexion.prepareStatement(INFOINMUEBLES);
 			statInmu.setInt(1, id_usuario);
 			rsInmu = statInmu.executeQuery();
+			
 			while(rsInmu.next()) {
 				inmuebles.add(convertirInmueble(rsInmu));
 			}
-				
+			
+			//Recibiendo los anuncios
 			statAnun = conexion.prepareStatement(INFOANUNCIOS);
 			statAnun.setInt(1, id_usuario);
 			rsAnun = statAnun.executeQuery();
+			
 			while(rsAnun.next()) {
 				anuncios.add(convertirAnuncio(rsAnun));
 			}
 			
+			// Recibiendo los favoritos
 			statFav = conexion.prepareStatement(INFOFAVORITOS);
 			statFav.setInt(1, id_usuario);
 			rsFav = statFav.executeQuery();
+			
 			while(rsFav.next()) {
 				favoritos.add(convertirFavorito(rsFav));
 			}
 			
-			infoUser = new InfoUsuario(nombre, correo, telefono1, telefono2, inmuebles, anuncios, favoritos);
+			// Creando la clase
+			
+			infoUser = new InfoUsuario(nombre, correo, telefono1, telefono2, 
+											inmuebles, anuncios, favoritos);
+		
 		}catch(SQLException ex){
 			throw new DAOException("Error en SQL", ex);
 		
+		//Cerrando todo a la base de datos
 		}finally {
 			if(rsUser != null) {
 				try {
@@ -407,6 +426,10 @@ public class MySQLUsuarioDAO implements UsuarioDAO {
 	 * throw new DAOException("Error en SQL", ex); } } } return max; }
 	 */
 
+	
+	/*
+	 * 	FUNCIONA
+	 */
 	public boolean verificarUsuarioEnBase(String correo, String contrasena) throws DAOException {
 		boolean insertado = false;
 		PreparedStatement stat = null;

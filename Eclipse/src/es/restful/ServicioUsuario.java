@@ -18,6 +18,7 @@ import javax.ws.rs.core.UriInfo;
 
 import es.dao.DAOException;
 import es.dao.mysql.MySQLUsuarioDAO;
+import es.modelos.InfoUsuario;
 import es.modelos.Usuario;
 
 
@@ -39,26 +40,27 @@ public class ServicioUsuario {
 		claseUsuario = new MySQLUsuarioDAO(dataSource);
 		
 		Response.Status respuesta = Response.Status.OK;
-		Usuario usuario = new Usuario();
+		Usuario usuario = null;
+		InfoUsuario info = new InfoUsuario();
 
 		try {
 			
 			if(claseUsuario.verificarUsuarioEnBase(correo, contrasena)) {
 				
 				usuario = claseUsuario.obtener(correo);
+				info = claseUsuario.obtenerInfoUsuario(usuario.getId_usuario());
 				
 			}
 			
-			if(usuario == null) {
+			if(usuario == null)
 				respuesta = Response.Status.NOT_FOUND;
-			}
 			
 		} catch (DAOException e) {
 			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
 		}
 		
 		if (respuesta == Response.Status.OK) {
-			return Response.ok(usuario).build();
+			return Response.ok(info).build();
 		}else {
 			return Response.status(respuesta).build();
 		}
