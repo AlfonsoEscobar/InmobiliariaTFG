@@ -31,18 +31,23 @@ public class ServicioUsuario {
 	private MySQLUsuarioDAO claseUsuario;
 
 	@GET
-	@Path("/{correo}")
+	@Path("/{correo}/{contrasena}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getUsuario(@PathParam("correo") String correo) {
+	public Response getUsuario(@PathParam("correo") String correo,
+								@PathParam("contrasena") String contrasena) {
 
 		claseUsuario = new MySQLUsuarioDAO(dataSource);
 		
 		Response.Status respuesta = Response.Status.OK;
 		Usuario usuario = new Usuario();
-		
+
 		try {
 			
-			usuario = claseUsuario.obtener(correo);
+			if(claseUsuario.verificarUsuarioEnBase(correo, contrasena)) {
+				
+				usuario = claseUsuario.obtener(correo);
+				
+			}
 			
 			if(usuario == null) {
 				respuesta = Response.Status.NOT_FOUND;
@@ -97,15 +102,13 @@ public class ServicioUsuario {
 		
 		Response.Status respuesta = Response.Status.OK;
 
-		int filasModificadas = 0;
 		
 		try {
 			
-			filasModificadas = claseUsuario.insertar(usuario);
-			
-			
-			if (filasModificadas == 0){
-				respuesta = Response.Status.NOT_FOUND;
+			if ( !claseUsuario.usuarioRepetido(usuario.getCorreo()) ) {
+				
+				claseUsuario.insertar(usuario);
+				
 			}
 			
 		} catch (DAOException e) {
