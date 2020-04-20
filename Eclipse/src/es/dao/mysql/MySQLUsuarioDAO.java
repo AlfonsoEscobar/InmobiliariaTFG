@@ -34,7 +34,12 @@ public class MySQLUsuarioDAO implements UsuarioDAO{
 	final String GETONE = "SELECT id_usuario, correo, contrasena, nombre, telefono1,"
 							+ "telefono2, imagen_perfil FROM usuario WHERE correo = ?";
 	
-	final String IDMAX = "SELECT MAX(id_usuario) FROM usuario";
+	final String VERIFICAR = "SELECT * FROM usuario WHERE correo = ? and contrasena = ?";
+	
+	final String REPETIDO = "SELECT * FROM usuario WHERE correo = ?";
+	
+	
+	//final String IDMAX = "SELECT MAX(id_usuario) FROM usuario";
 	
 	private Connection conexion;
 	
@@ -275,7 +280,7 @@ public class MySQLUsuarioDAO implements UsuarioDAO{
 		return usuario;
 	}
 	
-	public int obtenerMaxId () throws DAOException {
+	/*public int obtenerMaxId () throws DAOException {
 		PreparedStatement stat = null;
 		ResultSet rs = null;
 		int max = 0;
@@ -306,11 +311,77 @@ public class MySQLUsuarioDAO implements UsuarioDAO{
 			}
 		}
 		return max;
+	}*/
+	
+	public boolean verificarUsuarioEnBase(String correo, String contrasena) throws DAOException {
+		boolean insertado = false;
+		PreparedStatement stat = null;
+		ResultSet rs = null;
+		try {
+			stat = conexion.prepareStatement(VERIFICAR);
+			stat.setString(1, correo);
+			stat.setString(2, contrasena);
+			rs = stat.executeQuery();
+			if(rs.next()) {
+				insertado = true;
+			}
+		}catch(SQLException ex){
+			throw new DAOException("Error en SQL", ex);
+		
+		}finally {
+			if(rs != null) {
+				try {
+					rs.close();
+				}catch(SQLException ex) {
+					throw new DAOException("Error en SQL", ex);
+				}
+			}
+			if(stat != null) {
+				try {
+					stat.close();
+				}catch(SQLException ex) {
+					throw new DAOException("Error en SQL", ex);
+				}
+			}
+			
+		} 
+		
+		return insertado;
 	}
 	
+	public boolean usuarioRepetido (String correo) throws DAOException {
+		boolean repetido = false;
+		PreparedStatement stat = null;
+		ResultSet rs = null;
+		try {
+			stat = conexion.prepareStatement(REPETIDO);
+			stat.setString(1, correo);
+			rs = stat.executeQuery();
+			if(rs.next()) {
+				repetido = true;
+			}
+		}catch(SQLException ex){
+			throw new DAOException("Error en SQL", ex);
+		
+		}finally {
+			if(rs != null) {
+				try {
+					rs.close();
+				}catch(SQLException ex) {
+					throw new DAOException("Error en SQL", ex);
+				}
+			}
+			if(stat != null) {
+				try {
+					stat.close();
+				}catch(SQLException ex) {
+					throw new DAOException("Error en SQL", ex);
+				}
+			}
+			
+		} 
+		
+		return repetido;
+	}
 	
-	/*private void otorgarId(Usuario usuario) throws DAOException  {
-		usuario.setId_usuario(obtenerMaxId() + 1);
-	}*/
-
 }

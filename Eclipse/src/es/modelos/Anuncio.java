@@ -1,5 +1,3 @@
-/*El atributo tipo_anuncio es booleano para tomar dos valores, true/false, a cada uno de estos valores le atribuiremos venta/alquiler
- **/
 package es.modelos;
 
 import java.util.Date;
