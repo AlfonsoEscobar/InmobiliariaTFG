@@ -39,7 +39,7 @@ public class ServicioUsuario {
 		
 		Response.Status respuesta = Response.Status.OK;
 		Usuario usuario = new Usuario();
-
+		
 		try {
 			
 			usuario = claseUsuario.obtener(correo);
