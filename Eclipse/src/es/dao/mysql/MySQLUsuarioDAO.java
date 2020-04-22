@@ -79,7 +79,9 @@ public class MySQLUsuarioDAO implements UsuarioDAO {
 			stat.setString(3, usuario.getNombre());
 			stat.setString(4, usuario.getTelefono1());
 			stat.setString(5, usuario.getTelefono2());
-			stat.setString(6, null);
+			
+			stat.setBytes(6, usuario.getImagen_perfil());
+			
 			filasModificadas = stat.executeUpdate();
 		} catch (SQLException ex) {
 			throw new DAOException("Error en SQL", ex);
@@ -297,7 +299,7 @@ public class MySQLUsuarioDAO implements UsuarioDAO {
 			
 			// Creando la clase
 			
-			infoUser = new InfoUsuario(nombre, correo, telefono1, telefono2, 
+			infoUser = new InfoUsuario(nombre, correo, telefono1, telefono2, id_usuario,
 											inmuebles, anuncios, favoritos);
 		
 		}catch(SQLException ex){

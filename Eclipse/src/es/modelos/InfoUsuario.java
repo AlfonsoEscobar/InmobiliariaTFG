@@ -6,6 +6,7 @@ public class InfoUsuario {
 	// private Usuario usuario;
 	private String nombreUsuario;
 	private String correoUsuario;
+	private int id_usuario;
 	private String telefono1;
 	private String telefono2;
 	private LinkedList<Inmueble> inmuebles; // = new LinkedList<Inmueble>();
@@ -17,10 +18,11 @@ public class InfoUsuario {
 	}
 	
 	public InfoUsuario(String nombreUsuario, String correoUsuario, String telefono1, String telefono2,
-			LinkedList<Inmueble> inmuebles, LinkedList<Anuncio> anuncios, LinkedList<Favorito> favoritos) {
+			int id_usuario, LinkedList<Inmueble> inmuebles, LinkedList<Anuncio> anuncios, LinkedList<Favorito> favoritos) {
 		super();
 		this.nombreUsuario = nombreUsuario;
 		this.correoUsuario = correoUsuario;
+		this.id_usuario = id_usuario;
 		this.telefono1 = telefono1;
 		this.telefono2 = telefono2;
 		this.inmuebles = inmuebles;
@@ -42,6 +44,14 @@ public class InfoUsuario {
 
 	public void setCorreoUsuario(String correoUsuario) {
 		this.correoUsuario = correoUsuario;
+	}
+	
+	public int getId_usuario() {
+		return id_usuario;
+	}
+	
+	public void setId_usuario(int id_usuario) {
+		this.id_usuario = id_usuario;
 	}
 
 	public String getTelefono1() {

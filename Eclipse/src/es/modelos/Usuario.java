@@ -22,7 +22,7 @@ public class Usuario {
 		this.telefono1 = telefono1;
 		this.telefono2 = telefono2;
 		this.imagen_perfil = imagen_perfil;
-		this.id_usuario = 0;//Lo asignaremos cuando vayamos a insertarlo en la base de datos
+		//this.id_usuario = 0;//Lo asignaremos cuando vayamos a insertarlo en la base de datos
 	}
 	
 	public String getCorreo() {
