@@ -1,7 +1,5 @@
 package es.restful;
 
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,7 +70,7 @@ public class ServicioFotografia {
 	
 	
 	@POST
-	@Consumes(APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
 	public Response postFotografia(@Context UriInfo uriInfo, Fotografia foto) {
 		
 		claseFotografia = new MySQLFotografiaDAO(dataSource);
@@ -95,6 +93,32 @@ public class ServicioFotografia {
 		return Response.status(respuestas).build();
 		
 	}
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response postFotografia2(@Context UriInfo uriInfo, Fotografia foto) {
+		
+		claseFotografia = new MySQLFotografiaDAO(dataSource);
+		
+		Response.Status respuestas = Response.Status.OK;
+		int filasModificadas = 0;
+		
+		try {
+			
+			filasModificadas = claseFotografia.insertar(foto);
+			
+		} catch (DAOException e) {
+			respuestas = Response.Status.INTERNAL_SERVER_ERROR;
+		}
+			
+		if (filasModificadas == 0){
+			respuestas = Response.Status.NOT_FOUND;
+		}
+		
+		return Response.status(respuestas).build();
+		
+	}
+	
 	
 
 	@DELETE
