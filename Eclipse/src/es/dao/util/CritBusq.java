@@ -98,14 +98,15 @@ public class CritBusq {
 		String sentencia = "Select * from inmueble where ";
 		String clausula = "";
 		if (metros2_min != 0) {
-			if(metros2_max == 0)
+			if(metros2_max == 0) {
 				sentencia = anadirFiltro(sentencia, "metros2 > " + metros2_min);
 				clausula = "metros2 > " + metros2_min;
-			else
+			}else {
 				clausula = "metro2 between (" + this.metros2_min + " and " + this.metros2_max + " )"; 
+			}
 		}
 		if (num_habitaciones != 0) {
-			sentencia
+			//sentencia
 		}
 		
 		return sentencia;
