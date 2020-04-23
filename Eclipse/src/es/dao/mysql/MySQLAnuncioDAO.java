@@ -366,4 +366,5 @@ public class MySQLAnuncioDAO implements AnuncioDAO {
 		
 		return anuncio;
 	}
+	
 }

@@ -1,10 +1,12 @@
 package es.dao.mysql;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -16,11 +18,21 @@ import es.modelos.Fotografia;
 public class MySQLFotografiaDAO implements FotografiaDAO {
 
 	final String INSERT = "INSERT INTO fotografia(ruta, tipo_habitacion, inmueble) VALUES(?,?,?)";
+	
 	final String DELETE = "DELETE FROM fotografia WHERE ruta = ?";
+	
+	final String DELETEID = "DELETE FROM fotografia where inmueble = ?";
+	
 	final String GETONE = "SELECT * FROM fotografia WHERE ruta = ?";
+	
 	final String GETTYPE = "SELECT * FROM fotografia WHERE tipo_habitacion = ?";
+	
+	final String GETID = "SELECT * FROM fotografia WHERE inmueble = ?";
+	
 	final String GETALL = "SELECT * FROM fotografia";
 
+	
+	
 	private Connection conexion;
 
 	public MySQLFotografiaDAO(DataSource conexion) {
@@ -198,5 +210,98 @@ public class MySQLFotografiaDAO implements FotografiaDAO {
 		Fotografia fotografia = new Fotografia(ruta, tipo_habitacion, inmueble);
 		return fotografia;
 	}
+	
+	
+	
+	// ********************************** HECHOS POR ALFONSO ******************************************
+	// ------------------------------------------------------------------------------------------------
+	
+	public int eliminarPorID(int id) throws DAOException {
+		
+		PreparedStatement stat = null;
+		int filasEliminadas = 0;
+		
+		try {
+			
+			stat = conexion.prepareStatement(DELETEID);
+			stat.setInt(1, id);
+			filasEliminadas = stat.executeUpdate();
+			
+		} catch (SQLException ex) {
+			throw new DAOException("Error en SQL", ex);
+		} finally {
+			if (stat != null) {
+				try {
+					stat.close();
+				} catch (SQLException ex) {
+					throw new DAOException("Error en SQL", ex);
+				}
+			}
+		}
+		
+		return filasEliminadas;
+		
+	}
+	
+	
+	
+	public LinkedList<Fotografia> obtenerPorID(int id) throws DAOException{
+		
+		PreparedStatement stat = null;
+		ResultSet rs = null;
+		
+		LinkedList <Fotografia> fotografias = new LinkedList<>();
+		
+		try {
+			
+			stat = conexion.prepareStatement(GETID);
+			stat.setInt(1, id);
+			rs = stat.executeQuery();
+			
+			while(rs.next()) {
+				fotografias.add(convertir(rs));
+			}
+			
+		}catch(SQLException ex){
+			throw new DAOException("Error en SQL", ex);
+			
+		}finally {
+			if(rs != null) {
+				try {
+					rs.close();
+				}catch(SQLException ex) {
+					throw new DAOException("Error en SQL", ex);
+				}
+			}
+			if(stat != null) {
+				try {
+					stat.close();
+				}catch(SQLException ex) {
+					throw new DAOException("Error en SQL", ex);
+				}
+			}
+			
+		}
+		
+		return fotografias;
+		
+	}
+	
+	
+	public void borrarFoto(String ruta) {
+		
+		File f = new File(ruta);
+		
+		if (f.exists()){
+			f.delete();
+		}
+		
+	}
+	
+	
+	
+	
+	
+	
 
 }
