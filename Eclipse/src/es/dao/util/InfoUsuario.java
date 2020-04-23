@@ -1,6 +1,10 @@
-package es.modelos;
+package es.dao.util;
 
 import java.util.LinkedList;
+
+import es.modelos.Anuncio;
+import es.modelos.Favorito;
+import es.modelos.Inmueble;
 
 public class InfoUsuario {
 	// private Usuario usuario;
