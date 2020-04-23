@@ -18,7 +18,7 @@ import javax.ws.rs.core.UriInfo;
 
 import es.dao.DAOException;
 import es.dao.mysql.MySQLUsuarioDAO;
-import es.modelos.InfoUsuario;
+import es.dao.util.InfoUsuario;
 import es.modelos.Usuario;
 
 

@@ -12,9 +12,9 @@ import javax.sql.DataSource;
 
 import es.dao.DAOException;
 import es.dao.UsuarioDAO;
+import es.dao.util.InfoUsuario;
 import es.modelos.Anuncio;
 import es.modelos.Favorito;
-import es.modelos.InfoUsuario;
 import es.modelos.Inmueble;
 import es.modelos.Usuario;
 
