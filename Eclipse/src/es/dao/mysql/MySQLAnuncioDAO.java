@@ -41,6 +41,13 @@ public class MySQLAnuncioDAO implements AnuncioDAO {
 			+ "id_inmueble = (SELECT id_inmueble FROM inmueble WHERE localidad = ?)";
 
 	final String GETALL = "SELECT * FROM anuncio";
+	
+	//------------HECHO POR ALFONSO----------------
+	
+	final String GETINFOANUNCIO = "SELECT a.*, b.* from anuncio a, inmuble b on "
+								+ "a.id_inmueble = b.id_inmueble WHERE a.tipo_anuncio = ?"
+								+ " and b.localidad = ?";
+	
 
 	private Connection conexion;
 
@@ -181,35 +188,9 @@ public class MySQLAnuncioDAO implements AnuncioDAO {
 
 	@Override
 	public List<Anuncio> obtenerPorParametro(String tipo_anuncio) throws DAOException {
-		PreparedStatement stat = null;
-		ResultSet rs = null;
-		List<Anuncio> anuncios = new ArrayList<>();
-		try {
-			stat = conexion.prepareStatement(GETTYPE);
-			stat.setString(1, tipo_anuncio);
-			rs = stat.executeQuery();
-			while (rs.next()) {
-				anuncios.add(convertir(rs));
-			}
-		} catch (SQLException ex) {
-			throw new DAOException("Error en SQL", ex);
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException ex) {
-					throw new DAOException("Error en SQL", ex);
-				}
-			}
-			if (stat != null) {
-				try {
-					stat.close();
-				} catch (SQLException ex) {
-					throw new DAOException("Error en SQL", ex);
-				}
-			}
-
-		}
+		
+		List<Anuncio> anuncios = new LinkedList<>();
+		
 		return anuncios;
 	}
 
@@ -564,6 +545,174 @@ public class MySQLAnuncioDAO implements AnuncioDAO {
 		inmueble.setId_inmueble(id_inmueble);
 
 		return inmueble;
+	}
+	
+	
+	
+	/* ---------------------------------HECHO POR ALFONSO----------------------------
+---------------------------------------------------------------------------------------------------------------
+	
+		Este metodo devuelve la lista de InfoAnuncios 
+		filtrados solo por el tipo de anuncio y la localidad
+		que es lo que se le pasa por parametro
+
+	*/
+	public LinkedList<InfoAnuncio> listaInfoAnuncios(String tipo_anuncio, String localidad) throws DAOException{
+
+		LinkedList<InfoAnuncio> lista = new LinkedList<>();
+		
+		PreparedStatement stat = null;
+		ResultSet rs = null;
+		
+		try {
+			
+			stat = conexion.prepareStatement(GETINFOANUNCIO);
+			stat.setString(1, tipo_anuncio);
+			stat.setString(1, localidad);
+			rs = stat.executeQuery();
+			
+			while(rs.next()) {
+				
+				Inmueble inmu = new Inmueble();
+				InfoAnuncio infoan = new InfoAnuncio();
+				
+				inmu.setProvincia(rs.getString("provincia"));
+				inmu.setLocalidad(rs.getString("localidad"));
+				inmu.setCalle(rs.getString("calle"));
+				inmu.setNumero(rs.getInt("numero"));
+				inmu.setEscalera(rs.getString("escalera"));
+				inmu.setPiso(rs.getInt("piso"));
+				inmu.setPuerta(rs.getString("puerta"));
+				inmu.setId_inmueble(rs.getInt("id_inmueble"));
+				inmu.setPropietario(rs.getInt("propietario"));
+				inmu.setDescripcion(rs.getString("descripcion"));
+				inmu.setMetros2(rs.getDouble("metros2"));
+				inmu.setNum_habitaciones(rs.getInt("num_habitaciones"));
+				inmu.setNum_banos(rs.getInt("num_banos"));
+				inmu.setTipo_edificacion(rs.getString("tipo_edificacion"));
+				inmu.setTipo_obra(rs.getString("tipo_obra"));
+				inmu.setEquipamiento(rs.getString("equipamiento"));
+				inmu.setExteriores(rs.getString("exteriores"));
+				inmu.setGaraje(rs.getBoolean("garaje"));
+				inmu.setTrastero(rs.getBoolean("trastero"));
+				inmu.setAscensor(rs.getBoolean("ascensor"));
+				inmu.setUltima_planta(rs.getBoolean("ultima_planta"));
+				inmu.setMascotas(rs.getBoolean("mascotas"));
+				
+				infoan.setId_inmueble(rs.getInt("id_inmueble"));
+				infoan.setPrecio(rs.getDouble("precio"));
+				infoan.setFecha_anunciado(rs.getDate("fecha_anunciado"));
+				infoan.setFecha_ultima_actualizacion(rs.getDate("fecha_ultima_actualizacion"));
+				
+				infoan.setInmueble(inmu);
+				
+				lista.add(infoan);
+				
+			}
+			
+		} catch (SQLException ex) {
+			throw new DAOException("Error en SQL", ex);
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException ex) {
+					throw new DAOException("Error en SQL", ex);
+				}
+			}
+			if (stat != null) {
+				try {
+					stat.close();
+				} catch (SQLException ex) {
+					throw new DAOException("Error en SQL", ex);
+				}
+			}
+
+		}
+		
+		return lista;
+	}
+	
+	
+	/*
+	 
+	  	Este metodo devuelte igual que el anterior la lista de InfoAnuncio
+	  	pero filtrado por la clase CriterioDeBusqueda que devuelve un String 
+	  	con la sentencia SQL con todos los criterios a buscar.
+	 
+	 */
+	
+	public LinkedList<InfoAnuncio> listaInfoAnunciosCriterio(String sql) throws DAOException{
+
+		LinkedList<InfoAnuncio> lista = new LinkedList<>();
+		
+		PreparedStatement stat = null;
+		ResultSet rs = null;
+		
+		try {
+			
+			stat = conexion.prepareStatement(sql);
+			rs = stat.executeQuery();
+			
+			while(rs.next()) {
+				
+				Inmueble inmu = new Inmueble();
+				InfoAnuncio infoan = new InfoAnuncio();
+				
+				inmu.setProvincia(rs.getString("provincia"));
+				inmu.setLocalidad(rs.getString("localidad"));
+				inmu.setCalle(rs.getString("calle"));
+				inmu.setNumero(rs.getInt("numero"));
+				inmu.setEscalera(rs.getString("escalera"));
+				inmu.setPiso(rs.getInt("piso"));
+				inmu.setPuerta(rs.getString("puerta"));
+				inmu.setId_inmueble(rs.getInt("id_inmueble"));
+				inmu.setPropietario(rs.getInt("propietario"));
+				inmu.setDescripcion(rs.getString("descripcion"));
+				inmu.setMetros2(rs.getDouble("metros2"));
+				inmu.setNum_habitaciones(rs.getInt("num_habitaciones"));
+				inmu.setNum_banos(rs.getInt("num_banos"));
+				inmu.setTipo_edificacion(rs.getString("tipo_edificacion"));
+				inmu.setTipo_obra(rs.getString("tipo_obra"));
+				inmu.setEquipamiento(rs.getString("equipamiento"));
+				inmu.setExteriores(rs.getString("exteriores"));
+				inmu.setGaraje(rs.getBoolean("garaje"));
+				inmu.setTrastero(rs.getBoolean("trastero"));
+				inmu.setAscensor(rs.getBoolean("ascensor"));
+				inmu.setUltima_planta(rs.getBoolean("ultima_planta"));
+				inmu.setMascotas(rs.getBoolean("mascotas"));
+				
+				infoan.setId_inmueble(rs.getInt("id_inmueble"));
+				infoan.setPrecio(rs.getDouble("precio"));
+				infoan.setFecha_anunciado(rs.getDate("fecha_anunciado"));
+				infoan.setFecha_ultima_actualizacion(rs.getDate("fecha_ultima_actualizacion"));
+				infoan.setInmueble(inmu);
+				
+				lista.add(infoan);
+				
+			}
+			
+		} catch (SQLException ex) {
+			throw new DAOException("Error en SQL", ex);
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException ex) {
+					throw new DAOException("Error en SQL", ex);
+				}
+			}
+			if (stat != null) {
+				try {
+					stat.close();
+				} catch (SQLException ex) {
+					throw new DAOException("Error en SQL", ex);
+				}
+			}
+
+		}
+		
+		return lista;
 	}
 
 }

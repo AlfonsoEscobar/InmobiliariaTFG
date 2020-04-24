@@ -8,8 +8,8 @@ public class CriterioBusqueda {
 	private String calle;
 	private int piso;
 
-	private float min_metros2;
-	private float max_metros2;
+	private double min_metros2;
+	private double max_metros2;
 
 	private int num_habitaciones;
 	private int max_num_habitaciones;
@@ -29,8 +29,8 @@ public class CriterioBusqueda {
 
 	private String tipo_anuncio;
 
-	private float min_precio;
-	private float max_precio;
+	private double min_precio;
+	private double max_precio;
 
 	private Date fecha_anunciado;
 	private Date fecha_ultima_actualizacion;
@@ -50,11 +50,11 @@ public class CriterioBusqueda {
 		this.piso = piso;
 	}
 
-	public void setMin_metros2(float min_metros2) {
+	public void setMin_metros2(double min_metros2) {
 		this.min_metros2 = min_metros2;
 	}
 
-	public void setMax_metros2(float max_metros2) {
+	public void setMax_metros2(double max_metros2) {
 		this.max_metros2 = max_metros2;
 	}
 
@@ -110,11 +110,11 @@ public class CriterioBusqueda {
 		this.mascotas = mascotas;
 	}
 
-	public void setMin_precio(float min_precio) {
+	public void setMin_precio(double min_precio) {
 		this.min_precio = min_precio;
 	}
 
-	public void setMax_precio(float max_precio) {
+	public void setMax_precio(double max_precio) {
 		this.max_precio = max_precio;
 	}
 
@@ -125,7 +125,7 @@ public class CriterioBusqueda {
 	public void setFecha_ultima_actualizacion(Date fecha_ultima_actualizacion) {
 		this.fecha_ultima_actualizacion = fecha_ultima_actualizacion;
 	}
-
+	
 	
 	
 	public String criterioSQL() {
@@ -215,5 +215,4 @@ public class CriterioBusqueda {
 
 		return busqueda + criterio + ";";
 	}
-
 }

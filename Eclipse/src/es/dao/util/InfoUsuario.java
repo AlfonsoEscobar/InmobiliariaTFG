@@ -13,12 +13,11 @@ public class InfoUsuario {
 	private int id_usuario;
 	private String telefono1;
 	private String telefono2;
-	private LinkedList<Inmueble> inmuebles; // = new LinkedList<Inmueble>();
+	private LinkedList<Inmueble> inmuebles;
 	private LinkedList<Anuncio> anuncios;
 	private LinkedList<Favorito> favoritos;
 
 	public InfoUsuario() {
-		
 	}
 	
 	public InfoUsuario(String nombreUsuario, String correoUsuario, String telefono1, String telefono2,
