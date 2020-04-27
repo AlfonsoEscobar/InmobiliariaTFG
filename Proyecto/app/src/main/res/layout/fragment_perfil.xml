@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/ivPerfil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/colorSecondary"
+        android:contentDescription="@string/imgProfile"
+        android:src="@drawable/ic_sin_imagen"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtNomPerfil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/source_sans_pro"
+        android:letterSpacing="0"
+        android:text="@string/nombreCompletoProfile"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/ivPerfil"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtCorreoPerfil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/source_sans_pro"
+        android:letterSpacing="0"
+        android:text="@string/CorreoProfile"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/ivPerfil"
+        app:layout_constraintTop_toBottomOf="@+id/tvNomPerfil" />
+
+    <TextView
+        android:id="@+id/txtTelPerfil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/source_sans_pro"
+        android:letterSpacing="0"
+        android:text="@string/telefonosProfile"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/ivPerfil"
+        app:layout_constraintTop_toBottomOf="@+id/tvCorreoPerfil" />
+
+    <TextView
+        android:id="@+id/tvNomPerfil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/source_sans_pro"
+        android:letterSpacing="0"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/ivPerfil"
+        app:layout_constraintTop_toBottomOf="@+id/txtNomPerfil" />
+
+    <TextView
+        android:id="@+id/tvCorreoPerfil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/source_sans_pro"
+        android:letterSpacing="0"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/ivPerfil"
+        app:layout_constraintTop_toBottomOf="@+id/txtCorreoPerfil" />
+
+    <TextView
+        android:id="@+id/tvTelPerfil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/source_sans_pro"
+        android:letterSpacing="0"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/ivPerfil"
+        app:layout_constraintTop_toBottomOf="@+id/txtTelPerfil" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

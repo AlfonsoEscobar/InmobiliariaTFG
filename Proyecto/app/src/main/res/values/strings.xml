@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">InmobiliariaTFG</string>
+    <!-- Strings de activity_Drawer_Activity -->
+    <string name="navigation_drawer_open">Open Navigation drawer</string>
+    <string name="navigation_drawer_close">Close Navigation drawer</string>
+    <!-- Strings de activity_login_screen -->
+    <string name="CorreoLogin">Correo</string>
+    <string name="passLogin">Contraseña</string>
+    <string name="buttonLogin">Acceder</string>
+    <string name="buttonRegister">Registrarse</string>
+    <string name="TextLoginRegister">¿Todavía no estas registrado?</string>
+    <!-- Strings de activity_user_profile -->
+    <string name="nombreCompletoProfile">Nombre completo:</string>
+    <string name="CorreoProfile">Correo:</string>
+    <string name="telefonosProfile">Telefono/os:</string>
+    <string name="imgProfile">imgProfile</string>
+    <!-- Strings de activity_main_menu -->
+    <string name="checkComprar">Comprar</string>
+    <string name="checkAlquilar">Alquilar</string>
+    <string name="Provincia">Provincia</string>
+    <string name="localidad">Localidad</string>
+    <string name="Calle">Calle</string>
+    <string name="buscar">Buscar</string>
+    <string name="imgpincipal">imgPincipal</string>
+    <!-- Strings de activity_access_error -->
+    <string name="textError">No puedes acceder al sitio especificado,\npor favor inicie sesion.</string>
+    <string name="btnLoginError">Iniciar sesion</string>
+    <!-- Strings de activity_register -->
+    <string name="CorreoRegister">Correo:</string>
+    <string name="PassRegister">Contraseña:</string>
+    <string name="TelefonosRegister">Telefonos:</string>
+    <string name="NombreRegister">Nombre Completo:</string>
+    <string name="OpcionalTelRegister">(opcional)</string>
+    <string name="AnotherPassRegister">introduce otra vez la contraseña:</string>
+    <string name="btnRegister">Confirmar</string>
+    <string name="introduceRegistro">Introduce:</string>
+    <string name="asterisco">*</string>
+    <!-- Strings de activity_register -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
