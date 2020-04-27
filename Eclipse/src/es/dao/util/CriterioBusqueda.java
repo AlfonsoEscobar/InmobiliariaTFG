@@ -1,5 +1,12 @@
 package es.dao.util;
 
+import es.dao.util.enums.Equipamiento;
+import es.dao.util.enums.Exteriores;
+import es.dao.util.enums.TipoEdificacion;
+import es.dao.util.enums.TipoEnteros;
+import es.dao.util.enums.TipoObra;
+import es.dao.util.enums.TiposBooleanos;
+
 public class CriterioBusqueda {
 	private String clausula;
 	/*private double metro2_min;
