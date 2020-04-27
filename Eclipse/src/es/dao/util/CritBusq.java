@@ -1,5 +1,10 @@
 package es.dao.util;
 
+import es.dao.util.enums.Equipamiento;
+import es.dao.util.enums.Exteriores;
+import es.dao.util.enums.TipoEdificacion;
+import es.dao.util.enums.TipoObra;
+
 public class CritBusq {
 	private double metros2_min;
 	private double metros2_max;

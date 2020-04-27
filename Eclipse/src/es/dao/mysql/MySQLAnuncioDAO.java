@@ -135,9 +135,10 @@ public class MySQLAnuncioDAO implements AnuncioDAO {
 		int mes = fecha.get(Calendar.MONTH);
 		int dia = fecha.get(Calendar.DAY_OF_MONTH);
 		Date fecha_hoy = new Date(ano, mes, dia);
+		java.sql.Date date2 = new java.sql.Date(fecha_hoy.getTime());
 		try {
 			stat = conexion.prepareStatement(UPDATEDATE);
-			stat.setDate(1, fecha_hoy);
+			stat.setDate(1, date2);
 			stat.setInt(2, id);
 			stat.setString(3, tipo_anuncio);
 			filasActualizadas = stat.executeUpdate();
@@ -242,6 +243,7 @@ public class MySQLAnuncioDAO implements AnuncioDAO {
 
 	}
 
+	/*
 	// A este método solo lo llamaremos con la lista de ids de inmuebles que
 	// previamente han sido filtrados por localidad y por tipo_anuncio.
 	// Es decir, al método le otorgamos una lista con los id de inmuebles que pasan
@@ -410,7 +412,7 @@ public class MySQLAnuncioDAO implements AnuncioDAO {
 
 		lista = obtenerIdsCoincidentes(id_anuncios, id_inmuebles);
 		return lista;
-	}
+	}*/
 
 	
 

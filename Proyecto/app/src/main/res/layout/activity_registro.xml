@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegistroActivity">
+
+    <Button
+        android:id="@+id/btnBuscar2"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="92dp"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/ic_button"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etCorreoRegistro7"
+        tools:text="@string/btnRegister" />
+
+    <EditText
+        android:id="@+id/etCorreoRegistro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/ic_plaintext_gris"
+        android:ems="10"
+        android:hint="@string/introduceRegistro"
+        android:inputType="textPersonName"
+        android:textColor="#8B8B8B"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtCorreoRegistro" />
+
+    <EditText
+        android:id="@+id/etNomRegistro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/ic_plaintext_gris"
+        android:ems="10"
+        android:hint="@string/introduceRegistro"
+        android:inputType="textPersonName"
+        android:textColor="#8B8B8B"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtNomRegistro" />
+
+    <EditText
+        android:id="@+id/etTelRegistro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/ic_plaintext_gris"
+        android:ems="10"
+        android:hint="@string/introduceRegistro"
+        android:inputType="textPersonName"
+        android:textColor="#8B8B8B"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtTelRegistro" />
+
+    <EditText
+        android:id="@+id/etTelOpRegistro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/ic_plaintext_gris"
+        android:ems="10"
+        android:hint="@string/introduceRegistro"
+        android:inputType="textPersonName"
+        android:textColor="#8B8B8B"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etTelRegistro" />
+
+    <EditText
+        android:id="@+id/etPassRegistro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/ic_plaintext_gris"
+        android:ems="10"
+        android:hint="@string/introduceRegistro"
+        android:inputType="textPersonName"
+        android:textColor="#8B8B8B"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtPassRegistro" />
+
+    <EditText
+        android:id="@+id/etCorreoRegistro7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/ic_plaintext_gris"
+        android:ems="10"
+        android:hint="@string/introduceRegistro"
+        android:inputType="textPersonName"
+        android:textColor="#8B8B8B"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtNomRegistro12" />
+
+    <TextView
+        android:id="@+id/txtCorreoRegistro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/source_sans_pro"
+        android:letterSpacing="0"
+        android:text="@string/CorreoRegister"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtNomRegistro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="25dp"
+        android:fontFamily="@font/source_sans_pro"
+        android:letterSpacing="0"
+        android:text="@string/nombreCompletoProfile"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etCorreoRegistro" />
+
+    <TextView
+        android:id="@+id/txtTelRegistro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="25dp"
+        android:fontFamily="@font/source_sans_pro"
+        android:letterSpacing="0"
+        android:text="@string/TelefonosRegister"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etNomRegistro" />
+
+    <TextView
+        android:id="@+id/txtOpcionalRegistro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/source_sans_pro"
+        android:letterSpacing="0"
+        android:text="@string/OpcionalTelRegister"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/etTelOpRegistro"
+        app:layout_constraintTop_toBottomOf="@+id/etTelRegistro" />
+
+    <TextView
+        android:id="@+id/txtPassRegistro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/source_sans_pro"
+        android:letterSpacing="0"
+        android:text="@string/PassRegister"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etTelOpRegistro" />
+
+    <TextView
+        android:id="@+id/txtNomRegistro12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/source_sans_pro"
+        android:letterSpacing="0"
+        android:text="@string/AnotherPassRegister"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etPassRegistro" />
+
+    <TextView
+        android:id="@+id/txtAsterisco1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="15dp"
+        android:text="@string/asterisco"
+        android:textColor="#BC1818"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/etCorreoRegistro"
+        app:layout_constraintTop_toBottomOf="@+id/txtCorreoRegistro" />
+
+    <TextView
+        android:id="@+id/txtAsterisco2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="15dp"
+        android:text="@string/asterisco"
+        android:textColor="#BC1818"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/etNomRegistro"
+        app:layout_constraintTop_toBottomOf="@+id/txtNomRegistro" />
+
+    <TextView
+        android:id="@+id/txtAsterisco3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="15dp"
+        android:text="@string/asterisco"
+        android:textColor="#BC1818"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/etTelRegistro"
+        app:layout_constraintTop_toBottomOf="@+id/txtTelRegistro" />
+
+    <TextView
+        android:id="@+id/txtAsterisco4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="15dp"
+        android:text="@string/asterisco"
+        android:textColor="#BC1818"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/etCorreoRegistro7"
+        app:layout_constraintTop_toTopOf="@+id/etCorreoRegistro7" />
+
+    <TextView
+        android:id="@+id/txtAsterisco"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="15dp"
+        android:text="@string/asterisco"
+        android:textColor="#BC1818"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/etPassRegistro"
+        app:layout_constraintTop_toBottomOf="@+id/txtPassRegistro" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
