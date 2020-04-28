@@ -154,8 +154,8 @@ public class ServicioAnuncio {
 		
 		try {
 			
-			String busquedaSQL = criterio.criterioSQL();
-			listaAnuncio = claseAnuncio.listaInfoAnunciosCriterio(busquedaSQL);
+			
+			listaAnuncio = claseAnuncio.listaInfoAnunciosCriterio(criterio);
 			
 		} catch (DAOException e) {
 			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
@@ -177,7 +177,7 @@ public class ServicioAnuncio {
 	@PUT
 	@Path("/{id_anuncio}")
 	@Consumes(APPLICATION_JSON)
-	public Response putAnuncio(@PathParam("id_anuncio") String id_inmueble, Anuncio anuncio) {
+	public Response putAnuncio(@PathParam("id_anuncio") int id_inmueble, Anuncio anuncio) {
 		
 		claseAnuncio = new MySQLAnuncioDAO(dataSource);
 		
@@ -186,7 +186,7 @@ public class ServicioAnuncio {
 		
 		try {
 			
-			filasModificadas = claseAnuncio.modificar(id_inmueble, anuncio);
+			filasModificadas = claseAnuncio.modificar(id_inmueble, anuncio.getTipo_anuncio(), anuncio.getPrecio());
 			
 		} catch (DAOException e) {
 			respuesta = Response.Status.INTERNAL_SERVER_ERROR;

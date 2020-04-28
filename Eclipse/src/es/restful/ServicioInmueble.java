@@ -22,6 +22,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import es.dao.DAOException;
+import es.dao.mysql.MySQLAnuncioDAO;
 import es.dao.mysql.MySQLInmuebleDAO;
 import es.modelos.Inmueble;
 
@@ -97,6 +98,7 @@ public class ServicioInmueble {
 	public Response putInmueble(@PathParam("id_inmueble") int id, Inmueble inmueble) {
 		
 		claseInmueble = new MySQLInmuebleDAO(dataSource);
+		MySQLAnuncioDAO claseAnuncio = new MySQLAnuncioDAO(dataSource);
 		
 		Response.Status respuesta = Response.Status.OK;
 		int filasModificadas = 0;
@@ -104,6 +106,7 @@ public class ServicioInmueble {
 		try {
 			
 			filasModificadas = claseInmueble.modificar(id, inmueble);
+			claseAnuncio.actualizarFecha(id);
 			
 		} catch (DAOException e) {
 			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
