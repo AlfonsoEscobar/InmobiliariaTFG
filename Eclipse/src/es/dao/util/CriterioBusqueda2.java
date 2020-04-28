@@ -1,4 +1,4 @@
-package es.restful;
+package es.dao.util;
 
 import java.sql.Date;
 

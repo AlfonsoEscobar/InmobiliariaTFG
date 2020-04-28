@@ -24,6 +24,7 @@ import javax.ws.rs.core.UriInfo;
 
 import es.dao.DAOException;
 import es.dao.mysql.MySQLAnuncioDAO;
+import es.dao.util.CriterioBusqueda2;
 import es.dao.util.InfoAnuncio;
 import es.modelos.Anuncio;
 
