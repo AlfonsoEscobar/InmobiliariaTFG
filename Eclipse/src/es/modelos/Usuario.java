@@ -11,9 +11,8 @@ public class Usuario {
 	private byte[] imagen_perfil;
 	
 	public Usuario() {
-		
 	}
-	
+
 	public Usuario(String correo, String contrasena, String nombre, String telefono1,
 					String telefono2, byte[] imagen_perfil) {
 		this.correo = correo;

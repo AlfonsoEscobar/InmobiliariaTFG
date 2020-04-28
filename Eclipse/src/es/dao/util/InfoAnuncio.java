@@ -7,6 +7,7 @@ import es.modelos.Inmueble;
 public class InfoAnuncio {
 	private int id_inmueble;
 	private double precio;
+	private String tipo_anuncio;
 	private Date fecha_anunciado;
 	private Date fecha_ultima_actualizacion;
 	private Inmueble inmueble;
@@ -36,6 +37,14 @@ public class InfoAnuncio {
 
 	public void setPrecio(double precio) {
 		this.precio = precio;
+	}
+	
+	public String getTipo_anuncio() {
+		return tipo_anuncio;
+	}
+	
+	public void setTipo_anuncio(String tipo_anuncio) {
+		this.tipo_anuncio = tipo_anuncio;
 	}
 	
 	public Date getFeha_anunciado() {
