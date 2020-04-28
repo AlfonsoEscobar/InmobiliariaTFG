@@ -65,67 +65,6 @@ public class ServicioFotografia {
 	}
 	
 	
-	@GET
-	@Path("/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getFotografia2(@PathParam("id") int id){
-		
-		claseFotografia = new MySQLFotografiaDAO(dataSource);
-		
-		Response.Status respuesta = Response.Status.OK;
-		
-		List<Fotografia> listaFotografia = new LinkedList<>();
-		
-		try {
-			
-			listaFotografia = claseFotografia.obtenerPorID(id);
-			
-		} catch (DAOException e) {
-			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
-		}
-		
-		
-		
-		if(listaFotografia.isEmpty()) {
-			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
-		}
-		
-		
-		if (respuesta == Response.Status.OK)
-			return Response.ok(listaFotografia).build();
-		else
-			return Response.status(respuesta).build();
-		
-	}
-	
-	
-	
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response postFotografia(@Context UriInfo uriInfo, Fotografia foto) {
-		
-		claseFotografia = new MySQLFotografiaDAO(dataSource);
-		
-		Response.Status respuestas = Response.Status.OK;
-		int filasModificadas = 0;
-		
-		try {
-			
-			filasModificadas = claseFotografia.insertar(foto);
-			
-		} catch (DAOException e) {
-			respuestas = Response.Status.INTERNAL_SERVER_ERROR;
-		}
-			
-		if (filasModificadas == 0){
-			respuestas = Response.Status.NOT_FOUND;
-		}
-		
-		return Response.status(respuestas).build();
-		
-	}
-	
-	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response postFotografia2(@Context UriInfo uriInfo, Fotografia foto) {
