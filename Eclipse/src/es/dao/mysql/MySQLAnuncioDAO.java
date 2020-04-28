@@ -5,15 +5,11 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.LinkedList;
 
 import javax.sql.DataSource;
-
-import com.sun.research.ws.wadl.Link;
 
 import es.dao.AnuncioDAO;
 import es.dao.DAOException;
@@ -28,7 +24,7 @@ public class MySQLAnuncioDAO implements AnuncioDAO {
 
 	final String DELETE = "DELETE FROM anuncio WHERE id_inmueble = ? and tipo_anuncio = ?";
 
-	final String UPDATE = "UPDATE anuncio SET precio = ? " + "WHERE id_inmueble = ? and tipo_anuncio = ?";
+	final String UPDATE = "UPDATE anuncio SET precio = ?, fecha_ultima_actualizacion = ? " + "WHERE id_inmueble = ? and tipo_anuncio = ?";
 
 	final String UPDATEDATE = "UPDATE anuncio SET fecha_ultima_actualizacion = ? "
 			+ "WHERE id_inmueble = ? and tipo_anuncio = ?";
@@ -61,7 +57,7 @@ public class MySQLAnuncioDAO implements AnuncioDAO {
 	}
 
 	/*
-	 * FUNCIONA
+	 * FUNCIONA ANTES DE LAS FECHAS. PROBAR CON ELLAS
 	 */
 	@Override
 	public int insertar(Anuncio anuncio) throws DAOException {
@@ -75,8 +71,8 @@ public class MySQLAnuncioDAO implements AnuncioDAO {
 			stat.setInt(1, anuncio.getId_inmueble());
 			stat.setString(2, anuncio.getTipo_anuncio());
 			stat.setDouble(3, anuncio.getPrecio());
-			// stat.setString(4, null);//(Date) anuncio.getFecha_anuncio());
-			// stat.setString(5, null);//(Date) anuncio.getFecha_ultima_actualizacion());
+			stat.setDate(4, (java.sql.Date) anuncio.getFecha_anuncio());
+			stat.setDate(5,(java.sql.Date) anuncio.getFecha_ultima_actualizacion());
 
 			filasInsertadas = stat.executeUpdate();
 
@@ -107,11 +103,16 @@ public class MySQLAnuncioDAO implements AnuncioDAO {
 	public int modificar(int id, String tipo_anuncio, double nuevoPrecio) throws DAOException {
 		PreparedStatement stat = null;
 		int filasModificadas = 0;
+		java.util.Date dateUtil = new java.util.Date();
+		SimpleDateFormat plantilla = new SimpleDateFormat("dd/MM/yyyy");
+		plantilla.format(dateUtil);
+		java.sql.Date dateSql = new java.sql.Date(dateUtil.getTime());
 		try {
 			stat = conexion.prepareStatement(UPDATE);
 			stat.setDouble(1, nuevoPrecio);
-			stat.setInt(2, id);
-			stat.setString(3, tipo_anuncio);
+			stat.setDate(2, dateSql);
+			stat.setInt(3, id);
+			stat.setString(4, tipo_anuncio);
 			filasModificadas = stat.executeUpdate();
 		} catch (SQLException ex) {
 			throw new DAOException("Error en SQL", ex);
@@ -130,15 +131,13 @@ public class MySQLAnuncioDAO implements AnuncioDAO {
 	public int actualizarFecha(int id, String tipo_anuncio) throws DAOException {
 		PreparedStatement stat = null;
 		int filasActualizadas = 0;
-		Calendar fecha = new GregorianCalendar();
-		int ano = fecha.get(Calendar.YEAR);
-		int mes = fecha.get(Calendar.MONTH);
-		int dia = fecha.get(Calendar.DAY_OF_MONTH);
-		Date fecha_hoy = new Date(ano, mes, dia);
-		java.sql.Date date2 = new java.sql.Date(fecha_hoy.getTime());
+		java.util.Date dateUtil = new java.util.Date();
+		SimpleDateFormat plantilla = new SimpleDateFormat("dd/MM/yyyy");
+		plantilla.format(dateUtil);
+		java.sql.Date dateSql = new java.sql.Date(dateUtil.getTime());
 		try {
 			stat = conexion.prepareStatement(UPDATEDATE);
-			stat.setDate(1, date2);
+			stat.setDate(1, dateSql);
 			stat.setInt(2, id);
 			stat.setString(3, tipo_anuncio);
 			filasActualizadas = stat.executeUpdate();
