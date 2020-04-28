@@ -72,7 +72,7 @@ public class ServicioAnuncio {
 	public Response getAnuncioT(@Context UriInfo uriInfo){
 		
 		claseAnuncio = new MySQLAnuncioDAO(dataSource);
-		CriterioBusqueda criterio = new CriterioBusqueda();
+		CriterioBusqueda2 criterio = new CriterioBusqueda2();
 		
 		Response.Status respuesta = Response.Status.OK;
 		List<InfoAnuncio> listaAnuncio = null;

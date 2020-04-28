@@ -2,7 +2,7 @@ package es.restful;
 
 import java.sql.Date;
 
-public class CriterioBusqueda {
+public class CriterioBusqueda2 {
 
 	private String localidad;
 	private String calle;
@@ -36,11 +36,11 @@ public class CriterioBusqueda {
 	private Date fecha_ultima_actualizacion;
 
 	
-	public CriterioBusqueda() {
+	public CriterioBusqueda2() {
 		
 	}
 	
-	public CriterioBusqueda(String localidad, String tipo_anuncio) {
+	public CriterioBusqueda2(String localidad, String tipo_anuncio) {
 
 		this.localidad = localidad;
 		this.tipo_anuncio = tipo_anuncio;
