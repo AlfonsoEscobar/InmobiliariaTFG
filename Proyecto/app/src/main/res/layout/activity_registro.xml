@@ -13,6 +13,7 @@
         android:layout_marginStart="92dp"
         android:layout_marginTop="80dp"
         android:background="@drawable/ic_button"
+        android:onClick="Pulsame2"
         android:text="@string/btnRegister"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"

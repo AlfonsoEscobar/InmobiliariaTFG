@@ -18,7 +18,7 @@ public class InfoUsuario {
     @SerializedName("telefono1")
     @Expose
     private String telefono1;
-    /*@SerializedName("telefono2")
+    @SerializedName("telefono2")
     @Expose
     private String telefono2;
     @SerializedName("inmuebles")
@@ -27,7 +27,7 @@ public class InfoUsuario {
     @SerializedName("anuncios")
     @Expose
     private LinkedList<Anuncio> anuncios;
-    @SerializedName("favoritos")
+   /* @SerializedName("favoritos")
     @Expose
     private LinkedList<Favorito> favoritos;*/
 
@@ -35,16 +35,16 @@ public class InfoUsuario {
     }
 
     public InfoUsuario(String nombreUsuario, String correoUsuario, String telefono1, String telefono2,
-                       int id_usuario, LinkedList<Inmueble> inmuebles, LinkedList<Anuncio> anuncios, LinkedList<Favorito> favoritos) {
+                       int id_usuario, LinkedList<Inmueble> inmuebles, LinkedList<Anuncio> anuncios/*, LinkedList<Favorito> favoritos*/) {
         super();
         this.nombreUsuario = nombreUsuario;
         this.correoUsuario = correoUsuario;
         this.id_usuario = id_usuario;
         this.telefono1 = telefono1;
-        //this.telefono2 = telefono2;
-        /*this.inmuebles = inmuebles;
+        this.telefono2 = telefono2;
+        this.inmuebles = inmuebles;
         this.anuncios = anuncios;
-        this.favoritos = favoritos;*/
+        //this.favoritos = favoritos;
     }
 
     public String getNombreUsuario() {
@@ -79,15 +79,15 @@ public class InfoUsuario {
         this.telefono1 = telefono1;
     }
 
-    /*public String getTelefono2() {
+    public String getTelefono2() {
         return telefono2;
     }
 
     public void setTelefono2(String telefono2) {
         this.telefono2 = telefono2;
-    }*/
+    }
 
-    /*public LinkedList<Inmueble> getInmuebles() {
+    public LinkedList<Inmueble> getInmuebles() {
         return inmuebles;
     }
 
@@ -103,7 +103,7 @@ public class InfoUsuario {
         this.anuncios = anuncios;
     }
 
-    public LinkedList<Favorito> getFavoritos() {
+    /*public LinkedList<Favorito> getFavoritos() {
         return favoritos;
     }
 

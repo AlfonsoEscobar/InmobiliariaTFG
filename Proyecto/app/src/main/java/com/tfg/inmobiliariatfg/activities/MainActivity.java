@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
 import com.google.android.material.navigation.NavigationView;
 import com.tfg.inmobiliariatfg.R;
@@ -87,8 +86,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    public void pulsable(View v){
+    public void pulsable(View v) {
         Intent detail = new Intent(this, RegistroActivity.class);
         this.startActivity(detail);
+
     }
 }

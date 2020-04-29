@@ -10,22 +10,17 @@ import android.widget.Toast;
 
 import com.tfg.inmobiliariatfg.R;
 import com.tfg.inmobiliariatfg.modelos.InfoUsuario;
-import com.tfg.inmobiliariatfg.modelos.Usuario;
-import com.tfg.inmobiliariatfg.utiles.RegistroService;
+import com.tfg.inmobiliariatfg.utiles.DiagnosticVetApiAdapter;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RegistroActivity extends AppCompatActivity {
 
     private EditText etCorreoRegistro, etNomRegistro, etTelRegistro,
             etTelOpRegistro, etPassRegistro, etPass2Registro;
     private Button btnConfirmarRegistro;
-
-    RegistroService service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,32 +35,24 @@ public class RegistroActivity extends AppCompatActivity {
         etPass2Registro = (EditText) findViewById(R.id.etPass2Registro);
         btnConfirmarRegistro = (Button) findViewById(R.id.btnConfirmarRegistro);
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://405b8624.ngrok.io/Restful_Inmo/servicios/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        service = retrofit.create(RegistroService.class);
-
-        btnConfirmarRegistro.setOnClickListener(new View.OnClickListener() {
+        Call<InfoUsuario> call = DiagnosticVetApiAdapter.getApiService().getUsuario("alfonso@gmail.es","alfonso123");
+        call.enqueue(new Callback<InfoUsuario>() {
             @Override
-            public void onClick(View v) {
-                String Correo = etCorreoRegistro.getText().toString();
-                String Pass = etPassRegistro.getText().toString();
-                Call<InfoUsuario> call = service.getUsuario(Pass);
+            public void onResponse(Call<InfoUsuario> call, Response<InfoUsuario> response) {
+                if (response.isSuccessful()){
+                    InfoUsuario infoUsuario = response.body();
+                    Toast.makeText(getApplicationContext(),infoUsuario.getNombreUsuario(),Toast.LENGTH_LONG).show();
+                }
+            }
 
-                call.enqueue(new Callback<InfoUsuario>() {
-                    @Override
-                    public void onResponse(Call<InfoUsuario> call, Response<InfoUsuario> response) {
-                        InfoUsuario infoUsuario = response.body();
-                        etNomRegistro.setText(infoUsuario.getNombreUsuario());
-                    }
-                    @Override
-                    public void onFailure(Call<InfoUsuario> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(),"No",Toast.LENGTH_LONG).show();
-                    }
-                });
+            @Override
+            public void onFailure(Call<InfoUsuario> call, Throwable t) {
+                Toast.makeText(getApplicationContext(),"la conexion no se ha producido",Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    public void Pulsame2(View v) {
+
     }
 }
