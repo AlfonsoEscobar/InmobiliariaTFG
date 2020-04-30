@@ -34,6 +34,8 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 	
 	final String GETALL = "SELECT * FROM inmueble";
 	
+	final String GETPROPIETARIO = "SELECT * FROM inmueble WHERE propietario = ?";
+	
 	final String IDMAX = "SELECT MAX(id_inmueble) FROM inmueble";
 	
 	final String INFOINMUEBLES = "SELECT * FROM inmueble WHERE propietario = ?";
@@ -178,9 +180,43 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 	}
 
 	@Override
-	public List<Inmueble> obtenerPorParametro(Integer value) throws DAOException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Inmueble> obtenerPorParametro(Integer propietario) throws DAOException {
+		PreparedStatement stat = null;
+		ResultSet rs = null;
+		List <Inmueble> inmuebles = new LinkedList<>();
+		
+		try {
+			
+			stat = conexion.prepareStatement(GETPROPIETARIO);
+			stat.setInt(1, propietario);
+			rs = stat.executeQuery();
+			
+			while(rs.next()) {
+				
+				inmuebles.add(convertir(rs));
+				
+			}
+			
+		}catch(SQLException ex){
+			throw new DAOException("Error en SQL", ex);
+		}finally {
+			if(rs != null) {
+				try {
+					rs.close();
+				}catch(SQLException ex) {
+					throw new DAOException("Error en SQL", ex);
+				}
+			}
+			if(stat != null) {
+				try {
+					stat.close();
+				}catch(SQLException ex) {
+					throw new DAOException("Error en SQL", ex);
+				}
+			}
+			
+		}
+		return inmuebles;
 	}
 	
 	public List<Inmueble> obtenerPorParametro(String value) throws DAOException {
