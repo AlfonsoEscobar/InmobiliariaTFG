@@ -1,4 +1,4 @@
-package com.tfg.inmobiliariatfg;
+package com.tfg.inmobiliariatfg.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -7,10 +7,19 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.material.navigation.NavigationView;
+import com.tfg.inmobiliariatfg.R;
+import com.tfg.inmobiliariatfg.fragments.AnunciosFragment;
+import com.tfg.inmobiliariatfg.fragments.BuscadorFragment;
+import com.tfg.inmobiliariatfg.fragments.RecyclerViewFavoritosFragment;
+import com.tfg.inmobiliariatfg.fragments.InmueblesFragment;
+import com.tfg.inmobiliariatfg.fragments.PerfilFragment;
+
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
@@ -52,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_favoritos:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new FavoritosFragment()).commit();
+                        new RecyclerViewFavoritosFragment()).commit();
                 break;
             case R.id.nav_inmuebles:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
@@ -75,5 +84,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             super.onBackPressed();
         }
+    }
+
+    public void pulsable(View v) {
+        Intent detail = new Intent(this, RegistroActivity.class);
+        this.startActivity(detail);
+
     }
 }

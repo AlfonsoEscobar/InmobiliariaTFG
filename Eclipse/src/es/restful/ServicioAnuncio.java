@@ -70,7 +70,7 @@ public class ServicioAnuncio {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAnuncioT(@Context UriInfo uriInfo){
+	public Response getAnuncioCriterios(@Context UriInfo uriInfo){
 		
 		claseAnuncio = new MySQLAnuncioDAO(dataSource);
 		CriterioBusqueda2 criterio = new CriterioBusqueda2();

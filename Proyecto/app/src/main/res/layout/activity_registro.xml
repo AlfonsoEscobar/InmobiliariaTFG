@@ -4,19 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegistroActivity">
+    tools:context=".activities.RegistroActivity">
 
     <Button
-        android:id="@+id/btnBuscar2"
+        android:id="@+id/btnConfirmarRegistro"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="92dp"
         android:layout_marginTop="80dp"
         android:background="@drawable/ic_button"
+        android:onClick="Pulsame2"
+        android:text="@string/btnRegister"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etCorreoRegistro7"
-        tools:text="@string/btnRegister" />
+        app:layout_constraintTop_toBottomOf="@+id/etPass2Registro" />
 
     <EditText
         android:id="@+id/etCorreoRegistro"
@@ -89,7 +90,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txtPassRegistro" />
 
     <EditText
-        android:id="@+id/etCorreoRegistro7"
+        android:id="@+id/etPass2Registro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -234,8 +235,8 @@
         android:textColor="#BC1818"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/etCorreoRegistro7"
-        app:layout_constraintTop_toTopOf="@+id/etCorreoRegistro7" />
+        app:layout_constraintStart_toEndOf="@+id/etPass2Registro"
+        app:layout_constraintTop_toTopOf="@+id/etPass2Registro" />
 
     <TextView
         android:id="@+id/txtAsterisco"

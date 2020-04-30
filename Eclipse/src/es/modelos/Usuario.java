@@ -12,6 +12,15 @@ public class Usuario {
 	
 	public Usuario() {
 	}
+	
+	public Usuario(String correo, String nombre, String telefono1,
+			String telefono2, byte[] imagen_perfil) {
+		this.correo = correo;
+		this.nombre = nombre;
+		this.telefono1 = telefono1;
+		this.telefono2 = telefono2;
+		this.imagen_perfil = imagen_perfil;
+	}
 
 	public Usuario(String correo, String contrasena, String nombre, String telefono1,
 					String telefono2, byte[] imagen_perfil) {
@@ -21,7 +30,6 @@ public class Usuario {
 		this.telefono1 = telefono1;
 		this.telefono2 = telefono2;
 		this.imagen_perfil = imagen_perfil;
-		//this.id_usuario = 0;//Lo asignaremos cuando vayamos a insertarlo en la base de datos
 	}
 	
 	public String getCorreo() {

@@ -1,6 +1,5 @@
 package es.restful;
 
-
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -29,9 +28,8 @@ public class ServicioFavorito {
 	
 	@Inject
 	private DataSource dataSource;
-	
+
 	MySQLFavoritoDAO claseFavorito;
-	
 	
 	@GET
 	@Path("/{id_usuario}")
@@ -177,7 +175,5 @@ public class ServicioFavorito {
 		return Response.status(respuesta).build();
 		
 	}
-	
-	
 	
 }
