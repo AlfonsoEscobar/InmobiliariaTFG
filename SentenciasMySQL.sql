@@ -3,6 +3,36 @@ CREATE database inmobiliaria;
 
 use inmobiliaria;
 
+CREATE TABLE `tipo_habitacion`(
+  `id_habitacion` int AUTO_INCREMENT,
+  `tipo` varchar(20),
+  CONSTRAINT 'pk_tipo_habitacion' PRIMARY KEY (`id_habitacion`)
+)ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `escalera`(
+  `id_escalera` int AUTO_INCREMENT,
+  `tipo` varchar(20),
+  CONSTRAINT 'pk_escalera' PRIMARY KEY (`id_escalera`)
+)ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `tipo_edificacion`(
+  `id_edificacion` int AUTO_INCREMENT,
+  `tipo` varchar(20),
+  CONSTRAINT 'pk_tipo_edificacion' PRIMARY KEY (`id_edificacion`)
+)ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `exteriores`(
+  `id_exterior` int AUTO_INCREMENT,
+  `tipo_exterior` varchar(20),
+  CONSTRAINT 'pk_exteriores' PRIMARY KEY (`id_exterior`)
+)ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `tipo_obra`(
+  `id_obra` int AUTO_INCREMENT,
+  `tipo` varchar(20),
+  CONSTRAINT 'pk_tipo_obra' PRIMARY KEY (`id_obra`)
+)ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 CREATE TABLE `usuario` (
   `correo` varchar(40),
   `contrasena` varchar(64) NOT NULL,
@@ -13,7 +43,7 @@ CREATE TABLE `usuario` (
   `imagen_perfil` mediumblob,
   CONSTRAINT 'pk_usuario' PRIMARY KEY (`correo`),
   CONSTRAINT `un_usuario_id_usuario` UNIQUE KEY (`id_usuario`)
-) ENGINE=InnoDB DEFAULT 	CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `inmueble` (
   `provincia` varchar(25),

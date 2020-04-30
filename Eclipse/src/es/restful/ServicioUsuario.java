@@ -18,7 +18,6 @@ import javax.ws.rs.core.UriInfo;
 
 import es.dao.DAOException;
 import es.dao.mysql.MySQLUsuarioDAO;
-import es.dao.util.InfoUsuario;
 import es.modelos.Usuario;
 
 
@@ -41,14 +40,12 @@ public class ServicioUsuario {
 
 		Response.Status respuesta = Response.Status.OK;
 		Usuario usuario = null;
-		InfoUsuario info = new InfoUsuario();
 
 		try {
 			
 			if(claseUsuario.verificarUsuarioEnBase(correo, contrasena)) {
 				
 				usuario = claseUsuario.obtener(correo);
-				info = claseUsuario.obtenerInfoUsuario(usuario.getId_usuario());
 				
 			}
 			
@@ -60,7 +57,7 @@ public class ServicioUsuario {
 		}
 		
 		if (respuesta == Response.Status.OK) {
-			return Response.ok(info).build();
+			return Response.ok(usuario).build();
 		}else {
 			return Response.status(respuesta).build();
 		}

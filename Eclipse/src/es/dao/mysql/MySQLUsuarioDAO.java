@@ -12,7 +12,6 @@ import javax.sql.DataSource;
 
 import es.dao.DAOException;
 import es.dao.UsuarioDAO;
-import es.dao.util.InfoUsuario;
 import es.modelos.Anuncio;
 import es.modelos.Favorito;
 import es.modelos.Inmueble;
@@ -38,8 +37,6 @@ public class MySQLUsuarioDAO implements UsuarioDAO {
 						+ "telefono2, imagen_perfil FROM usuario WHERE correo = ?";
 
 	final String INFOUSER = "SELECT correo, nombre, telefono1, telefono2 FROM usuario WHERE id_usuario = ?";
-
-	final String INFOINMUEBLES = "SELECT * FROM inmueble WHERE propietario = ?";
 
 	final String INFOANUNCIOS = "SELECT * FROM anuncio WHERE id_inmueble = "
 									+ "(SELECT id_inmueble FROM inmueble WHERE propietario = ?)";
@@ -241,133 +238,6 @@ public class MySQLUsuarioDAO implements UsuarioDAO {
 		}
 		return usuario;
 	}
-	
-	
-	//Para implementar este método he copiado los métodos de convertir de cada clase; 
-	//método que convierte en objetos Java fila de la base de datos.
-	
-	public InfoUsuario obtenerInfoUsuario (int id_usuario) throws DAOException {
-		
-		InfoUsuario infoUser = null;
-		PreparedStatement statUser = null, statInmu = null, statAnun = null , statFav = null;
-		ResultSet rsUser = null, rsInmu = null, rsAnun = null, rsFav = null;
-		String correo = "", nombre = "", telefono1 = "", telefono2 = "";
-		LinkedList<Inmueble> inmuebles = new LinkedList<Inmueble>();
-		LinkedList<Anuncio> anuncios = new LinkedList<Anuncio>();
-		LinkedList<Favorito> favoritos = new LinkedList<Favorito>();
-		
-		try {
-			
-			// Recibiendo el usuario
-			statUser = conexion.prepareStatement(INFOUSER);
-			statUser.setInt(1, id_usuario);
-			rsUser = statUser.executeQuery();
-			
-			if(rsUser.next()) {
-				correo = rsUser.getString("correo");
-				nombre = rsUser.getString("nombre");
-				telefono1 = rsUser.getString("telefono1");
-				telefono2 = rsUser.getString("telefono2");
-			}
-			
-			// Recibiendo los inmueble
-			statInmu = conexion.prepareStatement(INFOINMUEBLES);
-			statInmu.setInt(1, id_usuario);
-			rsInmu = statInmu.executeQuery();
-			
-			while(rsInmu.next()) {
-				inmuebles.add(convertirInmueble(rsInmu));
-			}
-			
-			//Recibiendo los anuncios
-			statAnun = conexion.prepareStatement(INFOANUNCIOS);
-			statAnun.setInt(1, id_usuario);
-			rsAnun = statAnun.executeQuery();
-			
-			while(rsAnun.next()) {
-				anuncios.add(convertirAnuncio(rsAnun));
-			}
-			
-			// Recibiendo los favoritos
-			statFav = conexion.prepareStatement(INFOFAVORITOS);
-			statFav.setInt(1, id_usuario);
-			rsFav = statFav.executeQuery();
-			
-			while(rsFav.next()) {
-				favoritos.add(convertirFavorito(rsFav));
-			}
-			
-			// Creando la clase
-			
-			infoUser = new InfoUsuario(nombre, correo, telefono1, telefono2, id_usuario,
-											inmuebles, anuncios, favoritos);
-		
-		}catch(SQLException ex){
-			throw new DAOException("Error en SQL", ex);
-		
-		//Cerrando todo a la base de datos
-		}finally {
-			if(rsUser != null) {
-				try {
-					rsUser.close();
-				}catch(SQLException ex) {
-					throw new DAOException("Error en SQL", ex);
-				}
-			}
-			if(statUser != null) {
-				try {
-					statUser.close();
-				}catch(SQLException ex) {
-					throw new DAOException("Error en SQL", ex);
-				}
-			}
-			if(rsInmu != null) {
-				try {
-					rsInmu.close();
-				}catch(SQLException ex) {
-					throw new DAOException("Error en SQL", ex);
-				}
-			}
-			if(statInmu != null) {
-				try {
-					statInmu.close();
-				}catch(SQLException ex) {
-					throw new DAOException("Error en SQL", ex);
-				}
-			}
-			if(rsAnun != null) {
-				try {
-					rsAnun.close();
-				}catch(SQLException ex) {
-					throw new DAOException("Error en SQL", ex);
-				}
-			}
-			if(statAnun != null) {
-				try {
-					statAnun.close();
-				}catch(SQLException ex) {
-					throw new DAOException("Error en SQL", ex);
-				}
-			}
-			if(rsFav != null) {
-				try {
-					rsFav.close();
-				}catch(SQLException ex) {
-					throw new DAOException("Error en SQL", ex);
-				}
-			}
-			if(statFav != null) {
-				try {
-					statFav.close();
-				}catch(SQLException ex) {
-					throw new DAOException("Error en SQL", ex);
-				}
-			}
-			
-		}
-		
-		return infoUser;
-	}
 
 	@Override
 	public List<Usuario> obtenerTodos() throws DAOException {
@@ -405,13 +275,12 @@ public class MySQLUsuarioDAO implements UsuarioDAO {
 
 	private Usuario convertir(ResultSet rs) throws SQLException {
 		String correo = rs.getString("correo");
-		String contrasena = rs.getString("contrasena");
 		int id_usuario = rs.getInt("id_usuario");
 		String nombre = rs.getString("nombre");
 		String telefono1 = rs.getString("telefono1");
 		String telefono2 = rs.getString("telefono2");
 		byte[] imagen_perfil = rs.getBytes("imagen_perfil");
-		Usuario usuario = new Usuario(correo, contrasena, nombre, telefono1, telefono2, imagen_perfil);
+		Usuario usuario = new Usuario(correo, nombre, telefono1, telefono2, imagen_perfil);
 		usuario.setId_usuario(id_usuario);
 		return usuario;
 	}

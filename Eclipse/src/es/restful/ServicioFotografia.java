@@ -67,7 +67,7 @@ public class ServicioFotografia {
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response postFotografia2(@Context UriInfo uriInfo, Fotografia foto) {
+	public Response postFotografia(@Context UriInfo uriInfo, Fotografia foto) {
 		
 		claseFotografia = new MySQLFotografiaDAO(dataSource);
 		

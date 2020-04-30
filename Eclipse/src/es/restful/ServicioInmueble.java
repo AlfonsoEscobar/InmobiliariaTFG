@@ -61,12 +61,11 @@ public class ServicioInmueble {
 		}else {
 			return Response.status(respuesta).build();
 		}
-		
 	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getInmuebleU(){
+	public Response getListaInmueble(){
 		
 		List<Inmueble> lista = new LinkedList<>();
 		

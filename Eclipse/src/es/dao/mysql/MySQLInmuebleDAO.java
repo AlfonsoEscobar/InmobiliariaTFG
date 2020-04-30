@@ -36,6 +36,8 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 	
 	final String IDMAX = "SELECT MAX(id_inmueble) FROM inmueble";
 	
+	final String INFOINMUEBLES = "SELECT * FROM inmueble WHERE propietario = ?";
+	
 	
 	private Connection conexion;
 	
@@ -248,36 +250,17 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 	@Override
 	public List<Inmueble> obtenerTodos() throws DAOException {
 		
-		//PreparedStatement stat = null;
-		
 		Statement stat = null;
 		ResultSet rs = null;
 		List <Inmueble> inmuebles = new LinkedList<>();
 		
 		try {
-		
-			//stat = conexion.prepareStatement(GETALL);
-			//rs = stat.executeQuery();
 			
 			stat = conexion.createStatement();
 			rs = stat.executeQuery(GETALL);
 			
 			while(rs.next()) {
 				
-				// De esta forma funciona aun que no estan puestos todos los parametros
-				
-				/*Inmueble inmueble = new Inmueble();
-				inmueble.setCalle(rs.getString("calle"));
-				inmueble.setLocalidad(rs.getString("localidad"));
-				inmueble.setProvincia(rs.getString("provincia"));
-				inmueble.setPiso(rs.getInt("piso"));
-				inmueble.setId_inmueble(rs.getInt("id_inmueble"));
-				inmueble.setMascotas(rs.getBoolean("mascotas"));
-				inmueble.setMetros2(rs.getDouble("metros2"));
-				
-				inmuebles.add(inmueble);*/
-				
-				// Asi no funciona
 				inmuebles.add(convertir(rs));
 				
 			}
@@ -337,40 +320,5 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 		
 		return inmueble;
 	}
-	
 
-	public int obtenerMaxId () throws DAOException {
-
-		PreparedStatement stat = null;
-		ResultSet rs = null;
-		int max = 0;
-		try {
-			stat = conexion.prepareStatement(GETALL);
-			rs = stat.executeQuery();
-			if(rs.next()) {
-				max = rs.getInt("id_usuario");
-			}else {
-				throw new DAOException ("No se ha encontrado ningún registro");
-			}
-		}catch(SQLException ex){
-			throw new DAOException("Error en SQL", ex);
-		}finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				}catch(SQLException ex) {
-					throw new DAOException("Error en SQL", ex);
-				}
-			}
-			if(stat != null) {
-				try {
-					stat.close();
-				}catch(SQLException ex) {
-					throw new DAOException("Error en SQL", ex);
-				}
-			}
-		}
-		return max;
-	}
-	
 }
