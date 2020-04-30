@@ -32,9 +32,9 @@ public class ServicioFotografia {
 	MySQLFotografiaDAO claseFotografia;
 	
 	@GET
-	@Path("/{tipo}")
+	@Path("/{id_inmueble}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getFotografia(@PathParam("tipo") String tipo){
+	public Response getFotografia(@PathParam("id_inmueble") int id){
 		
 		claseFotografia = new MySQLFotografiaDAO(dataSource);
 		
@@ -44,18 +44,15 @@ public class ServicioFotografia {
 		
 		try {
 			
-			listaFotografia = claseFotografia.obtenerPorParametro(tipo);
+			listaFotografia = claseFotografia.obtenerPorID(id);
 			
 		} catch (DAOException e) {
 			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
 		}
 		
-		
-		
 		if(listaFotografia.isEmpty()) {
 			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
 		}
-		
 		
 		if (respuesta == Response.Status.OK)
 			return Response.ok(listaFotografia).build();
@@ -65,7 +62,7 @@ public class ServicioFotografia {
 	}
 	
 	
-	@POST
+	/*@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response postFotografia(@Context UriInfo uriInfo, Fotografia foto) {
 		
@@ -87,6 +84,13 @@ public class ServicioFotografia {
 		}
 		
 		return Response.status(respuestas).build();
+		
+	}*/
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void postFotografia() {
+		
 		
 	}
 	

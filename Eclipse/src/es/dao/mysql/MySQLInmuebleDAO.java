@@ -52,9 +52,8 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 		}
 	}
 	
-	/*
-		FUNCIONA
-	*/
+
+
 	@Override
 	public int insertar(Inmueble inmueble) throws DAOException {
 		PreparedStatement stat = null;
@@ -101,9 +100,6 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 	}
 
 	
-	/*
-	 * FUNCIONA
-	 */
 	@Override
 	public int modificar(Integer id, Inmueble inmueble) throws DAOException {
 		
@@ -153,10 +149,7 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 	
 	}
 	
-	
-	/*
-	 * 	FUNCIONA
-	 */
+
 	@Override
 	public int eliminar(Integer id) throws DAOException {
 		PreparedStatement stat = null;
@@ -179,11 +172,12 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 		return filasEliminadas;
 	}
 
+	
 	@Override
 	public List<Inmueble> obtenerPorParametro(Integer propietario) throws DAOException {
 		PreparedStatement stat = null;
 		ResultSet rs = null;
-		List <Inmueble> inmuebles = new LinkedList<>();
+		List <Inmueble> inmuebles = new LinkedList<Inmueble>();
 		
 		try {
 			
@@ -225,9 +219,7 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 	}
 
 
-	/*
-	 *   FUNCIONA
-	 */
+
 	@Override
 	public Inmueble obtener(Integer id) throws DAOException {
 		
@@ -241,15 +233,6 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 			rs = stat.executeQuery();
 			
 			if(rs.next()) {
-				
-				/*inmueble.setCalle(rs.getString("calle"));
-				inmueble.setLocalidad(rs.getString("localidad"));
-				inmueble.setProvincia(rs.getString("provincia"));
-				inmueble.setPiso(rs.getInt("piso"));
-				inmueble.setId_inmueble(rs.getInt("id_inmueble"));
-				inmueble.setMascotas(rs.getBoolean("mascotas"));
-				inmueble.setMetros2(rs.getDouble("metros2"));
-				*/
 				
 				inmueble = convertir(rs);
 				
@@ -280,9 +263,6 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 	}
 	
 	
-	/*
-	 *  FUNCIONA
-	 */
 	@Override
 	public List<Inmueble> obtenerTodos() throws DAOException {
 		

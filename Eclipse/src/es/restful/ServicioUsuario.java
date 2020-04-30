@@ -119,8 +119,8 @@ public class ServicioUsuario {
 	
 	
 	@DELETE
-	@Path("/{correo}")
-	public Response deleteUsuario(@PathParam("correo") String correo) {
+	@Path("/{id_usuario}")
+	public Response deleteUsuario(@PathParam("correo") int id) {
 
 		claseUsuario = new MySQLUsuarioDAO(dataSource);
 
@@ -130,7 +130,7 @@ public class ServicioUsuario {
 
 		try {
 			
-			filasModificadas = claseUsuario.eliminar(correo);
+			filasModificadas = claseUsuario.eliminar(id);
 			
 		} catch (DAOException e) {
 			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
