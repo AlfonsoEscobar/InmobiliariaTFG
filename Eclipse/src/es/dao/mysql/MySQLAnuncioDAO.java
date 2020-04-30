@@ -508,7 +508,7 @@ public class MySQLAnuncioDAO implements AnuncioDAO {
 			stat = conexion.prepareStatement(GETINFOANUNCIO);
 			stat.setString(1, tipo_anuncio);
 			stat.setString(1, localidad);
-			rs = stat.executeQuery();
+			rs = stat.executeQuery();	
 
 			while (rs.next()) {
 

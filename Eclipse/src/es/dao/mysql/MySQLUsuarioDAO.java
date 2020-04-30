@@ -31,6 +31,8 @@ public class MySQLUsuarioDAO implements UsuarioDAO {
 			+ "telefono2 = ? WHERE id_usuario = ?";
 
 	final String DELETE = "DELETE FROM usuario WHERE correo = ?";
+	
+	final String DELETE2 = "DELETE FROM usuario WHERE id_usuario = ?";
 
 	final String GETALL = "SELECT id_usuario, correo, nombre, telefono1, telefono2, imagen_perfil FROM usuario";
 
@@ -196,6 +198,27 @@ public class MySQLUsuarioDAO implements UsuarioDAO {
 		return filasAfectadas;
 	}
 
+	public int eliminar(int id) throws DAOException {
+		PreparedStatement stat = null;
+		int filasAfectadas;
+		try {
+			stat = conexion.prepareStatement(DELETE2);
+			stat.setInt(1, id);
+			filasAfectadas = stat.executeUpdate();
+		} catch (SQLException ex) {
+			throw new DAOException("Error en SQL", ex);
+		} finally {
+			if (stat != null) {
+				try {
+					stat.close();
+				} catch (SQLException ex) {
+					throw new DAOException("Error en SQL", ex);
+				}
+			}
+		}
+		return filasAfectadas;
+	}
+	
 	@Override
 	public List<Usuario> obtenerPorParametro(String k) throws DAOException {
 		return null;
