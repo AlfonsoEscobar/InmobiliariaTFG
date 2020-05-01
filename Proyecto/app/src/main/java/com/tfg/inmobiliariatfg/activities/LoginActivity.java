@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String PassHash = Metodos.codificarPass(etPassLogin.getText().toString());
-                String Correo = etPassLogin.getText().toString();
+                String Correo = etCorreoLogin.getText().toString();
 
                 Call<Usuario> call = ApiAdapter.getApiService().getUsuario(Correo, PassHash);
                 call.enqueue(new Callback<Usuario>() {

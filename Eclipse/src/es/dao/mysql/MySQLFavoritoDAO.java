@@ -10,30 +10,25 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import es.dao.DAOException;
-import es.dao.FavoritoDAO;
+import es.dao.util.Conversor;
 import es.modelos.Favorito;
 
-public class MySQLFavoritoDAO implements FavoritoDAO {
+public class MySQLFavoritoDAO {
 
-	final String INSERT = "INSERT INTO favorito(usuario_favorito, inmueble_favorito, tipo_anuncio) "
-							+ "VALUES(?,?,?)";
-	
+	final String INSERT = "INSERT INTO favorito(usuario_favorito, inmueble_favorito, tipo_anuncio) " + "VALUES(?,?,?)";
+
 	final String DELETE = "DELETE FROM favorito WHERE usuario_favorito = ? and inmueble_favorito = ? "
-							+ "and tipo_anuncio = ?";
-	
-	final String DELETEALL = "DELETE FROM favorito WHERE usuario_favorito = ?";
-	
-	final String GETONE = "SELECT * FROM favorito WHERE usuario_favorito = ? and "
-							+ "inmueble_favorito = ? and tipo_anuncio = ?";
-	
-	final String GETFAVUSER = "SELECT * FROM favorito WHERE usuario_favorito = ?";
+			+ "and tipo_anuncio = ?";
 
-	final String GETALL = "SELECT * FROM favorito";
+	final String DELETEFROMUSER = "DELETE FROM favorito WHERE usuario_favorito = ?";
+
+	final String GETONE = "SELECT * FROM favorito WHERE usuario_favorito = ? and "
+			+ "inmueble_favorito = ? and tipo_anuncio = ?";
+
+	final String GETFAVUSER = "SELECT * FROM favorito WHERE usuario_favorito = ?";
 
 	private Connection conexion;
 
-	
-	
 	public MySQLFavoritoDAO(DataSource conexion) {
 		try {
 			this.conexion = conexion.getConnection();
@@ -43,14 +38,13 @@ public class MySQLFavoritoDAO implements FavoritoDAO {
 		}
 	}
 
-	@Override
 	public int insertar(Favorito favorito) throws DAOException {
-		
+
 		PreparedStatement stat = null;
 		int filasInsertadas = 0;
 
-		try {			
-		
+		try {
+
 			stat = conexion.prepareStatement(INSERT);
 			stat.setInt(1, favorito.getUsuario_favorito());
 			stat.setInt(2, favorito.getInmueble_favorito());
@@ -69,48 +63,12 @@ public class MySQLFavoritoDAO implements FavoritoDAO {
 				}
 			}
 		}
-			
+
 		return filasInsertadas;
 
 	}
 
-	@Override
-	public int modificar(Integer value, Favorito object) throws DAOException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
-	/*
-	 * 	FUNCIONA
-	 */
-
-	// Este método borra todos los favoritos de un usuario
-	@Override
-	public int eliminar(Integer id_usuario) throws DAOException {
-		
-		PreparedStatement stat = null;
-		int filasEliminadas = 0;
-		
-		try {
-		
-			stat = conexion.prepareStatement(DELETEALL);
-			stat.setInt(1, id_usuario);
-			filasEliminadas = stat.executeUpdate();
-		
-		} catch (SQLException ex) {
-			throw new DAOException("Error en SQL", ex);
-		} finally {
-			if (stat != null) {
-				try {
-					stat.close();
-				} catch (SQLException ex) {
-					throw new DAOException("Error en SQL", ex);
-				}
-			}
-		}
-		return filasEliminadas;
-	}
-
+	// Este métedo elimina un favorito de un usuario
 	public int eliminar(int id_usuario, int id_inmueble, String tipo_anuncio) throws DAOException {
 		PreparedStatement stat = null;
 		int filasEliminadas = 0;
@@ -133,41 +91,25 @@ public class MySQLFavoritoDAO implements FavoritoDAO {
 		}
 		return filasEliminadas;
 	}
-	
+
 	/*
-	 * 	FUNCIONA
+	 * FUNCIONA
 	 */
-	//Este método obtiene todos los anuncios favoritos de un usuario
+	// Este método borra todos los favoritos de un usuario
+	public int eliminar(Integer id_usuario) throws DAOException {
 
-	@Override
-	public List<Favorito> obtenerPorParametro(Integer id_usuario) throws DAOException {
-		
 		PreparedStatement stat = null;
-		ResultSet rs = null;
-
-		List <Favorito> favoritos = new LinkedList<>();
+		int filasEliminadas = 0;
 
 		try {
-			
-			stat = conexion.prepareStatement(GETFAVUSER);
+
+			stat = conexion.prepareStatement(DELETEFROMUSER);
 			stat.setInt(1, id_usuario);
-			rs = stat.executeQuery();
+			filasEliminadas = stat.executeUpdate();
 
-			while(rs.next()) {
-				favoritos.add(convertir(rs));
-			}
-			
-		}catch(SQLException ex){
-
+		} catch (SQLException ex) {
 			throw new DAOException("Error en SQL", ex);
 		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException ex) {
-					throw new DAOException("Error en SQL", ex);
-				}
-			}
 			if (stat != null) {
 				try {
 					stat.close();
@@ -175,40 +117,31 @@ public class MySQLFavoritoDAO implements FavoritoDAO {
 					throw new DAOException("Error en SQL", ex);
 				}
 			}
-
 		}
-		
-		return favoritos;
-		
+		return filasEliminadas;
 	}
 
-	@Override
-	public Favorito obtener(Integer value) throws DAOException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public Favorito obtenerFavorito(int id_usuario, int id_inmueble, String tipo_anuncio) throws DAOException {
 
-	public Favorito obtener(int id_usuario, int id_inmueble, String tipo_anuncio) throws DAOException {
-		
 		PreparedStatement stat = null;
 		ResultSet rs = null;
 		Favorito favorito = null;
-		
+
 		try {
-			
+
 			stat = conexion.prepareStatement(GETONE);
 			stat.setInt(1, id_usuario);
 			stat.setInt(2, id_inmueble);
 			stat.setString(3, tipo_anuncio);
 			rs = stat.executeQuery();
 
-			if(rs.next()) {
-				favorito = convertir(rs);
+			if (rs.next()) {
+				favorito = Conversor.convertirFavorito(rs);
 			} else {
 				// throw new DAOException("No se ha encontrado ningún registro");
 			}
 
-		}catch(SQLException ex){
+		} catch (SQLException ex) {
 			throw new DAOException("Error en SQL", ex);
 		} finally {
 			if (rs != null) {
@@ -227,32 +160,33 @@ public class MySQLFavoritoDAO implements FavoritoDAO {
 			}
 
 		}
-		
+
 		return favorito;
-		
+
 	}
 
 	/*
-	 * 	FUNCIONA
+	 * FUNCIONA
 	 */
-	@Override
-	public List<Favorito> obtenerTodos() throws DAOException {
-		
+	// Este método obtiene todos los anuncios favoritos de un usuario
+	public List<Favorito> listaFavoritosDeUsuario(Integer id_usuario) throws DAOException {
+
 		PreparedStatement stat = null;
 		ResultSet rs = null;
-		
-		List <Favorito> favoritos = new LinkedList<>();
+
+		List<Favorito> favoritos = new LinkedList<>();
 
 		try {
-			
-			stat = conexion.prepareStatement(GETALL);
+
+			stat = conexion.prepareStatement(GETFAVUSER);
+			stat.setInt(1, id_usuario);
 			rs = stat.executeQuery();
 
-			while(rs.next()) {
-				favoritos.add(convertir(rs));
+			while (rs.next()) {
+				favoritos.add(Conversor.convertirFavorito(rs));
 			}
-			
-		}catch(SQLException ex){
+
+		} catch (SQLException ex) {
 
 			throw new DAOException("Error en SQL", ex);
 		} finally {
@@ -272,21 +206,9 @@ public class MySQLFavoritoDAO implements FavoritoDAO {
 			}
 
 		}
-		
+
 		return favoritos;
-		
-	}
 
-	private Favorito convertir(ResultSet rs) throws SQLException {
-
-		int usuario_favorito = rs.getInt("usuario_favorito");
-		int inmueble_favorito = rs.getInt("inmueble_favorito");
-		String tipo_anuncio = rs.getString("tipo_anuncio");
-		
-		Favorito favorito = new Favorito(usuario_favorito, inmueble_favorito, tipo_anuncio);
-		
-		return favorito;
-		
 	}
 
 }

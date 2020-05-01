@@ -7,10 +7,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
+
 
 import com.google.android.material.navigation.NavigationView;
 import com.tfg.inmobiliariatfg.R;
@@ -23,6 +22,7 @@ import com.tfg.inmobiliariatfg.fragments.PerfilFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,10 +84,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             super.onBackPressed();
         }
-    }
-
-    public void Pulsame(View v){
-        Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-        startActivity(i);
     }
 }
