@@ -10,7 +10,9 @@ import android.widget.Toast;
 
 import com.tfg.inmobiliariatfg.R;
 import com.tfg.inmobiliariatfg.modelos.InfoUsuario;
-import com.tfg.inmobiliariatfg.utiles.DiagnosticVetApiAdapter;
+import com.tfg.inmobiliariatfg.modelos.Usuario;
+import com.tfg.inmobiliariatfg.utiles.ApiAdapter;
+import com.tfg.inmobiliariatfg.utiles.ApiService;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,24 +37,16 @@ public class RegistroActivity extends AppCompatActivity {
         etPass2Registro = (EditText) findViewById(R.id.etPass2Registro);
         btnConfirmarRegistro = (Button) findViewById(R.id.btnConfirmarRegistro);
 
-        Call<InfoUsuario> call = DiagnosticVetApiAdapter.getApiService().getUsuario("alfonso@gmail.es","alfonso123");
-        call.enqueue(new Callback<InfoUsuario>() {
+
+        btnConfirmarRegistro.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onResponse(Call<InfoUsuario> call, Response<InfoUsuario> response) {
-                if (response.isSuccessful()){
-                    InfoUsuario infoUsuario = response.body();
-                    Toast.makeText(getApplicationContext(),infoUsuario.getNombreUsuario(),Toast.LENGTH_LONG).show();
+            public void onClick(View v) {
+                if (etCorreoRegistro.equals("") || etNomRegistro.equals("") || etTelRegistro.equals("") || etPassRegistro.equals("") || etPass2Registro.equals("")) {
+                    Toast.makeText(getApplicationContext(), "Por favor introduzca todos los campos con un asterisco", Toast.LENGTH_LONG);
+                } else {
+
                 }
             }
-
-            @Override
-            public void onFailure(Call<InfoUsuario> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),"la conexion no se ha producido",Toast.LENGTH_LONG).show();
-            }
         });
-    }
-
-    public void Pulsame2(View v) {
-
     }
 }
