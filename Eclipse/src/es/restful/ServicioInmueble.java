@@ -37,19 +37,19 @@ public class ServicioInmueble {
 	MySQLInmuebleDAO claseInmueble;
 	
 	@GET
-	@Path("/{id_inmueble}")
+	@Path("/{propietario}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getInmueble(@PathParam("id_inmueble") int id){
+	public Response getInmueble(@PathParam("propietario") int propietario){
 		
 		claseInmueble = new MySQLInmuebleDAO(dataSource);
 		
 		Response.Status respuesta = Response.Status.OK;
-		Inmueble inmueble = new Inmueble();
+		List<Inmueble> listaInmueble = new LinkedList<Inmueble>();
 		
 		
 		try {
 			
-			inmueble = claseInmueble.obtener(id);
+			listaInmueble = claseInmueble.obtenerPorParametro(propietario);
 
 
 		} catch (DAOException e) {
@@ -57,37 +57,10 @@ public class ServicioInmueble {
 		}
 		
 		if (respuesta == Response.Status.OK) {
-			return Response.ok(inmueble).build();
+			return Response.ok(listaInmueble).build();
 		}else {
 			return Response.status(respuesta).build();
 		}
-	}
-	
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getListaInmueble(){
-		
-		List<Inmueble> lista = new LinkedList<>();
-		
-		Response.Status respuesta = Response.Status.OK;
-		
-		claseInmueble = new MySQLInmuebleDAO(dataSource);
-		
-		try {
-			
-			lista = claseInmueble.obtenerTodos();
-			
-			
-		} catch (DAOException e) {
-			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
-		}
-		
-		if (respuesta == Response.Status.OK) {
-			return Response.ok(lista).build();
-		}else {
-			return Response.status(respuesta).build();
-		}
-		
 	}
 	
 	

@@ -1,13 +1,12 @@
 package es.modelos;
 
 public class Fotografia {
-	
+
 	private String ruta;
 	private String tipo_habitacion;
 	private int inmueble;
 
-	public Fotografia() {
-	}
+	public Fotografia() {}
 
 	public Fotografia(String ruta, String tipo_habitacion, int inmueble) {
 		this.ruta = ruta;

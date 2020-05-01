@@ -86,9 +86,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    public void pulsable(View v) {
-        Intent detail = new Intent(this, RegistroActivity.class);
-        this.startActivity(detail);
-
+    public void Pulsame(View v){
+        Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(i);
     }
 }

@@ -25,14 +25,13 @@ public class MySQLInmuebleDAO {
 			+ "num_habitaciones = ?, num_banos = ?, tipo_edificacion = ?,"
 			+ "tipo_obra = ?, equipamiento = ?, exteriores = ?, garaje = ?, trastero = ?,"
 			+ "ascensor = ?, ultima_planta = ?, mascotas = ? WHERE id_inmueble = ?";
-	
+
 	final String DELETE = "DELETE FROM inmueble WHERE id_inmueble = ?";
 
 	final String GETONE = "SELECT * FROM inmueble WHERE id_inmueble = ?";
 
 	final String GETPROPIETARIO = "SELECT * FROM inmueble WHERE propietario = ?";
 
-	
 	private Connection conexion;
 
 	public MySQLInmuebleDAO(DataSource conexion) {
@@ -44,9 +43,6 @@ public class MySQLInmuebleDAO {
 		}
 	}
 
-	/*
-	 * FUNCIONA
-	 */
 	public int insertar(Inmueble inmueble) throws DAOException {
 		PreparedStatement stat = null;
 		int filasModificadas = 0;
@@ -91,9 +87,6 @@ public class MySQLInmuebleDAO {
 		return filasModificadas;
 	}
 
-	/*
-	 * FUNCIONA
-	 */
 	public int modificar(Integer id, Inmueble inmueble) throws DAOException {
 
 		PreparedStatement stat = null;
@@ -142,9 +135,6 @@ public class MySQLInmuebleDAO {
 
 	}
 
-	/*
-	 * FUNCIONA
-	 */
 	public int eliminar(Integer id) throws DAOException {
 		PreparedStatement stat = null;
 		int filasEliminadas = 0;
@@ -166,9 +156,45 @@ public class MySQLInmuebleDAO {
 		return filasEliminadas;
 	}
 
-	/*
-	 * FUNCIONA
-	 */
+	public List<Inmueble> obtenerPorParametro(Integer propietario) throws DAOException {
+		PreparedStatement stat = null;
+		ResultSet rs = null;
+		List<Inmueble> inmuebles = new LinkedList<Inmueble>();
+
+		try {
+
+			stat = conexion.prepareStatement(GETPROPIETARIO);
+			stat.setInt(1, propietario);
+			rs = stat.executeQuery();
+
+			while (rs.next()) {
+
+				inmuebles.add(Conversor.convertirInmueble(rs));
+
+			}
+
+		} catch (SQLException ex) {
+			throw new DAOException("Error en SQL", ex);
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException ex) {
+					throw new DAOException("Error en SQL", ex);
+				}
+			}
+			if (stat != null) {
+				try {
+					stat.close();
+				} catch (SQLException ex) {
+					throw new DAOException("Error en SQL", ex);
+				}
+			}
+
+		}
+		return inmuebles;
+	}
+
 	public Inmueble obtener(Integer id) throws DAOException {
 
 		PreparedStatement stat = null;
@@ -185,7 +211,14 @@ public class MySQLInmuebleDAO {
 				inmueble = Conversor.convertirInmueble(rs);
 
 			} else {
-				throw new DAOException("No se ha encontrado ningún registro");
+
+				if (rs.next()) {
+
+					inmueble = Conversor.convertirInmueble(rs);
+
+				} else {
+					throw new DAOException("No se ha encontrado ningún registro");
+				}
 			}
 
 		} catch (SQLException ex) {
