@@ -5,10 +5,10 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class DiagnosticVetApiAdapter {
-    private static DiagnosticVetApiService API_SERVICE;
+public class ApiAdapter {
+    private static ApiService API_SERVICE;
 
-    public static DiagnosticVetApiService getApiService() {
+    public static ApiService getApiService() {
 
         // Creamos un interceptor y le indicamos el log level a usar
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
@@ -18,7 +18,7 @@ public class DiagnosticVetApiAdapter {
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         httpClient.addInterceptor(logging);
 
-        String baseUrl = "https://8805f22b.ngrok.io/Restful_Inmo/servicios/";
+        String baseUrl = "https://1b595aef.ngrok.io/Restful_Inmo/servicios/";
 
         if (API_SERVICE == null) {
             Retrofit retrofit = new Retrofit.Builder()
@@ -26,7 +26,7 @@ public class DiagnosticVetApiAdapter {
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(httpClient.build()) // <-- usamos el log level
                     .build();
-            API_SERVICE = retrofit.create(DiagnosticVetApiService.class);
+            API_SERVICE = retrofit.create(ApiService.class);
         }
 
         return API_SERVICE;

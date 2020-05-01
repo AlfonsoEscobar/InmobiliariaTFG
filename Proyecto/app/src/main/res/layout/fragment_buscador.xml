@@ -9,10 +9,11 @@
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="325dp"
         android:background="@color/colorSecondary"
         android:contentDescription="@string/imgpincipal"
         android:src="@drawable/ic_sin_imagen"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -49,28 +50,32 @@
 
     <EditText
         android:id="@+id/editText"
-        android:layout_width="220sp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="96dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="88dp"
+        android:layout_marginEnd="32dp"
         android:background="@drawable/ic_plaintext_gris"
         android:ems="10"
         android:hint="@string/localidad"
         android:inputType="textPersonName"
         android:textColor="#8B8B8B"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
     <Button
         android:id="@+id/btnBuscar"
-        android:layout_width="220dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="96dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="80dp"
+        android:layout_marginEnd="32dp"
         android:background="@drawable/ic_button"
-        android:onClick="pulsable"
+        android:onClick="Pulsame"
         android:text="@string/buscar"
         android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText" />
 
