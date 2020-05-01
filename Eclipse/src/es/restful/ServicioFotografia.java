@@ -44,7 +44,7 @@ public class ServicioFotografia {
 		
 		try {
 			
-			listaFotografia = claseFotografia.obtenerPorParametro(tipo);
+			listaFotografia = claseFotografia.listaFotografiasPorTipoHabitacion(tipo);
 			
 		} catch (DAOException e) {
 			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
@@ -109,13 +109,13 @@ public class ServicioFotografia {
 		
 		try {
 			
-			listaFotografia = claseFotografia.obtenerPorID(id);
+			listaFotografia = claseFotografia.listaFotografiasDeInmueble(id);
 			
 			for (Fotografia f : listaFotografia) {
-				claseFotografia.borrarFoto(f.getRuta());
+				claseFotografia.borrarFotografia(f.getRuta());
 			}
 			
-			filasModificadas = claseFotografia.eliminarPorID(id);
+			filasModificadas = claseFotografia.eliminarFotografiasDeInmueble(id);
 			
 		} catch (DAOException e) {
 			respuestas = Response.Status.INTERNAL_SERVER_ERROR;

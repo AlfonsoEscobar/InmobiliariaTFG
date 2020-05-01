@@ -1,0 +1,123 @@
+Sentencias para trabajar con los métodos
+
+
+	final String INFOUSER = "SELECT correo, nombre, telefono1, telefono2 FROM usuario WHERE id_usuario = ?";
+
+	final String INFOANUNCIOS = "SELECT * FROM anuncio WHERE id_inmueble = "
+									+ "(SELECT id_inmueble FROM inmueble WHERE propietario = ?)";
+
+	final String INFOFAVORITOS = "SELECT * FROM favorito WHERE usuario_favorito = ?";
+
+
+
+Métodos para trabajar con mi CriterioBusqeda
+
+/*
+	 * // A este método solo lo llamaremos con la lista de ids de inmuebles que //
+	 * previamente han sido filtrados por localidad y por tipo_anuncio. // Es decir,
+	 * al método le otorgamos una lista con los id de inmuebles que pasan // un
+	 * determinadao filtro de búsqueda en una localidad y un tipo de anuncio. public
+	 * List<InfoAnuncio> obtenerInfoAnuncios(List<Integer> ids, String tipo_anuncio)
+	 * throws DAOException { List<InfoAnuncio> infoAnuncios = new LinkedList<>();
+	 * List<Double> precios = new LinkedList<Double>(); List<Inmueble> inmuebles =
+	 * new LinkedList<Inmueble>(); PreparedStatement statAnuncio = null,
+	 * statInmueble = null; ResultSet rsAnuncio = null, rsInmueble = null; try { //
+	 * Obtenemos los precios de venta/alquiler de los anuncios asociados a los //
+	 * inmuebles filtrados por búsqueda en una determinada localidad. statAnuncio =
+	 * conexion.
+	 * prepareStatement("Select precio from anuncio where tipo_anuncio = ? and id_inmueble = ?"
+	 * ); statAnuncio.setString(1, tipo_anuncio); for (int i = 0; i < ids.size();
+	 * i++) { statAnuncio.setInt(2, ids.get(i)); rsAnuncio =
+	 * statAnuncio.executeQuery(); precios.add(rsAnuncio.getDouble("precio")); }
+	 * 
+	 * // Obtenemos la información completa de los inmuebles que están filtrados por
+	 * // búsqueda en una determinada localidad statInmueble =
+	 * conexion.prepareStatement("Select * from inmueble where id_inmueble = ?");
+	 * for (int i = 0; i < ids.size(); i++) { statInmueble.setInt(1, ids.get(i));
+	 * rsInmueble = statInmueble.executeQuery();
+	 * inmuebles.add(convertirInmueble(rsInmueble)); }
+	 * 
+	 * // Montamos en una lista los objetos InfoBusqueda que tendrán el precio, el
+	 * tipo // de anuncio y los datos del inmueble. for (int i = 0; i < ids.size();
+	 * i++) { InfoAnuncio infoAnuncio = new InfoAnuncio(ids.get(i), precios.get(i),
+	 * inmuebles.get(i)); infoAnuncios.add(infoAnuncio); }
+	 * 
+	 * } catch (SQLException ex) { throw new DAOException("Error en SQL", ex); }
+	 * finally {
+	 * 
+	 * if (rsAnuncio != null) { try { rsAnuncio.close(); } catch (SQLException ex) {
+	 * throw new DAOException("Error en SQL", ex); } }
+	 * 
+	 * if (statAnuncio != null) { try { statAnuncio.close(); } catch (SQLException
+	 * ex) { throw new DAOException("Error en SQL", ex); } }
+	 * 
+	 * if (rsInmueble != null) { try { rsInmueble.close(); } catch (SQLException ex)
+	 * { throw new DAOException("Error en SQL", ex); } }
+	 * 
+	 * if (statInmueble != null) { try { statInmueble.close(); } catch (SQLException
+	 * ex) { throw new DAOException("Error en SQL", ex); } }
+	 * 
+	 * }
+	 * 
+	 * return infoAnuncios; }
+	 * 
+	 * public List<Inmueble> obtenerInmueblesPorFiltros(CriterioBusqueda
+	 * criterioBusqueda, String localidad) throws DAOException { List<Inmueble>
+	 * inmuebles = new LinkedList<>(); PreparedStatement stat = null; ResultSet rs =
+	 * null; String clausulaFiltrada = criterioBusqueda.getClausula(); try {
+	 * 
+	 * stat =
+	 * conexion.prepareStatement("Select * from inmueble where localidad = ? and " +
+	 * clausulaFiltrada); stat.setString(1, localidad); rs = stat.executeQuery();
+	 * while (rs.next()) { inmuebles.add(convertirInmueble(rs)); }
+	 * 
+	 * } catch (SQLException ex) { throw new DAOException("Error en SQL", ex); }
+	 * finally {
+	 * 
+	 * if (rs != null) { try { rs.close(); } catch (SQLException ex) { throw new
+	 * DAOException("Error en SQL", ex); } }
+	 * 
+	 * if (stat != null) { try { stat.close(); } catch (SQLException ex) { throw new
+	 * DAOException("Error en SQL", ex); } }
+	 * 
+	 * }
+	 * 
+	 * return inmuebles; }
+	 * 
+	 * public List<Integer> obtenerIdInmuebles(List<Inmueble> inmuebles) {
+	 * List<Integer> ids = new LinkedList<Integer>(); for (int i = 0; i <
+	 * inmuebles.size(); i++) { ids.add(inmuebles.get(i).getId_inmueble()); }
+	 * 
+	 * return ids; }
+	 * 
+	 * public List<Integer> obtenerIdAnuncios(List<Anuncio> anuncios) {
+	 * List<Integer> ids = new LinkedList<Integer>(); for (int i = 0; i <
+	 * anuncios.size(); i++) { ids.add(anuncios.get(i).getId_inmueble()); } return
+	 * ids; }
+	 * 
+	 * public List<Integer> obtenerIdsCoincidentes(List<Integer> ids_anuncios,
+	 * List<Integer> ids_inmuebles) { List<Integer> coincidentes = new
+	 * LinkedList<Integer>(); int elemento = 0; boolean iguales = false; for (int i
+	 * = 0; i < ids_anuncios.size(); i++) { elemento = ids_anuncios.get(i); iguales
+	 * = false; for (int j = 0; j < ids_inmuebles.size() || iguales == true; j++) {
+	 * if (elemento == ids_inmuebles.get(j)) { coincidentes.add(elemento); iguales =
+	 * true; } } } return coincidentes; }
+	 * 
+	 * //Con este método obtengo la lista de los ids de los anuncios de un tipo en
+	 * una localidad filtrada. Posteriormente usaremos esta lista para //pasarla
+	 * como parametro del metodo OBTENERINFOANUNCIOS. public List<Integer>
+	 * obtenerIdsFiltrados(String tipo_anuncio, String localidad, CriterioBusqueda
+	 * criterio) throws DAOException { List<Integer> id_anuncios = new
+	 * LinkedList<Integer>(); List<Integer> id_inmuebles = new
+	 * LinkedList<Integer>(); List<Integer> lista = new LinkedList<Integer>();
+	 * List<Anuncio> anuncios = new LinkedList<Anuncio>(); List<Inmueble> inmuebles
+	 * = new LinkedList<Inmueble>();
+	 * 
+	 * anuncios = obtenerPorParametro(localidad, tipo_anuncio); inmuebles =
+	 * obtenerInmueblesPorFiltros(criterio, localidad);
+	 * 
+	 * id_anuncios = obtenerIdAnuncios(anuncios); id_inmuebles =
+	 * obtenerIdInmuebles(inmuebles);
+	 * 
+	 * lista = obtenerIdsCoincidentes(id_anuncios, id_inmuebles); return lista; }
+	 */

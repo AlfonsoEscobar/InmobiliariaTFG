@@ -4,45 +4,37 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.sql.DataSource;
 
 import es.dao.DAOException;
-import es.dao.InmuebleDAO;
+import es.dao.util.Conversor;
 import es.modelos.Inmueble;
 
-public class MySQLInmuebleDAO implements InmuebleDAO {
+public class MySQLInmuebleDAO {
 
 	final String INSERT = "INSERT INTO inmueble(provincia, localidad, calle, numero, piso, puerta,"
-							+ "propietario, descripcion, metros2, num_habitaciones, num_banos,"
-							+ "tipo_edificacion, tipo_obra, equipamiento, exteriores, garaje,"
-							+ "trastero, ascensor, ultima_planta, mascotas) "
-							+ "VALUES(?,?, ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			+ "propietario, descripcion, metros2, num_habitaciones, num_banos,"
+			+ "tipo_edificacion, tipo_obra, equipamiento, exteriores, garaje,"
+			+ "trastero, ascensor, ultima_planta, mascotas) " + "VALUES(?,?, ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
-	final String DELETE = "DELETE FROM inmueble WHERE id_inmueble = ?";
-	
 	final String UPDATE = "UPDATE inmueble SET provincia = ?, localidad = ?, calle = ?, numero = ?, escalera = ?, "
-							+ "piso = ?, puerta = ?, descripcion = ?, metros2 = ?,"
-							+ "num_habitaciones = ?, num_banos = ?, tipo_edificacion = ?,"
-							+ "tipo_obra = ?, equipamiento = ?, exteriores = ?, garaje = ?, trastero = ?,"
-							+ "ascensor = ?, ultima_planta = ?, mascotas = ? WHERE id_inmueble = ?";
+			+ "piso = ?, puerta = ?, descripcion = ?, metros2 = ?,"
+			+ "num_habitaciones = ?, num_banos = ?, tipo_edificacion = ?,"
+			+ "tipo_obra = ?, equipamiento = ?, exteriores = ?, garaje = ?, trastero = ?,"
+			+ "ascensor = ?, ultima_planta = ?, mascotas = ? WHERE id_inmueble = ?";
 	
+	final String DELETE = "DELETE FROM inmueble WHERE id_inmueble = ?";
+
 	final String GETONE = "SELECT * FROM inmueble WHERE id_inmueble = ?";
-	
-	final String GETALL = "SELECT * FROM inmueble";
-	
+
 	final String GETPROPIETARIO = "SELECT * FROM inmueble WHERE propietario = ?";
-	
-	final String IDMAX = "SELECT MAX(id_inmueble) FROM inmueble";
-	
-	final String INFOINMUEBLES = "SELECT * FROM inmueble WHERE propietario = ?";
-	
+
 	
 	private Connection conexion;
-	
+
 	public MySQLInmuebleDAO(DataSource conexion) {
 		try {
 			this.conexion = conexion.getConnection();
@@ -51,15 +43,14 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/*
-		FUNCIONA
-	*/
-	@Override
+	 * FUNCIONA
+	 */
 	public int insertar(Inmueble inmueble) throws DAOException {
 		PreparedStatement stat = null;
 		int filasModificadas = 0;
-		
+
 		try {
 			stat = conexion.prepareStatement(INSERT);
 			stat.setString(1, inmueble.getProvincia());
@@ -85,31 +76,29 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 			stat.setBoolean(21, inmueble.isMascotas());
 
 			filasModificadas = stat.executeUpdate();
-			
-		}catch (SQLException ex){
+
+		} catch (SQLException ex) {
 			throw new DAOException("Error en SQL", ex);
-		}finally {
+		} finally {
 			if (stat != null) {
 				try {
 					stat.close();
-				}catch (SQLException ex) {
+				} catch (SQLException ex) {
 					throw new DAOException("Error en SQL", ex);
-				} 
+				}
 			}
 		}
 		return filasModificadas;
 	}
 
-	
 	/*
 	 * FUNCIONA
 	 */
-	@Override
 	public int modificar(Integer id, Inmueble inmueble) throws DAOException {
-		
+
 		PreparedStatement stat = null;
 		int filasModificadas = 0;
-		
+
 		try {
 			stat = conexion.prepareStatement(UPDATE);
 			stat.setString(1, inmueble.getProvincia());
@@ -133,31 +122,29 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 			stat.setBoolean(19, inmueble.isUltima_planta());
 			stat.setBoolean(20, inmueble.isMascotas());
 			stat.setInt(21, id);
-		
+
 			filasModificadas = stat.executeUpdate();
-		
-		}catch (SQLException ex){
+
+		} catch (SQLException ex) {
 			throw new DAOException("Error en SQL", ex);
-		}finally {
+		} finally {
 			if (stat != null) {
 				try {
 					stat.close();
-				}catch (SQLException ex) {
+				} catch (SQLException ex) {
 					throw new DAOException("Error en SQL", ex);
 				}
 			}
-			
+
 		}
-		
+
 		return filasModificadas;
-	
+
 	}
-	
-	
+
 	/*
-	 * 	FUNCIONA
+	 * FUNCIONA
 	 */
-	@Override
 	public int eliminar(Integer id) throws DAOException {
 		PreparedStatement stat = null;
 		int filasEliminadas = 0;
@@ -165,13 +152,13 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 			stat = conexion.prepareStatement(DELETE);
 			stat.setInt(1, id);
 			filasEliminadas = stat.executeUpdate();
-		}catch (SQLException ex){
+		} catch (SQLException ex) {
 			throw new DAOException("Error en SQL", ex);
-		}finally {
+		} finally {
 			if (stat != null) {
 				try {
 					stat.close();
-				}catch (SQLException ex) {
+				} catch (SQLException ex) {
 					throw new DAOException("Error en SQL", ex);
 				}
 			}
@@ -179,182 +166,86 @@ public class MySQLInmuebleDAO implements InmuebleDAO {
 		return filasEliminadas;
 	}
 
-	@Override
-	public List<Inmueble> obtenerPorParametro(Integer propietario) throws DAOException {
-		PreparedStatement stat = null;
-		ResultSet rs = null;
-		List <Inmueble> inmuebles = new LinkedList<>();
-		
-		try {
-			
-			stat = conexion.prepareStatement(GETPROPIETARIO);
-			stat.setInt(1, propietario);
-			rs = stat.executeQuery();
-			
-			while(rs.next()) {
-				
-				inmuebles.add(convertir(rs));
-				
-			}
-			
-		}catch(SQLException ex){
-			throw new DAOException("Error en SQL", ex);
-		}finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				}catch(SQLException ex) {
-					throw new DAOException("Error en SQL", ex);
-				}
-			}
-			if(stat != null) {
-				try {
-					stat.close();
-				}catch(SQLException ex) {
-					throw new DAOException("Error en SQL", ex);
-				}
-			}
-			
-		}
-		return inmuebles;
-	}
-	
-	public List<Inmueble> obtenerPorParametro(String value) throws DAOException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
 	/*
-	 *   FUNCIONA
+	 * FUNCIONA
 	 */
-	@Override
 	public Inmueble obtener(Integer id) throws DAOException {
-		
+
 		PreparedStatement stat = null;
 		ResultSet rs = null;
 		Inmueble inmueble = new Inmueble();
-		
+
 		try {
 			stat = conexion.prepareStatement(GETONE);
 			stat.setInt(1, id);
 			rs = stat.executeQuery();
-			
-			if(rs.next()) {
-				
-				/*inmueble.setCalle(rs.getString("calle"));
-				inmueble.setLocalidad(rs.getString("localidad"));
-				inmueble.setProvincia(rs.getString("provincia"));
-				inmueble.setPiso(rs.getInt("piso"));
-				inmueble.setId_inmueble(rs.getInt("id_inmueble"));
-				inmueble.setMascotas(rs.getBoolean("mascotas"));
-				inmueble.setMetros2(rs.getDouble("metros2"));
-				*/
-				
-				inmueble = convertir(rs);
-				
-			}else {
+
+			if (rs.next()) {
+
+				inmueble = Conversor.convertirInmueble(rs);
+
+			} else {
 				throw new DAOException("No se ha encontrado ningún registro");
 			}
-			
-		}catch(SQLException ex){
+
+		} catch (SQLException ex) {
 			throw new DAOException("Error en SQL", ex);
-		}finally {
-			if(rs != null) {
+		} finally {
+			if (rs != null) {
 				try {
 					rs.close();
-				}catch(SQLException ex) {
+				} catch (SQLException ex) {
 					throw new DAOException("Error en SQL", ex);
 				}
 			}
-			if(stat != null) {
+			if (stat != null) {
 				try {
 					stat.close();
-				}catch(SQLException ex) {
+				} catch (SQLException ex) {
 					throw new DAOException("Error en SQL", ex);
 				}
 			}
-			
+
 		}
-		return inmueble;
-	}
-	
-	
-	/*
-	 *  FUNCIONA
-	 */
-	@Override
-	public List<Inmueble> obtenerTodos() throws DAOException {
-		
-		Statement stat = null;
-		ResultSet rs = null;
-		List <Inmueble> inmuebles = new LinkedList<>();
-		
-		try {
-			
-			stat = conexion.createStatement();
-			rs = stat.executeQuery(GETALL);
-			
-			while(rs.next()) {
-				
-				inmuebles.add(convertir(rs));
-				
-			}
-			
-		}catch(SQLException ex){
-			throw new DAOException("Error en SQL", ex);
-		}finally {
-			if(rs != null) {
-				try {
-					rs.close();
-				}catch(SQLException ex) {
-					throw new DAOException("Error en SQL", ex);
-				}
-			}
-			if(stat != null) {
-				try {
-					stat.close();
-				}catch(SQLException ex) {
-					throw new DAOException("Error en SQL", ex);
-				}
-			}
-			
-		}
-		return inmuebles;
-	}
-	
-	
-	private Inmueble convertir(ResultSet rs) throws SQLException {
-		
-		String provincia = rs.getString("provincia");
-		String localidad = rs.getString("localidad");
-		String calle = rs.getString("calle");
-		int numero = rs.getInt("numero");
-		String escalera = rs.getString("escalera");
-		int piso = rs.getInt("piso");
-		String puerta = rs.getString("puerta");
-		int id_inmueble = rs.getInt("id_inmueble");
-		int propietario = rs.getInt("propietario");
-		String descripcion = rs.getString("descripcion");
-		double metros2 = rs.getDouble("metros2");
-		int num_habitaciones = rs.getInt("num_habitaciones");
-		int num_banos = rs.getInt("num_banos");
-		String tipo_edificacion = rs.getString("tipo_edificacion");
-		String tipo_obra = rs.getString("tipo_obra");
-		String equipamiento = rs.getString("equipamiento");
-		String exteriores = rs.getString("exteriores");
-		boolean garaje = rs.getBoolean("garaje");
-		boolean trastero = rs.getBoolean("trastero");
-		boolean ascensor = rs.getBoolean("ascensor");
-		boolean ultima_planta = rs.getBoolean("ultima_planta");
-		boolean mascotas = rs.getBoolean("mascotas");
-		
-		Inmueble inmueble = new Inmueble(provincia, localidad, calle, numero, escalera, piso, puerta, propietario, descripcion, metros2, num_habitaciones, 
-				num_banos, tipo_edificacion, tipo_obra, equipamiento, exteriores, garaje, trastero, ascensor, ultima_planta, mascotas);
-		
-		inmueble.setId_inmueble(id_inmueble);
-		
 		return inmueble;
 	}
 
+	public List<Inmueble> listaInmueblesDePropietario(Integer propietario) throws DAOException {
+		PreparedStatement stat = null;
+		ResultSet rs = null;
+		List<Inmueble> inmuebles = new LinkedList<>();
+
+		try {
+
+			stat = conexion.prepareStatement(GETPROPIETARIO);
+			stat.setInt(1, propietario);
+			rs = stat.executeQuery();
+
+			while (rs.next()) {
+
+				inmuebles.add(Conversor.convertirInmueble(rs));
+
+			}
+
+		} catch (SQLException ex) {
+			throw new DAOException("Error en SQL", ex);
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException ex) {
+					throw new DAOException("Error en SQL", ex);
+				}
+			}
+			if (stat != null) {
+				try {
+					stat.close();
+				} catch (SQLException ex) {
+					throw new DAOException("Error en SQL", ex);
+				}
+			}
+
+		}
+		return inmuebles;
+	}
 }

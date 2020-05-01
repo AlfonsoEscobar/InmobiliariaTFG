@@ -44,7 +44,7 @@ public class ServicioFavorito {
 		
 		try {
 			
-			listaFavorito = claseFavorito.obtenerPorParametro(id);
+			listaFavorito = claseFavorito.listaFavoritosDeUsuario(id);
 			
 		} catch (DAOException e) {
 			respuesta = Response.Status.INTERNAL_SERVER_ERROR;

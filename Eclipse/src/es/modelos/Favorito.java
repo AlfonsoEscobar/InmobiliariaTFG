@@ -6,6 +6,10 @@ public class Favorito {
 	private int inmueble_favorito;
 	private String tipo_anuncio;
 	
+	public Favorito() {
+		
+	}
+	
 	public Favorito(int usuario_favorito, int inmueble_favorito, String tipo_anuncio) {
 		this.usuario_favorito = usuario_favorito;
 		this.inmueble_favorito = inmueble_favorito;
