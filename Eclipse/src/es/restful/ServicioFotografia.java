@@ -90,14 +90,9 @@ public class ServicioFotografia {
 	@POST
 	public void postFotografia() {
 		
-		
-		
 	}
 	
-	
-	
 	// Borra todas las fotos guardadas de un piso y las rutas de las fotos de la base de datos
-	
 	@DELETE
 	@Path("/{id}")
 	public Response deleteFotografia(@PathParam("id") int id) {
