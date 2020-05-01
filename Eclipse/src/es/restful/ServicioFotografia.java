@@ -32,9 +32,9 @@ public class ServicioFotografia {
 	MySQLFotografiaDAO claseFotografia;
 	
 	@GET
-	@Path("/{id_inmueble}")
+	@Path("/{tipo}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getFotografia(@PathParam("id_inmueble") int id){
+	public Response getFotografia(@PathParam("tipo") String tipo){
 		
 		claseFotografia = new MySQLFotografiaDAO(dataSource);
 		
@@ -44,11 +44,9 @@ public class ServicioFotografia {
 		
 		try {
 			
-<<<<<<< HEAD
+
 			listaFotografia = claseFotografia.listaFotografiasPorTipoHabitacion(tipo);
-=======
-			listaFotografia = claseFotografia.obtenerPorID(id);
->>>>>>> 9924c6bafc6843a782429d8b8df24d7758798f06
+
 			
 		} catch (DAOException e) {
 			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
