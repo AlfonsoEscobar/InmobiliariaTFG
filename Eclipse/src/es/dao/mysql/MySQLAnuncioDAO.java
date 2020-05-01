@@ -41,8 +41,8 @@ public class MySQLAnuncioDAO implements AnuncioDAO {
 
 	// ------------HECHO POR ALFONSO----------------
 
-	final String GETINFOANUNCIO = "SELECT a.*, b.* from anuncio a, inmuble b on "
-			+ "a.id_inmueble = b.id_inmueble WHERE a.tipo_anuncio = ?" + " and b.localidad = ?";
+	final String GETINFOANUNCIO = "select a.*, b.* from inmueble a inner join anuncio b "
+			+ "on a.id_inmueble = b.id_inmueble where b.tipo_anuncio = ? and a.localidad = ? ";
 
 	private Connection conexion;
 
@@ -507,7 +507,7 @@ public class MySQLAnuncioDAO implements AnuncioDAO {
 
 			stat = conexion.prepareStatement(GETINFOANUNCIO);
 			stat.setString(1, tipo_anuncio);
-			stat.setString(1, localidad);
+			stat.setString(2, localidad);
 			rs = stat.executeQuery();	
 
 			while (rs.next()) {
@@ -540,6 +540,7 @@ public class MySQLAnuncioDAO implements AnuncioDAO {
 
 				infoan.setId_inmueble(rs.getInt("id_inmueble"));
 				infoan.setPrecio(rs.getDouble("precio"));
+				infoan.setTipo_anuncio(rs.getString("tipo_anuncio"));
 				infoan.setFecha_anunciado(rs.getDate("fecha_anunciado"));
 				infoan.setFecha_ultima_actualizacion(rs.getDate("fecha_ultima_actualizacion"));
 

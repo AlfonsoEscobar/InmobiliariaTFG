@@ -40,25 +40,26 @@ public class ServicioAnuncio {
 	@GET
 	@Path("/{tipo}/{localidad}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAnuncio(@PathParam("tipo") String tipo, @PathParam("localidad") String localidad) {
+	public Response getAnuncio(@PathParam("tipo") String tipo,
+								@PathParam("localidad") String localidad) {
 
 		claseAnuncio = new MySQLAnuncioDAO(dataSource);
 		Response.Status respuesta = Response.Status.OK;
-		LinkedList<InfoAnuncio> listaAnuncio = null;
+		LinkedList<InfoAnuncio> listaAnuncio = new LinkedList<>();
 
 		try {
 
-			listaAnuncio = claseAnuncio.listaInfoAnuncios(localidad, tipo);
+			listaAnuncio = claseAnuncio.listaInfoAnuncios(tipo, localidad);
 
 		} catch (DAOException e) {
 			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
 		}
 
-		if (listaAnuncio != null) {
+		
 			if (listaAnuncio.isEmpty()) {
 				respuesta = Response.Status.NOT_FOUND;
 			}
-		}
+		
 
 		if (respuesta == Response.Status.OK)
 			return Response.ok(listaAnuncio).build();
@@ -66,7 +67,7 @@ public class ServicioAnuncio {
 			return Response.status(respuesta).build();
 	}
 
-	@GET
+	/*@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAnuncioCriterios(@Context UriInfo uriInfo) {
 
@@ -169,7 +170,7 @@ public class ServicioAnuncio {
 			return Response.ok(listaAnuncio).build();
 		else
 			return Response.status(respuesta).build();
-	}
+	}*/
 
 	@PUT
 	@Path("/{id_anuncio}")
