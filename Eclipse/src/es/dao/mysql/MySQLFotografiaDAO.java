@@ -297,11 +297,5 @@ public class MySQLFotografiaDAO implements FotografiaDAO {
 		}
 		
 	}
-	
-	
-	
-	
-	
-	
 
 }

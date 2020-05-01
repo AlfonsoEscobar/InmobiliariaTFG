@@ -88,8 +88,8 @@ public class ServicioFotografia {
 	}*/
 	
 	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
 	public void postFotografia() {
+		
 		
 		
 	}
