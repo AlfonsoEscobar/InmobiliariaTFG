@@ -6,33 +6,66 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
+import com.tfg.inmobiliariatfg.utiles.ApiAdapter;
 import com.tfg.inmobiliariatfg.utiles.RecyclerViewAdapter;
 import com.tfg.inmobiliariatfg.R;
 import com.tfg.inmobiliariatfg.modelos.InfoAnuncio;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RecyclerViewBusqueda extends AppCompatActivity {
 
     private RecyclerView recyclerViewBusqueda;
     private RecyclerViewAdapter adaptadorBusqueda;
+    private Bundle extras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recycler_view_busqueda);
 
+
+        setContentView(R.layout.activity_recycler_view_busqueda);
         recyclerViewBusqueda = (RecyclerView) findViewById(R.id.recyclerBusqueda);
         recyclerViewBusqueda.setLayoutManager(new LinearLayoutManager(this));
 
-        adaptadorBusqueda = new RecyclerViewAdapter(ObtenerAnuncios());
-        recyclerViewBusqueda.setAdapter(adaptadorBusqueda);
+        ObtenerAnuncios();
     }
 
-    public List<InfoAnuncio> ObtenerAnuncios(){
-        List<InfoAnuncio> Anuncio = new ArrayList<>();
-        // Aqui recibira los datos y los añadira al arrayList.
-        return Anuncio;
+    public void ObtenerAnuncios() {
+        String tipo, localidad;
+        if (extras != null) {
+            extras = getIntent().getExtras();
+            tipo = extras.getString("tipo");
+            localidad = extras.getString("localidad");
+        }
+
+        Call<List<InfoAnuncio>> listCall = ApiAdapter.getApiService().getAnuncioLocalidad("alquiler", "Leganes");
+        listCall.enqueue(new Callback<List<InfoAnuncio>>() {
+            @Override
+            public void onResponse(Call<List<InfoAnuncio>> call, Response<List<InfoAnuncio>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        ShowIt(response.body());
+
+                    }
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<InfoAnuncio>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void ShowIt(List<InfoAnuncio> response) {
+        adaptadorBusqueda = new RecyclerViewAdapter(response);
+        recyclerViewBusqueda.setAdapter(adaptadorBusqueda);
     }
 }

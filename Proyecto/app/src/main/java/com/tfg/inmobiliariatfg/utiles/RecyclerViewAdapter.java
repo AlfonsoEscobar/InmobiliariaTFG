@@ -28,7 +28,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             tvBusquedaHab = (TextView) itemView.findViewById(R.id.tvBusquedaHab);
             tvBusquedaMetros2 = (TextView) itemView.findViewById(R.id.tvBusquedaMetros2);
             tvBusquedaPiso = (TextView) itemView.findViewById(R.id.tvBusquedaPiso);
-            ivBusquedaImagen = (ImageView) itemView.findViewById(R.id.ivBusquedaImagen);
+            /*ivBusquedaImagen = (ImageView) itemView.findViewById(R.id.ivBusquedaImagen);*/
         }
     }
 
@@ -51,14 +51,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.tvBusquedaCalle.setText(AnuncioLista.get(position).getInmueble().getCalle());
         holder.tvBusquedaFechIng.setText(String.valueOf(AnuncioLista.get(position).getFeha_anunciado()));
-        if (AnuncioLista.get(position).getTipo_anuncio().equalsIgnoreCase("Venta")) {
+        if (AnuncioLista.get(position).getTipo_anuncio().equalsIgnoreCase("vender")) {
             holder.tvBusquedaPrecio.setText(AnuncioLista.get(position).getPrecio() + " €");
         } else {
             holder.tvBusquedaPrecio.setText(AnuncioLista.get(position).getPrecio() + " €/mes");
         }
         holder.tvBusquedaHab.setText(AnuncioLista.get(position).getInmueble().getNum_habitaciones() + " habitaciones");
         holder.tvBusquedaMetros2.setText(AnuncioLista.get(position).getInmueble().getMetros2() + " /m²");
-        holder.tvBusquedaPiso.setText(AnuncioLista.get(position).getInmueble().getNumero() + "º");
+        holder.tvBusquedaPiso.setText(AnuncioLista.get(position).getInmueble().getPiso() + "º planta");
     }
 
     @Override
