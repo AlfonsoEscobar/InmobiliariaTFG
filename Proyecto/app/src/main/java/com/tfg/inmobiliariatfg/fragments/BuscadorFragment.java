@@ -51,7 +51,7 @@ public class BuscadorFragment extends Fragment {
                     String tipoPut;
                     i.putExtra("localidad", localidadPut);
                     if (rbAlquilarBuscador.isChecked()) {
-                        tipoPut = "alquilar";
+                        tipoPut = "alquiler";
                         i.putExtra("tipo", tipoPut);
                     } else {
                         tipoPut = "comprar";

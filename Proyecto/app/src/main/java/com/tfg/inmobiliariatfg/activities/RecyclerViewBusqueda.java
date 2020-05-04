@@ -22,7 +22,7 @@ public class RecyclerViewBusqueda extends AppCompatActivity {
     private RecyclerView recyclerViewBusqueda;
     private RecyclerViewAdapter adaptadorBusqueda;
     private Bundle extras;
-
+    String tipo, localidad;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,24 +36,20 @@ public class RecyclerViewBusqueda extends AppCompatActivity {
     }
 
     public void ObtenerAnuncios() {
-        String tipo, localidad;
+        extras = getIntent().getExtras();
         if (extras != null) {
-            extras = getIntent().getExtras();
             tipo = extras.getString("tipo");
             localidad = extras.getString("localidad");
         }
 
-        Call<List<InfoAnuncio>> listCall = ApiAdapter.getApiService().getAnuncioLocalidad("alquiler", "Leganes");
+        Call<List<InfoAnuncio>> listCall = ApiAdapter.getApiService().getAnuncioLocalidad(tipo, localidad);
         listCall.enqueue(new Callback<List<InfoAnuncio>>() {
             @Override
             public void onResponse(Call<List<InfoAnuncio>> call, Response<List<InfoAnuncio>> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
-                        ShowIt(response.body());
-
+                    ShowIt(response.body());
                     }
-                } else {
-
                 }
             }
 
@@ -64,7 +60,7 @@ public class RecyclerViewBusqueda extends AppCompatActivity {
         });
     }
 
-    private void ShowIt(List<InfoAnuncio> response) {
+    private void ShowIt(List<InfoAnuncio> response){
         adaptadorBusqueda = new RecyclerViewAdapter(response);
         recyclerViewBusqueda.setAdapter(adaptadorBusqueda);
     }
