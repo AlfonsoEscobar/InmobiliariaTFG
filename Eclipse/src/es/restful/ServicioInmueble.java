@@ -1,7 +1,5 @@
 package es.restful;
 
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,7 +23,6 @@ import es.dao.DAOException;
 import es.dao.mysql.MySQLAnuncioDAO;
 import es.dao.mysql.MySQLInmuebleDAO;
 import es.modelos.Inmueble;
-
 
 @ApplicationScoped
 @Path("/inmueble")
@@ -66,7 +63,7 @@ public class ServicioInmueble {
 	
 	@PUT
 	@Path("/{id_inmueble}")
-	@Consumes(APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
 	public Response putInmueble(@PathParam("id_inmueble") int id, Inmueble inmueble) {
 		
 		claseInmueble = new MySQLInmuebleDAO(dataSource);
@@ -93,7 +90,7 @@ public class ServicioInmueble {
 	
 	
 	@POST
-	@Consumes(APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
 	public Response postInmueble(@Context UriInfo uriInfo, Inmueble inmueble) {
 		
 		claseInmueble = new MySQLInmuebleDAO(dataSource);

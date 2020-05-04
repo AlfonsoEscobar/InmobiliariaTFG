@@ -1,6 +1,11 @@
 package es.restful;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,6 +37,16 @@ public class ServicioFotografia {
 	private DataSource dataSource;
 	
 	MySQLFotografiaDAO claseFotografia;
+	
+	
+	@GET
+	@Path("/perfil/{nombreFichero}")
+	@Produces("images/jpeg")
+	public Response getFichero(@PathParam("nombreFichero") String nombreFichero) {
+		File fichero = new File("/home/alfonso/Imágenes/" + nombreFichero);
+		return Response.ok(fichero).build();
+	}
+	
 	
 	@GET
 	@Path("/unica/{tipo}")
@@ -110,6 +125,8 @@ public class ServicioFotografia {
 		Response.Status respuestas = Response.Status.OK;
 		int filasModificadas = 0;
 		
+		foto.setRuta("/Imagenes/Pisos/" + foto.getInmueble() + "/" + foto.getRuta() + ".jpg");
+		
 		try {
 			
 			filasModificadas = claseFotografia.insertar(foto);
@@ -125,22 +142,40 @@ public class ServicioFotografia {
 		return Response.status(respuestas).build();
 	}
 	
+	
 	@PUT
-	@Path("/{id_inmueble}/{num_foto}")
+	@Path("/{nombreFoto}")
 	@Consumes("images/jpeg")
-	public Response putFichero(File fichero, @PathParam("id_inmueble") int id_inmueble,
-											@PathParam("num_foto") int num_foto) {
+	public Response putFichero(File fichero, 
+							   @PathParam("nombreFoto") String nombreFoto) {
 		
 		Response.Status responseStatus = Response.Status.OK;
+		File destino = new File("/Imagenes/" + nombreFoto);
 		
-		fichero.renameTo(new File("/Imagenes/" + id_inmueble + "/" + num_foto + ".jpg"));
+		try {
+			
+			//destino.createNewFile();
+			
+            InputStream in = new FileInputStream(fichero);
+            OutputStream out = new FileOutputStream(destino);
+            
+            // Usamos un buffer para la copia
+            byte[] buf = new byte[1024];
+            int len;
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+            in.close();
+            out.close();
+        } catch (IOException ioe) {
+        	responseStatus = Response.Status.INTERNAL_SERVER_ERROR;
+        }
 		
 		return Response.status(responseStatus).build();
 
 	}
 	
 	
-	// Borra todas las fotos guardadas de un piso y las rutas de las fotos de la base de datos
 	@DELETE
 	@Path("/{id}")
 	public Response deleteFotografia(@PathParam("id") int id) {
@@ -148,7 +183,6 @@ public class ServicioFotografia {
 		claseFotografia = new MySQLFotografiaDAO(dataSource);
 		
 		Response.Status respuestas = Response.Status.OK;
-		
 		
 		List<Fotografia> listaFotografia = new LinkedList<>();
 		

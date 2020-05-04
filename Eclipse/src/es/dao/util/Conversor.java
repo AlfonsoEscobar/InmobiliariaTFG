@@ -123,6 +123,7 @@ public class Conversor {
 
 		infoan.setId_inmueble(rs.getInt("id_inmueble"));
 		infoan.setPrecio(rs.getDouble("precio"));
+		infoan.setTipo_anuncio(rs.getString("tipo_anuncio"));
 		infoan.setFecha_anunciado(rs.getDate("fecha_anunciado"));
 		infoan.setFecha_ultima_actualizacion(rs.getDate("fecha_ultima_actualizacion"));
 
