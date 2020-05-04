@@ -124,4 +124,35 @@ insert into favorito values(6, 2, "venta");
 insert into favorito values(6, 2, "alquiler");
 insert into favorito values(4, 3, "alquiler");
 
+insert into tipo_edificacion values("Piso");
+insert into tipo_edificacion values("Chalet");
+insert into tipo_edificacion values("Ático");
+insert into tipo_edificacion values("Dúplex");
+insert into tipo_edificacion values("Buhardilla");
+insert into tipo_edificacion values("Apartamento");
 
+insert into exteriores values("Terraza");
+insert into exteriores values("Patio");
+insert into exteriores values("Piscina");
+insert into exteriores values("Jardín");
+
+insert into tipo_obra values("Obra nueva");
+insert into tipo_obra values("Segunda mano");
+insert into tipo_obra values("Cocina amueblada");
+insert into tipo_obra values("Por amueblar");
+
+insert into escalera values("Derecha");
+insert into escalera values("Izquierda");
+insert into escalera values("Centro");
+
+insert into tipo_habitación values("Salón");
+insert into tipo_habitación values("Cocina");
+insert into tipo_habitación values("Baño");
+insert into tipo_habitación values("Dormitorio");
+insert into tipo_habitación values("Escalera");
+insert into tipo_habitación values("Recibidor");
+insert into tipo_habitación values("Pasillo");
+insert into tipo_habitación values("Garaje");
+insert into tipo_habitación values("Trastero");
+insert into tipo_habitación values("Terraza");
+insert into tipo_habitación values("Exteriores");
