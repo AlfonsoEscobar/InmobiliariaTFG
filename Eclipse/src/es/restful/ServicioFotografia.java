@@ -1,5 +1,6 @@
 package es.restful;
 
+import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -32,9 +34,9 @@ public class ServicioFotografia {
 	MySQLFotografiaDAO claseFotografia;
 	
 	@GET
-	@Path("/{id_inmueble}")
+	@Path("/unica/{tipo}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getFotografia(@PathParam("id_inmueble") int id){
+	public Response getUnicaFotografia(@PathParam("tipo") String tipo){
 		
 		claseFotografia = new MySQLFotografiaDAO(dataSource);
 		
@@ -43,30 +45,63 @@ public class ServicioFotografia {
 		List<Fotografia> listaFotografia = new LinkedList<>();
 		
 		try {
-			
-<<<<<<< HEAD
+
 			listaFotografia = claseFotografia.listaFotografiasPorTipoHabitacion(tipo);
-=======
-			listaFotografia = claseFotografia.obtenerPorID(id);
->>>>>>> 9924c6bafc6843a782429d8b8df24d7758798f06
 			
 		} catch (DAOException e) {
 			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
 		}
 		
 		if(listaFotografia.isEmpty()) {
-			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
+			respuesta = Response.Status.NOT_FOUND;
 		}
 		
-		if (respuesta == Response.Status.OK)
-			return Response.ok(listaFotografia).build();
-		else
+		if (respuesta == Response.Status.OK) {
+			
+			int random = (int)(Math.random() * listaFotografia.size()) + 1;
+			
+			return Response.ok(listaFotografia.get(random)).build();
+			
+		} else {
 			return Response.status(respuesta).build();
-		
+		}
 	}
 	
 	
-	/*@POST
+	@GET
+	@Path("/{id_inmueble}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getFotografia(@PathParam("id_inmueble") int id_inmueble){
+		
+		claseFotografia = new MySQLFotografiaDAO(dataSource);
+		
+		Response.Status respuesta = Response.Status.OK;
+		
+		List<Fotografia> listaFotografia = new LinkedList<>();
+		
+		try {
+
+			listaFotografia = claseFotografia.listaFotografiasDeInmueble(id_inmueble);
+			
+		} catch (DAOException e) {
+			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
+		}
+		
+		if(listaFotografia.isEmpty()) {
+			respuesta = Response.Status.NOT_FOUND;
+		}
+		
+		if (respuesta == Response.Status.OK) {
+			
+			return Response.ok(listaFotografia).build();
+			
+		}else{
+			return Response.status(respuesta).build();
+		}
+	}
+	
+	
+	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response postFotografia(@Context UriInfo uriInfo, Fotografia foto) {
 		
@@ -88,13 +123,22 @@ public class ServicioFotografia {
 		}
 		
 		return Response.status(respuestas).build();
-		
-	}*/
-	
-	@POST
-	public void postFotografia() {
-		
 	}
+	
+	@PUT
+	@Path("/{id_inmueble}/{num_foto}")
+	@Consumes("images/jpeg")
+	public Response putFichero(File fichero, @PathParam("id_inmueble") int id_inmueble,
+											@PathParam("num_foto") int num_foto) {
+		
+		Response.Status responseStatus = Response.Status.OK;
+		
+		fichero.renameTo(new File("/Imagenes/" + id_inmueble + "/" + num_foto + ".jpg"));
+		
+		return Response.status(responseStatus).build();
+
+	}
+	
 	
 	// Borra todas las fotos guardadas de un piso y las rutas de las fotos de la base de datos
 	@DELETE
@@ -130,7 +174,5 @@ public class ServicioFotografia {
 		
 		return Response.status(respuestas).build();
 	}
-	
-	
 	
 }

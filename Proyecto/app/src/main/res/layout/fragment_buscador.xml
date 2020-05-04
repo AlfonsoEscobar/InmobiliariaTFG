@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/ivBuscador"
         android:layout_width="match_parent"
         android:layout_height="325dp"
         android:background="@color/colorSecondary"
@@ -18,27 +18,28 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <RadioGroup
-        android:id="@+id/radioGroup"
+        android:id="@+id/rgBuscador"
         android:layout_width="190dp"
         android:layout_height="45dp"
         android:layout_marginStart="108dp"
         android:layout_marginTop="20dp"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2">
+        app:layout_constraintTop_toBottomOf="@+id/ivBuscador">
 
         <RadioButton
-            android:id="@+id/rbComprar"
+            android:id="@+id/rbComprarBuscador"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:checked="true"
             android:fontFamily="@font/source_sans_pro"
             android:text="@string/checkComprar"
             android:textSize="16sp"
             android:textStyle="bold" />
 
         <RadioButton
-            android:id="@+id/rbAlquiler"
+            android:id="@+id/rbAlquilerBuscador"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -49,7 +50,7 @@
     </RadioGroup>
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/etLocalidadBuscador"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -62,21 +63,20 @@
         android:textColor="#8B8B8B"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+        app:layout_constraintTop_toBottomOf="@+id/rgBuscador" />
 
     <Button
-        android:id="@+id/btnBuscar"
+        android:id="@+id/btnBuscarBuscador"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="80dp"
         android:layout_marginEnd="32dp"
         android:background="@drawable/ic_button"
-        android:onClick="Pulsame"
         android:text="@string/buscar"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        app:layout_constraintTop_toBottomOf="@+id/etLocalidadBuscador" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,14 +1,29 @@
 package com.tfg.inmobiliariatfg.modelos;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 
 public class InfoAnuncio {
 
+    @SerializedName("id_inmueble")
+    @Expose
     private int id_inmueble;
+    @SerializedName("precio")
+    @Expose
     private double precio;
+    @SerializedName("tipo_anuncio")
+    @Expose
     private String tipo_anuncio;
+    @SerializedName("fecha_anunciado")
+    @Expose
     private Date fecha_anunciado;
+    @SerializedName("fecha_ultima_actualizacion")
+    @Expose
     private Date fecha_ultima_actualizacion;
+    @SerializedName("inmueble")
+    @Expose
     private Inmueble inmueble;
 
     public InfoAnuncio() {

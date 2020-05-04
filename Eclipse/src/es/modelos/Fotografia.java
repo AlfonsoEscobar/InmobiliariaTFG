@@ -37,5 +37,5 @@ public class Fotografia {
 	public void setInmueble(int inmueble) {
 		this.inmueble = inmueble;
 	}
-	
+
 }

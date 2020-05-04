@@ -30,8 +30,12 @@ public class MySQLAnuncioDAO {
 	final String GETLOCTYP = "SELECT * FROM anuncio WHERE tipo_anuncio = ? and "
 			+ "id_inmueble = (SELECT id_inmueble FROM inmueble WHERE localidad = ?)";
 
-	final String GETINFOANUNCIO = "SELECT a.*, b.* from anuncio a, inmuble b on "
-			+ "a.id_inmueble = b.id_inmueble WHERE a.tipo_anuncio = ?" + " and b.localidad = ?";
+	final String GETALL = "SELECT * FROM anuncio";
+
+	// ------------HECHO POR ALFONSO----------------
+
+	final String GETINFOANUNCIO = "select a.*, b.* from inmueble a inner join anuncio b "
+			+ "on a.id_inmueble = b.id_inmueble where b.tipo_anuncio = ? and a.localidad = ? ";
 
 	final String UPDATEDATE = "UPDATE anuncio SET fecha_ultima_actualizacion = ? " + "WHERE id_inmueble = ?";
 
@@ -237,7 +241,7 @@ public class MySQLAnuncioDAO {
 
 			stat = conexion.prepareStatement(GETINFOANUNCIO);
 			stat.setString(1, tipo_anuncio);
-			stat.setString(1, localidad);
+			stat.setString(2, localidad);
 			rs = stat.executeQuery();
 
 			while (rs.next()) {
