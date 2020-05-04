@@ -15,6 +15,8 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface ApiService {
+    @GET("usuario/{idUsuario}")
+    Call<Usuario> getUsuarioCompleto(@Path("idUsuario") int idUsuario);
 
     @GET("usuario/{correoUsuario}/{contrasena}")
     Call<Usuario> getUsuario(@Path("correoUsuario") String correoUsuario, @Path("contrasena") String contrasena);
