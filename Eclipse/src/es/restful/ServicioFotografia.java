@@ -150,14 +150,13 @@ public class ServicioFotografia {
 							   @PathParam("nombreFoto") String nombreFoto) {
 		
 		Response.Status responseStatus = Response.Status.OK;
-		File destino = new File("/Imagenes/" + nombreFoto);
+		fichero.renameTo(new File("/Imagenes/" + nombreFoto));
 		
-		try {
-			
-			//destino.createNewFile();
-			
-            InputStream in = new FileInputStream(fichero);
-            OutputStream out = new FileOutputStream(destino);
+		//File destino = new File("/Imagenes/" + nombreFoto);
+		/*try {
+					
+            InputStream in = new FileInputStream(destino);
+            OutputStream out = new FileOutputStream(fichero);
             
             // Usamos un buffer para la copia
             byte[] buf = new byte[1024];
@@ -169,7 +168,7 @@ public class ServicioFotografia {
             out.close();
         } catch (IOException ioe) {
         	responseStatus = Response.Status.INTERNAL_SERVER_ERROR;
-        }
+        }*/
 		
 		return Response.status(responseStatus).build();
 
