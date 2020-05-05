@@ -1,15 +1,18 @@
 package es.restful;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.sql.DataSource;
 import javax.ws.rs.Consumes;
@@ -37,15 +40,6 @@ public class ServicioFotografia {
 	private DataSource dataSource;
 	
 	MySQLFotografiaDAO claseFotografia;
-	
-	
-	@GET
-	@Path("/perfil/{nombreFichero}")
-	@Produces("images/jpeg")
-	public Response getFichero(@PathParam("nombreFichero") String nombreFichero) {
-		File fichero = new File("/home/alfonso/Imágenes/" + nombreFichero);
-		return Response.ok(fichero).build();
-	}
 	
 	
 	@GET
@@ -143,38 +137,30 @@ public class ServicioFotografia {
 	}
 	
 	
+	@GET
+	@Path("/perfil/{nombreFichero}")
+	@Produces("images/jpeg")
+	public Response getFichero(@PathParam("nombreFichero") String nombreFichero) {
+		File fichero = new File("/home/alfonso/Imágenes/" + nombreFichero);
+		return Response.ok(fichero).build();
+	}
+
+
 	@PUT
-	@Path("/{nombreFoto}")
+	@Path("/perfil/{nombreFoto}")
 	@Consumes("images/jpeg")
-	public Response putFichero(File fichero, 
+	public Response putFichero(File fichero,
 							   @PathParam("nombreFoto") String nombreFoto) {
-		
+
 		Response.Status responseStatus = Response.Status.OK;
-		fichero.renameTo(new File("/Imagenes/" + nombreFoto));
-		
-		//File destino = new File("/Imagenes/" + nombreFoto);
-		/*try {
-					
-            InputStream in = new FileInputStream(destino);
-            OutputStream out = new FileOutputStream(fichero);
-            
-            // Usamos un buffer para la copia
-            byte[] buf = new byte[1024];
-            int len;
-            while ((len = in.read(buf)) > 0) {
-                out.write(buf, 0, len);
-            }
-            in.close();
-            out.close();
-        } catch (IOException ioe) {
-        	responseStatus = Response.Status.INTERNAL_SERVER_ERROR;
-        }*/
-		
+
+		fichero.renameTo(new File("/home/alfonso/Imágenes/App/Pisos/" + nombreFoto));
+
 		return Response.status(responseStatus).build();
 
 	}
-	
-	
+
+
 	@DELETE
 	@Path("/{id}")
 	public Response deleteFotografia(@PathParam("id") int id) {
