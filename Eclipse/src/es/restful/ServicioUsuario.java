@@ -120,17 +120,21 @@ public class ServicioUsuario {
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response postUsuario(@Context UriInfo uriInfo, Usuario usuario) {
 
 		claseUsuario = new MySQLUsuarioDAO(dataSource);
 
 		Response.Status respuesta = Response.Status.OK;
+		Usuario u = new Usuario();
 
 		try {
 
 			if (!claseUsuario.usuarioRepetido(usuario.getCorreo())) {
 
 				claseUsuario.insertar(usuario);
+				
+				u = claseUsuario.obtener(usuario.getCorreo());
 
 			}
 
@@ -138,7 +142,10 @@ public class ServicioUsuario {
 			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
 		}
 
-		return Response.status(respuesta).build();
+		if (respuesta == Response.Status.OK)
+			return Response.ok(u).build();
+		else
+			return Response.status(respuesta).build();
 	}
 
 	@DELETE
