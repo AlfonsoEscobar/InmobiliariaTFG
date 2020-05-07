@@ -45,7 +45,8 @@ public class MySQLInmuebleDAO {
 
 	public int insertar(Inmueble inmueble) throws DAOException {
 		PreparedStatement stat = null;
-		int filasModificadas = 0;
+		ResultSet generatedKeys = null;
+		int generatedId = -1;
 
 		try {
 			stat = conexion.prepareStatement(INSERT);
@@ -71,7 +72,11 @@ public class MySQLInmuebleDAO {
 			stat.setBoolean(20, inmueble.isUltima_planta());
 			stat.setBoolean(21, inmueble.isMascotas());
 
-			filasModificadas = stat.executeUpdate();
+			stat.executeUpdate();
+			
+			generatedKeys = stat.getGeneratedKeys();
+			if (generatedKeys.next())
+				generatedId = generatedKeys.getInt(1);
 
 		} catch (SQLException ex) {
 			throw new DAOException("Error en SQL", ex);
@@ -84,7 +89,7 @@ public class MySQLInmuebleDAO {
 				}
 			}
 		}
-		return filasModificadas;
+		return generatedId;
 	}
 
 	public int modificar(Integer id, Inmueble inmueble) throws DAOException {

@@ -123,7 +123,6 @@ public class ServicioUsuario {
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
 	public Response postUsuario(@Context UriInfo uriInfo, Usuario usuario) {
 
 		claseUsuario = new MySQLUsuarioDAO(dataSource);
@@ -137,6 +136,10 @@ public class ServicioUsuario {
 
 				idgenerado = claseUsuario.insertar(usuario);
 
+			}
+			
+			if (idgenerado <= 0){
+				respuesta = Response.Status.NOT_FOUND;
 			}
 
 		} catch (DAOException e) {

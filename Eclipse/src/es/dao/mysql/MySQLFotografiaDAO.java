@@ -42,14 +42,20 @@ public class MySQLFotografiaDAO {
 
 	public int insertar(Fotografia fotografia) throws DAOException {
 		PreparedStatement stat = null;
-		int filasInsertadas = 0;
+		ResultSet generatedKeys = null;
+		int generatedId = -1;
 		{
 			try {
 				stat = conexion.prepareStatement(INSERT);
 				stat.setString(1, fotografia.getRuta());
 				stat.setString(2, fotografia.getTipo_habitacion());
 				stat.setInt(3, fotografia.getInmueble());
-				filasInsertadas = stat.executeUpdate();
+				
+				stat.executeUpdate();
+				
+				generatedKeys = stat.getGeneratedKeys();
+				if (generatedKeys.next())
+					generatedId = generatedKeys.getInt(1);
 			} catch (SQLException ex) {
 				throw new DAOException("Error en SQL", ex);
 			} finally {
@@ -63,7 +69,7 @@ public class MySQLFotografiaDAO {
 			}
 
 		}
-		return filasInsertadas;
+		return generatedId;
 	}
 
 	// Elimina una foto por su ruta
