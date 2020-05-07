@@ -122,6 +122,7 @@ public class Conversor {
 		inmu.setMascotas(rs.getBoolean("mascotas"));
 
 		infoan.setId_inmueble(rs.getInt("id_inmueble"));
+		infoan.setTipo_anuncio("tipo_anuncio");
 		infoan.setPrecio(rs.getDouble("precio"));
 		infoan.setFecha_anunciado(rs.getDate("fecha_anunciado"));
 		infoan.setFecha_ultima_actualizacion(rs.getDate("fecha_ultima_actualizacion"));

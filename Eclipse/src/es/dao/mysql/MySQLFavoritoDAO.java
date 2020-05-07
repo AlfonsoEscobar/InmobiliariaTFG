@@ -11,6 +11,8 @@ import javax.sql.DataSource;
 
 import es.dao.DAOException;
 import es.dao.util.Conversor;
+import es.dao.util.InfoAnuncio;
+import es.modelos.Anuncio;
 import es.modelos.Favorito;
 
 public class MySQLFavoritoDAO {
@@ -26,6 +28,12 @@ public class MySQLFavoritoDAO {
 			+ "inmueble_favorito = ? and tipo_anuncio = ?";
 
 	final String GETFAVUSER = "SELECT * FROM favorito WHERE usuario_favorito = ?";
+	
+	final String GETANUNCIOSFAV = "SELECT * FROM anuncio WHERE id_inmueble = (SELECT * FROM favorito WHERE usuario_favorito = ?)";
+	
+	final String GETINFOANUNCIOSFAV = "SELECT i.*, a.* from inmueble i inner join anuncio a "
+			+ "on a.id_inmueble = (SELECT id_inmueble FROM favorito WHERE id_usuario = ?)";
+
 
 	private Connection conexion;
 
@@ -168,7 +176,7 @@ public class MySQLFavoritoDAO {
 	/*
 	 * FUNCIONA
 	 */
-	// Este método obtiene todos los anuncios favoritos de un usuario
+	// Este método obtiene todos los favoritos de un usuario
 	public List<Favorito> listaFavoritosDeUsuario(Integer id_usuario) throws DAOException {
 
 		PreparedStatement stat = null;
@@ -209,6 +217,99 @@ public class MySQLFavoritoDAO {
 
 		return favoritos;
 
+	}
+	
+	/*
+	 * Obtenemos los objetos Anuncio de los anuncio favoritos asociados a un usuario
+	 * */
+	public List<Anuncio> listaAnunciosFavoritos(int usuario) throws DAOException {
+
+		PreparedStatement stat = null;
+
+		ResultSet rs = null;
+
+		List<Anuncio> anuncios = new LinkedList<>();
+
+		try {
+
+			stat = conexion.prepareStatement(GETANUNCIOSFAV);
+			stat.setInt(1, usuario);
+			rs = stat.executeQuery();
+
+			while (rs.next()) {
+				anuncios.add(Conversor.convertirAnuncio(rs));
+			}
+
+		} catch (SQLException ex) {
+			throw new DAOException("Error en SQL", ex);
+		} finally {
+
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException ex) {
+					throw new DAOException("Error en SQL", ex);
+				}
+			}
+
+			if (stat != null) {
+				try {
+					stat.close();
+				} catch (SQLException ex) {
+					throw new DAOException("Error en SQL", ex);
+				}
+			}
+
+		}
+
+		return anuncios;
+
+	}
+	
+	
+	/*
+	 * Obtenemos la InfoAnuncio de los anuncios marcados como favoritos de un usuario, metiendo el id del usuario por parámetro. CHECKEAR EN LA CAPA RESTFUL
+	 * */
+	public LinkedList<InfoAnuncio> listaInfoAnunciosFavoritos(int usuario) throws DAOException {
+
+		LinkedList<InfoAnuncio> lista = new LinkedList<>();
+
+		PreparedStatement stat = null;
+		ResultSet rs = null;
+
+		try {
+
+			stat = conexion.prepareStatement(GETINFOANUNCIOSFAV);
+			stat.setInt(1, usuario);
+			rs = stat.executeQuery();
+
+			while (rs.next()) {
+
+				lista.add(Conversor.convertirInfoAnuncio(rs));
+
+			}
+
+		} catch (SQLException ex) {
+			throw new DAOException("Error en SQL", ex);
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException ex) {
+					throw new DAOException("Error en SQL", ex);
+				}
+			}
+			if (stat != null) {
+				try {
+					stat.close();
+				} catch (SQLException ex) {
+					throw new DAOException("Error en SQL", ex);
+				}
+			}
+
+		}
+
+		return lista;
 	}
 
 }

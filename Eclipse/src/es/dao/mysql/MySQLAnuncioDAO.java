@@ -29,12 +29,13 @@ public class MySQLAnuncioDAO {
 
 	final String GETLOCTYP = "SELECT * FROM anuncio WHERE tipo_anuncio = ? and "
 			+ "id_inmueble = (SELECT id_inmueble FROM inmueble WHERE localidad = ?)";
+	
+	final String GETINFOANUNCIOPROPIETARIO = "SELECT a.*, i.* FROM anuncio a inner join inmueble i "
+			+ "on a.id_inmueble = (SELECT id_inmueble FROM inmueble WHERE propietario = ?)";
+	
+	final String GETINOFANUNCIO = "SELECT i.*, a.* from inmueble i inner join anuncio a on i.id_inmuble = ? and a.tipo_anuncio = ?";
 
-	final String GETALL = "SELECT * FROM anuncio";
-
-	// ------------HECHO POR ALFONSO----------------
-
-	final String GETINFOANUNCIO = "select a.*, b.* from inmueble a inner join anuncio b "
+	final String GETINFOANUNCIOS = "select a.*, b.* from inmueble a inner join anuncio b "
 			+ "on a.id_inmueble = b.id_inmueble where b.tipo_anuncio = ? and a.localidad = ? ";
 
 	final String UPDATEDATE = "UPDATE anuncio SET fecha_ultima_actualizacion = ? " + "WHERE id_inmueble = ?";
@@ -141,6 +142,10 @@ public class MySQLAnuncioDAO {
 		return filasEliminadas;
 	}
 
+	
+	/*
+	 * Obtención de un anuncio con su id de inmueble y el tipo de anuncio
+	 * */
 	public Anuncio obtenerAnuncio(int id, String tipo_anuncio) throws DAOException {
 		PreparedStatement stat = null;
 		ResultSet rs = null;
@@ -226,6 +231,93 @@ public class MySQLAnuncioDAO {
 	}
 	
 	/*
+	 * Método para obtener la InfoAnuncio de un anuncio en concreto, filtrado por id_inmueble y tipo_anuncio
+	 * */
+	public InfoAnuncio obtenerInfoAnuncio(int id, String tipo_anuncio) throws DAOException {
+		PreparedStatement stat = null;
+		ResultSet rs = null;
+		InfoAnuncio InfoAnuncio = null;
+		try {
+			stat = conexion.prepareStatement(GETINOFANUNCIO);
+			stat.setInt(1, id);
+			stat.setString(2, tipo_anuncio);
+			rs = stat.executeQuery();
+			if (rs.next()) {
+				InfoAnuncio = Conversor.convertirInfoAnuncio(rs);
+			} else {
+				// throw new DAOException("No se ha encontrado ningún registro");
+			}
+		} catch (SQLException ex) {
+			throw new DAOException("Error en SQL", ex);
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException ex) {
+					throw new DAOException("Error en SQL", ex);
+				}
+			}
+			if (stat != null) {
+				try {
+					stat.close();
+				} catch (SQLException ex) {
+					throw new DAOException("Error en SQL", ex);
+				}
+			}
+
+		}
+		return InfoAnuncio;
+	}
+	
+	
+	/*
+	 * Método que recibe el id de un usuario y devuelve todos los InfoAnuncio de los anuncio que ha registrado. CHECKEAR EN LA CAPA RESTFUL 
+	 * */
+	public List<InfoAnuncio> listaInfoAnuncios(int propietario) throws DAOException {
+
+		PreparedStatement stat = null;
+
+		ResultSet rs = null;
+
+		List<InfoAnuncio> InfoAnuncios = new LinkedList<>();
+
+		try {
+
+			stat = conexion.prepareStatement(GETINFOANUNCIOPROPIETARIO);
+			stat.setInt(1, propietario);
+			rs = stat.executeQuery();
+
+			while (rs.next()) {
+				InfoAnuncios.add(Conversor.convertirInfoAnuncio(rs));
+			}
+
+		} catch (SQLException ex) {
+			throw new DAOException("Error en SQL", ex);
+		} finally {
+
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException ex) {
+					throw new DAOException("Error en SQL", ex);
+				}
+			}
+
+			if (stat != null) {
+				try {
+					stat.close();
+				} catch (SQLException ex) {
+					throw new DAOException("Error en SQL", ex);
+				}
+			}
+
+		}
+
+		return InfoAnuncios;
+
+	}
+	
+	/*
 	 * Este metodo devuelve la lista de InfoAnuncios filtrados solo por el tipo de
 	 * anuncio y la localidad que es lo que se le pasa por parametro
 	 * 
@@ -239,7 +331,7 @@ public class MySQLAnuncioDAO {
 
 		try {
 
-			stat = conexion.prepareStatement(GETINFOANUNCIO);
+			stat = conexion.prepareStatement(GETINFOANUNCIOS);
 			stat.setString(1, tipo_anuncio);
 			stat.setString(2, localidad);
 			rs = stat.executeQuery();
