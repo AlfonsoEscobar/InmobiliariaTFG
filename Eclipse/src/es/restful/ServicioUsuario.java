@@ -1,5 +1,7 @@
 package es.restful;
 
+import java.net.URI;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.sql.DataSource;
@@ -14,6 +16,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import es.dao.DAOException;
@@ -126,15 +129,13 @@ public class ServicioUsuario {
 		claseUsuario = new MySQLUsuarioDAO(dataSource);
 
 		Response.Status respuesta = Response.Status.OK;
-		Usuario u = new Usuario();
+		int idgenerado = -1;
 
 		try {
 
 			if (!claseUsuario.usuarioRepetido(usuario.getCorreo())) {
 
-				claseUsuario.insertar(usuario);
-				
-				u = claseUsuario.obtener(usuario.getCorreo());
+				idgenerado = claseUsuario.insertar(usuario);
 
 			}
 
@@ -142,10 +143,13 @@ public class ServicioUsuario {
 			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
 		}
 
-		if (respuesta == Response.Status.OK)
-			return Response.ok(u).build();
-		else
+		if (respuesta == Response.Status.OK) {
+			UriBuilder uriBuilder = uriInfo.getRequestUriBuilder();
+			URI uri = uriBuilder.path(Integer.toString(idgenerado)).build();
+			return Response.created(uri).build();
+		}else {
 			return Response.status(respuesta).build();
+		}
 	}
 
 	@DELETE

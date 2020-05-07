@@ -32,7 +32,7 @@ public class MySQLAnuncioDAO {
 	
 	final String GETINFOANUNCIOPROPIETARIO = "SELECT a.*, i.* FROM anuncio a inner join inmueble i "
 			+ "on a.id_inmueble = (SELECT id_inmueble FROM inmueble WHERE propietario = ?)";
-	
+
 	final String GETINOFANUNCIO = "SELECT i.*, a.* from inmueble i inner join anuncio a on i.id_inmuble = ? and a.tipo_anuncio = ?";
 
 	final String GETINFOANUNCIOS = "select a.*, b.* from inmueble a inner join anuncio b "
