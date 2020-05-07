@@ -20,7 +20,6 @@ import es.dao.DAOException;
 import es.dao.mysql.MySQLUsuarioDAO;
 import es.modelos.Usuario;
 
-
 @ApplicationScoped
 @Path("/usuario")
 public class ServicioUsuario {
@@ -33,8 +32,8 @@ public class ServicioUsuario {
 	@GET
 	@Path("/{correo}/{contrasena}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getUsuario(@PathParam("correo") String correo,
-								@PathParam("contrasena") String contrasena) {
+	public Response getUsuarioCC(@PathParam("correo") String correo, 
+								 @PathParam("contrasena") String contrasena) {
 
 		claseUsuario = new MySQLUsuarioDAO(dataSource);
 
@@ -42,28 +41,56 @@ public class ServicioUsuario {
 		Usuario usuario = null;
 
 		try {
-			
-			if(claseUsuario.verificarUsuarioEnBase(correo, contrasena)) {
-				
+
+			if (claseUsuario.verificarUsuarioEnBase(correo, contrasena)) {
+
 				usuario = claseUsuario.obtener(correo);
-				
+
 			}
-			
-			if(usuario == null)
+
+			if (usuario == null)
 				respuesta = Response.Status.NOT_FOUND;
-			
+
 		} catch (DAOException e) {
 			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
 		}
-		
+
 		if (respuesta == Response.Status.OK) {
 			return Response.ok(usuario).build();
-		}else {
+		} else {
 			return Response.status(respuesta).build();
 		}
 
 	}
 
+	@GET
+	@Path("/{id_usuario}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getUsuarioPorId(@PathParam("id_usuario") int id_usuario) {
+
+		claseUsuario = new MySQLUsuarioDAO(dataSource);
+
+		Response.Status respuesta = Response.Status.OK;
+		Usuario usuario = null;
+
+		try {
+
+			usuario = claseUsuario.obtenerPorId_usuario(id_usuario);
+
+			if (usuario == null)
+				respuesta = Response.Status.NOT_FOUND;
+
+		} catch (DAOException e) {
+			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
+		}
+
+		if (respuesta == Response.Status.OK) {
+			return Response.ok(usuario).build();
+		} else {
+			return Response.status(respuesta).build();
+		}
+
+	}
 
 	@PUT
 	@Path("/{id_usuario}")
@@ -78,9 +105,8 @@ public class ServicioUsuario {
 		try {
 
 			filasModificadas = claseUsuario.modificar(id, usuario);
-			
-			
-			if(filasModificadas == 0) {
+
+			if (filasModificadas == 0) {
 				respuesta = Response.Status.NOT_FOUND;
 			}
 
@@ -92,32 +118,29 @@ public class ServicioUsuario {
 
 	}
 
-
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response postUsuario(@Context UriInfo uriInfo, Usuario usuario) {
-		
+
 		claseUsuario = new MySQLUsuarioDAO(dataSource);
-		
+
 		Response.Status respuesta = Response.Status.OK;
 
-		
 		try {
-			
-			if ( !claseUsuario.usuarioRepetido(usuario.getCorreo()) ) {
-				
+
+			if (!claseUsuario.usuarioRepetido(usuario.getCorreo())) {
+
 				claseUsuario.insertar(usuario);
-				
+
 			}
-			
+
 		} catch (DAOException e) {
 			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
 		}
-		
+
 		return Response.status(respuesta).build();
 	}
-	
-	
+
 	@DELETE
 	@Path("/{id_usuario}")
 	public Response deleteUsuario(@PathParam("correo") int id) {
@@ -129,18 +152,18 @@ public class ServicioUsuario {
 		int filasModificadas = 0;
 
 		try {
-			
+
 			filasModificadas = claseUsuario.eliminar(id);
-			
+
 		} catch (DAOException e) {
 			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
 		}
-		
+
 		if (filasModificadas == 0) {
 			respuesta = Response.Status.NOT_FOUND;
 		}
-		
+
 		return Response.status(respuesta).build();
 	}
-	
+
 }

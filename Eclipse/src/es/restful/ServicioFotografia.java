@@ -1,10 +1,18 @@
 package es.restful;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.sql.DataSource;
 import javax.ws.rs.Consumes;
@@ -32,6 +40,7 @@ public class ServicioFotografia {
 	private DataSource dataSource;
 	
 	MySQLFotografiaDAO claseFotografia;
+	
 	
 	@GET
 	@Path("/unica/{tipo}")
@@ -110,6 +119,8 @@ public class ServicioFotografia {
 		Response.Status respuestas = Response.Status.OK;
 		int filasModificadas = 0;
 		
+		foto.setRuta("/Imagenes/Pisos/" + foto.getInmueble() + "/" + foto.getRuta() + ".jpg");
+		
 		try {
 			
 			filasModificadas = claseFotografia.insertar(foto);
@@ -125,22 +136,31 @@ public class ServicioFotografia {
 		return Response.status(respuestas).build();
 	}
 	
+	
+	@GET
+	@Path("/perfil/{nombreFichero}")
+	@Produces("images/jpeg")
+	public Response getFichero(@PathParam("nombreFichero") String nombreFichero) {
+		File fichero = new File("/home/alfonso/Imágenes/" + nombreFichero);
+		return Response.ok(fichero).build();
+	}
+
+
 	@PUT
-	@Path("/{id_inmueble}/{num_foto}")
+	@Path("/perfil/{nombreFoto}")
 	@Consumes("images/jpeg")
-	public Response putFichero(File fichero, @PathParam("id_inmueble") int id_inmueble,
-											@PathParam("num_foto") int num_foto) {
-		
+	public Response putFichero(File fichero,
+							   @PathParam("nombreFoto") String nombreFoto) {
+
 		Response.Status responseStatus = Response.Status.OK;
-		
-		fichero.renameTo(new File("/Imagenes/" + id_inmueble + "/" + num_foto + ".jpg"));
-		
+
+		fichero.renameTo(new File("/home/alfonso/Imágenes/App/Pisos/" + nombreFoto));
+
 		return Response.status(responseStatus).build();
 
 	}
-	
-	
-	// Borra todas las fotos guardadas de un piso y las rutas de las fotos de la base de datos
+
+
 	@DELETE
 	@Path("/{id}")
 	public Response deleteFotografia(@PathParam("id") int id) {
@@ -148,7 +168,6 @@ public class ServicioFotografia {
 		claseFotografia = new MySQLFotografiaDAO(dataSource);
 		
 		Response.Status respuestas = Response.Status.OK;
-		
 		
 		List<Fotografia> listaFotografia = new LinkedList<>();
 		

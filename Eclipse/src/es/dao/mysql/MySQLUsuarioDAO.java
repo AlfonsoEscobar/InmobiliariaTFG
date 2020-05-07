@@ -29,6 +29,9 @@ public class MySQLUsuarioDAO {
 
 	final String GETONE = "SELECT id_usuario, correo, contrasena, nombre, telefono1,"
 						+ "telefono2, imagen_perfil FROM usuario WHERE correo = ?";
+	
+	final String GETONEID = "SELECT id_usuario, correo, contrasena, nombre, telefono1,"
+			+ "telefono2, imagen_perfil FROM usuario WHERE id_usuario = ?";
 
 	final String VERIFICAR = "SELECT * FROM usuario WHERE correo = ? and contrasena = ?";
 
@@ -211,6 +214,42 @@ public class MySQLUsuarioDAO {
 				usuario = Conversor.convertirUsuario(rs);
 			} else {
 				// throw new DAOException("No se ha encontrado ningún registro");
+			}
+		} catch (SQLException ex) {
+			throw new DAOException("Error en SQL", ex);
+
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException ex) {
+					throw new DAOException("Error en SQL", ex);
+				}
+			}
+			if (stat != null) {
+				try {
+					stat.close();
+				} catch (SQLException ex) {
+					throw new DAOException("Error en SQL", ex);
+				}
+			}
+
+		}
+		return usuario;
+	}
+	
+	
+	public Usuario obtenerPorId_usuario(int id_usuario) throws DAOException {
+		PreparedStatement stat = null;
+		ResultSet rs = null;
+		Usuario usuario = null;
+
+		try {
+			stat = conexion.prepareStatement(GETONEID);
+			stat.setInt(1, id_usuario);
+			rs = stat.executeQuery();
+			if (rs.next()) {
+				usuario = Conversor.convertirUsuario(rs);
 			}
 		} catch (SQLException ex) {
 			throw new DAOException("Error en SQL", ex);

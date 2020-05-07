@@ -55,9 +55,9 @@ public class LoginActivity extends AppCompatActivity {
                     public void onResponse(Call<Usuario> call, Response<Usuario> response) {
                         if (response.isSuccessful()) {
                             Usuario usuario = response.body();
-                            int idUsuario = usuario.getId_usuario();
+                            //int idUsuario = usuario.getId_usuario();
                             Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                            i.putExtra("idUsuario", idUsuario);
+                            i.putExtra("usuario", usuario);
                             startActivity(i);
                         } else {
                             etCorreoLogin.setHint("Correo");

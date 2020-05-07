@@ -9,21 +9,23 @@
     android:layout_height="176dp">
 
     <ImageView
+        android:id="@+id/ivMenuLateral"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/ic_launcher_round"/>
-    
+        android:contentDescription="@string/imgProfile"
+        android:src="@mipmap/ic_launcher_round" />
+
     <TextView
+        android:id="@+id/tvNomMenuLateral"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="6dp"
-        android:text="Coding in flow"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
-    
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
     <TextView
+        android:id="@+id/tvCorreoMenuLateral"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="info@codingflow.com"/>
+        android:layout_height="wrap_content" />
     
 
 </LinearLayout>
