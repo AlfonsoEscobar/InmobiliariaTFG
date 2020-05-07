@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -54,7 +55,7 @@ public class MySQLFavoritoDAO {
 
 		try {
 
-			stat = conexion.prepareStatement(INSERT);
+			stat = conexion.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
 			stat.setInt(1, favorito.getUsuario_favorito());
 			stat.setInt(2, favorito.getInmueble_favorito());
 			stat.setString(3, favorito.getTipo_anuncio());
