@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class MySQLInmuebleDAO {
 		int generatedId = -1;
 
 		try {
-			stat = conexion.prepareStatement(INSERT);
+			stat = conexion.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
 			stat.setString(1, inmueble.getProvincia());
 			stat.setString(2, inmueble.getLocalidad());
 			stat.setString(3, inmueble.getCalle());

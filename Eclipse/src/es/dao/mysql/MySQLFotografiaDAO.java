@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -46,7 +47,7 @@ public class MySQLFotografiaDAO {
 		int generatedId = -1;
 		{
 			try {
-				stat = conexion.prepareStatement(INSERT);
+				stat = conexion.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
 				stat.setString(1, fotografia.getRuta());
 				stat.setString(2, fotografia.getTipo_habitacion());
 				stat.setInt(3, fotografia.getInmueble());
