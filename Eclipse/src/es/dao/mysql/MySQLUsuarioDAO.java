@@ -55,7 +55,8 @@ public class MySQLUsuarioDAO {
 	 */
 	public int insertar(Usuario usuario) throws DAOException {
 		PreparedStatement stat = null;
-		int filasModificadas = 0;
+		ResultSet generatedKeys = null;
+		int generatedId = -1;
 		try {
 			stat = conexion.prepareStatement(INSERT);
 			stat.setString(1, usuario.getCorreo());
@@ -66,7 +67,12 @@ public class MySQLUsuarioDAO {
 			
 			stat.setBytes(6, usuario.getImagen_perfil());
 			
-			filasModificadas = stat.executeUpdate();
+			stat.executeUpdate();
+			
+			generatedKeys = stat.getGeneratedKeys();
+			if (generatedKeys.next())
+				generatedId = generatedKeys.getInt(1);
+
 		} catch (SQLException ex) {
 			throw new DAOException("Error en SQL", ex);
 		} finally {
@@ -79,7 +85,7 @@ public class MySQLUsuarioDAO {
 			}
 
 		}
-		return filasModificadas;
+		return generatedId;
 
 	}
 

@@ -32,7 +32,7 @@ public class MySQLFavoritoDAO {
 	final String GETANUNCIOSFAV = "SELECT * FROM anuncio WHERE id_inmueble = (SELECT * FROM favorito WHERE usuario_favorito = ?)";
 	
 	final String GETINFOANUNCIOSFAV = "SELECT i.*, a.* from inmueble i inner join anuncio a "
-			+ "on a.id_inmueble = (SELECT id_inmueble FROM favorito WHERE id_usuario = ?)";
+			+ "on a.id_inmueble = i.id_inmueble WHERE a.id_inmueble = (SELECT id_inmueble FROM favorito WHERE usuario_favorito = ?)";
 
 
 	private Connection conexion;
@@ -49,7 +49,8 @@ public class MySQLFavoritoDAO {
 	public int insertar(Favorito favorito) throws DAOException {
 
 		PreparedStatement stat = null;
-		int filasInsertadas = 0;
+		ResultSet generatedKeys = null;
+		int generatedId = -1;
 
 		try {
 
@@ -58,7 +59,11 @@ public class MySQLFavoritoDAO {
 			stat.setInt(2, favorito.getInmueble_favorito());
 			stat.setString(3, favorito.getTipo_anuncio());
 
-			filasInsertadas = stat.executeUpdate();
+			stat.executeUpdate();
+			
+			generatedKeys = stat.getGeneratedKeys();
+			if (generatedKeys.next())
+				generatedId = generatedKeys.getInt(1);
 
 		} catch (SQLException ex) {
 			throw new DAOException("Error en SQL", ex);
@@ -72,7 +77,7 @@ public class MySQLFavoritoDAO {
 			}
 		}
 
-		return filasInsertadas;
+		return generatedId;
 
 	}
 

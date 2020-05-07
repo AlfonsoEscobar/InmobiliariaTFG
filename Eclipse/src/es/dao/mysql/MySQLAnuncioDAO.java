@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.LinkedList;
@@ -31,9 +32,7 @@ public class MySQLAnuncioDAO {
 			+ "id_inmueble = (SELECT id_inmueble FROM inmueble WHERE localidad = ?)";
 	
 	final String GETINFOANUNCIOPROPIETARIO = "SELECT a.*, i.* FROM anuncio a inner join inmueble i "
-			+ "on a.id_inmueble = (SELECT id_inmueble FROM inmueble WHERE propietario = ?)";
-	
-	final String GETINOFANUNCIO = "SELECT i.*, a.* from inmueble i inner join anuncio a on i.id_inmuble = ? and a.tipo_anuncio = ?";
+			+ "on a.id_inmueble = i.id_inmueble WHERE a.id_inmueble = (SELECT id_inmueble FROM inmueble WHERE propietario = ?)";
 
 	final String GETINFOANUNCIOS = "select a.*, b.* from inmueble a inner join anuncio b "
 			+ "on a.id_inmueble = b.id_inmueble where b.tipo_anuncio = ? and a.localidad = ? ";
@@ -57,18 +56,23 @@ public class MySQLAnuncioDAO {
 	public int insertar(Anuncio anuncio) throws DAOException {
 
 		PreparedStatement stat = null;
-		int filasInsertadas = 0;
+		ResultSet generatedKeys = null;
+		int generatedId = -1;
 
 		try {
 
-			stat = conexion.prepareStatement(INSERT);
+			stat = conexion.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
 			stat.setInt(1, anuncio.getId_inmueble());
 			stat.setString(2, anuncio.getTipo_anuncio());
 			stat.setDouble(3, anuncio.getPrecio());
 			stat.setDate(4, (java.sql.Date) anuncio.getFecha_anuncio());
 			stat.setDate(5, (java.sql.Date) anuncio.getFecha_ultima_actualizacion());
 
-			filasInsertadas = stat.executeUpdate();
+			stat.executeUpdate();
+			
+			generatedKeys = stat.getGeneratedKeys();
+			if (generatedKeys.next())
+				generatedId = generatedKeys.getInt(1);
 
 		} catch (SQLException ex) {
 			throw new DAOException("Error en SQL", ex);
@@ -84,7 +88,7 @@ public class MySQLAnuncioDAO {
 
 		}
 
-		return filasInsertadas;
+		return generatedId;
 
 	}
 
@@ -229,46 +233,6 @@ public class MySQLAnuncioDAO {
 		return anuncios;
 
 	}
-	
-	/*
-	 * Método para obtener la InfoAnuncio de un anuncio en concreto, filtrado por id_inmueble y tipo_anuncio
-	 * */
-	public InfoAnuncio obtenerInfoAnuncio(int id, String tipo_anuncio) throws DAOException {
-		PreparedStatement stat = null;
-		ResultSet rs = null;
-		InfoAnuncio InfoAnuncio = null;
-		try {
-			stat = conexion.prepareStatement(GETINOFANUNCIO);
-			stat.setInt(1, id);
-			stat.setString(2, tipo_anuncio);
-			rs = stat.executeQuery();
-			if (rs.next()) {
-				InfoAnuncio = Conversor.convertirInfoAnuncio(rs);
-			} else {
-				// throw new DAOException("No se ha encontrado ningún registro");
-			}
-		} catch (SQLException ex) {
-			throw new DAOException("Error en SQL", ex);
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException ex) {
-					throw new DAOException("Error en SQL", ex);
-				}
-			}
-			if (stat != null) {
-				try {
-					stat.close();
-				} catch (SQLException ex) {
-					throw new DAOException("Error en SQL", ex);
-				}
-			}
-
-		}
-		return InfoAnuncio;
-	}
-	
 	
 	/*
 	 * Método que recibe el id de un usuario y devuelve todos los InfoAnuncio de los anuncio que ha registrado. CHECKEAR EN LA CAPA RESTFUL 
