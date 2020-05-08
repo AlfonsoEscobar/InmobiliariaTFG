@@ -1,9 +1,17 @@
 package com.tfg.inmobiliariatfg.modelos;
 
-public class Favorito {
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
+public class Favorito {
+    @SerializedName("usuario_favorito")
+    @Expose
     private int usuario_favorito;
+    @SerializedName("inmueble_favorito")
+    @Expose
     private int inmueble_favorito;
+    @SerializedName("tipo_anuncio")
+    @Expose
     private String tipo_anuncio;
 
     public Favorito(int usuario_favorito, int inmueble_favorito, String tipo_anuncio) {

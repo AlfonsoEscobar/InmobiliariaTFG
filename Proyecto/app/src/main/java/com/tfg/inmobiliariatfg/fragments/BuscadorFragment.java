@@ -7,11 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,9 +17,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.tfg.inmobiliariatfg.R;
-import com.tfg.inmobiliariatfg.activities.LoginActivity;
-import com.tfg.inmobiliariatfg.activities.MainActivity;
-import com.tfg.inmobiliariatfg.activities.RecyclerViewBusqueda;
+import com.tfg.inmobiliariatfg.activities.RecyclerViewBusquedaActivity;
 
 public class BuscadorFragment extends Fragment {
     EditText etLocalidadBuscador;
@@ -42,7 +38,7 @@ public class BuscadorFragment extends Fragment {
         btnBuscarBuscador.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getActivity(), RecyclerViewBusqueda.class);
+                Intent i = new Intent(getActivity(), RecyclerViewBusquedaActivity.class);
                 String localidad = etLocalidadBuscador.getText().toString();
                 if (localidad.equals("")) {
                     Log.i("Error", "No ha sido introducido una localidad");
