@@ -1,6 +1,8 @@
 package es.dao.util;
 
+import java.io.File;
 import java.sql.Date;
+import java.util.List;
 
 import es.modelos.Inmueble;
 
@@ -11,6 +13,8 @@ public class InfoAnuncio {
 	private Date fecha_anunciado;
 	private Date fecha_ultima_actualizacion;
 	private Inmueble inmueble;
+	private List<String> listaRutas;
+	private File imagen;
 	
 	public InfoAnuncio() {
 		
@@ -69,6 +73,22 @@ public class InfoAnuncio {
 
 	public void setInmueble(Inmueble inmueble) {
 		this.inmueble = inmueble;
+	}
+	
+	public File getImagen() {
+		return imagen;
+	}
+	
+	public void setImagen(File img) {
+		this.imagen = img;
+	}
+	
+	public List<String> getListaRutas(){
+		return listaRutas;
+	}
+	
+	public void setListaRutas(List<String> lista) {
+		this.listaRutas = lista;
 	}
 	
 	

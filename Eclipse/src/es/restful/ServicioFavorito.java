@@ -22,6 +22,7 @@ import javax.ws.rs.core.UriInfo;
 
 import es.dao.DAOException;
 import es.dao.mysql.MySQLFavoritoDAO;
+import es.dao.util.InfoAnuncio;
 import es.modelos.Favorito;
 
 @ApplicationScoped
@@ -36,7 +37,7 @@ public class ServicioFavorito {
 	@GET
 	@Path("/{id_usuario}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getFavorito(@PathParam("id_usuario") int id){
+	public Response getFavoritoDelUsuario(@PathParam("id_usuario") int id){
 		
 		claseFavorito = new MySQLFavoritoDAO(dataSource);
 		
@@ -61,6 +62,39 @@ public class ServicioFavorito {
 		
 		if (respuesta == Response.Status.OK)
 			return Response.ok(listaFavorito).build();
+		else
+			return Response.status(respuesta).build();
+		
+	}
+	
+	@GET
+	@Path("/info/{id_usuario}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getInfoAnuncioPorFavorito(@PathParam("id_usuario") int id){
+		
+		claseFavorito = new MySQLFavoritoDAO(dataSource);
+		
+		Response.Status respuesta = Response.Status.OK;
+		
+		List<InfoAnuncio> listaInfoAnuncioFavorito = null;
+		
+		try {
+			
+			listaInfoAnuncioFavorito = claseFavorito.listaInfoAnunciosFavoritos(id);
+			
+		} catch (DAOException e) {
+			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
+		}
+		
+		
+		if(listaInfoAnuncioFavorito != null) {
+			if(listaInfoAnuncioFavorito.isEmpty()) {
+				respuesta = Response.Status.NOT_FOUND;
+			}
+		}
+		
+		if (respuesta == Response.Status.OK)
+			return Response.ok(listaInfoAnuncioFavorito).build();
 		else
 			return Response.status(respuesta).build();
 		
