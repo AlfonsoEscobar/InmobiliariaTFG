@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 
 import com.tfg.inmobiliariatfg.utiles.ApiAdapter;
-import com.tfg.inmobiliariatfg.utiles.RecyclerViewAdapter;
+import com.tfg.inmobiliariatfg.utiles.RecyclerViewInfoAnuncioAdapter;
 import com.tfg.inmobiliariatfg.R;
 import com.tfg.inmobiliariatfg.modelos.InfoAnuncio;
 
@@ -17,19 +17,19 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RecyclerViewBusqueda extends AppCompatActivity {
+public class RecyclerViewBusquedaActivity extends AppCompatActivity {
 
     private RecyclerView recyclerViewBusqueda;
-    private RecyclerViewAdapter adaptadorBusqueda;
+    private RecyclerViewInfoAnuncioAdapter adaptadorBusqueda;
     private Bundle extras;
     String tipo, localidad;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         setContentView(R.layout.activity_recycler_view_busqueda);
-        recyclerViewBusqueda = (RecyclerView) findViewById(R.id.recyclerBusqueda);
+
+        recyclerViewBusqueda = findViewById(R.id.recyclerBusqueda);
         recyclerViewBusqueda.setLayoutManager(new LinearLayoutManager(this));
 
         ObtenerAnuncios();
@@ -61,7 +61,7 @@ public class RecyclerViewBusqueda extends AppCompatActivity {
     }
 
     private void ShowIt(List<InfoAnuncio> response){
-        adaptadorBusqueda = new RecyclerViewAdapter(response);
+        adaptadorBusqueda = new RecyclerViewInfoAnuncioAdapter(response);
         recyclerViewBusqueda.setAdapter(adaptadorBusqueda);
     }
 }

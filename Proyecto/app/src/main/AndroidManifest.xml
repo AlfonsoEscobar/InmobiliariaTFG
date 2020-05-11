@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activities.LoginActivity"></activity>
-        <activity android:name=".activities.RecyclerViewBusqueda" />
+        <activity android:name=".activities.RecyclerViewBusquedaActivity" />
         <activity android:name=".activities.RegistroActivity" />
         <activity
             android:name=".activities.MainActivity"

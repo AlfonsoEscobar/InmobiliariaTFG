@@ -1,29 +1,76 @@
 package com.tfg.inmobiliariatfg.modelos;
 
-public class Inmueble {
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
+public class Inmueble {
+    @SerializedName("provincia")
+    @Expose
     private String provincia;
+    @SerializedName("localidad")
+    @Expose
     private String localidad;
+    @SerializedName("calle")
+    @Expose
     private String calle;
+    @SerializedName("numero")
+    @Expose
     private int numero;
+    @SerializedName("escalera")
+    @Expose
     private String escalera;
+    @SerializedName("piso")
+    @Expose
     private int piso;
+    @SerializedName("puerta")
+    @Expose
     private String puerta;
+    @SerializedName("id_inmueble")
+    @Expose
     private int id_inmueble;
+    @SerializedName("propietario")
+    @Expose
     private int propietario;
+    @SerializedName("descripcion")
+    @Expose
     private String descripcion;
+    @SerializedName("metros2")
+    @Expose
     private double metros2;
+    @SerializedName("num_habitaciones")
+    @Expose
     private int num_habitaciones;
+    @SerializedName("num_banos")
+    @Expose
     private int num_banos;
+    @SerializedName("tipo_edificacion")
+    @Expose
     private String tipo_edificacion;
+    @SerializedName("tipo_obra")
+    @Expose
     private String tipo_obra;
+    @SerializedName("equipamiento")
+    @Expose
     private String equipamiento;
+    @SerializedName("exteriores")
+    @Expose
     private String exteriores;
+    @SerializedName("garaje")
+    @Expose
     private boolean garaje;
+    @SerializedName("trastero")
+    @Expose
     private boolean trastero;
+    @SerializedName("ascensor")
+    @Expose
     private boolean ascensor;
+    @SerializedName("ultima_planta")
+    @Expose
     private boolean ultima_planta;
+    @SerializedName("mascotas")
+    @Expose
     private boolean mascotas;
+
 
     public Inmueble() {
     }
