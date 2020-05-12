@@ -37,6 +37,8 @@ public class MySQLUsuarioDAO {
 	final String VERIFICAR = "SELECT * FROM usuario WHERE correo = ? and contrasena = ?";
 
 	final String REPETIDO = "SELECT * FROM usuario WHERE correo = ?";
+	
+	final String UPDATEPERFIL = "UPDATE usuario SET imagen_perfil = ? WHERE id_usuario = ?";
 
 
 	private Connection conexion;
@@ -280,7 +282,6 @@ public class MySQLUsuarioDAO {
 		}
 		return usuario;
 	}
-
 	
 	/*
 	 * 	FUNCIONA
@@ -354,6 +355,29 @@ public class MySQLUsuarioDAO {
 		}
 
 		return repetido;
+	}
+	
+	public void establecerFotoPerfil(byte[] foto, int id_usuario) throws DAOException {
+		PreparedStatement stat = null;
+		
+		try {
+			stat = conexion.prepareStatement(UPDATEPERFIL);
+			stat.setBytes(1, foto);
+			stat.setInt(2, id_usuario);
+			stat.executeUpdate();
+		} catch (SQLException ex) {
+			throw new DAOException("Error en SQL", ex);
+
+		} finally {
+			if (stat != null) {
+				try {
+					stat.close();
+				} catch (SQLException ex) {
+					throw new DAOException("Error en SQL", ex);
+				}
+			}
+
+		}
 	}
 
 }
