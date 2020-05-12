@@ -9,33 +9,34 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.tfg.inmobiliariatfg.R;
 import com.tfg.inmobiliariatfg.modelos.InfoAnuncio;
 
 import java.util.List;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+public class RecyclerViewInfoAnuncioAdapter extends RecyclerView.Adapter<RecyclerViewInfoAnuncioAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder {
+
         private TextView tvBusquedaCalle, tvBusquedaFechIng, tvBusquedaPrecio, tvBusquedaHab, tvBusquedaMetros2, tvBusquedaPiso;
         private ImageView ivBusquedaImagen;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            tvBusquedaCalle = (TextView) itemView.findViewById(R.id.tvBusquedaCalle);
-            tvBusquedaFechIng = (TextView) itemView.findViewById(R.id.tvBusquedaFechIng);
-            tvBusquedaPrecio = (TextView) itemView.findViewById(R.id.tvBusquedaPrecio);
-            tvBusquedaHab = (TextView) itemView.findViewById(R.id.tvBusquedaHab);
-            tvBusquedaMetros2 = (TextView) itemView.findViewById(R.id.tvBusquedaMetros2);
-            tvBusquedaPiso = (TextView) itemView.findViewById(R.id.tvBusquedaPiso);
-            /*ivBusquedaImagen = (ImageView) itemView.findViewById(R.id.ivBusquedaImagen);*/
+
+            tvBusquedaCalle = itemView.findViewById(R.id.tvBusquedaCalle);
+            tvBusquedaFechIng = itemView.findViewById(R.id.tvBusquedaFechIng);
+            tvBusquedaPrecio = itemView.findViewById(R.id.tvBusquedaPrecio);
+            tvBusquedaHab = itemView.findViewById(R.id.tvBusquedaHab);
+            tvBusquedaMetros2 = itemView.findViewById(R.id.tvBusquedaMetros2);
+            tvBusquedaPiso = itemView.findViewById(R.id.tvBusquedaPiso);
+            /*ivBusquedaImagen = itemView.findViewById(R.id.ivBusquedaImagen);*/
         }
     }
 
     public List<InfoAnuncio> AnuncioLista;
 
     //Falta añadir el paso de las fotos al arrayAdapter
-    public RecyclerViewAdapter(List<InfoAnuncio> AnuncioLista) {
+    public RecyclerViewInfoAnuncioAdapter(List<InfoAnuncio> AnuncioLista) {
         this.AnuncioLista = AnuncioLista;
     }
 
@@ -63,7 +64,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-
         return AnuncioLista.size();
     }
 }

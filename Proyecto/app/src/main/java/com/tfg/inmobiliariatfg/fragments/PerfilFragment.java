@@ -17,23 +17,29 @@ import com.tfg.inmobiliariatfg.modelos.Usuario;
 
 public class PerfilFragment extends Fragment {
 
-    TextView tvNomPerfil,  tvCorreoPerfil, tvTelPerfil;
+    TextView tvNomPerfil, tvCorreoPerfil, tvTelPerfil;
     ImageView ivPerfil;
     Usuario usuario;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         ConstraintLayout cl = (ConstraintLayout) inflater.inflate(R.layout.fragment_perfil, container, false);
+
         Bundle datos = getArguments();
-        usuario = (Usuario) datos.getSerializable("usuario");
+
         tvNomPerfil = cl.findViewById(R.id.tvNomPerfil);
         tvCorreoPerfil = cl.findViewById(R.id.tvCorreoPerfil);
         tvTelPerfil = cl.findViewById(R.id.tvTelPerfil);
         ivPerfil = cl.findViewById(R.id.ivPerfil);
 
-        tvNomPerfil.setText(usuario.getNombre());
-        tvCorreoPerfil.setText(usuario.getCorreo());
-        tvTelPerfil.setText(usuario.getTelefono1()+"/n"+usuario.getTelefono2());
+        if (datos != null) {
+            usuario = (Usuario) datos.getSerializable("usuario");
+            tvNomPerfil.setText(usuario.getNombre());
+            tvCorreoPerfil.setText(usuario.getCorreo());
+            tvTelPerfil.setText(usuario.getTelefono1() + "\n " + usuario.getTelefono2());
+        }
         return cl;
     }
 }

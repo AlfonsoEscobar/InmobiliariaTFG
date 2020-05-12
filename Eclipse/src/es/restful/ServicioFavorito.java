@@ -1,5 +1,6 @@
 package es.restful;
 
+import java.net.URI;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -16,10 +17,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import es.dao.DAOException;
 import es.dao.mysql.MySQLFavoritoDAO;
+import es.dao.util.InfoAnuncio;
 import es.modelos.Favorito;
 
 @ApplicationScoped
@@ -34,7 +37,7 @@ public class ServicioFavorito {
 	@GET
 	@Path("/{id_usuario}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getFavorito(@PathParam("id_usuario") int id){
+	public Response getFavoritoDelUsuario(@PathParam("id_usuario") int id){
 		
 		claseFavorito = new MySQLFavoritoDAO(dataSource);
 		
@@ -64,27 +67,67 @@ public class ServicioFavorito {
 		
 	}
 	
+	@GET
+	@Path("/info/{id_usuario}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getInfoAnuncioPorFavorito(@PathParam("id_usuario") int id){
+		
+		claseFavorito = new MySQLFavoritoDAO(dataSource);
+		
+		Response.Status respuesta = Response.Status.OK;
+		
+		List<InfoAnuncio> listaInfoAnuncioFavorito = null;
+		
+		try {
+			
+			listaInfoAnuncioFavorito = claseFavorito.listaInfoAnunciosFavoritos(id);
+			
+		} catch (DAOException e) {
+			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
+		}
+		
+		
+		if(listaInfoAnuncioFavorito != null) {
+			if(listaInfoAnuncioFavorito.isEmpty()) {
+				respuesta = Response.Status.NOT_FOUND;
+			}
+		}
+		
+		if (respuesta == Response.Status.OK)
+			return Response.ok(listaInfoAnuncioFavorito).build();
+		else
+			return Response.status(respuesta).build();
+		
+	}
+	
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response postFavorito(@Context UriInfo uriInfo, Favorito favorito) {
 		
 		Response.Status respuesta = Response.Status.OK;
-		int filasModificadas = 0;
+		int idGenerados = 0;
 		
 		try {
 			
-			filasModificadas = claseFavorito.insertar(favorito);
+			idGenerados = claseFavorito.insertar(favorito);
+			
+			if (idGenerados <= 0) {
+				respuesta = Response.Status.NOT_FOUND;
+			}
 			
 		} catch (DAOException e) {
 			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
 		}
 			
-		if (filasModificadas == 0){
-			respuesta = Response.Status.NOT_FOUND;
-		}
 		
-		return Response.status(respuesta).build();
+		if (respuesta == Response.Status.OK) {
+			UriBuilder uriBuilder = uriInfo.getRequestUriBuilder();
+			URI uri = uriBuilder.path(Integer.toString(idGenerados)).build();
+			return Response.created(uri).build();
+		}else {
+			return Response.status(respuesta).build();
+		}
 		
 	}
 

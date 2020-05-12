@@ -2,6 +2,7 @@ package es.restful;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
+import java.net.URI;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import es.dao.DAOException;
@@ -38,9 +40,38 @@ public class ServicioAnuncio {
 	MySQLAnuncioDAO claseAnuncio;
 
 	@GET
-	@Path("/{tipo}/{localidad}")
+	@Path("/{id_propietario}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAnuncio(@PathParam("tipo") String tipo,
+	public Response getInfoAnuncioPorPropietario(@PathParam("id_propietario") int id) {
+
+		claseAnuncio = new MySQLAnuncioDAO(dataSource);
+		Response.Status respuesta = Response.Status.OK;
+		List<InfoAnuncio> listaAnuncio = new LinkedList<>();
+
+		try {
+
+			listaAnuncio = claseAnuncio.listaInfoAnuncios(id);
+
+		} catch (DAOException e) {
+			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
+		}
+
+		
+			if (listaAnuncio.isEmpty()) {
+				respuesta = Response.Status.NOT_FOUND;
+			}
+		
+
+		if (respuesta == Response.Status.OK)
+			return Response.ok(listaAnuncio).build();
+		else
+			return Response.status(respuesta).build();
+	}
+	
+	@GET
+	@Path("/{tipo_anuncio}/{localidad}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getBusquedaAnuncio(@PathParam("tipo_anuncio") String tipo,
 								@PathParam("localidad") String localidad) {
 
 		claseAnuncio = new MySQLAnuncioDAO(dataSource);
@@ -204,20 +235,27 @@ public class ServicioAnuncio {
 		claseAnuncio = new MySQLAnuncioDAO(dataSource);
 
 		Response.Status respuesta = Response.Status.OK;
-		int filasModificadas = 0;
+		int idGenerados = -1;
 
 		try {
 
-			filasModificadas = claseAnuncio.insertar(anuncio);
+			idGenerados = claseAnuncio.insertar(anuncio);
+			
+			if (idGenerados <= 0) {
+				respuesta = Response.Status.NOT_FOUND;
+			}
 
 		} catch (DAOException e) {
 			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
 		}
-
-		if (filasModificadas == 0) {
-			respuesta = Response.Status.NOT_FOUND;
+		
+		if (respuesta == Response.Status.OK) {
+			UriBuilder uriBuilder = uriInfo.getRequestUriBuilder();
+			URI uri = uriBuilder.path(Integer.toString(idGenerados)).build();
+			return Response.created(uri).build();
+		}else {
+			return Response.status(respuesta).build();
 		}
-		return Response.status(respuesta).build();
 	}
 
 	@DELETE

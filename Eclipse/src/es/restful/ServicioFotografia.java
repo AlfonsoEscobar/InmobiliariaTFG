@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
 import java.nio.file.Files;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,6 +27,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import es.dao.DAOException;
@@ -116,24 +118,30 @@ public class ServicioFotografia {
 		
 		claseFotografia = new MySQLFotografiaDAO(dataSource);
 		
-		Response.Status respuestas = Response.Status.OK;
-		int filasModificadas = 0;
+		Response.Status respuesta = Response.Status.OK;
+		int idGenerados = -1;
 		
 		foto.setRuta("/Imagenes/Pisos/" + foto.getInmueble() + "/" + foto.getRuta() + ".jpg");
 		
 		try {
 			
-			filasModificadas = claseFotografia.insertar(foto);
+			idGenerados = claseFotografia.insertar(foto);
+			
+			if (idGenerados <= 0) {
+				respuesta = Response.Status.NOT_FOUND;
+			}
 			
 		} catch (DAOException e) {
-			respuestas = Response.Status.INTERNAL_SERVER_ERROR;
+			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
 		}
 
-		if (filasModificadas == 0){
-			respuestas = Response.Status.NOT_FOUND;
+		if (respuesta == Response.Status.OK) {
+			UriBuilder uriBuilder = uriInfo.getRequestUriBuilder();
+			URI uri = uriBuilder.path(Integer.toString(idGenerados)).build();
+			return Response.created(uri).build();
+		}else {
+			return Response.status(respuesta).build();
 		}
-		
-		return Response.status(respuestas).build();
 	}
 	
 	

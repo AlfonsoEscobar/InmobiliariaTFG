@@ -14,6 +14,7 @@
     <string name="CorreoProfile">Correo:</string>
     <string name="telefonosProfile">Telefono/os:</string>
     <string name="imgProfile">imgProfile</string>
+    <string name="btnEditarFotoPerfil">Editar Foto</string>
     <!-- Strings de activity_main_menu -->
     <string name="checkComprar">Comprar</string>
     <string name="checkAlquilar">Alquilar</string>
@@ -35,5 +36,22 @@
     <string name="btnRegister">Confirmar</string>
     <string name="introduceRegistro">Introduce:</string>
     <string name="asterisco">*</string>
-
+    <!-- String URL -->
+    <!-- <string name="baseURL">https://5ae4c4c4.ngrok.io/Restful_Inmo/servicios/</string> -->
+    <!-- Strings de item_list_inmueble-->
+    <string name="datosUbicacion">Datos de Ubicación</string>
+    <string name="caracteristicasInmueble">Caracteristicas de inmueble</string>
+    <string name="descripcionInmueble">Descripción</string>
+    <string name="habitacionesInmueble">Nºhabitaciones:</string>
+    <string name="banosInmueble">NºBaños:</string>
+    <string name="edificacionInmueble">Tipo edificación:</string>
+    <string name="obraInmueble">Tipo de obra:</string>
+    <string name="equipamientoInmueble">Equipamiento:</string>
+    <string name="exterioresInmueble">Exteriores:</string>
+    <string name="garajeInmueble">Garaje:</string>
+    <string name="trasteroInmueble">Trastero:</string>
+    <string name="ascensorInmueble">Ascensor:</string>
+    <string name="ultPlantaInmueble">Ultima planta:</string>
+    <string name="mascotasInmueble">Mascotas:</string>
+    <string name="DescripcionDefectoInmueble">No se ha ingresado Descripcion del inmueble.</string>
 </resources>

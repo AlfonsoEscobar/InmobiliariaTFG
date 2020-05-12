@@ -58,6 +58,7 @@
         android:ems="10"
         android:hint="@string/introduceRegistro"
         android:inputType="textPersonName"
+        android:maxLength="9"
         android:textColor="#8B8B8B"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtTelRegistro" />
@@ -71,7 +72,8 @@
         android:background="@drawable/ic_plaintext_gris"
         android:ems="10"
         android:hint="@string/introduceRegistro"
-        android:inputType="textPassword"
+        android:inputType="textPersonName"
+        android:maxLength="9"
         android:textColor="#8B8B8B"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etTelRegistro" />
@@ -99,7 +101,7 @@
         android:background="@drawable/ic_plaintext_gris"
         android:ems="10"
         android:hint="@string/introduceRegistro"
-        android:inputType="textPersonName"
+        android:inputType="textPassword"
         android:textColor="#8B8B8B"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtNomRegistro12" />
@@ -154,6 +156,7 @@
         android:layout_marginTop="15dp"
         android:fontFamily="@font/source_sans_pro"
         android:letterSpacing="0"
+        android:maxLength="10"
         android:text="@string/OpcionalTelRegister"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/etTelOpRegistro"

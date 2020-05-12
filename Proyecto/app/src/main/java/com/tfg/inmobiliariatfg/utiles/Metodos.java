@@ -1,5 +1,9 @@
 package com.tfg.inmobiliariatfg.utiles;
 
+
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -23,5 +27,4 @@ public class Metodos {
         }
         return sb.toString();
     }
-
 }

@@ -1,5 +1,11 @@
 package com.tfg.inmobiliariatfg.utiles;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import com.tfg.inmobiliariatfg.R;
+import com.tfg.inmobiliariatfg.activities.MainActivity;
+
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -22,7 +28,7 @@ public class ApiAdapter {
                 .connectTimeout(60, TimeUnit.SECONDS);
         httpClient.addInterceptor(logging);
 
-        String baseUrl = "https://ca5229a7.ngrok.io/Restful_Inmo/servicios/";
+        String baseUrl = "https://4fcd4e4f.ngrok.io/Restful_Inmo/servicios/";
 
         if (API_SERVICE == null) {
             Retrofit retrofit = new Retrofit.Builder()

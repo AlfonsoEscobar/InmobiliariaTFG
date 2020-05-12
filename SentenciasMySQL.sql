@@ -144,6 +144,7 @@ insert into tipo_obra values("Por amueblar");
 insert into escalera values("Derecha");
 insert into escalera values("Izquierda");
 insert into escalera values("Centro");
+insert into escalera values("Unica");
 
 insert into tipo_habitación values("Salón");
 insert into tipo_habitación values("Cocina");

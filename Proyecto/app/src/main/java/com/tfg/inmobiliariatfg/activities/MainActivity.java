@@ -14,23 +14,23 @@ import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.tfg.inmobiliariatfg.R;
-import com.tfg.inmobiliariatfg.fragments.AnunciosFragment;
+import com.tfg.inmobiliariatfg.fragments.RecyclerViewMisAnunciosFragment;
 import com.tfg.inmobiliariatfg.fragments.BuscadorFragment;
 import com.tfg.inmobiliariatfg.fragments.ErrorFragment;
-import com.tfg.inmobiliariatfg.fragments.RecyclerViewFavoritosFragment;
-import com.tfg.inmobiliariatfg.fragments.InmueblesFragment;
+import com.tfg.inmobiliariatfg.fragments.RecyclerViewMisFavoritosFragment;
+import com.tfg.inmobiliariatfg.fragments.RecyclerViewMisInmueblesFragment;
 import com.tfg.inmobiliariatfg.fragments.PerfilFragment;
 import com.tfg.inmobiliariatfg.modelos.Usuario;
 
-
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
     private DrawerLayout drawer;
     Bundle ExtrasLogin;
     Usuario usuario;
     int idUsuario = 0;
     String nomUsuarioLateral, correoUsuarioLateral;
-    ImageView ivMenuLateral;
     TextView tvNomMenuLateral, tvCorreoMenuLateral;
+    ImageView ivMenuLateral;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +42,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+
         tvNomMenuLateral = navigationView.getHeaderView(0).findViewById(R.id.tvNomMenuLateral);
-        ;
-        tvCorreoMenuLateral = navigationView.getHeaderView(0).findViewById(R.id.tvCorreoPerfil);
+        tvCorreoMenuLateral = navigationView.getHeaderView(0).findViewById(R.id.tvCorreoMenuLateral);
+
         navigationView.setNavigationItemSelectedListener(this);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
@@ -93,8 +94,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                             new ErrorFragment()).commit();
                 } else {
+                    RecyclerViewMisFavoritosFragment recyclerViewMisFavoritosFragment = new RecyclerViewMisFavoritosFragment();
+                    recyclerViewMisFavoritosFragment.setArguments(ExtrasLogin);
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            new RecyclerViewFavoritosFragment()).commit();
+                            recyclerViewMisFavoritosFragment).commit();
                 }
                 break;
             case R.id.nav_inmuebles:
@@ -102,8 +105,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                             new ErrorFragment()).commit();
                 } else {
+                    RecyclerViewMisInmueblesFragment recyclerViewMisInmueblesFragment = new RecyclerViewMisInmueblesFragment();
+                    recyclerViewMisInmueblesFragment.setArguments(ExtrasLogin);
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            new InmueblesFragment()).commit();
+                            recyclerViewMisInmueblesFragment).commit();
                 }
                 break;
             case R.id.nav_anuncios:
@@ -111,8 +116,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                             new ErrorFragment()).commit();
                 } else {
+                    RecyclerViewMisAnunciosFragment rvMisAnuncios = new RecyclerViewMisAnunciosFragment();
+                    rvMisAnuncios.setArguments(ExtrasLogin);
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            new AnunciosFragment()).commit();
+                            rvMisAnuncios).commit();
                     break;
                 }
         }

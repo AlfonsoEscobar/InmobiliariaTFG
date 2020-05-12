@@ -1,5 +1,6 @@
 package es.restful;
 
+import java.net.URI;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,6 +18,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import es.dao.DAOException;
@@ -97,13 +99,13 @@ public class ServicioInmueble {
 		
 		Response.Status respuesta = Response.Status.OK;
 		
-		int filasModificadas = 0;
+		int idGenerados = -1;
 		
 		try {
 			
-			filasModificadas = claseInmueble.insertar(inmueble);
+			idGenerados = claseInmueble.insertar(inmueble);
 			
-			if (filasModificadas == 0){
+			if (idGenerados <= 0){
 				respuesta = Response.Status.NOT_FOUND;
 			}
 			
@@ -111,7 +113,13 @@ public class ServicioInmueble {
 			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
 		}
 		
-		return Response.status(respuesta).build();
+		if (respuesta == Response.Status.OK) {
+			UriBuilder uriBuilder = uriInfo.getRequestUriBuilder();
+			URI uri = uriBuilder.path(Integer.toString(idGenerados)).build();
+			return Response.created(uri).build();
+		}else {
+			return Response.status(respuesta).build();
+		}
 		
 	}
 	
