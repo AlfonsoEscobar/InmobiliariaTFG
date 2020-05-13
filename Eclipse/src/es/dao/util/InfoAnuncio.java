@@ -13,6 +13,7 @@ public class InfoAnuncio {
 	private Date fecha_anunciado;
 	private Date fecha_ultima_actualizacion;
 	private Inmueble inmueble;
+	
 	private List<String> listaRutas;
 	private File imagen;
 	

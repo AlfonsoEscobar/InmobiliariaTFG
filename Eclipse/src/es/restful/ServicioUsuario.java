@@ -120,6 +120,35 @@ public class ServicioUsuario {
 		return Response.status(respuesta).build();
 
 	}
+	
+	
+	@PUT
+	@Path("/foto/{id_usuario}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response putFotoUsuario(@PathParam("id_usuario") int id,
+								   byte[] foto) {
+
+		claseUsuario = new MySQLUsuarioDAO(dataSource);
+
+		Response.Status respuesta = Response.Status.OK;
+		int filasModificadas = 0;
+
+		try {
+
+			filasModificadas = claseUsuario.establecerFotoPerfil(foto, id);
+
+			if (filasModificadas == 0) {
+				respuesta = Response.Status.NOT_FOUND;
+			}
+
+		} catch (Exception e) {
+			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
+		}
+
+		return Response.status(respuesta).build();
+
+	}
+	
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
