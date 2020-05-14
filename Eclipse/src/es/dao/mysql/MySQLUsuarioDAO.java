@@ -18,11 +18,10 @@ public class MySQLUsuarioDAO {
 			+ "telefono1, telefono2, imagen_perfil) VALUES(?,?,?,?,?,?)";
 
 	final String UPDATE = "UPDATE usuario SET contrasena = ?, nombre = ?, telefono1 = ?,"
-			+ "telefono2 = ?, imagen_pefil = ? WHERE correo = ?";
+			+ "telefono2 = ?, imagen_perfil = ? WHERE correo = ?";
 
-	// Quité la imagen de perfil por que daba errores
 	final String UPDATE2 = "UPDATE usuario SET contrasena = ?, nombre = ?, telefono1 = ?,"
-			+ "telefono2 = ? WHERE id_usuario = ?";
+			+ "telefono2 = ?, imagen_perfil = ? WHERE id_usuario = ?";
 
 	final String DELETE = "DELETE FROM usuario WHERE correo = ?";
 	
@@ -132,16 +131,14 @@ public class MySQLUsuarioDAO {
 		int filasAfectadas = 0;
 
 		try {
-
 			stat = conexion.prepareStatement(UPDATE2);
 
 			stat.setString(1, usuario.getContrasena());
 			stat.setString(2, usuario.getNombre());
 			stat.setString(3, usuario.getTelefono1());
 			stat.setString(4, usuario.getTelefono2());
-			// stat.setString(5, null);
-			// stat.setInt(6, id);
-			stat.setInt(5, id);
+			stat.setBytes(5, usuario.getImagen_perfil());
+			stat.setInt(6, id);
 
 			filasAfectadas = stat.executeUpdate();
 
