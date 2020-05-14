@@ -112,57 +112,44 @@ public class ServicioFotografia {
 	}
 	
 	
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response postFotografia(@Context UriInfo uriInfo, Fotografia foto) {
-		
-		claseFotografia = new MySQLFotografiaDAO(dataSource);
-		
-		Response.Status respuesta = Response.Status.OK;
-		int idGenerados = -1;
-		
-		foto.setRuta("/Imagenes/Pisos/" + foto.getInmueble() + "/" + foto.getRuta() + ".jpg");
-		
-		try {
-			
-			idGenerados = claseFotografia.insertar(foto);
-			
-			if (idGenerados <= 0) {
-				respuesta = Response.Status.NOT_FOUND;
-			}
-			
-		} catch (DAOException e) {
-			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
-		}
-
-		if (respuesta == Response.Status.OK) {
-			UriBuilder uriBuilder = uriInfo.getRequestUriBuilder();
-			URI uri = uriBuilder.path(Integer.toString(idGenerados)).build();
-			return Response.created(uri).build();
-		}else {
-			return Response.status(respuesta).build();
-		}
-	}
-	
-	
 	@GET
-	@Path("/perfil/{nombreFichero}")
+	@Path("/inmueble/{id_piso}/{nombreFichero}")
 	@Produces("images/jpeg")
-	public Response getFichero(@PathParam("nombreFichero") String nombreFichero) {
-		File fichero = new File("/home/alfonso/Imágenes/" + nombreFichero);
+	public Response getFichero(@PathParam("nombreFichero") String nombreFichero,
+							   @PathParam("id_piso") String id_piso) {
+		File fichero = new File("/home/alfonso/Imágenes/"+ id_piso + "/" + nombreFichero);
 		return Response.ok(fichero).build();
 	}
 
 
-	@PUT
-	@Path("/perfil/{nombreFoto}")
+	@POST
+	@Path("/{tipo_habitacion}/{id_piso}/{nombreFoto}")
 	@Consumes("images/jpeg")
 	public Response putFichero(File fichero,
-							   @PathParam("nombreFoto") String nombreFoto) {
+							   @PathParam("tipo_habitacion") String tipo_habitacion,
+							   @PathParam("nombreFoto") String nombreFoto,
+							   @PathParam("id_piso") int id_piso) {
 
+		claseFotografia = new MySQLFotografiaDAO(dataSource);
+		
 		Response.Status responseStatus = Response.Status.OK;
+		
+		Fotografia foto = new Fotografia();
+		
+		foto.setTipo_habitacion(tipo_habitacion);
+		foto.setRuta("/home/alfonso/Imágenes/App/Pisos/"+ String.valueOf(id_piso) + "/" + nombreFoto);
+		foto.setInmueble(id_piso);
 
-		fichero.renameTo(new File("/home/alfonso/Imágenes/App/Pisos/" + nombreFoto));
+		try {
+			
+			claseFotografia.insertar(foto);
+			
+		} catch (DAOException e) {
+			
+		}
+		
+		fichero.renameTo(new File("/home/alfonso/Imágenes/App/Pisos/"+ 
+										String.valueOf(id_piso) + "/" + nombreFoto));
 
 		return Response.status(responseStatus).build();
 
