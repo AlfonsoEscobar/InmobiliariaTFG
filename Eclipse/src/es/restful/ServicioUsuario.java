@@ -124,7 +124,7 @@ public class ServicioUsuario {
 	
 	@PUT
 	@Path("/foto/{id_usuario}")
-	@Consumes(MediaType.APPLICATION_JSON)
+	@Consumes("images/jpeg")
 	public Response putFotoUsuario(@PathParam("id_usuario") int id,
 								   byte[] foto) {
 
@@ -141,7 +141,7 @@ public class ServicioUsuario {
 				respuesta = Response.Status.NOT_FOUND;
 			}
 
-		} catch (Exception e) {
+		} catch (DAOException e) {
 			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
 		}
 

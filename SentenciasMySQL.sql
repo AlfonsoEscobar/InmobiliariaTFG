@@ -135,6 +135,7 @@ insert into exteriores values("Terraza");
 insert into exteriores values("Patio");
 insert into exteriores values("Piscina");
 insert into exteriores values("Jardín");
+insert into exteriores values("Balcon");
 
 insert into tipo_obra values("Obra nueva");
 insert into tipo_obra values("Segunda mano");
