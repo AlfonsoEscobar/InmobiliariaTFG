@@ -6,31 +6,31 @@ use inmobiliaria;
 CREATE TABLE `tipo_habitacion`(
   `id_habitacion` int AUTO_INCREMENT,
   `tipo` varchar(20),
-  CONSTRAINT 'pk_tipo_habitacion' PRIMARY KEY (`id_habitacion`)
+  CONSTRAINT `pk_tipo_habitacion` PRIMARY KEY (`id_habitacion`)
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `escalera`(
   `id_escalera` int AUTO_INCREMENT,
   `tipo` varchar(20),
-  CONSTRAINT 'pk_escalera' PRIMARY KEY (`id_escalera`)
+  CONSTRAINT `pk_escalera` PRIMARY KEY (`id_escalera`)
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `tipo_edificacion`(
   `id_edificacion` int AUTO_INCREMENT,
   `tipo` varchar(20),
-  CONSTRAINT 'pk_tipo_edificacion' PRIMARY KEY (`id_edificacion`)
+  CONSTRAINT `pk_tipo_edificacion` PRIMARY KEY (`id_edificacion`)
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `exteriores`(
   `id_exterior` int AUTO_INCREMENT,
-  `tipo_exterior` varchar(20),
-  CONSTRAINT 'pk_exteriores' PRIMARY KEY (`id_exterior`)
+  `tipo` varchar(20),
+  CONSTRAINT `pk_exteriores` PRIMARY KEY (`id_exterior`)
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `tipo_obra`(
   `id_obra` int AUTO_INCREMENT,
   `tipo` varchar(20),
-  CONSTRAINT 'pk_tipo_obra' PRIMARY KEY (`id_obra`)
+  CONSTRAINT `pk_tipo_obra` PRIMARY KEY (`id_obra`)
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `usuario` (
@@ -41,7 +41,7 @@ CREATE TABLE `usuario` (
   `telefono1` varchar(9) NOT NULL,
   `telefono2` varchar(9),
   `imagen_perfil` mediumblob,
-  CONSTRAINT 'pk_usuario' PRIMARY KEY (`correo`),
+  CONSTRAINT `pk_usuario` PRIMARY KEY (`correo`),
   CONSTRAINT `un_usuario_id_usuario` UNIQUE KEY (`id_usuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -68,7 +68,7 @@ CREATE TABLE `inmueble` (
   `ascensor` tinyint(1) DEFAULT '0',
   `ultima_planta` tinyint(1) DEFAULT '0',
   `mascotas` tinyint(1) DEFAULT '0',
-  CONSTRAINT 'pk_inmueble' PRIMARY KEY (`provincia`,`localidad`,`calle`,`numero`,`piso`,`puerta`,`escalera`),
+  CONSTRAINT `pk_inmueble` PRIMARY KEY (`provincia`,`localidad`,`calle`,`numero`,`piso`,`puerta`,`escalera`),
   CONSTRAINT `un_inmueble_id_inmueble` UNIQUE KEY (`id_inmueble`),
   CONSTRAINT `fk_inmueble_usuario` FOREIGN KEY (`propietario`) REFERENCES `usuario` (`id_usuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -80,7 +80,7 @@ CREATE TABLE `anuncio` (
   `precio` decimal(8,2) NOT NULL,
   `fecha_anunciado` date,
   `fecha_ultima_actualizacion` date,
-  CONSTRAINT 'pk_anuncio' PRIMARY KEY (`id_inmueble`,`tipo_anuncio`),
+  CONSTRAINT `pk_anuncio` PRIMARY KEY (`id_inmueble`,`tipo_anuncio`),
   CONSTRAINT `fk_anuncio_inmueble` FOREIGN KEY (`id_inmueble`) REFERENCES `inmueble` (`id_inmueble`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -89,7 +89,7 @@ CREATE TABLE `favorito` (
   `usuario_favorito` int NOT NULL,
   `inmueble_favorito` int NOT NULL,
   `tipo_anuncio` varchar(20) NOT NULL,
-  CONSTRAINT 'pk_favorito' PRIMARY KEY (`usuario_favorito`,`inmueble_favorito`,`tipo_anuncio`),
+  CONSTRAINT `pk_favorito` PRIMARY KEY (`usuario_favorito`,`inmueble_favorito`,`tipo_anuncio`),
   CONSTRAINT `fk_favorito_usuario` FOREIGN KEY (`usuario_favorito`) REFERENCES `usuario` (`id_usuario`),
   CONSTRAINT `fk_favorito_anuncio` FOREIGN KEY (`inmueble_favorito`, `tipo_anuncio`) REFERENCES `anuncio` (`id_inmueble`, `tipo_anuncio`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -99,7 +99,7 @@ CREATE TABLE `fotografia` (
   `ruta` varchar(25) NOT NULL,
   `tipo_habitacion` varchar(20),
   `inmueble` int NOT NULL,
-  CONSTRAINT 'pk_fotografia' PRIMARY KEY (`ruta`),
+  CONSTRAINT `pk_fotografia` PRIMARY KEY (`ruta`),
   CONSTRAINT `fk_fotografia_inmueble` FOREIGN KEY (`inmueble`) REFERENCES `inmueble` (`id_inmueble`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -120,6 +120,7 @@ insert into anuncio values(3, "alquiler", 650, null, null);
 insert into anuncio values(3, "venta", 650, null, null);
 
 
+<<<<<<< HEAD
 insert into favorito values(6, 2, "venta");
 insert into favorito values(6, 2, "alquiler");
 insert into favorito values(4, 3, "alquiler");
@@ -158,3 +159,42 @@ insert into tipo_habitación values("Garaje");
 insert into tipo_habitación values("Trastero");
 insert into tipo_habitación values("Terraza");
 insert into tipo_habitación values("Exteriores");
+=======
+insert into favorito values(1, 3, "venta");
+insert into favorito values(1, 3, "alquiler");
+insert into favorito values(2, 1, "alquiler");
+
+insert into tipo_edificacion values(0, "Piso");
+insert into tipo_edificacion values(0, "Chalet");
+insert into tipo_edificacion values(0, "Ático");
+insert into tipo_edificacion values(0, "Dúplex");
+insert into tipo_edificacion values(0, "Buhardilla");
+insert into tipo_edificacion values(0, "Apartamento");
+
+insert into exteriores values(0, "Terraza");
+insert into exteriores values(0, "Patio");
+insert into exteriores values(0, "Piscina");
+insert into exteriores values(0, "Jardín");
+
+insert into tipo_obra values(0, "Obra nueva");
+insert into tipo_obra values(0, "Segunda mano");
+insert into tipo_obra values(0, "Cocina amueblada");
+insert into tipo_obra values(0, "Por amueblar");
+
+insert into escalera values(0, "Derecha");
+insert into escalera values(0, "Izquierda");
+insert into escalera values(0, "Centro");
+insert into escalera values(0, "Unica");
+
+insert into tipo_habitacion values(0, "Salón");
+insert into tipo_habitacion values(0, "Cocina");
+insert into tipo_habitacion values(0, "Baño");
+insert into tipo_habitacion values(0, "Dormitorio");
+insert into tipo_habitacion values(0, "Escalera");
+insert into tipo_habitacion values(0, "Recibidor");
+insert into tipo_habitacion values(0, "Pasillo");
+insert into tipo_habitacion values(0, "Garaje");
+insert into tipo_habitacion values(0, "Trastero");
+insert into tipo_habitacion values(0, "Terraza");
+insert into tipo_habitacion values(0, "Exteriores");
+>>>>>>> cbb0629e7703e77da31a933cb9a51f315ad2d58c

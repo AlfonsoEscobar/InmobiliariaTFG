@@ -17,12 +17,12 @@ public class MySQLUsuarioDAO {
 	final String INSERT = "INSERT INTO usuario(correo, contrasena, nombre,"
 			+ "telefono1, telefono2, imagen_perfil) VALUES(?,?,?,?,?,?)";
 
+
 	final String MODIFICAR = "UPDATE usuario SET nombre = ?, telefono1 = ?,"
 			+ "telefono2 = ? WHERE id_usuario = ?";
 
-	// Quité la imagen de perfil por que daba errores
 	final String UPDATE2 = "UPDATE usuario SET contrasena = ?, nombre = ?, telefono1 = ?,"
-			+ "telefono2 = ? WHERE id_usuario = ?";
+			+ "telefono2 = ?, imagen_perfil = ? WHERE id_usuario = ?";
 
 	final String DELETE = "DELETE FROM usuario WHERE correo = ?";
 	
