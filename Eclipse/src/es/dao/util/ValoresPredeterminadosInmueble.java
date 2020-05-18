@@ -12,6 +12,10 @@ public class ValoresPredeterminadosInmueble {
 	private List<String> listaExteriores;
 	private List<String> listaTipoObra;
 
+	public ValoresPredeterminadosInmueble() {
+		
+	}
+	
 	public ValoresPredeterminadosInmueble(LinkedList<String> listaTipoHabitacion, LinkedList<String> listaEscalera,
 			LinkedList<String> listaTipoEdificacion, LinkedList<String> listaExteriores, LinkedList<String> listaTipoObra) {
 		this.listaTipoHabitacion = listaTipoHabitacion;
@@ -40,6 +44,28 @@ public class ValoresPredeterminadosInmueble {
 	public List<String> getListaTipoObra() {
 		return listaTipoObra;
 	}
+
+	public void setListaTipoHabitacion(List<String> listaTipoHabitacion) {
+		this.listaTipoHabitacion = listaTipoHabitacion;
+	}
+
+	public void setListaEscalera(List<String> listaEscalera) {
+		this.listaEscalera = listaEscalera;
+	}
+
+	public void setListaTipoEdificacion(List<String> listaTipoEdificacion) {
+		this.listaTipoEdificacion = listaTipoEdificacion;
+	}
+
+	public void setListaExteriores(List<String> listaExteriores) {
+		this.listaExteriores = listaExteriores;
+	}
+
+	public void setListaTipoObra(List<String> listaTipoObra) {
+		this.listaTipoObra = listaTipoObra;
+	}
+	
+	
 	
  	
 }
