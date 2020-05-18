@@ -17,8 +17,9 @@ public class MySQLUsuarioDAO {
 	final String INSERT = "INSERT INTO usuario(correo, contrasena, nombre,"
 			+ "telefono1, telefono2, imagen_perfil) VALUES(?,?,?,?,?,?)";
 
-	final String UPDATE = "UPDATE usuario SET contrasena = ?, nombre = ?, telefono1 = ?,"
-			+ "telefono2 = ?, imagen_perfil = ? WHERE correo = ?";
+
+	final String MODIFICAR = "UPDATE usuario SET nombre = ?, telefono1 = ?,"
+			+ "telefono2 = ? WHERE id_usuario = ?";
 
 	final String UPDATE2 = "UPDATE usuario SET contrasena = ?, nombre = ?, telefono1 = ?,"
 			+ "telefono2 = ?, imagen_perfil = ? WHERE id_usuario = ?";
@@ -98,7 +99,7 @@ public class MySQLUsuarioDAO {
 		PreparedStatement stat = null;
 		int filasAfectadas = 0;
 		try {
-			stat = conexion.prepareStatement(UPDATE);
+			stat = conexion.prepareStatement(UPDATE2);
 			stat.setString(1, usuario.getContrasena());
 			stat.setString(2, usuario.getNombre());
 			stat.setString(3, usuario.getTelefono1());
@@ -131,14 +132,13 @@ public class MySQLUsuarioDAO {
 		int filasAfectadas = 0;
 
 		try {
-			stat = conexion.prepareStatement(UPDATE2);
 
-			stat.setString(1, usuario.getContrasena());
-			stat.setString(2, usuario.getNombre());
-			stat.setString(3, usuario.getTelefono1());
-			stat.setString(4, usuario.getTelefono2());
-			stat.setBytes(5, usuario.getImagen_perfil());
-			stat.setInt(6, id);
+			stat = conexion.prepareStatement(MODIFICAR);
+
+			stat.setString(1, usuario.getNombre());
+			stat.setString(2, usuario.getTelefono1());
+			stat.setString(3, usuario.getTelefono2());
+			stat.setInt(4, id);
 
 			filasAfectadas = stat.executeUpdate();
 
@@ -354,14 +354,15 @@ public class MySQLUsuarioDAO {
 		return repetido;
 	}
 	
-	public void establecerFotoPerfil(byte[] foto, int id_usuario) throws DAOException {
+	public int establecerFotoPerfil(byte[] foto, int id_usuario) throws DAOException {
 		PreparedStatement stat = null;
+		int filasAfectadas = 0;
 		
 		try {
 			stat = conexion.prepareStatement(UPDATEPERFIL);
 			stat.setBytes(1, foto);
 			stat.setInt(2, id_usuario);
-			stat.executeUpdate();
+			filasAfectadas = stat.executeUpdate();
 		} catch (SQLException ex) {
 			throw new DAOException("Error en SQL", ex);
 
@@ -375,6 +376,7 @@ public class MySQLUsuarioDAO {
 			}
 
 		}
+		return filasAfectadas;
 	}
 
 }

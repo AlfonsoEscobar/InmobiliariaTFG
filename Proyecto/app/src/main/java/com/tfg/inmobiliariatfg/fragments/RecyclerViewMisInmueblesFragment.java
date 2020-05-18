@@ -1,9 +1,11 @@
 package com.tfg.inmobiliariatfg.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,6 +36,7 @@ public class RecyclerViewMisInmueblesFragment extends Fragment {
     private RecyclerView recyclerMisInmuebles;
     private RecyclerViewInmuebleAdapter adaptadorMisInmuebles;
     private Bundle extras;
+    Button btnRegistrarInmueble;
     Usuario usuario;
     int idUsuario;
 
@@ -43,8 +46,23 @@ public class RecyclerViewMisInmueblesFragment extends Fragment {
 
         View view =  inflater.inflate(R.layout.fragment_recycler_view_mis_inmuebles, container, false);
 
+        btnRegistrarInmueble = view.findViewById(R.id.btnRegistrarInmueble);
+        btnRegistrarInmueble.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.putExtra("idUsuario", idUsuario);
+                startActivityForResult(intent, 8);
+            }
+        });
         recyclerMisInmuebles = view.findViewById(R.id.recyclerMisInmuebles);
         recyclerMisInmuebles.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        extras = getArguments();
+        if (extras != null) {
+            usuario = (Usuario) extras.getSerializable("usuario");
+            idUsuario = usuario.getId_usuario();
+        }
 
         ObtenerInmuebles();
 
@@ -52,11 +70,7 @@ public class RecyclerViewMisInmueblesFragment extends Fragment {
     }
 
     public void ObtenerInmuebles() {
-        extras = getArguments();
-        if (extras != null) {
-            usuario = (Usuario) extras.getSerializable("usuario");
-            idUsuario = usuario.getId_usuario();
-        }
+
         Call<List<Inmueble>> listCall = ApiAdapter.getApiService().getInmueblePropietario(idUsuario);
         listCall.enqueue(new Callback<List<Inmueble>>() {
             @Override
@@ -76,5 +90,11 @@ public class RecyclerViewMisInmueblesFragment extends Fragment {
     private void ShowIt(List<Inmueble> response){
         adaptadorMisInmuebles = new RecyclerViewInmuebleAdapter(response);
         recyclerMisInmuebles.setAdapter(adaptadorMisInmuebles);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        ObtenerInmuebles();
     }
 }

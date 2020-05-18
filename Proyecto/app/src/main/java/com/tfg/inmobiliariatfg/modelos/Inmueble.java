@@ -71,7 +71,6 @@ public class Inmueble {
     @Expose
     private boolean mascotas;
 
-
     public Inmueble() {
     }
 

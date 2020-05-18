@@ -52,7 +52,7 @@ public class RecyclerViewInfoAnuncioAdapter extends RecyclerView.Adapter<Recycle
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.tvBusquedaCalle.setText(AnuncioLista.get(position).getInmueble().getCalle());
         holder.tvBusquedaFechIng.setText(String.valueOf(AnuncioLista.get(position).getFeha_anunciado()));
-        if (AnuncioLista.get(position).getTipo_anuncio().equalsIgnoreCase("vender")) {
+        if (AnuncioLista.get(position).getTipo_anuncio().equalsIgnoreCase("venta")) {
             holder.tvBusquedaPrecio.setText(AnuncioLista.get(position).getPrecio() + " €");
         } else {
             holder.tvBusquedaPrecio.setText(AnuncioLista.get(position).getPrecio() + " €/mes");

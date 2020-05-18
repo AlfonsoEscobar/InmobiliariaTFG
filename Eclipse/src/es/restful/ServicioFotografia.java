@@ -123,22 +123,21 @@ public class ServicioFotografia {
 
 
 	@POST
-	@Path("/{tipo_habitacion}/{id_piso}/{nombreFoto}")
+	@Path("/inmueble/{nombreFoto}")
 	@Consumes("images/jpeg")
 	public Response putFichero(File fichero,
-							   @PathParam("tipo_habitacion") String tipo_habitacion,
-							   @PathParam("nombreFoto") String nombreFoto,
-							   @PathParam("id_piso") int id_piso) {
+							   @PathParam("nombreFoto") String nombreFoto) {
 
 		claseFotografia = new MySQLFotografiaDAO(dataSource);
 		
 		Response.Status responseStatus = Response.Status.OK;
 		
+		/*
 		Fotografia foto = new Fotografia();
 		
 		foto.setTipo_habitacion(tipo_habitacion);
-		foto.setRuta("/home/alfonso/Imágenes/App/Pisos/"+ String.valueOf(id_piso) + "/" + nombreFoto);
-		foto.setInmueble(id_piso);
+		foto.setRuta("/home/alfonso/Imágenes/App/Pisos/" + nombreFoto);
+		foto.setInmueble(4);
 
 		try {
 			
@@ -147,9 +146,9 @@ public class ServicioFotografia {
 		} catch (DAOException e) {
 			
 		}
+		*/
 		
-		fichero.renameTo(new File("/home/alfonso/Imágenes/App/Pisos/"+ 
-										String.valueOf(id_piso) + "/" + nombreFoto));
+		fichero.renameTo(new File("/home/alfonso/Imágenes/App/Pisos/" + nombreFoto));
 
 		return Response.status(responseStatus).build();
 

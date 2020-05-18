@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    tools:context=".activities.RegistrarInmuebleActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10sp"
+        android:layout_marginTop="10sp"
+        android:layout_marginRight="10sp"
+        android:layout_marginBottom="10sp"
+        android:background="@color/design_default_color_background"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textTituloRegistrarInmueble"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorAccent"
+            android:fontFamily="@font/source_sans_pro"
+            android:gravity="center"
+            android:text="@string/tituloRegistrarInmueble"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textProvinciaRegistrarInmueble"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:fontFamily="@font/source_sans_pro"
+            android:text="@string/provinciaRegistrarInmueble"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etProvinciaRegistrarInmueble"
+            android:layout_width="290dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/ic_plaintext"
+            android:backgroundTint="@color/colorAccent"
+            android:ems="10"
+            android:fontFamily="@font/source_sans_pro"
+            android:hint="@string/provinciaRegistrarInmueble"
+            android:inputType="textPersonName"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textLocalidadRegistrarInmueble"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:fontFamily="@font/source_sans_pro"
+            android:text="@string/localidadRegistrarInmueble"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etLocalidadRegistrarInmueble"
+            android:layout_width="290sp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/ic_plaintext"
+            android:backgroundTint="@color/colorAccent"
+            android:ems="10"
+            android:fontFamily="@font/source_sans_pro"
+            android:hint="@string/localidadRegistrarInmueble"
+            android:inputType="textPersonName"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textCalleRegistrarInmueble"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:fontFamily="@font/source_sans_pro"
+            android:text="@string/Calle"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etCalleRegistrarInmueble"
+            android:layout_width="290sp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/ic_plaintext"
+            android:backgroundTint="@color/colorAccent"
+            android:ems="10"
+            android:fontFamily="@font/source_sans_pro"
+            android:hint="@string/calleRegistrarInmueble"
+            android:inputType="textPersonName"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textNumeroRegistrarInmueble"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:fontFamily="@font/source_sans_pro"
+            android:text="@string/numeroRegistrarInmueble"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etNumeroRegistrarInmueble"
+            android:layout_width="290sp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:background="@drawable/ic_plaintext"
+            android:backgroundTint="@color/colorAccent"
+            android:ems="10"
+            android:fontFamily="@font/source_sans_pro"
+            android:hint="@string/numeroRegistrarInmueble"
+            android:inputType="number"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textEscaleraRegistrarInmueble"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:fontFamily="@font/source_sans_pro"
+            android:text="@string/escaleraRegistrarInmueble"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/sEscaleraRegistrarInmueble"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:id="@+id/textPisoRegistrarInmueble"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:fontFamily="@font/source_sans_pro"
+            android:text="@string/pisoRegistrarInmueble"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etPisoRegistrarInmueble"
+            android:layout_width="290sp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:background="@drawable/ic_plaintext"
+            android:backgroundTint="@color/colorAccent"
+            android:ems="10"
+            android:fontFamily="@font/source_sans_pro"
+            android:hint="@string/pisoRegistrarInmueble"
+            android:inputType="number"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textPuertaRegistrarInmueble"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:fontFamily="@font/source_sans_pro"
+            android:text="@string/puertaRegistrarInmueble"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etPuertaRegistrarInmueble"
+            android:layout_width="290sp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/ic_plaintext"
+            android:backgroundTint="@color/colorAccent"
+            android:ems="10"
+            android:fontFamily="@font/source_sans_pro"
+            android:hint="@string/puertaRegistrarInmueble"
+            android:inputType="textPersonName"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textDescripcionRegistrarInmueble"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:fontFamily="@font/source_sans_pro"
+            android:text="@string/DescripcionTituloRegistrarInmueble"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etDescripcionRegistrarInmueble"
+            android:layout_width="290sp"
+            android:layout_height="100sp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/ic_plaintext"
+            android:backgroundTint="@color/colorAccent"
+            android:ems="10"
+            android:fontFamily="@font/source_sans_pro"
+            android:gravity="fill_horizontal"
+            android:hint="@string/DescripcionRegistrarInmueble"
+            android:inputType="textPersonName"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textmetros2RegistrarInmueble"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:fontFamily="@font/source_sans_pro"
+            android:text="@string/metros2RegistrarInmueble"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etMetros2RegistrarInmueble"
+            android:layout_width="290sp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:background="@drawable/ic_plaintext"
+            android:backgroundTint="@color/colorAccent"
+            android:ems="10"
+            android:fontFamily="@font/source_sans_pro"
+            android:hint="@string/metros2RegistrarInmueble"
+            android:inputType="number"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textNumHabRegistrarInmueble"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:fontFamily="@font/source_sans_pro"
+            android:text="@string/numHabitacionesRegistrarInmueble"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etNumHabRegistrarInmueble"
+            android:layout_width="290dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:background="@drawable/ic_plaintext"
+            android:backgroundTint="@color/colorAccent"
+            android:ems="10"
+            android:fontFamily="@font/source_sans_pro"
+            android:hint="@string/introduceRegistrarInmueble"
+            android:inputType="number"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textNumBanosRegistrarInmueble"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:fontFamily="@font/source_sans_pro"
+            android:text="@string/numBanosRegistrarInmueble"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etNumBanosRegistrarInmueble"
+            android:layout_width="290dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:background="@drawable/ic_plaintext"
+            android:backgroundTint="@color/colorAccent"
+            android:ems="10"
+            android:fontFamily="@font/source_sans_pro"
+            android:hint="@string/introduceRegistrarInmueble"
+            android:inputType="number"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textTipoEdificacionRegistrarInmueble"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:fontFamily="@font/source_sans_pro"
+            android:text="@string/tipoEdificacionRegistrarInmueble"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/sTipoEdificacionRegistrarInmueble"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:id="@+id/textTipoObraRegistrarInmueble"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:fontFamily="@font/source_sans_pro"
+            android:text="@string/tipoObraRegistrarInmueble"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/sTipoEdificacionRegistrarInmueble2"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:id="@+id/textEquipamientoRegistrarInmueble"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:fontFamily="@font/source_sans_pro"
+            android:text="@string/equipamientoRegistrarInmueble"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etEquipamientoRegistrarInmueble"
+            android:layout_width="290dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:background="@drawable/ic_plaintext"
+            android:backgroundTint="@color/colorAccent"
+            android:ems="10"
+            android:fontFamily="@font/source_sans_pro"
+            android:hint="@string/equipamientoRegistrarInmueble"
+            android:inputType="number"
+            android:maxLength="99"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textExterioresRegistrarInmueble"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:fontFamily="@font/source_sans_pro"
+            android:text="@string/exterioresRegistrarInmueble"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/sExterioresRegistrarInmueble"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/textCaracteristicasAdiRegistrarInmueble"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/source_sans_pro"
+                android:text="@string/caracteristicasAdicionalesRegistrarInmueble"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <CheckBox
+                android:id="@+id/cbGarajeRegistrarInmueble"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/source_sans_pro"
+                android:text="@string/garajeRegistrarInmueble"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textCaracteristicasAdiRegistrarInmueble" />
+
+            <CheckBox
+                android:id="@+id/cbTrasteroRegistrarInmueble"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/source_sans_pro"
+                android:text="@string/trasteroRegistrarInmueble"
+                app:layout_constraintStart_toEndOf="@+id/cbGarajeRegistrarInmueble"
+                app:layout_constraintTop_toBottomOf="@+id/textCaracteristicasAdiRegistrarInmueble" />
+
+            <CheckBox
+                android:id="@+id/cbAscensorRegistrarInmueble"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/source_sans_pro"
+                android:text="@string/ascensorRegistrarInmueble"
+                app:layout_constraintStart_toEndOf="@+id/cbTrasteroRegistrarInmueble"
+                app:layout_constraintTop_toBottomOf="@+id/textCaracteristicasAdiRegistrarInmueble" />
+
+            <CheckBox
+                android:id="@+id/cbUltPlantaRegistrarInmueble"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="60dp"
+                android:layout_marginTop="25dp"
+                android:fontFamily="@font/source_sans_pro"
+                android:text="@string/ultPlantaRegistrarInmueble"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cbGarajeRegistrarInmueble" />
+
+            <CheckBox
+                android:id="@+id/cbMascotasRegistrarInmueble"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="60dp"
+                android:layout_marginTop="25dp"
+                android:fontFamily="@font/source_sans_pro"
+                android:text="@string/mascotasRegistrarInmueble"
+                app:layout_constraintStart_toEndOf="@+id/cbUltPlantaRegistrarInmueble"
+                app:layout_constraintTop_toBottomOf="@+id/cbGarajeRegistrarInmueble" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:id="@+id/btnRegistrarInmueble2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/ic_button"
+            android:fontFamily="@font/source_sans_pro"
+            android:text="@string/btnConfirmarRegistrarInmueble"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </LinearLayout>
+</ScrollView>

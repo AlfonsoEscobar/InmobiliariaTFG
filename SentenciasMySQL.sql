@@ -119,7 +119,6 @@ insert into anuncio values(2, "alquiler", 750, null, null);
 insert into anuncio values(3, "alquiler", 650, null, null);
 insert into anuncio values(3, "venta", 650, null, null);
 
-
 insert into favorito values(1, 3, "venta");
 insert into favorito values(1, 3, "alquiler");
 insert into favorito values(2, 1, "alquiler");
@@ -157,3 +156,4 @@ insert into tipo_habitacion values(0, "Garaje");
 insert into tipo_habitacion values(0, "Trastero");
 insert into tipo_habitacion values(0, "Terraza");
 insert into tipo_habitacion values(0, "Exteriores");
+>>>>>>> cbb0629e7703e77da31a933cb9a51f315ad2d58c

@@ -1,27 +1,41 @@
 package com.tfg.inmobiliariatfg.utiles;
 
-import android.icu.text.IDNA;
-
-import com.google.gson.annotations.JsonAdapter;
 import com.tfg.inmobiliariatfg.modelos.InfoAnuncio;
 import com.tfg.inmobiliariatfg.modelos.Inmueble;
 import com.tfg.inmobiliariatfg.modelos.Usuario;
 
-import java.net.URI;
+import java.io.File;
 import java.util.List;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface ApiService {
 
-    @GET("favortio/{idUsuario}")
+
+    @PUT("usuario/{idUsuario}")
+    Call<Void> putModificarUsuarioPerfil(@Path("idUsuario") int idUsuario, @Body Usuario usuario);
+
+    @Multipart
+    @POST("fotografia/inmueble/{nombre}")
+    Call<ResponseBody> postImagenPerfil(
+            @Part("nombre") RequestBody nombre,
+            @Part MultipartBody.Part file
+    );
+    @GET("valores")
+    Call<ValoresPredeterminadosInmueble> getSpinnersRegistrarInmueble();
+
+    @GET("favorito/info/{idUsuario}")
     Call<List<InfoAnuncio>> getFavortiosUsuario(@Path("idUsuario") int idUsuario);
 
     @GET("inmueble/{propietario}")
@@ -39,15 +53,4 @@ public interface ApiService {
     @POST("usuario")
     Call<Void> createUsuario(@Body Usuario usuario);
 
-    /*
-    @POST("usuario/")
-    Call <Usuario> createUsuario(
-      @Field("correo")  String correo,
-      @Field("nombre") String nombre,
-      @Field("id_usuario") int id_usuario,
-      @Field("contrasena") String contrasena,
-      @Field("telefono1") String telefono1,
-      @Field("telefono2") String telefono2,
-      @Field("imagen_perfil") byte[] imagenPerfil
-    );*/
 }

@@ -31,6 +31,7 @@ public class RecyclerViewMisAnunciosFragment extends Fragment {
     private Bundle datos;
     private Usuario usuario;
     private int idUsuario;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -38,18 +39,18 @@ public class RecyclerViewMisAnunciosFragment extends Fragment {
 
         recyclerViewMisAnuncios = cl.findViewById(R.id.recyclerMisAnuncios);
         recyclerViewMisAnuncios.setLayoutManager(new LinearLayoutManager(getContext()));
-        datos = getArguments();
-
-        if(datos != null) {
-            usuario = (Usuario) datos.getSerializable("ExtrasLogin");
-            idUsuario = usuario.getId_usuario();
-        }
 
         ObtenerAnuncios();
-        return  cl;
+
+        return cl;
     }
 
     public void ObtenerAnuncios() {
+        datos = getArguments();
+        if (datos != null) {
+            usuario = (Usuario) datos.getSerializable("usuario");
+            idUsuario = usuario.getId_usuario();
+        }
 
         Call<List<InfoAnuncio>> listCall = ApiAdapter.getApiService().getAnuncioPropietario(idUsuario);
         listCall.enqueue(new Callback<List<InfoAnuncio>>() {
@@ -69,7 +70,7 @@ public class RecyclerViewMisAnunciosFragment extends Fragment {
         });
     }
 
-    private void ShowIt(List<InfoAnuncio> response){
+    private void ShowIt(List<InfoAnuncio> response) {
         adaptadorBusqueda = new RecyclerViewInfoAnuncioAdapter(response);
         recyclerViewMisAnuncios.setAdapter(adaptadorBusqueda);
     }
