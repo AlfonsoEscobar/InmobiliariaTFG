@@ -4,8 +4,9 @@ import java.sql.Date;
 
 public class CriterioBusqueda2 {
 
+	private String tipo_anuncio;
 	private String localidad;
-	private String calle;
+	/*private String calle;
 	private int piso;
 
 	private double min_metros2;
@@ -27,27 +28,40 @@ public class CriterioBusqueda2 {
 	private boolean ultima_planta;
 	private boolean mascotas;
 
-	private String tipo_anuncio;
-
 	private double min_precio;
 	private double max_precio;
 
 	private Date fecha_anunciado;
-	private Date fecha_ultima_actualizacion;
+	private Date fecha_ultima_actualizacion;*/
 
+	
+	private String sentencia;
 	
 	public CriterioBusqueda2() {
 		
 	}
 	
-	public CriterioBusqueda2(String localidad, String tipo_anuncio) {
+	public CriterioBusqueda2(CriterioBusqueda2Builder builder) {
+		this.sentencia = builder.getSentencia();
+		this.localidad = builder.getLocalidad();
+		this.tipo_anuncio = builder.getTipo_anuncio();
+	}
+	
+	/*public CriterioBusqueda2(String localidad, String tipo_anuncio) {
 
 		this.localidad = localidad;
 		this.tipo_anuncio = tipo_anuncio;
 
+	}*/
+	
+	public String obtenerCriterioSQL() {
+		String busqueda = "SELECT a.*, i.* from anuncio a, inmuble i on a.id_inmueble = i.id_inmueble"
+				+ "WHERE a.tipo_anuncio = " + this.tipo_anuncio 
+				+ "and i.localidad = " + this.localidad;
+		return busqueda + this.sentencia;
 	}
 	
-	public void setLocalidad(String localidad) {
+	/*public void setLocalidad(String localidad) {
 		this.localidad = localidad;
 	}
 	
@@ -229,5 +243,5 @@ public class CriterioBusqueda2 {
 		}
 
 		return busqueda + criterio;
-	}
+	}*/
 }

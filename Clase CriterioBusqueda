@@ -9,8 +9,6 @@ import es.dao.util.enums.TiposBooleanos;
 
 public class CriterioBusqueda {
 	private String clausula;
-	private String localidad;
-	private String tipo_anuncio;
 	/*private double metro2_min;
 	private double metros2_max;
 	private int num_habitaciones;
@@ -25,12 +23,6 @@ public class CriterioBusqueda {
 	private boolean ultima_planta;
 	private boolean mascotas;*/
 
-	public CriterioBusqueda (CriterioBusquedaBuilder builder) {
-		this.clausula = builder.getClausula();
-		this.localidad = builder.getLocalidad();
-		this.tipo_anuncio = builder.getTipo_anuncio();
-	}
-	
 	public CriterioBusqueda(TiposBooleanos tipo, boolean valor) {
 		if(tipo.name().equals(tipo.GARAJE)) {
 			this.clausula = "garaje = " + valor;
@@ -92,10 +84,8 @@ public class CriterioBusqueda {
 	}
 
 	public String construirSentencia() {
-		String sentencia = "SELECT a.*, i.* from anuncio a, inmuble i on a.id_inmueble = i.id_inmueble"
-				+ "WHERE a.tipo_anuncio = " + this.tipo_anuncio 
-				+ "and i.localidad = " + this.localidad;
-		return sentencia + this.clausula;
+		String sentencia = "Select * From inmueble Where " + this.clausula;
+		return sentencia;
 	}
 
 	public void anadirFiltros(CriterioBusqueda criterio) {
@@ -103,3 +93,4 @@ public class CriterioBusqueda {
 	}
 
 }
+
