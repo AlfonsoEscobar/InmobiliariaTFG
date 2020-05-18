@@ -15,6 +15,7 @@
     <string name="telefonosProfile">Telefono/os:</string>
     <string name="imgProfile">imgProfile</string>
     <string name="btnEditarFotoPerfil">Editar Foto</string>
+    <string name="btnEditar">Editar</string>
     <!-- Strings de activity_main_menu -->
     <string name="checkComprar">Comprar</string>
     <string name="checkAlquilar">Alquilar</string>
@@ -54,4 +55,32 @@
     <string name="ultPlantaInmueble">Ultima planta:</string>
     <string name="mascotasInmueble">Mascotas:</string>
     <string name="DescripcionDefectoInmueble">No se ha ingresado Descripcion del inmueble.</string>
+    <!-- Strings de recycler_view_mis_inmuebles-->
+    <string name="btnRegistrarInmueble">Registrar inmueble</string>
+    <!-- String de activity_registrar_inmueble -->
+    <string name="tituloRegistrarInmueble">Registrar Propiedad</string>
+    <string name="provinciaRegistrarInmueble">Provincia</string>
+    <string name="localidadRegistrarInmueble">Localidad</string>
+    <string name="calleRegistrarInmueble">Calle</string>
+    <string name="numeroRegistrarInmueble">Número</string>
+    <string name="escaleraRegistrarInmueble">Escalera</string>
+    <string name="pisoRegistrarInmueble">Piso</string>
+    <string name="puertaRegistrarInmueble">Puerta</string>
+    <string name="metros2RegistrarInmueble">Metros²</string>
+    <string name="DescripcionTituloRegistrarInmueble">Una breve descripción del inmueble</string>
+    <string name="DescripcionRegistrarInmueble">Descripción</string>
+    <string name="numHabitacionesRegistrarInmueble">Número de habitaciones</string>
+    <string name="numBanosRegistrarInmueble">Número de baños</string>
+    <string name="tipoObraRegistrarInmueble">Tipo de obra</string>
+    <string name="tipoEdificacionRegistrarInmueble">Tipo de edificación</string>
+    <string name="equipamientoRegistrarInmueble">Equipamiento</string>
+    <string name="exterioresRegistrarInmueble">Exteriores</string>
+    <string name="garajeRegistrarInmueble">Garaje</string>
+    <string name="trasteroRegistrarInmueble">Trastero</string>
+    <string name="ascensorRegistrarInmueble">Ascensor</string>
+    <string name="ultPlantaRegistrarInmueble">Ultima planta</string>
+    <string name="mascotasRegistrarInmueble">Mascotas</string>
+    <string name="introduceRegistrarInmueble">Introduce:</string>
+    <string name="caracteristicasAdicionalesRegistrarInmueble">Caracteristicas adicionales</string>
+    <string name="btnConfirmarRegistrarInmueble">Confirmar</string>
 </resources>
