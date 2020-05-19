@@ -341,7 +341,8 @@ public class MySQLAnuncioDAO {
 
 		LinkedList<InfoAnuncio> lista = new LinkedList<>();
 
-		String busquedaSQL = criterio.criterioSQL();
+		//String busquedaSQL = criterio.criterioSQL();
+		String busquedaSQL = criterio.obtenerCriterioSQL();
 
 		PreparedStatement stat = null;
 		ResultSet rs = null;

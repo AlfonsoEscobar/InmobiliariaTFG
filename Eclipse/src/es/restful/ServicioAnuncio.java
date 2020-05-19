@@ -98,17 +98,17 @@ public class ServicioAnuncio {
 			return Response.status(respuesta).build();
 	}
 
-	/*@GET
+	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAnuncioCriterios(@Context UriInfo uriInfo) {
 
 		claseAnuncio = new MySQLAnuncioDAO(dataSource);
-		CriterioBusqueda2 criterio = new CriterioBusqueda2();
-
+		//CriterioBusqueda2 criterio = new CriterioBusqueda2();
+		CriterioBusqueda2Builder builder = new CriterioBusqueda2Builder();
 		Response.Status respuesta = Response.Status.OK;
 		List<InfoAnuncio> listaAnuncio = null;
 
-		for (Map.Entry entry : uriInfo.getQueryParameters().entrySet()) {
+		/*for (Map.Entry entry : uriInfo.getQueryParameters().entrySet()) {
 
 			switch (entry.getKey().toString()) {
 			case "localidad":
@@ -181,7 +181,7 @@ public class ServicioAnuncio {
 
 				break;
 			}
-		}
+		}*/
 
 		try {
 
@@ -201,7 +201,7 @@ public class ServicioAnuncio {
 			return Response.ok(listaAnuncio).build();
 		else
 			return Response.status(respuesta).build();
-	}*/
+	}
 
 	@PUT
 	@Path("/{id_anuncio}")
