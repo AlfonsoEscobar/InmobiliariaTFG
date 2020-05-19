@@ -32,7 +32,7 @@ public class MySQLAnuncioDAO {
 			+ "id_inmueble = (SELECT id_inmueble FROM inmueble WHERE localidad = ?)";
 	
 	final String GETINFOANUNCIOPROPIETARIO = "SELECT a.*, i.* FROM anuncio a inner join inmueble i "
-			+ "on a.id_inmueble = i.id_inmueble WHERE a.id_inmueble = (SELECT id_inmueble FROM inmueble WHERE propietario = ?)";
+			+ "on a.id_inmueble = i.id_inmueble WHERE i.propietario = ?";
 
 	final String GETINFOANUNCIOS = "select a.*, b.* from inmueble a inner join anuncio b "
 			+ "on a.id_inmueble = b.id_inmueble where b.tipo_anuncio = ? and a.localidad = ? ";
