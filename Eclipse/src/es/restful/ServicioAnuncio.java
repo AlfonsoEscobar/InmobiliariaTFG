@@ -3,9 +3,9 @@ package es.restful;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import java.net.URI;
+import java.sql.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -27,7 +27,9 @@ import javax.ws.rs.core.UriInfo;
 import es.dao.DAOException;
 import es.dao.mysql.MySQLAnuncioDAO;
 import es.dao.util.CriterioBusqueda2;
+import es.dao.util.CriterioBusqueda2Builder;
 import es.dao.util.InfoAnuncio;
+import es.dao.util.ValoresBusqueda;
 import es.modelos.Anuncio;
 
 @ApplicationScoped
@@ -99,93 +101,42 @@ public class ServicioAnuncio {
 	}
 
 	@GET
+	@Path("/criteriosBusqueda")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAnuncioCriterios(@Context UriInfo uriInfo) {
+	public Response getAnuncioCriterios(@Context UriInfo uriInfo, ValoresBusqueda valores) {
 
 		claseAnuncio = new MySQLAnuncioDAO(dataSource);
-		//CriterioBusqueda2 criterio = new CriterioBusqueda2();
-		CriterioBusqueda2Builder builder = new CriterioBusqueda2Builder();
 		Response.Status respuesta = Response.Status.OK;
 		List<InfoAnuncio> listaAnuncio = null;
 
-		/*for (Map.Entry entry : uriInfo.getQueryParameters().entrySet()) {
+		CriterioBusqueda2 criterio = new CriterioBusqueda2Builder()
+						.conLocalidad(valores.getLocalidad())
+						.conTipo_Anuncio(valores.getTipo_anuncio())
+						.conAscensor(valores.isAscensor())
+						.conCalle(valores.getCalle())
+						.conEquipamiento(valores.getEquipamiento())
+						.conExteriores(valores.getExteriores())
+						.conGaraje(valores.isGaraje())
+						.conMascotas(valores.isMascotas())
+						.conMetros2(valores.getMin_metros2(), valores.getMax_metros2())
+						.conMin_num_habitaciones(valores.getMax_num_habitaciones())
+						.conNum_banos(valores.getNum_banos())
+						.conNum_habitaciones(valores.getNum_habitaciones())
+						.conPiso(valores.getPiso())
+						.conPrecio(valores.getMin_precio(), valores.getMax_precio())
+						.conTipo_edificacion(valores.getTipo_edificacion())
+						.conTipo_obra(valores.getTipo_obra())
+						.conTrastero(valores.isTrastero())
+						.conUltima_planta(valores.isUltima_planta())
+						.conFecha_anuncio((Date) valores.getFecha_anunciado())
+						.conFecha_ultima_actualizacion((Date) valores.getFecha_ultima_actualizacion())
+						.build();
 
-			switch (entry.getKey().toString()) {
-			case "localidad":
-				criterio.setLocalidad(entry.getValue().toString());
-				break;
-			case "calle":
-				criterio.setCalle(entry.getValue().toString());
-				break;
-			case "piso":
-				criterio.setPiso(Integer.parseInt(entry.getValue().toString()));
-				break;
-			case "min_metros2":
-				criterio.setMin_metros2(Double.parseDouble(entry.getValue().toString()));
-				break;
-			case "max_metros2":
-				criterio.setMax_metros2(Double.parseDouble(entry.getValue().toString()));
-				break;
-			case "num_habitaciones":
-				criterio.setNum_habitaciones(Integer.parseInt(entry.getValue().toString()));
-				break;
-			case "max_num_habitaciones":
-				criterio.setMax_num_habitaciones(Integer.parseInt(entry.getValue().toString()));
-				break;
-			case "num_banos":
-				criterio.setNum_banos(Integer.parseInt(entry.getValue().toString()));
-				break;
-			case "max_num_banos":
-				criterio.setMax_num_banos(Integer.parseInt(entry.getValue().toString()));
-				break;
-			case "tipo_edificacion":
-				criterio.setTipo_anuncio(entry.getValue().toString());
-				break;
-			case "tipo_obra":
-				criterio.setTipo_obra(entry.getValue().toString());
-				break;
-			case "equipamiento":
-				criterio.setEquipamiento(entry.getValue().toString());
-				break;
-			case "exteriores":
-				criterio.setExteriores(entry.getValue().toString());
-				break;
-			case "garaje":
-				criterio.setGaraje(Boolean.parseBoolean(entry.getValue().toString()));
-				break;
-			case "trastero":
-				criterio.setTrastero(Boolean.parseBoolean(entry.getValue().toString()));
-				break;
-			case "ascensor":
-				criterio.setAscensor(Boolean.parseBoolean(entry.getValue().toString()));
-				break;
-			case "ultima_planta":
-				criterio.setUltima_planta(Boolean.parseBoolean(entry.getValue().toString()));
-				break;
-			case "mascotas":
-				criterio.setMascotas(Boolean.parseBoolean(entry.getValue().toString()));
-				break;
-			case "tipo_anuncio":
-				criterio.setTipo_anuncio(entry.getValue().toString());
-				break;
-			case "min_precio":
-				criterio.setMin_precio(Double.parseDouble(entry.getValue().toString()));
-				break;
-			case "max_precio":
-				criterio.setMax_precio(Double.parseDouble(entry.getValue().toString()));
-				break;
-			case "fecha_anunciado":
-
-				break;
-			case "fecha_ultima_actualizacion":
-
-				break;
-			}
-		}*/
+		String sentenciaSQL = criterio.obtenerCriterioSQL();
 
 		try {
 
-			listaAnuncio = claseAnuncio.listaInfoAnunciosCriterio(criterio);
+			listaAnuncio = claseAnuncio.listaInfoAnunciosCriterio(sentenciaSQL);
 
 		} catch (DAOException e) {
 			respuesta = Response.Status.INTERNAL_SERVER_ERROR;

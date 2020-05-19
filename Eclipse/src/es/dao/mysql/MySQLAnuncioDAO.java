@@ -337,19 +337,16 @@ public class MySQLAnuncioDAO {
 	 * 
 	 */
 
-	public LinkedList<InfoAnuncio> listaInfoAnunciosCriterio(CriterioBusqueda2 criterio) throws DAOException {
+	public LinkedList<InfoAnuncio> listaInfoAnunciosCriterio(String sentencia) throws DAOException {
 
 		LinkedList<InfoAnuncio> lista = new LinkedList<>();
-
-		//String busquedaSQL = criterio.criterioSQL();
-		String busquedaSQL = criterio.obtenerCriterioSQL();
 
 		PreparedStatement stat = null;
 		ResultSet rs = null;
 
 		try {
 
-			stat = conexion.prepareStatement(busquedaSQL);
+			stat = conexion.prepareStatement(sentencia);
 			rs = stat.executeQuery();
 
 			while (rs.next()) {

@@ -65,7 +65,10 @@ public class ServicioUsuario {
 		}
 
 	}
-
+	
+	/*
+	 * No se utiliza de momento posible para borrar
+	 */
 	@GET
 	@Path("/{id_usuario}")
 	@Produces(MediaType.APPLICATION_JSON)
