@@ -2,6 +2,7 @@ package com.tfg.inmobiliariatfg.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -19,7 +20,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
-
+    private static ProgressDialog progressDialog;
     EditText etCorreoLogin, etPassLogin;
     Button btnRegistrar, btnLogin;
 
@@ -44,6 +45,11 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                progressDialog = new ProgressDialog(LoginActivity.this);
+                progressDialog.setMessage("Autentificando credenciales...");
+                Metodos.mostrarDialogo(progressDialog);
+
                 String PassHash = Metodos.codificarPass(etPassLogin.getText().toString());
                 String Correo = etCorreoLogin.getText().toString();
 
@@ -69,9 +75,8 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "La conexion con la API no se esta realizando", Toast.LENGTH_LONG).show();
                     }
                 });
+                progressDialog.dismiss();
             }
         });
     }
-
-
 }

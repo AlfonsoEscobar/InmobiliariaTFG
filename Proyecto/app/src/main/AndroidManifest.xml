@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.RegistrarInmuebleActivity"></activity>
+        <activity android:name=".activities.AnuncioCompletoActivity"></activity>
+        <activity android:name=".activities.RegistrarInmuebleActivity" />
         <activity android:name=".activities.LoginActivity" />
         <activity android:name=".activities.RecyclerViewBusquedaActivity" />
         <activity android:name=".activities.RegistroActivity" />

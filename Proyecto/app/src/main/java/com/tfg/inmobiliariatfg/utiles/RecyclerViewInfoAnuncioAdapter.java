@@ -14,13 +14,17 @@ import com.tfg.inmobiliariatfg.modelos.InfoAnuncio;
 
 import java.util.List;
 
-public class RecyclerViewInfoAnuncioAdapter extends RecyclerView.Adapter<RecyclerViewInfoAnuncioAdapter.ViewHolder> {
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+public class RecyclerViewInfoAnuncioAdapter extends RecyclerView.Adapter<RecyclerViewInfoAnuncioAdapter.ViewHolderAnuncios> implements View.OnClickListener {
+
+    public List<InfoAnuncio> AnuncioLista;
+    private View.OnClickListener listener;
+
+    public static class ViewHolderAnuncios extends RecyclerView.ViewHolder {
 
         private TextView tvBusquedaCalle, tvBusquedaFechIng, tvBusquedaPrecio, tvBusquedaHab, tvBusquedaMetros2, tvBusquedaPiso;
         private ImageView ivBusquedaImagen;
 
-        public ViewHolder(View itemView) {
+        public ViewHolderAnuncios(View itemView) {
             super(itemView);
 
             tvBusquedaCalle = itemView.findViewById(R.id.tvBusquedaCalle);
@@ -33,7 +37,6 @@ public class RecyclerViewInfoAnuncioAdapter extends RecyclerView.Adapter<Recycle
         }
     }
 
-    public List<InfoAnuncio> AnuncioLista;
 
     //Falta añadir el paso de las fotos al arrayAdapter
     public RecyclerViewInfoAnuncioAdapter(List<InfoAnuncio> AnuncioLista) {
@@ -42,14 +45,15 @@ public class RecyclerViewInfoAnuncioAdapter extends RecyclerView.Adapter<Recycle
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolderAnuncios onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_anuncio, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
+        ViewHolderAnuncios viewHolder = new ViewHolderAnuncios(view);
+        view.setOnClickListener(this);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolderAnuncios holder, int position) {
         holder.tvBusquedaCalle.setText(AnuncioLista.get(position).getInmueble().getCalle());
         holder.tvBusquedaFechIng.setText(String.valueOf(AnuncioLista.get(position).getFeha_anunciado()));
         if (AnuncioLista.get(position).getTipo_anuncio().equalsIgnoreCase("venta")) {
@@ -65,5 +69,16 @@ public class RecyclerViewInfoAnuncioAdapter extends RecyclerView.Adapter<Recycle
     @Override
     public int getItemCount() {
         return AnuncioLista.size();
+    }
+
+    public void setOnClicklistener(View.OnClickListener listener){
+        this.listener = listener;
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(listener!=null){
+            listener.onClick(view);
+        }
     }
 }

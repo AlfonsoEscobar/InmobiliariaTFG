@@ -1,37 +1,34 @@
 package com.tfg.inmobiliariatfg.utiles;
 
+import com.tfg.inmobiliariatfg.modelos.Favorito;
 import com.tfg.inmobiliariatfg.modelos.InfoAnuncio;
 import com.tfg.inmobiliariatfg.modelos.Inmueble;
 import com.tfg.inmobiliariatfg.modelos.Usuario;
+import com.tfg.inmobiliariatfg.modelos.ValoresPredeterminadosInmueble;
 
-import java.io.File;
 import java.util.List;
 
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
-
-import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
-import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface ApiService {
 
-
     @PUT("usuario/{idUsuario}")
     Call<Void> putModificarUsuarioPerfil(@Path("idUsuario") int idUsuario, @Body Usuario usuario);
 
-    @Multipart
-    @POST("fotografia/inmueble/{nombre}")
-    Call<ResponseBody> postImagenPerfil(
-            @Part("nombre") RequestBody nombre,
-            @Part MultipartBody.Part file
-    );
+    @PUT("usuario/{idUsuario}")
+    Call<Void> putModificarInmueblePerfil(@Path("idUsuario") int idUsuario, @Body Inmueble usuario);
+
+    @PUT("usuario/{idUsuario}")
+    Call<Void> putModificarAnuncioPerfil(@Path("idUsuario") int idUsuario, @Body InfoAnuncio usuario);
+
+    //-----------------------------------------------------------------------------------------------------------------------------------------------
+
     @GET("valores")
     Call<ValoresPredeterminadosInmueble> getSpinnersRegistrarInmueble();
 
@@ -50,7 +47,32 @@ public interface ApiService {
     @GET("anuncio/{tipoAnuncio}/{localidadAnuncio}")
     Call<List<InfoAnuncio>> getAnuncioLocalidad(@Path("tipoAnuncio") String tipoAnuncio, @Path("localidadAnuncio") String localidadAnuncio);
 
+    //-----------------------------------------------------------------------------------------------------------------------------------------------
+
     @POST("usuario")
     Call<Void> createUsuario(@Body Usuario usuario);
+
+    @POST("inmueble")
+    Call<Void> createInmueble(@Body Inmueble inmueble);
+
+    @POST("favorito")
+    Call<Void> createFavorito(@Body Favorito favorito);
+
+    @POST("anuncio")
+    Call<Void> createAnuncio(@Body InfoAnuncio anuncio);
+
+    //-----------------------------------------------------------------------------------------------------------------------------------------------
+
+    @DELETE("usuario/{idUsuario}")
+    Call<Void> eliminarUsuario(@Path("idUsuario") int idUsuario);
+
+    @DELETE("inmueble/{idUsuario}")
+    Call<Void> eliminarInmueble(@Path("idUsuario") int idUsuario);
+
+    @DELETE("favorito/{idUsuario}")
+    Call<Void> eliminarFavorito(@Path("idUsuario") int idUsuario);
+
+    @DELETE("anuncio/{idInmueble}/{tipoAnuncio}")
+    Call<Void> eliminarAnuncio(@Path("idInmueble") int idInmueble, @Path("idUsuario") int idUsuario);
 
 }

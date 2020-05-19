@@ -1,5 +1,6 @@
 package com.tfg.inmobiliariatfg.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tfg.inmobiliariatfg.R;
+import com.tfg.inmobiliariatfg.activities.AnuncioCompletoActivity;
 import com.tfg.inmobiliariatfg.modelos.InfoAnuncio;
 import com.tfg.inmobiliariatfg.modelos.Usuario;
 import com.tfg.inmobiliariatfg.utiles.ApiAdapter;
@@ -27,7 +29,7 @@ import retrofit2.Response;
 public class RecyclerViewMisAnunciosFragment extends Fragment {
 
     private RecyclerView recyclerViewMisAnuncios;
-    private RecyclerViewInfoAnuncioAdapter adaptadorBusqueda;
+    private RecyclerViewInfoAnuncioAdapter adaptadorMisAnuncios;
     private Bundle datos;
     private Usuario usuario;
     private int idUsuario;
@@ -70,8 +72,19 @@ public class RecyclerViewMisAnunciosFragment extends Fragment {
         });
     }
 
-    private void ShowIt(List<InfoAnuncio> response) {
-        adaptadorBusqueda = new RecyclerViewInfoAnuncioAdapter(response);
-        recyclerViewMisAnuncios.setAdapter(adaptadorBusqueda);
+    private void ShowIt(final List<InfoAnuncio> response) {
+
+        adaptadorMisAnuncios = new RecyclerViewInfoAnuncioAdapter(response);
+        adaptadorMisAnuncios.setOnClicklistener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InfoAnuncio anuncio = response.get(recyclerViewMisAnuncios.getChildAdapterPosition(v));
+                Intent intent = new Intent(getActivity(), AnuncioCompletoActivity.class);
+                intent.putExtra("anuncio", anuncio);
+                startActivity(intent);
+            }
+        });
+
+        recyclerViewMisAnuncios.setAdapter(adaptadorMisAnuncios);
     }
 }

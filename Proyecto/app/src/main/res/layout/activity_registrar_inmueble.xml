@@ -110,7 +110,7 @@
 
         <EditText
             android:id="@+id/etNumeroRegistrarInmueble"
-            android:layout_width="290sp"
+            android:layout_width="120sp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10sp"
             android:background="@drawable/ic_plaintext"
@@ -119,6 +119,7 @@
             android:fontFamily="@font/source_sans_pro"
             android:hint="@string/numeroRegistrarInmueble"
             android:inputType="number"
+            android:maxLength="999"
             android:textSize="16sp" />
 
         <TextView
@@ -149,7 +150,7 @@
 
         <EditText
             android:id="@+id/etPisoRegistrarInmueble"
-            android:layout_width="290sp"
+            android:layout_width="120sp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10sp"
             android:background="@drawable/ic_plaintext"
@@ -158,6 +159,7 @@
             android:fontFamily="@font/source_sans_pro"
             android:hint="@string/pisoRegistrarInmueble"
             android:inputType="number"
+            android:maxLength="99"
             android:textSize="16sp" />
 
         <TextView
@@ -172,7 +174,7 @@
 
         <EditText
             android:id="@+id/etPuertaRegistrarInmueble"
-            android:layout_width="290sp"
+            android:layout_width="120sp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@drawable/ic_plaintext"
@@ -181,6 +183,7 @@
             android:fontFamily="@font/source_sans_pro"
             android:hint="@string/puertaRegistrarInmueble"
             android:inputType="textPersonName"
+            android:maxLength="99"
             android:textSize="16sp" />
 
         <TextView
@@ -219,7 +222,7 @@
 
         <EditText
             android:id="@+id/etMetros2RegistrarInmueble"
-            android:layout_width="290sp"
+            android:layout_width="120sp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10sp"
             android:background="@drawable/ic_plaintext"
@@ -228,6 +231,7 @@
             android:fontFamily="@font/source_sans_pro"
             android:hint="@string/metros2RegistrarInmueble"
             android:inputType="number"
+            android:maxLength="999"
             android:textSize="16sp" />
 
         <TextView
@@ -242,7 +246,7 @@
 
         <EditText
             android:id="@+id/etNumHabRegistrarInmueble"
-            android:layout_width="290dp"
+            android:layout_width="120sp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10sp"
             android:background="@drawable/ic_plaintext"
@@ -251,6 +255,7 @@
             android:fontFamily="@font/source_sans_pro"
             android:hint="@string/introduceRegistrarInmueble"
             android:inputType="number"
+            android:maxLength="99"
             android:textSize="16sp" />
 
         <TextView
@@ -265,7 +270,7 @@
 
         <EditText
             android:id="@+id/etNumBanosRegistrarInmueble"
-            android:layout_width="290dp"
+            android:layout_width="120sp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10sp"
             android:background="@drawable/ic_plaintext"
@@ -274,6 +279,7 @@
             android:fontFamily="@font/source_sans_pro"
             android:hint="@string/introduceRegistrarInmueble"
             android:inputType="number"
+            android:maxLength="99"
             android:textSize="16sp" />
 
         <TextView
@@ -303,7 +309,7 @@
             android:textStyle="bold" />
 
         <Spinner
-            android:id="@+id/sTipoEdificacionRegistrarInmueble2"
+            android:id="@+id/sTipoObraRegistrarInmueble"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp" />
@@ -329,7 +335,6 @@
             android:fontFamily="@font/source_sans_pro"
             android:hint="@string/equipamientoRegistrarInmueble"
             android:inputType="number"
-            android:maxLength="99"
             android:textSize="16sp" />
 
         <TextView
@@ -422,7 +427,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
-            android:id="@+id/btnRegistrarInmueble2"
+            android:id="@+id/btnConfirmarRegistrarInmueble"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"

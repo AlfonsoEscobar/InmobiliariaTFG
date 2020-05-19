@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.tfg.inmobiliariatfg.utiles.ApiAdapter;
 import com.tfg.inmobiliariatfg.utiles.RecyclerViewInfoAnuncioAdapter;
@@ -60,8 +62,20 @@ public class RecyclerViewBusquedaActivity extends AppCompatActivity {
         });
     }
 
-    private void ShowIt(List<InfoAnuncio> response){
+    private void ShowIt(final List<InfoAnuncio> response){
+
         adaptadorBusqueda = new RecyclerViewInfoAnuncioAdapter(response);
+        adaptadorBusqueda.setOnClicklistener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InfoAnuncio anuncio = response.get(recyclerViewBusqueda.getChildAdapterPosition(v));
+                Intent intent = new Intent(getApplicationContext(), AnuncioCompletoActivity.class);
+                intent.putExtra("anuncio", anuncio);
+                startActivity(intent);
+
+            }
+        });
+
         recyclerViewBusqueda.setAdapter(adaptadorBusqueda);
     }
 }
