@@ -108,8 +108,8 @@ public class ServicioAnuncio {
 		claseAnuncio = new MySQLAnuncioDAO(dataSource);
 		Response.Status respuesta = Response.Status.OK;
 		List<InfoAnuncio> listaAnuncio = null;
-
-		CriterioBusqueda2 criterio = new CriterioBusqueda2Builder()
+		CriterioBusqueda2 criterio;
+		/*criterio = new CriterioBusqueda2Builder()
 						.conLocalidad(valores.getLocalidad())
 						.conTipo_Anuncio(valores.getTipo_anuncio())
 						.conAscensor(valores.isAscensor())
@@ -119,7 +119,7 @@ public class ServicioAnuncio {
 						.conGaraje(valores.isGaraje())
 						.conMascotas(valores.isMascotas())
 						.conMetros2(valores.getMin_metros2(), valores.getMax_metros2())
-						.conMin_num_habitaciones(valores.getMax_num_habitaciones())
+						.conMin_num_habitaciones(valores.getMin_num_habitaciones())
 						.conNum_banos(valores.getNum_banos())
 						.conNum_habitaciones(valores.getNum_habitaciones())
 						.conPiso(valores.getPiso())
@@ -130,8 +130,91 @@ public class ServicioAnuncio {
 						.conUltima_planta(valores.isUltima_planta())
 						.conFecha_anuncio((Date) valores.getFecha_anunciado())
 						.conFecha_ultima_actualizacion((Date) valores.getFecha_ultima_actualizacion())
-						.build();
-
+						.build();*/
+		
+		
+		CriterioBusqueda2Builder builder = new CriterioBusqueda2Builder();
+		
+		if(!((valores.getLocalidad()) == "")) {
+			builder.conLocalidad(valores.getLocalidad());
+		}
+		
+		if(!((valores.getTipo_anuncio()) == "")) {
+			builder.conTipo_Anuncio(valores.getTipo_anuncio());
+		}
+		
+		if(!((valores.getCalle()) == "")) {
+			builder.conCalle(valores.getCalle());
+		}
+		
+		if(!((valores.getPiso()) < 1)) {
+			builder.conPiso(valores.getPiso());
+		}
+		
+		if(valores.getNum_banos() != 0) {
+			builder.conNum_banos(valores.getNum_banos());
+		}
+		
+		if(valores.getMin_num_banos() != 0) {
+			builder.conMin_num_banos(valores.getMin_num_banos());
+		}
+		
+		if(valores.getNum_habitaciones() != 0) {
+			builder.conNum_habitaciones(valores.getNum_habitaciones());
+		}
+		
+		if(valores.getMin_num_habitaciones() != 0) {
+			builder.conMin_num_habitaciones(valores.getMin_num_habitaciones());
+		}
+		
+		if(((valores.getMin_metros2()) >= 0 && valores.getMax_metros2() != 0)) {
+			builder.conMetros2(valores.getMin_metros2(), valores.getMax_metros2());
+		}
+		
+		if(valores.getMin_metros2() >= 0 && valores.getMax_metros2() == 0) {
+			builder.conMetros2(valores.getMin_metros2(), 9999);
+		}
+		
+		if(!((valores.getTipo_edificacion()) == "")) {
+			builder.conTipo_edificacion(valores.getTipo_edificacion());
+		}
+		
+		if(!((valores.getTipo_obra()) == "")) {
+			builder.conTipo_obra(valores.getTipo_obra());
+		}
+		
+		if(!((valores.getEquipamiento()) == "")) {
+			builder.conEquipamiento(valores.getEquipamiento());
+		}
+		
+		if(!((valores.getExteriores()) == "")) {
+			builder.conExteriores(valores.getExteriores());
+		}
+		
+		builder.conAscensor(valores.isAscensor())
+		.conGaraje(valores.isGaraje())
+		.conMascotas(valores.isMascotas())
+		.conTrastero(valores.isTrastero())
+		.conUltima_planta(valores.isUltima_planta());
+		
+		if(((valores.getMin_precio()) >= 0 && valores.getMax_precio() != 0)) {
+			builder.conPrecio(valores.getMin_precio(), valores.getMax_precio());
+		}
+		
+		if(valores.getMin_precio() >= 0 && valores.getMax_precio() == 0) {
+			builder.conPrecio(valores.getMin_precio(), 999999);
+		}
+		
+		if(valores.getFecha_anunciado() != null) {
+			builder.conFecha_anuncio((Date) valores.getFecha_anunciado());
+		}
+		
+		if(valores.getFecha_ultima_actualizacion() != null) {
+			builder.conFecha_ultima_actualizacion((Date) valores.getFecha_ultima_actualizacion());
+		}
+		
+		criterio = builder.build();
+		
 		String sentenciaSQL = criterio.obtenerCriterioSQL();
 
 		try {

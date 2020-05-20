@@ -13,10 +13,10 @@ public class ValoresBusqueda {
 	private double max_metros2;
 
 	private int num_habitaciones;
-	private int max_num_habitaciones;
+	private int min_num_habitaciones;
 
 	private int num_banos;
-	private int max_num_banos;
+	private int min_num_banos;
 
 	private String tipo_edificacion;
 	private String tipo_obra;
@@ -92,12 +92,12 @@ public class ValoresBusqueda {
 		this.num_habitaciones = num_habitaciones;
 	}
 
-	public int getMax_num_habitaciones() {
-		return max_num_habitaciones;
+	public int getMin_num_habitaciones() {
+		return min_num_habitaciones;
 	}
 
-	public void setMax_num_habitaciones(int max_num_habitaciones) {
-		this.max_num_habitaciones = max_num_habitaciones;
+	public void setMin_num_habitaciones(int min_num_habitaciones) {
+		this.min_num_habitaciones = min_num_habitaciones;
 	}
 
 	public int getNum_banos() {
@@ -108,12 +108,12 @@ public class ValoresBusqueda {
 		this.num_banos = num_banos;
 	}
 
-	public int getMax_num_banos() {
-		return max_num_banos;
+	public int getMin_num_banos() {
+		return min_num_banos;
 	}
 
-	public void setMax_num_banos(int max_num_banos) {
-		this.max_num_banos = max_num_banos;
+	public void setMin_num_banos(int min_num_banos) {
+		this.min_num_banos = min_num_banos;
 	}
 
 	public String getTipo_edificacion() {
