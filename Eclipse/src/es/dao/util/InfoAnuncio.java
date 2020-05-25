@@ -13,6 +13,9 @@ public class InfoAnuncio {
 	private Date fecha_anunciado;
 	private Date fecha_ultima_actualizacion;
 	private Inmueble inmueble;
+	private String telefono1;
+	private String telefono2;
+	private String correo;
 	
 	private List<String> listaRutas;
 	private File imagen;
@@ -90,6 +93,30 @@ public class InfoAnuncio {
 	
 	public void setListaRutas(List<String> lista) {
 		this.listaRutas = lista;
+	}
+	
+	public String getTelefono1(){
+		return telefono1;
+	}
+	
+	public void setTelefono1(String telefono1) {
+		this.telefono1 = telefono1;
+	}
+	
+	public String getTelefono2(){
+		return telefono2;
+	}
+	
+	public void setTelefono2(String telefono2) {
+		this.telefono2 = telefono2;
+	}
+	
+	public String getCorreo(){
+		return correo;
+	}
+	
+	public void setCorreo(String correo) {
+		this.correo = correo;
 	}
 	
 	

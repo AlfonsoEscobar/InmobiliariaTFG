@@ -111,10 +111,10 @@ public class ServicioFotografia {
 
 	@PUT
 	@Path("/inmueble/{id_inmueble}/{tipo_habitacion}")
-	@Consumes("images/jpeg")
+	@Consumes("image/jpeg")
 	public Response putFichero(@PathParam("id_inmueble") int id_inmueble,
-								@PathParam("tipo_habitacion") String tipo_habitacion
-								) {
+								@PathParam("tipo_habitacion") String tipo_habitacion,
+								File fichero) {
 
 		claseFotografia = new MySQLFotografiaDAO(dataSource);
 		Response.Status responseStatus = Response.Status.OK;
@@ -127,22 +127,22 @@ public class ServicioFotografia {
 			
 			nombreCarpeta.mkdir();
 			
-			/*fichero.renameTo(new File("/home/alfonso/Imágenes/App/Pisos/" + nombreCarpeta + "/", fichero.getName()));
+			fichero.renameTo(new File("/home/alfonso/Imágenes/App/Pisos/" + String.valueOf(id_inmueble) + "/", fichero.getName()));
 			
 			foto.setTipo_habitacion(tipo_habitacion);
-			foto.setRuta("/home/alfonso/Imágenes/App/Pisos/" + nombreCarpeta + "/" + fichero.getName());
-			foto.setInmueble(id_inmueble);*/
+			foto.setRuta("/home/alfonso/Imágenes/App/Pisos/" + String.valueOf(id_inmueble) + "/" + fichero.getName());
+			foto.setInmueble(id_inmueble);
 			
 		} else {
 			
-			/*fichero.renameTo(new File("/home/alfonso/Imágenes/App/Pisos/" + nombreCarpeta + "/", fichero.getName()));
+			fichero.renameTo(new File("/home/alfonso/Imágenes/App/Pisos/" + nombreCarpeta + "/", fichero.getName()));
 			
 			foto.setTipo_habitacion(tipo_habitacion);
 			foto.setRuta("/home/alfonso/Imágenes/App/Pisos/" + nombreCarpeta + "/" + fichero.getName());
-			foto.setInmueble(id_inmueble);*/
+			foto.setInmueble(id_inmueble);
 			
 		}
-/*
+
 		try {
 			
 			claseFotografia.insertar(foto);
@@ -150,7 +150,7 @@ public class ServicioFotografia {
 		} catch (DAOException e) {
 			responseStatus = Response.Status.INTERNAL_SERVER_ERROR;
 		}
-*/
+
 		return Response.status(responseStatus).build();
 
 	}
