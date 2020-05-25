@@ -22,7 +22,7 @@ public class ApiAdapter {
                 .connectTimeout(360, TimeUnit.SECONDS);
         httpClient.addInterceptor(logging);
 
-        String baseUrl = "https://1781385e.ngrok.io/Restful_Inmo/servicios/";
+        String baseUrl = "https://a817b913.ngrok.io/Restful_Inmo/servicios/";
 
         if (API_SERVICE == null) {
             Retrofit retrofit = new Retrofit.Builder()
@@ -32,7 +32,6 @@ public class ApiAdapter {
                     .build();
             API_SERVICE = retrofit.create(ApiService.class);
         }
-
         return API_SERVICE;
     }
 

@@ -1,5 +1,6 @@
 package com.tfg.inmobiliariatfg.fragments;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,10 +16,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tfg.inmobiliariatfg.R;
+import com.tfg.inmobiliariatfg.activities.RegistrarInmuebleActivity;
 import com.tfg.inmobiliariatfg.modelos.InfoAnuncio;
 import com.tfg.inmobiliariatfg.modelos.Inmueble;
 import com.tfg.inmobiliariatfg.modelos.Usuario;
 import com.tfg.inmobiliariatfg.utiles.ApiAdapter;
+import com.tfg.inmobiliariatfg.utiles.Metodos;
 import com.tfg.inmobiliariatfg.utiles.RecyclerViewInfoAnuncioAdapter;
 import com.tfg.inmobiliariatfg.utiles.RecyclerViewInmuebleAdapter;
 
@@ -33,6 +36,7 @@ import static com.tfg.inmobiliariatfg.R.id.recyclerMisInmuebles;
 
 public class RecyclerViewMisInmueblesFragment extends Fragment {
 
+    private ProgressDialog progressDialog;
     private RecyclerView recyclerMisInmuebles;
     private RecyclerViewInmuebleAdapter adaptadorMisInmuebles;
     private Bundle extras;
@@ -50,7 +54,7 @@ public class RecyclerViewMisInmueblesFragment extends Fragment {
         btnRegistrarInmueble.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
+                Intent intent = new Intent(getActivity(), RegistrarInmuebleActivity.class);
                 intent.putExtra("idUsuario", idUsuario);
                 startActivityForResult(intent, 8);
             }
@@ -71,6 +75,9 @@ public class RecyclerViewMisInmueblesFragment extends Fragment {
 
     public void ObtenerInmuebles() {
 
+        progressDialog = new ProgressDialog(getContext());
+        Metodos.mostrarDialogo(progressDialog);
+
         Call<List<Inmueble>> listCall = ApiAdapter.getApiService().getInmueblePropietario(idUsuario);
         listCall.enqueue(new Callback<List<Inmueble>>() {
             @Override
@@ -85,6 +92,7 @@ public class RecyclerViewMisInmueblesFragment extends Fragment {
 
             }
         });
+        progressDialog.dismiss();
     }
 
     private void ShowIt(List<Inmueble> response){

@@ -42,19 +42,24 @@ public class CriterioBusqueda2Builder {
 	}
 	
 	public CriterioBusqueda2Builder conLocalidad(String localidad) {
-		this.localidad = localidad;
-		sentencia = sentencia + " and i.localidad = '" + localidad + "'";
+		if(comprobarCadena(localidad) == true) {
+			this.localidad = localidad;
+			sentencia = sentencia + " and i.localidad = '" + localidad + "'";
+		}
 		return this;
 	}
 	
 	public CriterioBusqueda2Builder conTipo_Anuncio(String tipo_anuncio) {
-		this.tipo_anuncio = tipo_anuncio;
-		sentencia = sentencia + " and a.tipo_anuncio = '" + tipo_anuncio + "'";
+		if(comprobarCadena(localidad) == true) {
+			this.tipo_anuncio = tipo_anuncio;
+			sentencia = sentencia + " and a.tipo_anuncio = '" + tipo_anuncio + "'";
+		}
 		return this;
 	}
 	
 	public CriterioBusqueda2Builder conCalle(String calle) {
-		sentencia = sentencia + " and i.calle = '" + calle + "'";
+		if(comprobarCadena(calle) == true) 
+			sentencia = sentencia + " and i.calle = '" + calle + "'";
 		return this;
 	}
 
@@ -164,5 +169,19 @@ public class CriterioBusqueda2Builder {
 	
 	public String getTipo_anuncio () {
 		return this.tipo_anuncio;
+	}
+	
+	
+	public boolean comprobarCadena(String cadena) {
+		boolean valida = true;
+		char c;
+		for(int i = 0; i < cadena.length(); i ++) {
+			c = cadena.charAt(i);
+			if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == ' ')) {
+				valida = false;
+			}
+		}
+		
+		return valida;
 	}
 }

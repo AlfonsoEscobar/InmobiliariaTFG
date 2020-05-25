@@ -1,5 +1,6 @@
 package com.tfg.inmobiliariatfg.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.tfg.inmobiliariatfg.R;
+import com.tfg.inmobiliariatfg.activities.AnuncioCompletoActivity;
 import com.tfg.inmobiliariatfg.modelos.InfoAnuncio;
 import com.tfg.inmobiliariatfg.modelos.Inmueble;
 import com.tfg.inmobiliariatfg.modelos.Usuario;
@@ -29,8 +31,8 @@ import retrofit2.Response;
 
 public class RecyclerViewMisFavoritosFragment extends Fragment {
 
-    private RecyclerView recyclerViewBusqueda;
-    private RecyclerViewInfoAnuncioAdapter adaptadorBusqueda;
+    private RecyclerView recyclerViewFavorito;
+    private RecyclerViewInfoAnuncioAdapter adaptadorFavorito;
     private Bundle extras;
     Usuario usuario;
     int idUsuario;
@@ -41,8 +43,8 @@ public class RecyclerViewMisFavoritosFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_recycler_view_favoritos, container, false);
 
-        recyclerViewBusqueda = view.findViewById(R.id.recyclerFavorito);
-        recyclerViewBusqueda.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewFavorito = view.findViewById(R.id.recyclerFavorito);
+        recyclerViewFavorito.setLayoutManager(new LinearLayoutManager(getContext()));
 
         ObtenerAnunciosFavortios();
 
@@ -72,8 +74,18 @@ public class RecyclerViewMisFavoritosFragment extends Fragment {
         });
     }
 
-    private void ShowIt(List<InfoAnuncio> response) {
-        adaptadorBusqueda = new RecyclerViewInfoAnuncioAdapter(response);
-        recyclerViewBusqueda.setAdapter(adaptadorBusqueda);
+    private void ShowIt(final List<InfoAnuncio> response) {
+        adaptadorFavorito = new RecyclerViewInfoAnuncioAdapter(response);
+        adaptadorFavorito.setOnClicklistener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InfoAnuncio anuncio = response.get(recyclerViewFavorito.getChildAdapterPosition(v));
+                Intent intent = new Intent(getActivity(), AnuncioCompletoActivity.class);
+                intent.putExtra("anuncio", anuncio);
+                startActivity(intent);
+            }
+        });
+
+        recyclerViewFavorito.setAdapter(adaptadorFavorito);
     }
 }

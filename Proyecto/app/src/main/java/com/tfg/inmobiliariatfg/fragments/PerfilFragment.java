@@ -9,6 +9,8 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.InputFilter;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,9 +28,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.tfg.inmobiliariatfg.R;
+import com.tfg.inmobiliariatfg.activities.MainActivity;
 import com.tfg.inmobiliariatfg.modelos.Usuario;
 import com.tfg.inmobiliariatfg.utiles.ApiAdapter;
 import com.tfg.inmobiliariatfg.utiles.ApiService;
+import com.tfg.inmobiliariatfg.utiles.Metodos;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
@@ -48,9 +52,9 @@ import static android.app.Activity.RESULT_OK;
 
 public class PerfilFragment extends Fragment {
 
-
+    String selection;
     TextView tvNomPerfil, tvCorreoPerfil, tvTelPerfil;
-    Button btnEditarImagenPerfil, btnEditarTelefonosPerfil, btnEditarNombrePerfil;
+    Button btnEditarImagenPerfil, btnEditarTelefonosPerfil, btnEditarNombrePerfil, btnEliminarCuentaPerfil;
     ImageView ivPerfil;
     Usuario usuario;
     int idUsuario;
@@ -72,26 +76,28 @@ public class PerfilFragment extends Fragment {
         btnEditarTelefonosPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                final String[] telefonos = {"telefono", "telefono Opcional"};
+
                 final AlertDialog.Builder alertModificarTelefonosPerfil = new AlertDialog.Builder(getContext());
                 alertModificarTelefonosPerfil.setTitle("Seleccione Telefono a modificar");
+                alertModificarTelefonosPerfil.setSingleChoiceItems(telefonos, -1, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        selection = telefonos[which];
+                    }
+                });
 
                 final EditText input = new EditText(getContext());
-                final RadioButton rbTelefono1 = new RadioButton(getContext());
-                final RadioButton rbTelefono2 = new RadioButton(getContext());
-
-                rbTelefono1.setText("Telefono");
-                rbTelefono2.setText("Telefono Opcional");
+                input.setInputType(InputType.TYPE_CLASS_NUMBER);
+                input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(9)});
 
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.MATCH_PARENT);
 
-                rbTelefono1.setLayoutParams(lp);
-                rbTelefono2.setLayoutParams(lp);
                 input.setLayoutParams(lp);
 
-                alertModificarTelefonosPerfil.setView(rbTelefono1);
-                alertModificarTelefonosPerfil.setView(rbTelefono2);
                 alertModificarTelefonosPerfil.setView(input);
 
                 alertModificarTelefonosPerfil.setPositiveButton("OK",
@@ -103,7 +109,7 @@ public class PerfilFragment extends Fragment {
                                     Toast.makeText(getContext(),
                                             "Porfavor introduzca un Telefono", Toast.LENGTH_LONG).show();
                                 } else {
-                                    if (rbTelefono1.isChecked()) {
+                                    if (selection.equals(telefonos[0])) {
                                         usuario.setTelefono1(telefono);
                                     } else {
                                         usuario.setTelefono2(telefono);
@@ -143,7 +149,6 @@ public class PerfilFragment extends Fragment {
         btnEditarNombrePerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 final AlertDialog.Builder alertMofificarNombrePerfil = new AlertDialog.Builder(getContext());
                 alertMofificarNombrePerfil.setTitle("Escriba el Nombre");
 
@@ -204,6 +209,80 @@ public class PerfilFragment extends Fragment {
             }
         });
 
+        btnEliminarCuentaPerfil = cl.findViewById(R.id.btnEliminarCuentaPerfil);
+        btnEliminarCuentaPerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                final AlertDialog.Builder alertEliminarCuentaPerfil = new AlertDialog.Builder(getContext());
+                alertEliminarCuentaPerfil.setTitle("¿Esta seguro de querer eliminarla? \n Se borrará todo lo asociado a la misma.");
+                alertEliminarCuentaPerfil.setMessage("Introduzca su contraseña");
+
+                final EditText input = new EditText(getContext());
+                input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT);
+                input.setLayoutParams(lp);
+                alertEliminarCuentaPerfil.setView(input);
+
+                alertEliminarCuentaPerfil.setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(final DialogInterface dialog, int which) {
+                                String correo, pass;
+                                if (input.getText().toString().equals("")) {
+                                    Toast.makeText(getContext(),
+                                            "Porfavor introduzca un Nombre", Toast.LENGTH_LONG).show();
+                                } else {
+                                    correo = usuario.getCorreo();
+                                    pass = Metodos.codificarPass(input.getText().toString());
+                                    Call<Usuario> call = ApiAdapter.getApiService().getUsuario(correo, pass);
+                                    call.enqueue(new Callback<Usuario>() {
+                                        @Override
+                                        public void onResponse(Call<Usuario> call, Response<Usuario> response) {
+                                            if (response.isSuccessful()) {
+                                                Call<Void> callDelete = ApiAdapter.getApiService().eliminarUsuario(idUsuario);
+                                                call.enqueue(new Callback<Usuario>() {
+                                                    @Override
+                                                    public void onResponse(Call<Usuario> call, Response<Usuario> response) {
+                                                        if (response.code() == 200) {
+                                                            Usuario usuario = null;
+                                                            Toast.makeText(getContext(), "El usuario ha sido Eliminado", Toast.LENGTH_LONG);
+                                                            Intent intent = new Intent(getContext(), MainActivity.class);
+                                                            intent.putExtra("usuario", usuario);
+                                                            startActivity(intent);
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onFailure(Call<Usuario> call, Throwable t) {
+
+                                                    }
+                                                });
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<Usuario> call, Throwable t) {
+
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                alertEliminarCuentaPerfil.setNegativeButton("Cancelar",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                alertEliminarCuentaPerfil.show();
+            }
+        });
+
         if (datos != null) {
             usuario = (Usuario) datos.getSerializable("usuario");
             tvNomPerfil.setText(usuario.getNombre());
@@ -226,7 +305,7 @@ public class PerfilFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (opciones[which].equals("Tomar foto")) {
-                    Intent camaraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    Intent camaraIntent = new Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA);
                     startActivityForResult(camaraIntent, 9);
                 } else {
                     if (opciones[which].equals("Cargar imagen")) {
@@ -250,44 +329,6 @@ public class PerfilFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            ApiService API_SERVICE;
-            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-            OkHttpClient.Builder httpClient = new OkHttpClient.Builder()
-                    .readTimeout(360, TimeUnit.SECONDS)
-                    .connectTimeout(360, TimeUnit.SECONDS);
-            httpClient.addInterceptor(logging);
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("https://1781385e.ngrok.io/Restful_Inmo/servicios/")
-                    .client(httpClient.build()) // <-- usamos el log level
-                    .build();
-            API_SERVICE = retrofit.create(ApiService.class);
-            final Uri path = data.getData();
-            File file = new File(getPath(path));
-            RequestBody requestFile =
-                    RequestBody.create(MediaType.parse(getActivity().getContentResolver().getType(path)), file);
-            MultipartBody.Part body =
-                    MultipartBody.Part.createFormData(System.currentTimeMillis() / 100 + ".jpeg", file.getName(), requestFile);
-            String nombreString = "PrimeraFoto.jpeg";
-            RequestBody nombre = RequestBody.create(
-                    okhttp3.MultipartBody.FORM, nombreString);
-                /*final InputStream imageStream = getActivity().getContentResolver().openInputStream(path);
-                final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                selectedImage.compress(Bitmap.CompressFormat.JPEG, 50, baos);
-                final byte[] bImagen = baos.toByteArray();*/
-            Call<ResponseBody> call = API_SERVICE.postImagenPerfil(nombre, body);
-            call.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    ivPerfil.setImageURI(path);
-                }
-
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-                }
-            });
         }
     }
 

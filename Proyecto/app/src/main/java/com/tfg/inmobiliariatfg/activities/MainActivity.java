@@ -68,6 +68,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             correoUsuarioLateral = usuario.getCorreo();
             tvNomMenuLateral.setText(nomUsuarioLateral);
             tvCorreoMenuLateral.setText(correoUsuarioLateral);
+        }else {
+            idUsuario = 0;
         }
     }
 

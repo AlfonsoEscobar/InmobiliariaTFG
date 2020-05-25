@@ -3,9 +3,10 @@ package com.tfg.inmobiliariatfg.modelos;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class InfoAnuncio {
+public class InfoAnuncio implements Serializable {
 
     @SerializedName("id_inmueble")
     @Expose
