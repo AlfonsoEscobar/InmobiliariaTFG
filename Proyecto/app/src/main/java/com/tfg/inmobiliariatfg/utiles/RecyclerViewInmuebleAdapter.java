@@ -4,25 +4,29 @@ package com.tfg.inmobiliariatfg.utiles;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tfg.inmobiliariatfg.R;
-
 import com.tfg.inmobiliariatfg.modelos.Inmueble;
 
 import java.util.List;
 
-public class RecyclerViewInmuebleAdapter extends RecyclerView.Adapter<RecyclerViewInmuebleAdapter.ViewHolder> {
+public class RecyclerViewInmuebleAdapter extends RecyclerView.Adapter<RecyclerViewInmuebleAdapter.ViewHolder> implements View.OnClickListener {
+
+    public List<Inmueble> inmuebleLista;
+    private View.OnClickListener listener;
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tvProvinciaMisInmuebles, tvLocalidadMisInmuebles, tvDireccionMisInmuebles, tvDescripcionMisInmuebles,
                 tvHabitacionesMisInmuebles, tvBanosMisInmuebles, tvMetrosMisInmuebles, tvTObraMisInmuebles, tvTEdificacionMisInmuebles,
-                tvEquipamientoMisInmuebles, tvExterioresMisInmuebles, tvUltPlantaMisInmuebles, tvGarajeMisInmuebles, tvTrasteroMisInmuebles,
-                tvAscensorMisInmuebles, tvMascotasMisInmuebles;
+                tvEquipamientoMisInmuebles, tvExterioresMisInmuebles;
+        private ImageView ivUltPlantaMisInmuebles, ivGarajeMisInmuebles, ivTrasteroMisInmuebles, ivAscensorMisInmuebles, ivMascotasMisInmuebles;
+
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -38,15 +42,13 @@ public class RecyclerViewInmuebleAdapter extends RecyclerView.Adapter<RecyclerVi
             tvTEdificacionMisInmuebles = itemView.findViewById(R.id.tvTEdificacionMisInmuebles);
             tvEquipamientoMisInmuebles = itemView.findViewById(R.id.tvEquipamientoMisInmuebles);
             tvExterioresMisInmuebles = itemView.findViewById(R.id.tvExterioresMisInmuebles);
-            tvUltPlantaMisInmuebles = itemView.findViewById(R.id.tvUltPlantaMisInmuebles);
-            tvGarajeMisInmuebles = itemView.findViewById(R.id.tvGarajeMisInmuebles);
-            tvTrasteroMisInmuebles = itemView.findViewById(R.id.tvTrasteroMisInmuebles);
-            tvAscensorMisInmuebles = itemView.findViewById(R.id.tvAscensorMisInmuebles);
-            tvMascotasMisInmuebles = itemView.findViewById(R.id.tvMascotasMisInmuebles);
+            ivUltPlantaMisInmuebles = itemView.findViewById(R.id.ivUltPlantaMisInmuebles);
+            ivGarajeMisInmuebles = itemView.findViewById(R.id.ivGarajeMisInmuebles);
+            ivTrasteroMisInmuebles = itemView.findViewById(R.id.ivTrasteroMisInmuebles);
+            ivAscensorMisInmuebles = itemView.findViewById(R.id.ivAscensorMisInmuebles);
+            ivMascotasMisInmuebles = itemView.findViewById(R.id.ivMascotasMisInmuebles);
         }
     }
-
-    public List<Inmueble> inmuebleLista;
 
     //Falta añadir el paso de las fotos al arrayAdapter
     public RecyclerViewInmuebleAdapter(List<Inmueble> inmuebleLista) {
@@ -58,11 +60,13 @@ public class RecyclerViewInmuebleAdapter extends RecyclerView.Adapter<RecyclerVi
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_inmueble, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
+        view.setOnClickListener(this);
+
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         holder.tvProvinciaMisInmuebles.setText(inmuebleLista.get(position).getProvincia());
         holder.tvLocalidadMisInmuebles.setText(inmuebleLista.get(position).getLocalidad());
         holder.tvDireccionMisInmuebles.setText(inmuebleLista.get(position).getCalle() + ", Nº" +
@@ -81,34 +85,45 @@ public class RecyclerViewInmuebleAdapter extends RecyclerView.Adapter<RecyclerVi
         holder.tvEquipamientoMisInmuebles.append(" " + inmuebleLista.get(position).getEquipamiento());
         holder.tvExterioresMisInmuebles.append(" " + inmuebleLista.get(position).getExteriores());
         if (inmuebleLista.get(position).isUltima_planta()) {
-            holder.tvUltPlantaMisInmuebles.append(" Si");
+            holder.ivUltPlantaMisInmuebles.setImageResource(R.drawable.ic_checked);
         } else {
-            holder.tvUltPlantaMisInmuebles.append(" No");
+            holder.ivUltPlantaMisInmuebles.setImageResource(R.drawable.ic_not_checked);
         }
         if (inmuebleLista.get(position).isGaraje()) {
-            holder.tvGarajeMisInmuebles.append(" Si");
+            holder.ivGarajeMisInmuebles.setImageResource(R.drawable.ic_checked);
         } else {
-            holder.tvGarajeMisInmuebles.append(" No");
+            holder.ivGarajeMisInmuebles.setImageResource(R.drawable.ic_not_checked);
         }
         if (inmuebleLista.get(position).isTrastero()) {
-            holder.tvTrasteroMisInmuebles.append(" Si");
+            holder.ivTrasteroMisInmuebles.setImageResource(R.drawable.ic_checked);
         } else {
-            holder.tvTrasteroMisInmuebles.append(" No");
+            holder.ivTrasteroMisInmuebles.setImageResource(R.drawable.ic_not_checked);
         }
         if (inmuebleLista.get(position).isAscensor()) {
-            holder.tvAscensorMisInmuebles.append(" Si");
+            holder.ivAscensorMisInmuebles.setImageResource(R.drawable.ic_checked);
         } else {
-            holder.tvAscensorMisInmuebles.append(" No");
+            holder.ivAscensorMisInmuebles.setImageResource(R.drawable.ic_not_checked);
         }
         if (inmuebleLista.get(position).isMascotas()) {
-            holder.tvMascotasMisInmuebles.append(" Si");
+            holder.ivMascotasMisInmuebles.setImageResource(R.drawable.ic_checked);
         } else {
-            holder.tvMascotasMisInmuebles.append(" No");
+            holder.ivMascotasMisInmuebles.setImageResource(R.drawable.ic_not_checked);
         }
     }
 
     @Override
     public int getItemCount() {
         return inmuebleLista.size();
+    }
+
+    public void setOnClickListener(View.OnClickListener listener) {
+        this.listener = listener;
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(listener!=null){
+            listener.onClick(view);
+        }
     }
 }

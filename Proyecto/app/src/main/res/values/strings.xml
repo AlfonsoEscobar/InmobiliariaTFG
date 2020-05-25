@@ -16,6 +16,7 @@
     <string name="imgProfile">imgProfile</string>
     <string name="btnEditarFotoPerfil">Editar Foto</string>
     <string name="btnEditar">Editar</string>
+    <string name="btnEliminarPerfil">Eliminar cuenta</string>
     <!-- Strings de activity_main_menu -->
     <string name="checkComprar">Comprar</string>
     <string name="checkAlquilar">Alquilar</string>
@@ -83,4 +84,33 @@
     <string name="introduceRegistrarInmueble">Introduce:</string>
     <string name="caracteristicasAdicionalesRegistrarInmueble">Caracteristicas adicionales</string>
     <string name="btnConfirmarRegistrarInmueble">Confirmar</string>
+    <!-- String de activity_Anuncio_completo -->
+    <string name="datosUbicacionAnuncioCompleto">Datos de Ubicación</string>
+    <string name="caracteristicasInmuebleAnuncioCompleto">Caracteristicas de inmueble</string>
+    <string name="descripcionInmuebleAnuncioCompleto">Descripción</string>
+    <string name="habitacionesInmuebleAnuncioCompleto">Nºhabitaciones:</string>
+    <string name="banosInmuebleAnuncioCompleto">NºBaños:</string>
+    <string name="edificacionInmuebleAnuncioCompleto">Tipo edificación:</string>
+    <string name="obraInmuebleAnuncioCompleto">Tipo de obra:</string>
+    <string name="equipamientoInmuebleAnuncioCompleto">Equipamiento:</string>
+    <string name="exterioresInmuebleAnuncioCompleto">Exteriores:</string>
+    <string name="garajeInmuebleAnuncioCompleto">Garaje:</string>
+    <string name="trasteroInmuebleAnuncioCompleto">Trastero:</string>
+    <string name="ascensorInmuebleAnuncioCompleto">Ascensor:</string>
+    <string name="ultPlantaInmuebleAnuncioCompleto">Ultima planta:</string>
+    <string name="mascotasInmuebleAnuncioCompleto">Mascotas:</string>
+    <string name="DescripcionDefectoInmuebleAnuncioCompleto">No se ha ingresado Descripcion del inmueble.</string>
+    <string name="pisoInmuebleAnuncioCompleto">Piso:</string>
+    <string name="precioInmuebleAnuncioCompleto">Precio:</string>
+    <string name="tipoAnuncioInmubleAnuncioCompleto">Inmueble en</string>
+    <string name="fechaAnunciadoInmuebleAnuncioCompleto">Creacion del anuncio:</string>
+    <string name="ultActualizacionAnuncioCompleto">Ultima actualización:</string>
+    <string name="DatosAnuncioInmuebleAnuncioCompleto">Datos del Anuncio</string>
+    <string name="DatosDelAnuncianteAnuncioCompleto">Datos del Anunciante</string>
+    <string name="CorreoAnuncioCompleto">Correo de contacto:</string>
+    <string name="telefonoAnuncioCompleto">Telefono/s de contacto:</string>
+    <string name="pulseAnuncioCompleto">Pulse aquí</string>
+    <!-- String de fragment_mis_anuncios -->
+    <string name="btnCrearAnuncio">Crear Anuncio</string>
+    <string name="titCrearAnuncio">Crear anuncio</string>
 </resources>

@@ -5,4 +5,6 @@
     <color name="colorPrimaryDark">#202543</color>
     <color name="colorAccent">#6A42D2</color>
     <color name="colorAccent2">#A383F2</color>
+    <color name="colorAccentDegradado">#4DA383F2</color>
+    <color name="colorFavorito">#48E90000</color>
 </resources>

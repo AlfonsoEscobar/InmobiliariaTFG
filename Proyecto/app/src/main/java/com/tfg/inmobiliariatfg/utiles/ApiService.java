@@ -1,11 +1,13 @@
 package com.tfg.inmobiliariatfg.utiles;
 
+import com.tfg.inmobiliariatfg.modelos.Anuncio;
 import com.tfg.inmobiliariatfg.modelos.Favorito;
 import com.tfg.inmobiliariatfg.modelos.InfoAnuncio;
 import com.tfg.inmobiliariatfg.modelos.Inmueble;
 import com.tfg.inmobiliariatfg.modelos.Usuario;
 import com.tfg.inmobiliariatfg.modelos.ValoresPredeterminadosInmueble;
 
+import java.io.File;
 import java.util.List;
 
 import retrofit2.Call;
@@ -17,20 +19,25 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface ApiService {
+    @PUT("fotografia/inmueble")
+    Call<Void> putImagenPerfil(@Body File file);
 
     @PUT("usuario/{idUsuario}")
     Call<Void> putModificarUsuarioPerfil(@Path("idUsuario") int idUsuario, @Body Usuario usuario);
 
-    @PUT("usuario/{idUsuario}")
-    Call<Void> putModificarInmueblePerfil(@Path("idUsuario") int idUsuario, @Body Inmueble usuario);
+    @PUT("usuario/{idInmueble}")
+    Call<Void> putModificarInmueblePerfil(@Path("idInmueble") int idInmueble, @Body Inmueble inmueble);
 
-    @PUT("usuario/{idUsuario}")
-    Call<Void> putModificarAnuncioPerfil(@Path("idUsuario") int idUsuario, @Body InfoAnuncio usuario);
+    @PUT("usuario/{idAnuncio}")
+    Call<Void> putModificarAnuncioPerfil(@Path("idAnuncio") int idAnuncio, @Body InfoAnuncio anuncio);
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------
 
     @GET("valores")
     Call<ValoresPredeterminadosInmueble> getSpinnersRegistrarInmueble();
+
+    @GET("favorito/{idUsuario}")
+    Call <List<Favorito>> getCompararFavorito(@Path("idUsuario") int idUsuario);
 
     @GET("favorito/info/{idUsuario}")
     Call<List<InfoAnuncio>> getFavortiosUsuario(@Path("idUsuario") int idUsuario);
@@ -59,18 +66,18 @@ public interface ApiService {
     Call<Void> createFavorito(@Body Favorito favorito);
 
     @POST("anuncio")
-    Call<Void> createAnuncio(@Body InfoAnuncio anuncio);
+    Call<Void> createAnuncio(@Body Anuncio anuncio);
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------
 
     @DELETE("usuario/{idUsuario}")
     Call<Void> eliminarUsuario(@Path("idUsuario") int idUsuario);
 
-    @DELETE("inmueble/{idUsuario}")
-    Call<Void> eliminarInmueble(@Path("idUsuario") int idUsuario);
+    @DELETE("inmueble/{idInmueble}")
+    Call<Void> eliminarInmueble(@Path("idInmueble") int idInmueble);
 
-    @DELETE("favorito/{idUsuario}")
-    Call<Void> eliminarFavorito(@Path("idUsuario") int idUsuario);
+    @DELETE("favorito/{idUsuario}/{idInmueble}/{tipo_anuncio}")
+    Call<Void> eliminarFavorito(@Path("idUsuario") int idUsuario, @Path("idInmueble") int idInmueble, @Path("tipo_anuncio") String tipo_anuncio);
 
     @DELETE("anuncio/{idInmueble}/{tipoAnuncio}")
     Call<Void> eliminarAnuncio(@Path("idInmueble") int idInmueble, @Path("idUsuario") int idUsuario);

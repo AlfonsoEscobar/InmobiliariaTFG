@@ -36,7 +36,7 @@ public class RegistrarInmuebleActivity extends AppCompatActivity {
     Button btnConfirmarRegistrarInmueble;
 
     Bundle datos;
-    Inmueble inmuebleNuevo;
+    Inmueble inmueble, inmuebleModificar;
     int idUsario;
 
     @Override
@@ -72,6 +72,10 @@ public class RegistrarInmuebleActivity extends AppCompatActivity {
         datos = getIntent().getExtras();
         if (datos != null) {
             idUsario = datos.getInt("idUsuario");
+            if (datos.getSerializable("inmueble") != null) {
+                inmuebleModificar = (Inmueble) datos.getSerializable("inmueble");
+
+            }
         }
     }
 
@@ -112,7 +116,7 @@ public class RegistrarInmuebleActivity extends AppCompatActivity {
     }
 
     public void OnClickRegistrarInmueble(View v) {
-        if (etProvinciaRegistrarInmueble.getText().toString().equals("")  || etLocalidadRegistrarInmueble.getText().toString().equals("") || etCalleRegistrarInmueble.getText().toString().equals("")
+        if (etProvinciaRegistrarInmueble.getText().toString().equals("") || etLocalidadRegistrarInmueble.getText().toString().equals("") || etCalleRegistrarInmueble.getText().toString().equals("")
                 || etNumeroRegistrarInmueble.getText().toString().equals("") || etPisoRegistrarInmueble.getText().toString().equals("") || etPuertaRegistrarInmueble.getText().toString().equals("")
                 || etDescripcionRegistrarInmueble.getText().toString().equals("") || etMetros2RegistrarInmueble.getText().toString().equals("") || etNumHabRegistrarInmueble.getText().toString().equals("")
                 || etNumBanosRegistrarInmueble.getText().toString().equals("") || etEquipamientoRegistrarInmueble.getText().toString().equals("")) {
@@ -120,68 +124,83 @@ public class RegistrarInmuebleActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Rellena todos los campos por favor", Toast.LENGTH_LONG).show();
 
         } else {
-            inmuebleNuevo = new Inmueble();
-
-            inmuebleNuevo.setProvincia(etProvinciaRegistrarInmueble.getText().toString());
-            inmuebleNuevo.setLocalidad(etLocalidadRegistrarInmueble.getText().toString());
-            inmuebleNuevo.setCalle(etCalleRegistrarInmueble.getText().toString());
-            inmuebleNuevo.setNumero(Integer.parseInt(etNumeroRegistrarInmueble.getText().toString()));
-            inmuebleNuevo.setPiso(Integer.parseInt(etPisoRegistrarInmueble.getText().toString()));
-            inmuebleNuevo.setPuerta(etPuertaRegistrarInmueble.getText().toString());
-            inmuebleNuevo.setDescripcion(etDescripcionRegistrarInmueble.getText().toString());
-            inmuebleNuevo.setMetros2(Integer.parseInt(etMetros2RegistrarInmueble.getText().toString()));
-            inmuebleNuevo.setNum_habitaciones(Integer.parseInt(etNumHabRegistrarInmueble.getText().toString()));
-            inmuebleNuevo.setNum_banos(Integer.parseInt(etNumBanosRegistrarInmueble.getText().toString()));
-            inmuebleNuevo.setEquipamiento(etEquipamientoRegistrarInmueble.getText().toString());
-            inmuebleNuevo.setEscalera(sEscaleraRegistrarInmueble.getSelectedItem().toString());
-            inmuebleNuevo.setExteriores(sExterioresRegistrarInmueble.getSelectedItem().toString());
-            inmuebleNuevo.setTipo_edificacion(sTipoEdificacionRegistrarInmueble.getSelectedItem().toString());
-            inmuebleNuevo.setTipo_obra(sTipoObraRegistrarInmueble.getSelectedItem().toString());
+            inmueble = new Inmueble();
+            inmueble.setProvincia(etProvinciaRegistrarInmueble.getText().toString());
+            inmueble.setLocalidad(etLocalidadRegistrarInmueble.getText().toString());
+            inmueble.setCalle(etCalleRegistrarInmueble.getText().toString());
+            inmueble.setNumero(Integer.parseInt(etNumeroRegistrarInmueble.getText().toString()));
+            inmueble.setPiso(Integer.parseInt(etPisoRegistrarInmueble.getText().toString()));
+            inmueble.setPuerta(etPuertaRegistrarInmueble.getText().toString());
+            inmueble.setDescripcion(etDescripcionRegistrarInmueble.getText().toString());
+            inmueble.setMetros2(Integer.parseInt(etMetros2RegistrarInmueble.getText().toString()));
+            inmueble.setNum_habitaciones(Integer.parseInt(etNumHabRegistrarInmueble.getText().toString()));
+            inmueble.setNum_banos(Integer.parseInt(etNumBanosRegistrarInmueble.getText().toString()));
+            inmueble.setEquipamiento(etEquipamientoRegistrarInmueble.getText().toString());
+            inmueble.setEscalera(sEscaleraRegistrarInmueble.getSelectedItem().toString());
+            inmueble.setExteriores(sExterioresRegistrarInmueble.getSelectedItem().toString());
+            inmueble.setTipo_edificacion(sTipoEdificacionRegistrarInmueble.getSelectedItem().toString());
+            inmueble.setTipo_obra(sTipoObraRegistrarInmueble.getSelectedItem().toString());
             if (cbGarajeRegistrarInmueble.isChecked()) {
-                inmuebleNuevo.setGaraje(true);
+                inmueble.setGaraje(true);
             } else {
-                inmuebleNuevo.setGaraje(false);
+                inmueble.setGaraje(false);
             }
             if (cbTrasteroRegistrarInmueble.isChecked()) {
-                inmuebleNuevo.setTrastero(true);
+                inmueble.setTrastero(true);
             } else {
-                inmuebleNuevo.setTrastero(false);
+                inmueble.setTrastero(false);
             }
             if (cbAscensorRegistrarInmueble.isChecked()) {
-                inmuebleNuevo.setAscensor(true);
+                inmueble.setAscensor(true);
             } else {
-                inmuebleNuevo.setAscensor(false);
+                inmueble.setAscensor(false);
             }
             if (cbUltPlantaRegistrarInmueble.isChecked()) {
-                inmuebleNuevo.setUltima_planta(true);
+                inmueble.setUltima_planta(true);
             } else {
-                inmuebleNuevo.setUltima_planta(false);
+                inmueble.setUltima_planta(false);
             }
             if (cbMascotasRegistrarInmueble.isChecked()) {
-                inmuebleNuevo.setMascotas(true);
+                inmueble.setMascotas(true);
             } else {
-                inmuebleNuevo.setMascotas(false);
+                inmueble.setMascotas(false);
             }
-            inmuebleNuevo.setPropietario(idUsario);
-
-            Call<Void> call = ApiAdapter.getApiService().createInmueble(inmuebleNuevo);
-            call.enqueue(new Callback<Void>() {
-                @Override
-                public void onResponse(Call<Void> call, Response<Void> response) {
-                    if (response.code() == 201) {
-                        Toast.makeText(getApplicationContext(), "El inmueble ha sido creado correctamente", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(getApplicationContext(), RecyclerViewMisInmueblesFragment.class);
-                        startActivity(intent);
-                    } else {
-                        Toast.makeText(getApplicationContext(), "La peticion no es correcta", Toast.LENGTH_LONG).show();
+            inmueble.setPropietario(idUsario);
+            if (inmuebleModificar == null) {
+                Call<Void> callNuevoInmueble = ApiAdapter.getApiService().createInmueble(inmueble);
+                callNuevoInmueble.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if (response.code() == 201) {
+                            Toast.makeText(getApplicationContext(), "El inmueble ha sido creado correctamente", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(getApplicationContext(), RecyclerViewMisInmueblesFragment.class);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(getApplicationContext(), "La peticion no es correcta", Toast.LENGTH_LONG).show();
+                        }
                     }
-                }
 
-                @Override
-                public void onFailure(Call<Void> call, Throwable t) {
-                    Toast.makeText(getApplicationContext(), "Fallo en la conexion", Toast.LENGTH_LONG).show();
-                }
-            });
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(), "Fallo en la conexion", Toast.LENGTH_LONG).show();
+                    }
+                });
+            } else {
+                Call<Void> callModificarInmueble = ApiAdapter.getApiService().putModificarInmueblePerfil(inmuebleModificar.getId_inmueble(), inmueble);
+                callModificarInmueble.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if (response.code() == 200){
+                            Toast.makeText(getApplicationContext(), "Inmueble modificado con exito", Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+
+                    }
+                });
+            }
         }
     }
 }

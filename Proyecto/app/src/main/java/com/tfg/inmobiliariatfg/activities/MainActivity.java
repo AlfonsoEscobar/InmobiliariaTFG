@@ -77,8 +77,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_buscar:
+                BuscadorFragment buscadorFragment = new BuscadorFragment();
+                buscadorFragment.setArguments(ExtrasLogin);
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new BuscadorFragment()).commit();
+                        buscadorFragment).commit();
                 break;
             case R.id.nav_perfil:
                 if (idUsuario == 0) {

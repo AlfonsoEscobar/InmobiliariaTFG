@@ -4,6 +4,504 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
     tools:context=".activities.AnuncioCompletoActivity">
 
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/design_default_color_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerImagenesMisInmuebles"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="0dp"
+                android:background="@color/design_default_color_background"
+                android:orientation="horizontal">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="1200dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/design_default_color_background"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvDatosUbicacionAnuncioCompleto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/datosUbicacionAnuncioCompleto"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvProvinciaMisInmueblesAnuncioCompleto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDatosUbicacionAnuncioCompleto" />
+
+                <TextView
+                    android:id="@+id/tvLocalidadMisInmueblesAnuncioCompleto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvProvinciaMisInmueblesAnuncioCompleto" />
+
+                <TextView
+                    android:id="@+id/tvDireccionMisInmueblesAnuncioCompleto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvLocalidadMisInmueblesAnuncioCompleto" />
+
+                <TextView
+                    android:id="@+id/tvDpisoMisInmueblesAnuncioCompleto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/pisoInmuebleAnuncioCompleto"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@+id/tvDireccionMisInmueblesAnuncioCompleto"
+                    app:layout_constraintTop_toBottomOf="@+id/tvLocalidadMisInmueblesAnuncioCompleto" />
+
+                <TextView
+                    android:id="@+id/tvCaracteristicasMisInmueblesAnuncioCompleto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/caracteristicasInmuebleAnuncioCompleto"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDireccionMisInmueblesAnuncioCompleto" />
+
+                <TextView
+                    android:id="@+id/tvDescripcionMisInmueblesTitAnuncioCompleto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/descripcionInmuebleAnuncioCompleto"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvCaracteristicasMisInmueblesAnuncioCompleto" />
+
+                <TextView
+                    android:id="@+id/tvDescripcionMisInmueblesAnuncioCompleto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/ic_plaintext"
+                    android:backgroundTint="@color/colorAccent"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/DescripcionDefectoInmuebleAnuncioCompleto"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDescripcionMisInmueblesTitAnuncioCompleto" />
+
+                <TextView
+                    android:id="@+id/tvHabitacionesMisInmueblesAnuncioCompleto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/habitacionesInmuebleAnuncioCompleto"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDescripcionMisInmueblesAnuncioCompleto" />
+
+                <TextView
+                    android:id="@+id/tvBanosMisInmueblesAnuncioCompleto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/banosInmuebleAnuncioCompleto"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@+id/tvHabitacionesMisInmueblesAnuncioCompleto"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDescripcionMisInmueblesAnuncioCompleto" />
+
+                <TextView
+                    android:id="@+id/tvMetrosMisInmueblesAnuncioCompleto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toEndOf="@+id/tvBanosMisInmueblesAnuncioCompleto"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDescripcionMisInmueblesAnuncioCompleto" />
+
+                <TextView
+                    android:id="@+id/tvTObraMisInmueblesAnuncioCompleto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/obraInmuebleAnuncioCompleto"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvHabitacionesMisInmueblesAnuncioCompleto" />
+
+                <TextView
+                    android:id="@+id/tvTEdificacionMisInmueblesAnuncioCompleto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/edificacionInmuebleAnuncioCompleto"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTObraMisInmueblesAnuncioCompleto" />
+
+                <TextView
+                    android:id="@+id/tvEquipamientoMisInmueblesAnuncioCompleto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/equipamientoInmuebleAnuncioCompleto"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTEdificacionMisInmueblesAnuncioCompleto" />
+
+                <TextView
+                    android:id="@+id/tvExterioresMisInmueblesAnuncioCompleto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/exterioresInmuebleAnuncioCompleto"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvEquipamientoMisInmueblesAnuncioCompleto" />
+
+                <TextView
+                    android:id="@+id/tvUltPlantaMisInmueblesAnuncioCompleto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/ultPlantaInmuebleAnuncioCompleto"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvExterioresMisInmueblesAnuncioCompleto" />
+
+                <TextView
+                    android:id="@+id/tvGarajeMisInmueblesAnuncioCompleto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/garajeInmuebleAnuncioCompleto"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvUltPlantaMisInmueblesAnuncioCompleto" />
+
+                <TextView
+                    android:id="@+id/tvTrasteroMisInmueblesAnuncioCompleto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/trasteroInmuebleAnuncioCompleto"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@+id/ivGarajeMisInmueblesAnuncioCompleto"
+                    app:layout_constraintTop_toBottomOf="@+id/tvUltPlantaMisInmueblesAnuncioCompleto" />
+
+                <TextView
+                    android:id="@+id/tvAscensorMisInmueblesAnuncioCompleto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/ascensorInmuebleAnuncioCompleto"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvGarajeMisInmueblesAnuncioCompleto" />
+
+                <TextView
+                    android:id="@+id/tvMascotasMisInmueblesAnuncioCompleto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/mascotasInmuebleAnuncioCompleto"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@+id/ivAscensorMisInmueblesAnuncioCompleto"
+                    app:layout_constraintTop_toBottomOf="@+id/tvGarajeMisInmueblesAnuncioCompleto" />
+
+                <TextView
+                    android:id="@+id/tvDatosAnuncioTitMisInmueblesAnuncioCompleto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/DatosAnuncioInmuebleAnuncioCompleto"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvAscensorMisInmueblesAnuncioCompleto" />
+
+                <TextView
+                    android:id="@+id/tvtipoAnuncioMisInmueblesAnuncioCompleto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/tipoAnuncioInmubleAnuncioCompleto"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDatosAnuncioTitMisInmueblesAnuncioCompleto" />
+
+                <TextView
+                    android:id="@+id/tvPrecioMisInmueblesAnuncioCompleto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/precioInmuebleAnuncioCompleto"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvtipoAnuncioMisInmueblesAnuncioCompleto" />
+
+                <TextView
+                    android:id="@+id/tvFechaAnuncioMisInmueblesAnuncioCompleto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/fechaAnunciadoInmuebleAnuncioCompleto"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvPrecioMisInmueblesAnuncioCompleto" />
+
+                <TextView
+                    android:id="@+id/tvultimaActualizacionMisInmueblesAnuncioCompleto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="10dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/ultActualizacionAnuncioCompleto"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvFechaAnuncioMisInmueblesAnuncioCompleto" />
+
+                <TextView
+                    android:id="@+id/tvDatosAnuncianteMisInmueblesAnuncioCompleto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/DatosDelAnuncianteAnuncioCompleto"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvultimaActualizacionMisInmueblesAnuncioCompleto" />
+
+                <TextView
+                    android:id="@+id/tvCorreoAnuncianteMisInmueblesAnuncioCompleto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/CorreoAnuncioCompleto"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDatosAnuncianteMisInmueblesAnuncioCompleto" />
+
+                <TextView
+                    android:id="@+id/tvTelefonoAnuncianteMisInmueblesAnuncioCompleto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/telefonoAnuncioCompleto"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/btnCopiarCorreoAnuncioCompleto" />
+
+                <ImageView
+                    android:id="@+id/ivGarajeMisInmueblesAnuncioCompleto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:contentDescription="@string/imgpincipal"
+                    app:layout_constraintStart_toEndOf="@+id/tvGarajeMisInmueblesAnuncioCompleto"
+                    app:layout_constraintTop_toBottomOf="@+id/tvUltPlantaMisInmueblesAnuncioCompleto"
+                    app:srcCompat="@drawable/ic_not_checked" />
+
+                <ImageView
+                    android:id="@+id/ivAscensorMisInmueblesAnuncioCompleto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:contentDescription="@string/imgpincipal"
+                    app:layout_constraintStart_toEndOf="@+id/tvAscensorMisInmueblesAnuncioCompleto"
+                    app:layout_constraintTop_toBottomOf="@+id/tvGarajeMisInmueblesAnuncioCompleto"
+                    app:srcCompat="@drawable/ic_not_checked" />
+
+                <ImageView
+                    android:id="@+id/ivMascotasMisInmueblesAnuncioCompleto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:contentDescription="@string/imgpincipal"
+                    app:layout_constraintStart_toEndOf="@+id/tvMascotasMisInmueblesAnuncioCompleto"
+                    app:layout_constraintTop_toBottomOf="@+id/tvGarajeMisInmueblesAnuncioCompleto"
+                    app:srcCompat="@drawable/ic_not_checked" />
+
+                <ImageView
+                    android:id="@+id/ivTrasteroMisInmueblesAnuncioCompleto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:contentDescription="@string/imgpincipal"
+                    app:layout_constraintStart_toEndOf="@+id/tvTrasteroMisInmueblesAnuncioCompleto"
+                    app:layout_constraintTop_toBottomOf="@+id/tvUltPlantaMisInmueblesAnuncioCompleto"
+                    app:srcCompat="@drawable/ic_not_checked" />
+
+                <ImageView
+                    android:id="@+id/ivUltPlantaMisInmueblesAnuncioCompleto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:contentDescription="@string/imgpincipal"
+                    app:layout_constraintStart_toEndOf="@+id/tvUltPlantaMisInmueblesAnuncioCompleto"
+                    app:layout_constraintTop_toBottomOf="@+id/tvExterioresMisInmueblesAnuncioCompleto"
+                    app:srcCompat="@drawable/ic_not_checked" />
+
+                <Button
+                    android:id="@+id/btnFavoritoAnuncioCompleto"
+                    android:layout_width="33dp"
+                    android:layout_height="33dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/ic_plaintext_gris"
+                    android:drawableEnd="@drawable/ic_favorito_unchecked"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:onClick="botonFavorito"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/btnCopiarCorreoAnuncioCompleto"
+                    android:layout_width="78dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/ic_button"
+                    android:drawableEnd="@drawable/ic_perfil"
+                    android:onClick="copiarCorreo"
+                    android:text="@string/pulseAnuncioCompleto"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvCorreoAnuncianteMisInmueblesAnuncioCompleto" />
+
+                <Button
+                    android:id="@+id/btnDialogTelefonoAnuncioCompleto"
+                    android:layout_width="78dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/ic_button"
+                    android:drawableEnd="@drawable/ic_perfil"
+                    android:onClick="llamadaTelefonosDialog"
+                    android:text="@string/pulseAnuncioCompleto"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTelefonoAnuncianteMisInmueblesAnuncioCompleto" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

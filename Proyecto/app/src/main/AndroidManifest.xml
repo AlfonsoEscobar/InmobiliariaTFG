@@ -3,18 +3,20 @@
     package="com.tfg.inmobiliariatfg">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.AnuncioCompletoActivity"></activity>
+        <activity android:name=".activities.CrearAnuncioActivity"></activity>
+        <activity android:name=".activities.AnuncioCompletoActivity" />
         <activity android:name=".activities.RegistrarInmuebleActivity" />
         <activity android:name=".activities.LoginActivity" />
         <activity android:name=".activities.RecyclerViewBusquedaActivity" />

@@ -3,7 +3,9 @@ package com.tfg.inmobiliariatfg.modelos;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Inmueble {
+import java.io.Serializable;
+
+public class Inmueble implements Serializable {
     @SerializedName("provincia")
     @Expose
     private String provincia;

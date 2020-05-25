@@ -1,32 +1,45 @@
 package com.tfg.inmobiliariatfg.utiles;
 
+import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tfg.inmobiliariatfg.R;
+import com.tfg.inmobiliariatfg.modelos.Favorito;
 import com.tfg.inmobiliariatfg.modelos.InfoAnuncio;
 
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class RecyclerViewInfoAnuncioAdapter extends RecyclerView.Adapter<RecyclerViewInfoAnuncioAdapter.ViewHolderAnuncios> implements View.OnClickListener {
 
     public List<InfoAnuncio> AnuncioLista;
+    public List<Favorito> anunciosFavoritos;
     private View.OnClickListener listener;
+    private int idUsuario;
 
     public static class ViewHolderAnuncios extends RecyclerView.ViewHolder {
 
         private TextView tvBusquedaCalle, tvBusquedaFechIng, tvBusquedaPrecio, tvBusquedaHab, tvBusquedaMetros2, tvBusquedaPiso;
+        ConstraintLayout clItemAnuncioDestacado;
         private ImageView ivBusquedaImagen;
 
         public ViewHolderAnuncios(View itemView) {
             super(itemView);
 
+            clItemAnuncioDestacado = itemView.findViewById(R.id.clItemAnuncioDestacado);
             tvBusquedaCalle = itemView.findViewById(R.id.tvBusquedaCalle);
             tvBusquedaFechIng = itemView.findViewById(R.id.tvBusquedaFechIng);
             tvBusquedaPrecio = itemView.findViewById(R.id.tvBusquedaPrecio);
@@ -39,8 +52,9 @@ public class RecyclerViewInfoAnuncioAdapter extends RecyclerView.Adapter<Recycle
 
 
     //Falta añadir el paso de las fotos al arrayAdapter
-    public RecyclerViewInfoAnuncioAdapter(List<InfoAnuncio> AnuncioLista) {
+    public RecyclerViewInfoAnuncioAdapter(List<InfoAnuncio> AnuncioLista, List<Favorito> datosAComparar) {
         this.AnuncioLista = AnuncioLista;
+        this.anunciosFavoritos = datosAComparar;
     }
 
     @NonNull
@@ -54,6 +68,17 @@ public class RecyclerViewInfoAnuncioAdapter extends RecyclerView.Adapter<Recycle
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderAnuncios holder, int position) {
+        if (anunciosFavoritos != null) {
+            for (int i = 0; i < AnuncioLista.size(); i++) {
+                for (int j = 0; j < anunciosFavoritos.size(); j++) {
+                    if (AnuncioLista.get(i).getId_inmueble() == anunciosFavoritos.get(j).getInmueble_favorito() &&
+                            AnuncioLista.get(i).getTipo_anuncio().equals(anunciosFavoritos.get(j).getTipo_anuncio())) {
+                        holder.clItemAnuncioDestacado.setBackgroundResource(R.color.colorAccentDegradado);
+                        break;
+                    }
+                }
+            }
+        }
         holder.tvBusquedaCalle.setText(AnuncioLista.get(position).getInmueble().getCalle());
         holder.tvBusquedaFechIng.setText(String.valueOf(AnuncioLista.get(position).getFeha_anunciado()));
         if (AnuncioLista.get(position).getTipo_anuncio().equalsIgnoreCase("venta")) {
@@ -71,13 +96,13 @@ public class RecyclerViewInfoAnuncioAdapter extends RecyclerView.Adapter<Recycle
         return AnuncioLista.size();
     }
 
-    public void setOnClicklistener(View.OnClickListener listener){
+    public void setOnClicklistener(View.OnClickListener listener) {
         this.listener = listener;
     }
 
     @Override
     public void onClick(View view) {
-        if(listener!=null){
+        if (listener != null) {
             listener.onClick(view);
         }
     }

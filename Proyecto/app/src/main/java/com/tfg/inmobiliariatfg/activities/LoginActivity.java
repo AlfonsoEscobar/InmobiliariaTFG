@@ -45,10 +45,10 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                progressDialog = new ProgressDialog(LoginActivity.this);
+                progressDialog = new ProgressDialog(v.getContext());
                 progressDialog.setMessage("Autentificando credenciales...");
                 Metodos.mostrarDialogo(progressDialog);
+
 
                 String PassHash = Metodos.codificarPass(etPassLogin.getText().toString());
                 String Correo = etCorreoLogin.getText().toString();
@@ -63,10 +63,13 @@ public class LoginActivity extends AppCompatActivity {
                             Intent i = new Intent(getApplicationContext(), MainActivity.class);
                             i.putExtra("usuario", usuario);
                             startActivity(i);
+                            progressDialog.dismiss();
+
                         } else {
                             etCorreoLogin.setHint("Correo");
                             etPassLogin.setHint("Contraseña");
                             Toast.makeText(getApplicationContext(), "El correo o la contraseña no son correctos", Toast.LENGTH_LONG).show();
+                            progressDialog.dismiss();
                         }
                     }
 
@@ -75,7 +78,6 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "La conexion con la API no se esta realizando", Toast.LENGTH_LONG).show();
                     }
                 });
-                progressDialog.dismiss();
             }
         });
     }

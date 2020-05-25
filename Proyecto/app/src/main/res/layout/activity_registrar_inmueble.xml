@@ -436,6 +436,7 @@
             android:layout_marginBottom="10dp"
             android:background="@drawable/ic_button"
             android:fontFamily="@font/source_sans_pro"
+            android:onClick="OnClickRegistrarInmueble"
             android:text="@string/btnConfirmarRegistrarInmueble"
             android:textSize="16sp"
             android:textStyle="bold"

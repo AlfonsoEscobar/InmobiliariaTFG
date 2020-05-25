@@ -18,12 +18,18 @@ import androidx.fragment.app.Fragment;
 
 import com.tfg.inmobiliariatfg.R;
 import com.tfg.inmobiliariatfg.activities.RecyclerViewBusquedaActivity;
+import com.tfg.inmobiliariatfg.modelos.Usuario;
 
 public class BuscadorFragment extends Fragment {
+
+    Bundle datos;
+    Usuario usuario;
+    int idUsuario;
     EditText etLocalidadBuscador;
     ImageView ivBuscador;
     RadioButton rbComprarBuscador, rbAlquilarBuscador;
     Button btnBuscarBuscador;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -39,11 +45,12 @@ public class BuscadorFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), RecyclerViewBusquedaActivity.class);
+                i.putExtra("idUsuario",idUsuario);
                 String localidad = etLocalidadBuscador.getText().toString();
                 if (localidad.equals("")) {
                     Log.i("Error", "No ha sido introducido una localidad");
                 } else {
-                    String localidadPut = String.valueOf(etLocalidadBuscador.getText());
+                    String localidadPut = etLocalidadBuscador.getText().toString();
                     String tipoPut;
                     i.putExtra("localidad", localidadPut);
                     if (rbAlquilarBuscador.isChecked()) {
@@ -60,8 +67,11 @@ public class BuscadorFragment extends Fragment {
                 }
             }
         });
+        datos = getArguments();
+        if(datos != null){
+            usuario = (Usuario) datos.getSerializable("usuario");
+            idUsuario = usuario.getId_usuario();
+        }
         return cl;
-
-
     }
 }
