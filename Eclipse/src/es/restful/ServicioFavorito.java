@@ -133,8 +133,8 @@ public class ServicioFavorito {
 
 
 	@DELETE
-	@Path("/{id_favorito}")
-	public Response deleteFavorito(@PathParam("id_favorito") int id) {
+	@Path("/{usuario_favorito}")
+	public Response deleteFavorito(@PathParam("usuario_favorito") int id) {
 
 		Response.Status respuesta = Response.Status.OK;
 		int filasModificadas = 0;
@@ -142,6 +142,31 @@ public class ServicioFavorito {
 		try {
 			
 			filasModificadas = claseFavorito.eliminar(id);
+			
+		} catch (DAOException e) {
+			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
+		}
+		
+		if (filasModificadas == 0) {
+			respuesta = Response.Status.NOT_FOUND;
+		}
+		
+		return Response.status(respuesta).build();
+		
+	}
+	
+	@DELETE
+	@Path("/{usuario_favorito}/{inmueble_favorito}/{tipo_anuncio}")
+	public Response deleteUnFavorito(@PathParam("usuario_favorito") int id,
+									@PathParam("inmueble_favorito") int inmueble,
+									@PathParam("tipo_anuncio") String anuncio) {
+
+		Response.Status respuesta = Response.Status.OK;
+		int filasModificadas = 0;
+		
+		try {
+			
+			filasModificadas = claseFavorito.eliminar(id, inmueble, anuncio);
 			
 		} catch (DAOException e) {
 			respuesta = Response.Status.INTERNAL_SERVER_ERROR;

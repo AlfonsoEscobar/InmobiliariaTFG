@@ -1,34 +1,21 @@
 package es.restful;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URI;
-import java.nio.file.Files;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.sql.DataSource;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
-import javax.ws.rs.core.UriInfo;
 
 import es.dao.DAOException;
 import es.dao.mysql.MySQLFotografiaDAO;
@@ -122,33 +109,47 @@ public class ServicioFotografia {
 	}
 
 
-	@POST
-	@Path("/inmueble/{nombreFoto}")
-	@Consumes("images/jpeg")
-	public Response putFichero(File fichero,
-							   @PathParam("nombreFoto") String nombreFoto) {
+	@PUT
+	@Path("/inmueble/{id_inmueble}/{tipo_habitacion}")
+	@Consumes("image/jpeg")
+	public Response putFichero(@PathParam("id_inmueble") int id_inmueble,
+								@PathParam("tipo_habitacion") String tipo_habitacion,
+								File fichero) {
 
 		claseFotografia = new MySQLFotografiaDAO(dataSource);
-		
 		Response.Status responseStatus = Response.Status.OK;
 		
-		/*
 		Fotografia foto = new Fotografia();
 		
-		foto.setTipo_habitacion(tipo_habitacion);
-		foto.setRuta("/home/alfonso/Imágenes/App/Pisos/" + nombreFoto);
-		foto.setInmueble(4);
+		File nombreCarpeta = new File("/home/alfonso/Imágenes/App/Pisos/" + String.valueOf(id_inmueble));
+		
+		if(!nombreCarpeta.exists()) {
+			
+			nombreCarpeta.mkdir();
+			
+			fichero.renameTo(new File("/home/alfonso/Imágenes/App/Pisos/" + String.valueOf(id_inmueble) + "/", fichero.getName()));
+			
+			foto.setTipo_habitacion(tipo_habitacion);
+			foto.setRuta("/home/alfonso/Imágenes/App/Pisos/" + String.valueOf(id_inmueble) + "/" + fichero.getName());
+			foto.setInmueble(id_inmueble);
+			
+		} else {
+			
+			fichero.renameTo(new File("/home/alfonso/Imágenes/App/Pisos/" + nombreCarpeta + "/", fichero.getName()));
+			
+			foto.setTipo_habitacion(tipo_habitacion);
+			foto.setRuta("/home/alfonso/Imágenes/App/Pisos/" + nombreCarpeta + "/" + fichero.getName());
+			foto.setInmueble(id_inmueble);
+			
+		}
 
 		try {
 			
 			claseFotografia.insertar(foto);
 			
 		} catch (DAOException e) {
-			
+			responseStatus = Response.Status.INTERNAL_SERVER_ERROR;
 		}
-		*/
-		
-		fichero.renameTo(new File("/home/alfonso/Imágenes/App/Pisos/" + nombreFoto));
 
 		return Response.status(responseStatus).build();
 

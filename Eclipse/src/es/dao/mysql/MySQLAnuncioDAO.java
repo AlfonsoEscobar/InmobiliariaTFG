@@ -13,7 +13,6 @@ import javax.sql.DataSource;
 
 import es.dao.DAOException;
 import es.dao.util.Conversor;
-import es.dao.util.CriterioBusqueda2;
 import es.dao.util.InfoAnuncio;
 import es.modelos.Anuncio;
 
@@ -34,8 +33,9 @@ public class MySQLAnuncioDAO {
 	final String GETINFOANUNCIOPROPIETARIO = "SELECT a.*, i.* FROM anuncio a inner join inmueble i "
 			+ "on a.id_inmueble = i.id_inmueble WHERE i.propietario = ?";
 
-	final String GETINFOANUNCIOS = "select a.*, b.* from inmueble a inner join anuncio b "
-			+ "on a.id_inmueble = b.id_inmueble where b.tipo_anuncio = ? and a.localidad = ? ";
+	final String GETINFOANUNCIOS = "select a.*, b.*, c.* from inmueble a inner join anuncio b "
+			+ "on a.id_inmueble = b.id_inmueble inner join usuario c on a.propietario = c.id_usuario"
+			+ "where b.tipo_anuncio = ? and a.localidad = ? ";
 
 	final String UPDATEDATE = "UPDATE anuncio SET fecha_ultima_actualizacion = ? " + "WHERE id_inmueble = ?";
 

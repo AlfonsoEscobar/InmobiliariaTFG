@@ -97,7 +97,7 @@ public class Conversor {
 	public static InfoAnuncio convertirInfoAnuncio(ResultSet rs) throws SQLException {
 		Inmueble inmu = new Inmueble();
 		InfoAnuncio infoan = new InfoAnuncio();
-
+		
 		inmu.setProvincia(rs.getString("provincia"));
 		inmu.setLocalidad(rs.getString("localidad"));
 		inmu.setCalle(rs.getString("calle"));
@@ -127,7 +127,10 @@ public class Conversor {
 		infoan.setTipo_anuncio(rs.getString("tipo_anuncio"));
 		infoan.setFecha_anunciado(rs.getDate("fecha_anunciado"));
 		infoan.setFecha_ultima_actualizacion(rs.getDate("fecha_ultima_actualizacion"));
-
+		infoan.setTelefono1(rs.getString("telefono1"));
+		infoan.setTelefono2(rs.getString("telefono2"));
+		infoan.setCorreo(rs.getString("correo"));
+		
 		infoan.setInmueble(inmu);
 		
 		return infoan;

@@ -189,7 +189,7 @@ public class ServicioUsuario {
 
 	@DELETE
 	@Path("/{id_usuario}")
-	public Response deleteUsuario(@PathParam("correo") int id) {
+	public Response deleteUsuario(@PathParam("id_usuario") int id) {
 
 		claseUsuario = new MySQLUsuarioDAO(dataSource);
 
