@@ -78,7 +78,7 @@ public class ServicioAnuncio {
 
 		claseAnuncio = new MySQLAnuncioDAO(dataSource);
 		Response.Status respuesta = Response.Status.OK;
-		LinkedList<InfoAnuncio> listaAnuncio = new LinkedList<>();
+		LinkedList<InfoAnuncio> listaAnuncio = new LinkedList<InfoAnuncio>();
 
 		try {
 

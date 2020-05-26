@@ -32,8 +32,10 @@ public class MySQLFavoritoDAO {
 	
 	final String GETANUNCIOSFAV = "SELECT * FROM anuncio WHERE id_inmueble = (SELECT * FROM favorito WHERE usuario_favorito = ?)";
 	
-	final String GETINFOANUNCIOSFAV = "SELECT i.*, a.* from inmueble i inner join anuncio a "
-			+ "on a.id_inmueble = i.id_inmueble WHERE a.id_inmueble in (SELECT inmueble_favorito FROM favorito WHERE usuario_favorito = ?)";
+	final String GETINFOANUNCIOSFAV = "SELECT i.*, a.*, u.* from inmueble i inner join anuncio a "
+										+ "on a.id_inmueble = i.id_inmueble inner join usuario u on i.propietario = "
+										+ "u.id_usuario WHERE a.id_inmueble in "
+										+ "(SELECT inmueble_favorito FROM favorito WHERE usuario_favorito = ?)";
 
 	private Connection conexion;
 

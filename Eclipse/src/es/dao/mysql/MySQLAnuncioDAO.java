@@ -31,11 +31,12 @@ public class MySQLAnuncioDAO {
 			+ "id_inmueble = (SELECT id_inmueble FROM inmueble WHERE localidad = ?)";
 	
 	final String GETINFOANUNCIOPROPIETARIO = "SELECT a.*, i.* FROM anuncio a inner join inmueble i "
-			+ "on a.id_inmueble = i.id_inmueble WHERE i.propietario = ?";
+			+ "on a.id_inmueble = i.id_inmueble inner join usuario u on i.propietario = u.id_usuario "
+			+ "WHERE i.propietario = ?";
 
 	final String GETINFOANUNCIOS = "select a.*, b.*, c.* from inmueble a inner join anuncio b "
 			+ "on a.id_inmueble = b.id_inmueble inner join usuario c on a.propietario = c.id_usuario"
-			+ "where b.tipo_anuncio = ? and a.localidad = ? ";
+			+ " where b.tipo_anuncio = ? and a.localidad = ? ";
 
 	final String UPDATEDATE = "UPDATE anuncio SET fecha_ultima_actualizacion = ? " + "WHERE id_inmueble = ?";
 
@@ -243,7 +244,7 @@ public class MySQLAnuncioDAO {
 
 		ResultSet rs = null;
 
-		List<InfoAnuncio> InfoAnuncios = new LinkedList<>();
+		List<InfoAnuncio> InfoAnuncios = new LinkedList<InfoAnuncio>();
 
 		try {
 
@@ -288,7 +289,7 @@ public class MySQLAnuncioDAO {
 	 */
 	public LinkedList<InfoAnuncio> listaInfoAnuncios(String tipo_anuncio, String localidad) throws DAOException {
 
-		LinkedList<InfoAnuncio> lista = new LinkedList<>();
+		LinkedList<InfoAnuncio> lista = new LinkedList<InfoAnuncio>();
 
 		PreparedStatement stat = null;
 		ResultSet rs = null;
