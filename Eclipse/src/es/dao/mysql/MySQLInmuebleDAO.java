@@ -16,10 +16,11 @@ import es.modelos.Inmueble;
 
 public class MySQLInmuebleDAO {
 
-	final String INSERT = "INSERT INTO inmueble(provincia, localidad, calle, numero, piso, puerta,"
+	final String INSERT = "INSERT INTO inmueble(provincia, localidad, calle, escalera, numero, piso, puerta,"
 			+ "propietario, descripcion, metros2, num_habitaciones, num_banos,"
 			+ "tipo_edificacion, tipo_obra, equipamiento, exteriores, garaje,"
-			+ "trastero, ascensor, ultima_planta, mascotas) " + "VALUES(?,?, ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			+ "trastero, ascensor, ultima_planta, mascotas) "
+			+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 	final String UPDATE = "UPDATE inmueble SET provincia = ?, localidad = ?, calle = ?, numero = ?, escalera = ?, "
 			+ "piso = ?, puerta = ?, descripcion = ?, metros2 = ?,"
@@ -39,7 +40,6 @@ public class MySQLInmuebleDAO {
 		try {
 			this.conexion = conexion.getConnection();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

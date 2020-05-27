@@ -104,14 +104,14 @@ public class ServicioFotografia {
 	@Produces("images/jpeg")
 	public Response getFichero(@PathParam("nombreFichero") String nombreFichero,
 							   @PathParam("id_piso") String id_piso) {
-		File fichero = new File("/home/alfonso/Imágenes/"+ id_piso + "/" + nombreFichero);
+		File fichero = new File("/home/alfonso/Imágenes/App/Pisos/"+ id_piso + "/" + nombreFichero);
 		return Response.ok(fichero).build();
 	}
 
 
 	@PUT
 	@Path("/inmueble/{id_inmueble}/{tipo_habitacion}")
-	@Consumes("image/jpeg")
+	@Consumes("images/jpeg")
 	public Response putFichero(@PathParam("id_inmueble") int id_inmueble,
 								@PathParam("tipo_habitacion") String tipo_habitacion,
 								File fichero) {
@@ -130,7 +130,7 @@ public class ServicioFotografia {
 			fichero.renameTo(new File("/home/alfonso/Imágenes/App/Pisos/" + String.valueOf(id_inmueble) + "/", fichero.getName()));
 			
 			foto.setTipo_habitacion(tipo_habitacion);
-			foto.setRuta("/home/alfonso/Imágenes/App/Pisos/" + String.valueOf(id_inmueble) + "/" + fichero.getName());
+			foto.setRuta("/home/alfonso/Imágenes/App/Pisos/" + String.valueOf(id_inmueble) + "/" + tipo_habitacion);
 			foto.setInmueble(id_inmueble);
 			
 		} else {

@@ -48,7 +48,7 @@ public class ServicioAnuncio {
 
 		claseAnuncio = new MySQLAnuncioDAO(dataSource);
 		Response.Status respuesta = Response.Status.OK;
-		List<InfoAnuncio> listaAnuncio = new LinkedList<>();
+		List<InfoAnuncio> listaAnuncio = null;
 
 		try {
 
@@ -59,15 +59,18 @@ public class ServicioAnuncio {
 		}
 
 		
-			if (listaAnuncio.isEmpty()) {
+		if(listaAnuncio != null) {
+			if(listaAnuncio.isEmpty()) {
 				respuesta = Response.Status.NOT_FOUND;
 			}
+		}
 		
 
-		if (respuesta == Response.Status.OK)
+		if (respuesta == Response.Status.OK) {
 			return Response.ok(listaAnuncio).build();
-		else
+		}else {
 			return Response.status(respuesta).build();
+		}
 	}
 	
 	@GET
@@ -88,11 +91,11 @@ public class ServicioAnuncio {
 			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
 		}
 
-		
+
 			if (listaAnuncio.isEmpty()) {
 				respuesta = Response.Status.NOT_FOUND;
 			}
-		
+
 
 		if (respuesta == Response.Status.OK)
 			return Response.ok(listaAnuncio).build();
@@ -109,29 +112,6 @@ public class ServicioAnuncio {
 		Response.Status respuesta = Response.Status.OK;
 		List<InfoAnuncio> listaAnuncio = null;
 		CriterioBusqueda2 criterio;
-		/*criterio = new CriterioBusqueda2Builder()
-						.conLocalidad(valores.getLocalidad())
-						.conTipo_Anuncio(valores.getTipo_anuncio())
-						.conAscensor(valores.isAscensor())
-						.conCalle(valores.getCalle())
-						.conEquipamiento(valores.getEquipamiento())
-						.conExteriores(valores.getExteriores())
-						.conGaraje(valores.isGaraje())
-						.conMascotas(valores.isMascotas())
-						.conMetros2(valores.getMin_metros2(), valores.getMax_metros2())
-						.conMin_num_habitaciones(valores.getMin_num_habitaciones())
-						.conNum_banos(valores.getNum_banos())
-						.conNum_habitaciones(valores.getNum_habitaciones())
-						.conPiso(valores.getPiso())
-						.conPrecio(valores.getMin_precio(), valores.getMax_precio())
-						.conTipo_edificacion(valores.getTipo_edificacion())
-						.conTipo_obra(valores.getTipo_obra())
-						.conTrastero(valores.isTrastero())
-						.conUltima_planta(valores.isUltima_planta())
-						.conFecha_anuncio((Date) valores.getFecha_anunciado())
-						.conFecha_ultima_actualizacion((Date) valores.getFecha_ultima_actualizacion())
-						.build();*/
-		
 		
 		CriterioBusqueda2Builder builder = new CriterioBusqueda2Builder();
 		
@@ -238,9 +218,11 @@ public class ServicioAnuncio {
 	}
 
 	@PUT
-	@Path("/{id_anuncio}")
+	@Path("/{id_inmueble}/{tipo_anuncio}/{precio}")
 	@Consumes(APPLICATION_JSON)
-	public Response putAnuncio(@PathParam("id_anuncio") int id_inmueble, Anuncio anuncio) {
+	public Response putAnuncio(@PathParam("id_inmueble") int id_inmueble,
+								@PathParam("tipo_anuncio") String tipo_anuncio,
+								@PathParam("precio") double precio) {
 
 		claseAnuncio = new MySQLAnuncioDAO(dataSource);
 
@@ -249,7 +231,7 @@ public class ServicioAnuncio {
 
 		try {
 
-			filasModificadas = claseAnuncio.modificar(id_inmueble, anuncio.getTipo_anuncio(), anuncio.getPrecio());
+			filasModificadas = claseAnuncio.modificar(id_inmueble, tipo_anuncio, precio);
 
 		} catch (DAOException e) {
 			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
@@ -275,7 +257,7 @@ public class ServicioAnuncio {
 
 			idGenerados = claseAnuncio.insertar(anuncio);
 			
-			if (idGenerados <= 0) {
+			if (idGenerados < 0) {
 				respuesta = Response.Status.NOT_FOUND;
 			}
 

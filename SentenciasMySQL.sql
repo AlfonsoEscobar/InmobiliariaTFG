@@ -96,7 +96,7 @@ CREATE TABLE `favorito` (
 
 
 CREATE TABLE `fotografia` (
-  `ruta` varchar(25) NOT NULL,
+  `ruta` varchar(100) NOT NULL,
   `tipo_habitacion` varchar(20),
   `inmueble` int NOT NULL,
   CONSTRAINT `pk_fotografia` PRIMARY KEY (`ruta`),
@@ -134,6 +134,7 @@ insert into exteriores values(0, "Terraza");
 insert into exteriores values(0, "Patio");
 insert into exteriores values(0, "Piscina");
 insert into exteriores values(0, "Jardín");
+insert into exteriores values(0, "Ninguno");
 
 insert into tipo_obra values(0, "Obra nueva");
 insert into tipo_obra values(0, "Segunda mano");
