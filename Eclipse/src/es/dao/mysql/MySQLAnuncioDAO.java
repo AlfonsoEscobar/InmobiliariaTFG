@@ -18,10 +18,14 @@ import es.modelos.Anuncio;
 
 public class MySQLAnuncioDAO {
 
-	final String INSERT = "INSERT INTO anuncio(id_inmueble, tipo_anuncio, precio)" + "VALUES(?,?,?)";
+	final String INSERTCONFECHAS = "INSERT INTO anuncio(id_inmueble, tipo_anuncio, precio, fecha_anuncio, fecha_ultima_actualizacion) VALUES(?,?,?,?,?)";
 	
-	final String UPDATE = "UPDATE anuncio SET precio = ?, fecha_ultima_actualizacion = ? "
+	final String INSERT = "INSERT INTO anuncio(id_inmueble, tipo_anuncio, precio) VALUES(?,?,?)";
+	
+	final String UPDATECONFECHA = "UPDATE anuncio SET precio = ?, fecha_ultima_actualizacion = ? "
 			+ "WHERE id_inmueble = ? and tipo_anuncio = ?";
+	
+	final String UPDATE = "UPDATE anuncio SET precio = ? WHERE id_inmueble = ? and tipo_anuncio = ?";
 
 	final String DELETE = "DELETE FROM anuncio WHERE id_inmueble = ? and tipo_anuncio = ?";
 	
@@ -30,15 +34,15 @@ public class MySQLAnuncioDAO {
 	final String GETLOCTYP = "SELECT * FROM anuncio WHERE tipo_anuncio = ? and "
 			+ "id_inmueble = (SELECT id_inmueble FROM inmueble WHERE localidad = ?)";
 	
-	final String GETINFOANUNCIOPROPIETARIO = "SELECT a.*, i.* FROM anuncio a inner join inmueble i "
+	final String GETINFOANUNCIOPROPIETARIO = "SELECT a.*, i.*, u.* FROM anuncio a inner join inmueble i "
 			+ "on a.id_inmueble = i.id_inmueble inner join usuario u on i.propietario = u.id_usuario "
 			+ "WHERE i.propietario = ?";
 
-	final String GETINFOANUNCIOS = "select a.*, b.*, c.* from inmueble a inner join anuncio b "
-			+ "on a.id_inmueble = b.id_inmueble inner join usuario c on a.propietario = c.id_usuario"
-			+ " where b.tipo_anuncio = ? and a.localidad = ? ";
+	final String GETINFOANUNCIOS = "SELECT a.*, i.*, u.* FROM anuncio a inner join inmueble i " + 
+			"on a.id_inmueble = i.id_inmueble inner join usuario u on i.propietario = u.id_usuario " + 
+			"WHERE a.tipo_anuncio = ? and i.localidad = ?";
 
-	final String UPDATEDATE = "UPDATE anuncio SET fecha_ultima_actualizacion = ? " + "WHERE id_inmueble = ?";
+	final String UPDATEDATE = "UPDATE anuncio SET fecha_ultima_actualizacion = ? WHERE id_inmueble = ?";
 
 	private Connection conexion;
 
@@ -46,7 +50,6 @@ public class MySQLAnuncioDAO {
 		try {
 			this.conexion = conexion.getConnection();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -60,14 +63,19 @@ public class MySQLAnuncioDAO {
 		ResultSet generatedKeys = null;
 		int generatedId = -1;
 
+		/*java.util.Date dateUtil = new java.util.Date();
+		SimpleDateFormat plantilla = new SimpleDateFormat("dd/MM/yyyy");
+		plantilla.format(dateUtil);
+		java.sql.Date dateSql = new java.sql.Date(dateUtil.getTime());*/
+
 		try {
 
 			stat = conexion.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
 			stat.setInt(1, anuncio.getId_inmueble());
 			stat.setString(2, anuncio.getTipo_anuncio());
 			stat.setDouble(3, anuncio.getPrecio());
-			stat.setDate(4, (java.sql.Date) anuncio.getFecha_anuncio());
-			stat.setDate(5, (java.sql.Date) anuncio.getFecha_ultima_actualizacion());
+			//stat.setDate(4, dateSql);
+			//stat.setDate(5, dateSql);
 
 			stat.executeUpdate();
 			
@@ -97,16 +105,16 @@ public class MySQLAnuncioDAO {
 	public int modificar(int id, String tipo_anuncio, double nuevoPrecio) throws DAOException {
 		PreparedStatement stat = null;
 		int filasModificadas = 0;
-		java.util.Date dateUtil = new java.util.Date();
+		/*java.util.Date dateUtil = new java.util.Date();
 		SimpleDateFormat plantilla = new SimpleDateFormat("dd/MM/yyyy");
 		plantilla.format(dateUtil);
-		java.sql.Date dateSql = new java.sql.Date(dateUtil.getTime());
+		java.sql.Date dateSql = new java.sql.Date(dateUtil.getTime());*/
 		try {
 			stat = conexion.prepareStatement(UPDATE);
 			stat.setDouble(1, nuevoPrecio);
-			stat.setDate(2, dateSql);
-			stat.setInt(3, id);
-			stat.setString(4, tipo_anuncio);
+			//stat.setDate(2, dateSql);
+			stat.setInt(2, id);
+			stat.setString(3, tipo_anuncio);
 			filasModificadas = stat.executeUpdate();
 		} catch (SQLException ex) {
 			throw new DAOException("Error en SQL", ex);
