@@ -18,7 +18,7 @@ import es.modelos.Anuncio;
 
 public class MySQLAnuncioDAO {
 
-	final String INSERT = "INSERT INTO anuncio(id_inmueble, tipo_anuncio, precio)" + "VALUES(?,?,?)";
+	final String INSERT = "INSERT INTO anuncio(id_inmueble, tipo_anuncio, precio, fecha_anuncio, fecha_utlima_actualizacion)" + "VALUES(?,?,?,?,?)";
 	
 	final String UPDATE = "UPDATE anuncio SET precio = ?, fecha_ultima_actualizacion = ? "
 			+ "WHERE id_inmueble = ? and tipo_anuncio = ?";
