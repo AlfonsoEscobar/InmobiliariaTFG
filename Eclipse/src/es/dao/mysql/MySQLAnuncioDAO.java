@@ -18,11 +18,12 @@ import es.modelos.Anuncio;
 
 public class MySQLAnuncioDAO {
 
-	final String INSERTCONFECHAS = "INSERT INTO anuncio(id_inmueble, tipo_anuncio, precio, fecha_anuncio, fecha_ultima_actualizacion) VALUES(?,?,?,?,?)";
+	final String INSERTCONFECHAS = "INSERT INTO anuncio(id_inmueble, tipo_anuncio, precio, fecha_anunciado, "
+							+ "fecha_ultima_actualizacion) VALUES(?, ?, ?, CURRENT_DATE, CURRENT_DATE)";
 	
 	final String INSERT = "INSERT INTO anuncio(id_inmueble, tipo_anuncio, precio) VALUES(?,?,?)";
 	
-	final String UPDATECONFECHA = "UPDATE anuncio SET precio = ?, fecha_ultima_actualizacion = ? "
+	final String UPDATECONFECHA = "UPDATE anuncio SET precio = ?, fecha_ultima_actualizacion = CURRENT_DATE "
 			+ "WHERE id_inmueble = ? and tipo_anuncio = ?";
 	
 	final String UPDATE = "UPDATE anuncio SET precio = ? WHERE id_inmueble = ? and tipo_anuncio = ?";
@@ -62,20 +63,14 @@ public class MySQLAnuncioDAO {
 		PreparedStatement stat = null;
 		ResultSet generatedKeys = null;
 		int generatedId = -1;
-
-		/*java.util.Date dateUtil = new java.util.Date();
-		SimpleDateFormat plantilla = new SimpleDateFormat("dd/MM/yyyy");
-		plantilla.format(dateUtil);
-		java.sql.Date dateSql = new java.sql.Date(dateUtil.getTime());*/
-
+		
+		
 		try {
 
-			stat = conexion.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
+			stat = conexion.prepareStatement(INSERTCONFECHAS, Statement.RETURN_GENERATED_KEYS);
 			stat.setInt(1, anuncio.getId_inmueble());
 			stat.setString(2, anuncio.getTipo_anuncio());
 			stat.setDouble(3, anuncio.getPrecio());
-			//stat.setDate(4, dateSql);
-			//stat.setDate(5, dateSql);
 
 			stat.executeUpdate();
 			
@@ -105,14 +100,10 @@ public class MySQLAnuncioDAO {
 	public int modificar(int id, String tipo_anuncio, double nuevoPrecio) throws DAOException {
 		PreparedStatement stat = null;
 		int filasModificadas = 0;
-		/*java.util.Date dateUtil = new java.util.Date();
-		SimpleDateFormat plantilla = new SimpleDateFormat("dd/MM/yyyy");
-		plantilla.format(dateUtil);
-		java.sql.Date dateSql = new java.sql.Date(dateUtil.getTime());*/
+		
 		try {
-			stat = conexion.prepareStatement(UPDATE);
+			stat = conexion.prepareStatement(UPDATECONFECHA);
 			stat.setDouble(1, nuevoPrecio);
-			//stat.setDate(2, dateSql);
 			stat.setInt(2, id);
 			stat.setString(3, tipo_anuncio);
 			filasModificadas = stat.executeUpdate();
@@ -413,7 +404,5 @@ public class MySQLAnuncioDAO {
 		}
 		return filasActualizadas;
 	}
-
-
-
+	
 }

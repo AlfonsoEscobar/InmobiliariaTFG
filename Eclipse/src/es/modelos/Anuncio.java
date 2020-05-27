@@ -7,18 +7,18 @@ public class Anuncio {
 	private int id_inmueble;
 	private String tipo_anuncio;
 	private double precio;
-	private Date fecha_anuncio;
+	private Date fecha_anunciado;
 	private Date fecha_ultima_actualizacion;
 	
 	public Anuncio() {
 	}
 
-	public Anuncio(int id_inmueble, String tipo_anuncio, double precio, Date fecha_anuncio,
+	public Anuncio(int id_inmueble, String tipo_anuncio, double precio, Date fecha_anunciado,
 					Date fecha_ultima_actualizacion) {
 		this.id_inmueble = id_inmueble;
 		this.tipo_anuncio = tipo_anuncio;
 		this.precio = precio;
-		this.fecha_anuncio = fecha_anuncio;
+		this.fecha_anunciado = fecha_anunciado;
 		this.fecha_ultima_actualizacion = fecha_ultima_actualizacion;
 	}
 
@@ -46,12 +46,12 @@ public class Anuncio {
 		this.precio = precio;
 	}
 
-	public Date getFecha_anuncio() {
-		return fecha_anuncio;
+	public Date getFecha_anunciado() {
+		return fecha_anunciado;
 	}
 
-	public void setFecha_anuncio(Date fecha_anuncio) {
-		this.fecha_anuncio = fecha_anuncio;
+	public void setFecha_anunciado(Date fecha_anunciado) {
+		this.fecha_anunciado = fecha_anunciado;
 	}
 
 	public Date getFecha_ultima_actualizacion() {

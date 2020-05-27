@@ -102,17 +102,17 @@ public class ServicioFotografia {
 	@GET
 	@Path("/inmueble/{id_piso}/{nombreFichero}")
 	@Produces("images/jpeg")
-	public Response getFichero(@PathParam("nombreFichero") String nombreFichero,
+	public Response getFicheroInmueble(@PathParam("nombreFichero") String nombreFichero,
 							   @PathParam("id_piso") String id_piso) {
 		File fichero = new File("/home/alfonso/Imágenes/App/Pisos/"+ id_piso + "/" + nombreFichero);
-		return Response.ok(fichero).build();
+		return Response.ok(fichero).header("Content-Length", fichero.length()).build();
 	}
 
 
 	@PUT
 	@Path("/inmueble/{id_inmueble}/{tipo_habitacion}")
 	@Consumes("images/jpeg")
-	public Response putFichero(@PathParam("id_inmueble") int id_inmueble,
+	public Response putFicheroInmueble(@PathParam("id_inmueble") int id_inmueble,
 								@PathParam("tipo_habitacion") String tipo_habitacion,
 								File fichero) {
 
@@ -127,7 +127,7 @@ public class ServicioFotografia {
 			
 			nombreCarpeta.mkdir();
 			
-			fichero.renameTo(new File("/home/alfonso/Imágenes/App/Pisos/" + String.valueOf(id_inmueble) + "/", fichero.getName()));
+			fichero.renameTo(new File("/home/alfonso/Imágenes/App/Pisos/" + String.valueOf(id_inmueble) + "/", tipo_habitacion));
 			
 			foto.setTipo_habitacion(tipo_habitacion);
 			foto.setRuta("/home/alfonso/Imágenes/App/Pisos/" + String.valueOf(id_inmueble) + "/" + tipo_habitacion);
@@ -135,21 +135,63 @@ public class ServicioFotografia {
 			
 		} else {
 			
-			fichero.renameTo(new File("/home/alfonso/Imágenes/App/Pisos/" + nombreCarpeta + "/", fichero.getName()));
+			fichero.renameTo(new File("/home/alfonso/Imágenes/App/Pisos/" + String.valueOf(id_inmueble) + "/", tipo_habitacion));
 			
 			foto.setTipo_habitacion(tipo_habitacion);
-			foto.setRuta("/home/alfonso/Imágenes/App/Pisos/" + nombreCarpeta + "/" + fichero.getName());
+			foto.setRuta("/home/alfonso/Imágenes/App/Pisos/" + String.valueOf(id_inmueble) + "/" + tipo_habitacion);
 			foto.setInmueble(id_inmueble);
 			
 		}
 
-		try {
+		/*try {
 			
 			claseFotografia.insertar(foto);
 			
 		} catch (DAOException e) {
 			responseStatus = Response.Status.INTERNAL_SERVER_ERROR;
+		}*/
+
+		return Response.status(responseStatus).build();
+
+	}
+	
+	@GET
+	@Path("/usuario/{id_usuario}")
+	@Produces("images/jpeg")
+	public Response getFicheroUsuario(@PathParam("id_usuario") int id_usuario) {
+		
+		File fichero = new File("/home/alfonso/Imágenes/App/Usuario/"+ id_usuario);
+		return Response.ok(fichero).header("Content-Length", fichero.length()).build();
+		
+	}
+
+
+	@PUT
+	@Path("/usuario/{id_usuario}")
+	@Consumes("images/jpeg")
+	public Response putFicheroUsuario(@PathParam("id_usuario") int id_usuario,
+									File fichero) {
+
+		claseFotografia = new MySQLFotografiaDAO(dataSource);
+		Response.Status responseStatus = Response.Status.OK;
+		
+		File nombreFoto = new File("/home/alfonso/Imágenes/App/Usuario/" + String.valueOf(id_usuario) + ".jpg");
+		
+		if(nombreFoto.exists()) {
+			if(nombreFoto.delete()) {
+				fichero.renameTo(new File("/home/alfonso/Imágenes/App/Usuario/" + String.valueOf(id_usuario) + ".jpg"));
+			}
+		} else {
+			fichero.renameTo(new File("/home/alfonso/Imágenes/App/Usuario/" + String.valueOf(id_usuario) + ".jpg"));
 		}
+
+		/*try {
+			
+			claseFotografia.insertar(foto);
+			
+		} catch (DAOException e) {
+			responseStatus = Response.Status.INTERNAL_SERVER_ERROR;
+		}*/
 
 		return Response.status(responseStatus).build();
 

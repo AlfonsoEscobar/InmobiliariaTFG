@@ -65,7 +65,7 @@ public class Conversor {
 		int id_inmueble = rs.getInt("id_inmueble");
 		String tipo_anuncio = rs.getString("tipo_anuncio");
 		double precio = rs.getDouble("precio");
-		fecha_anuncio = (java.util.Date) rs.getDate("fecha_anuncio");
+		fecha_anuncio = (java.util.Date) rs.getDate("fecha_anunciado");
 		fecha_ultima_actualizacion = (java.util.Date) rs.getDate("fecha_ultima_actualizacion");
 
 		Anuncio anuncio = new Anuncio(id_inmueble, tipo_anuncio, precio, fecha_anuncio, fecha_ultima_actualizacion);
