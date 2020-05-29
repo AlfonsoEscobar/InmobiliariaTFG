@@ -1,4 +1,6 @@
 
+drop database inmobiliaria;
+
 CREATE database inmobiliaria;
 
 use inmobiliaria;
@@ -71,6 +73,7 @@ CREATE TABLE `inmueble` (
   CONSTRAINT `pk_inmueble` PRIMARY KEY (`provincia`,`localidad`,`calle`,`numero`,`piso`,`puerta`,`escalera`),
   CONSTRAINT `un_inmueble_id_inmueble` UNIQUE KEY (`id_inmueble`),
   CONSTRAINT `fk_inmueble_usuario` FOREIGN KEY (`propietario`) REFERENCES `usuario` (`id_usuario`)
+  on delete cascade on update cascade
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
@@ -82,6 +85,7 @@ CREATE TABLE `anuncio` (
   `fecha_ultima_actualizacion` date,
   CONSTRAINT `pk_anuncio` PRIMARY KEY (`id_inmueble`,`tipo_anuncio`),
   CONSTRAINT `fk_anuncio_inmueble` FOREIGN KEY (`id_inmueble`) REFERENCES `inmueble` (`id_inmueble`)
+  on delete cascade on update cascade
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
@@ -90,8 +94,10 @@ CREATE TABLE `favorito` (
   `inmueble_favorito` int NOT NULL,
   `tipo_anuncio` varchar(20) NOT NULL,
   CONSTRAINT `pk_favorito` PRIMARY KEY (`usuario_favorito`,`inmueble_favorito`,`tipo_anuncio`),
-  CONSTRAINT `fk_favorito_usuario` FOREIGN KEY (`usuario_favorito`) REFERENCES `usuario` (`id_usuario`),
+  CONSTRAINT `fk_favorito_usuario` FOREIGN KEY (`usuario_favorito`) REFERENCES `usuario` (`id_usuario`)
+  on delete cascade on update cascade,
   CONSTRAINT `fk_favorito_anuncio` FOREIGN KEY (`inmueble_favorito`, `tipo_anuncio`) REFERENCES `anuncio` (`id_inmueble`, `tipo_anuncio`)
+  on delete cascade on update cascade
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
@@ -101,6 +107,7 @@ CREATE TABLE `fotografia` (
   `inmueble` int NOT NULL,
   CONSTRAINT `pk_fotografia` PRIMARY KEY (`ruta`),
   CONSTRAINT `fk_fotografia_inmueble` FOREIGN KEY (`inmueble`) REFERENCES `inmueble` (`id_inmueble`)
+  on delete cascade on update cascade
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 

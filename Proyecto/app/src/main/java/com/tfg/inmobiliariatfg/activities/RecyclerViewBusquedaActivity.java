@@ -5,14 +5,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.tfg.inmobiliariatfg.modelos.Favorito;
 import com.tfg.inmobiliariatfg.utiles.ApiAdapter;
 import com.tfg.inmobiliariatfg.utiles.Metodos;
-import com.tfg.inmobiliariatfg.utiles.RecyclerViewInfoAnuncioAdapter;
+import com.tfg.inmobiliariatfg.adapters.RecyclerViewInfoAnuncioAdapter;
 import com.tfg.inmobiliariatfg.R;
 import com.tfg.inmobiliariatfg.modelos.InfoAnuncio;
 
@@ -25,7 +28,6 @@ import retrofit2.Response;
 
 public class RecyclerViewBusquedaActivity extends AppCompatActivity {
 
-    private ProgressDialog progressDialog;
     private List<Favorito> listaFavoritos;
     private RecyclerView recyclerViewBusqueda;
     private RecyclerViewInfoAnuncioAdapter adaptadorBusqueda;
@@ -58,38 +60,39 @@ public class RecyclerViewBusquedaActivity extends AppCompatActivity {
 
     public void ObtenerAnuncios() {
 
-        progressDialog = new ProgressDialog(RecyclerViewBusquedaActivity.this);
+        final ProgressDialog progressDialog = new ProgressDialog(RecyclerViewBusquedaActivity.this);
         Metodos.mostrarDialogo(progressDialog);
         progressDialog.setMessage("Cargando Anuncios...");
-        Call<List<InfoAnuncio>> listCall = ApiAdapter.getApiService().getAnuncioLocalidad(tipo, localidad);
+        Call<List<InfoAnuncio>> listCall = ApiAdapter.getApiService(getPref()).getAnuncioLocalidad(tipo, localidad);
         listCall.enqueue(new Callback<List<InfoAnuncio>>() {
             @Override
             public void onResponse(Call<List<InfoAnuncio>> call, Response<List<InfoAnuncio>> response) {
                 if (response.isSuccessful()) {
-                    if (response.body() != null) {
-                        ShowIt(response.body());
-                        progressDialog.dismiss();
-                    }
+                    ShowIt(response.body());
+                    progressDialog.dismiss();
+                } else {
+                    progressDialog.dismiss();
+                    Toast.makeText(getApplicationContext(), "no hay anuncios en esa localidad", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<InfoAnuncio>> call, Throwable t) {
-
+                progressDialog.dismiss();
             }
         });
     }
 
     private void compararFavorito(int idUsuario) {
         if (idUsuario != 0) {
-            final Call<List<Favorito>> callCompararFavoritos = ApiAdapter.getApiService().getCompararFavorito(idUsuario);
+            final Call<List<Favorito>> callCompararFavoritos = ApiAdapter.getApiService(getPref()).getCompararFavorito(idUsuario);
             callCompararFavoritos.enqueue(new Callback<List<Favorito>>() {
                 @Override
                 public void onResponse(Call<List<Favorito>> call, Response<List<Favorito>> response) {
                     if (response.isSuccessful()) {
-                        if (response.body() != null) {
-                            callCompararFavoritos(response.body());
-                        }
+
+                        callCompararFavoritos(response.body());
+
                     }
                 }
 
@@ -114,6 +117,7 @@ public class RecyclerViewBusquedaActivity extends AppCompatActivity {
                 InfoAnuncio anuncio = response.get(recyclerViewBusqueda.getChildAdapterPosition(v));
                 Intent intent = new Intent(getApplicationContext(), AnuncioCompletoActivity.class);
                 intent.putExtra("favoritos", (Serializable) listaFavoritos);
+                intent.putExtra("idUsuario", idUsuario);
                 intent.putExtra("anuncio", anuncio);
                 startActivity(intent);
 
@@ -121,5 +125,20 @@ public class RecyclerViewBusquedaActivity extends AppCompatActivity {
         });
 
         recyclerViewBusqueda.setAdapter(adaptadorBusqueda);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        compararFavorito(idUsuario);
+        ObtenerAnuncios();
+    }
+
+    public String getPref() {
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        String defaultValue = getResources().getString(R.string.baseURL);
+        String baseURL = sharedPref.getString(getString(R.string.baseURL), defaultValue);
+
+        return baseURL;
     }
 }

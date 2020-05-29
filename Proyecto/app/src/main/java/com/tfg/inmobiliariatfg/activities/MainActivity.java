@@ -7,6 +7,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -25,12 +27,13 @@ import com.tfg.inmobiliariatfg.modelos.Usuario;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
-    Bundle ExtrasLogin;
-    Usuario usuario;
-    int idUsuario = 0;
-    String nomUsuarioLateral, correoUsuarioLateral;
-    TextView tvNomMenuLateral, tvCorreoMenuLateral;
-    ImageView ivMenuLateral;
+    private Bundle ExtrasLogin;
+    private Context context;
+    private Usuario usuario;
+    private int idUsuario = 0;
+    private String nomUsuarioLateral, correoUsuarioLateral;
+    private TextView tvNomMenuLateral, tvCorreoMenuLateral;
+    private ImageView ivMenuLateral;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +56,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        sharedPreferences();
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new BuscadorFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_buscar);
         }
-
 
         ExtrasLogin = getIntent().getExtras();
         if (ExtrasLogin != null) {
@@ -139,5 +143,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             super.onBackPressed();
         }
+    }
+
+    private void sharedPreferences(){
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("baseUrl", getString(R.string.baseURL));
+        editor.commit();
     }
 }

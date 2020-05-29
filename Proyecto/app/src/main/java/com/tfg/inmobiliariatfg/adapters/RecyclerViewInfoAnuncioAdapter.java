@@ -1,12 +1,9 @@
-package com.tfg.inmobiliariatfg.utiles;
+package com.tfg.inmobiliariatfg.adapters;
 
-import android.annotation.SuppressLint;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,11 +14,8 @@ import com.tfg.inmobiliariatfg.R;
 import com.tfg.inmobiliariatfg.modelos.Favorito;
 import com.tfg.inmobiliariatfg.modelos.InfoAnuncio;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class RecyclerViewInfoAnuncioAdapter extends RecyclerView.Adapter<RecyclerViewInfoAnuncioAdapter.ViewHolderAnuncios> implements View.OnClickListener {
 
@@ -80,7 +74,7 @@ public class RecyclerViewInfoAnuncioAdapter extends RecyclerView.Adapter<Recycle
             }
         }
         holder.tvBusquedaCalle.setText(AnuncioLista.get(position).getInmueble().getCalle());
-        holder.tvBusquedaFechIng.setText(String.valueOf(AnuncioLista.get(position).getFeha_anunciado()));
+        holder.tvBusquedaFechIng.setText(new SimpleDateFormat("dd-MM-yyyy").format(AnuncioLista.get(position).getFecha_anunciado()));
         if (AnuncioLista.get(position).getTipo_anuncio().equalsIgnoreCase("venta")) {
             holder.tvBusquedaPrecio.setText(AnuncioLista.get(position).getPrecio() + " €");
         } else {

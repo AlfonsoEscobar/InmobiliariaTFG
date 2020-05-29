@@ -5,20 +5,25 @@
 
 
     <group android:checkableBehavior="single">
-        <item android:id="@+id/nav_buscar"
+        <item
+            android:id="@+id/nav_buscar"
             android:icon="@drawable/ic_buscar"
-            android:title="Buscador"/>
-        <item android:id="@+id/nav_perfil"
+            android:title="@string/lateralBuscador" />
+        <item
+            android:id="@+id/nav_perfil"
             android:icon="@drawable/ic_perfil"
-            android:title="Perfil"/>
-        <item android:id="@+id/nav_favoritos"
+            android:title="@string/lateralPerfil" />
+        <item
+            android:id="@+id/nav_favoritos"
             android:icon="@drawable/ic_favoritos"
-            android:title="Mis favoritos"/>
-        <item android:id="@+id/nav_inmuebles"
+            android:title="@string/lateralFavorito" />
+        <item
+            android:id="@+id/nav_inmuebles"
             android:icon="@drawable/ic_edificio"
-            android:title="Mis inmuebles"/>
-        <item android:id="@+id/nav_anuncios"
+            android:title="@string/lateralInmuebles" />
+        <item
+            android:id="@+id/nav_anuncios"
             android:icon="@drawable/ic_anuncio"
-            android:title="Mis anuncios"/>
+            android:title="@string/lateralAnuncios" />
     </group>
 </menu>

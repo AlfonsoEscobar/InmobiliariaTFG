@@ -2,7 +2,9 @@ package com.tfg.inmobiliariatfg.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -28,16 +30,26 @@ import retrofit2.Response;
 
 public class RegistrarInmuebleActivity extends AppCompatActivity {
 
-    EditText etProvinciaRegistrarInmueble, etLocalidadRegistrarInmueble, etCalleRegistrarInmueble, etNumeroRegistrarInmueble, etPisoRegistrarInmueble,
+    private EditText etProvinciaRegistrarInmueble, etLocalidadRegistrarInmueble, etCalleRegistrarInmueble, etNumeroRegistrarInmueble, etPisoRegistrarInmueble,
             etPuertaRegistrarInmueble, etDescripcionRegistrarInmueble, etMetros2RegistrarInmueble, etNumHabRegistrarInmueble, etNumBanosRegistrarInmueble,
             etEquipamientoRegistrarInmueble;
-    Spinner sEscaleraRegistrarInmueble, sTipoObraRegistrarInmueble, sTipoEdificacionRegistrarInmueble, sExterioresRegistrarInmueble;
-    CheckBox cbGarajeRegistrarInmueble, cbTrasteroRegistrarInmueble, cbAscensorRegistrarInmueble, cbUltPlantaRegistrarInmueble, cbMascotasRegistrarInmueble;
-    Button btnConfirmarRegistrarInmueble;
+    private Spinner sEscaleraRegistrarInmueble, sTipoObraRegistrarInmueble, sTipoEdificacionRegistrarInmueble, sExterioresRegistrarInmueble;
+    private CheckBox cbGarajeRegistrarInmueble, cbTrasteroRegistrarInmueble, cbAscensorRegistrarInmueble, cbUltPlantaRegistrarInmueble, cbMascotasRegistrarInmueble;
+    private Button btnConfirmarRegistrarInmueble;
 
-    Bundle datos;
-    Inmueble inmueble, inmuebleModificar;
-    int idUsario;
+    private Bundle datos;
+    private Inmueble inmueble, inmuebleModificar;
+    private int idUsario;
+
+    private ArrayAdapter<String> adapterEscalera;
+    private ArrayAdapter<String> adapterExteriores;
+    private ArrayAdapter<String> adapterTipoEdificacion;
+    private ArrayAdapter<String> adapterTipoObra;
+
+    private String valueEscalera;
+    private String valueEdificacion;
+    private String valueObra;
+    private String valueExteriores;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,42 +80,72 @@ public class RegistrarInmuebleActivity extends AppCompatActivity {
         btnConfirmarRegistrarInmueble = findViewById(R.id.btnConfirmarRegistrarInmueble);
 
         getDatosSpinners();
+        getDatosBundle();
+    }
 
+    public void getDatosBundle() {
         datos = getIntent().getExtras();
         if (datos != null) {
             idUsario = datos.getInt("idUsuario");
-            if (datos.getSerializable("inmueble") != null) {
-                inmuebleModificar = (Inmueble) datos.getSerializable("inmueble");
+            inmuebleModificar = (Inmueble) datos.getSerializable("inmueble");
+            if (inmuebleModificar != null) {
+                etProvinciaRegistrarInmueble.setText(inmuebleModificar.getProvincia());
+                etLocalidadRegistrarInmueble.setText(inmuebleModificar.getLocalidad());
+                etCalleRegistrarInmueble.setText(inmuebleModificar.getCalle());
+                etNumeroRegistrarInmueble.setText(String.valueOf(inmuebleModificar.getNumero()));
+                etPisoRegistrarInmueble.setText(String.valueOf(inmuebleModificar.getPiso()));
+                etPuertaRegistrarInmueble.setText(inmuebleModificar.getPuerta());
+                if (!inmuebleModificar.getDescripcion().equals("")) {
+                    etDescripcionRegistrarInmueble.setText(inmuebleModificar.getDescripcion());
+                } else {
+                    etDescripcionRegistrarInmueble.setText(R.string.descripcionInmueble);
+                }
+                etMetros2RegistrarInmueble.setText(String.valueOf(inmuebleModificar.getMetros2()));
+                etNumHabRegistrarInmueble.setText(String.valueOf(inmuebleModificar.getNum_habitaciones()));
+                etNumBanosRegistrarInmueble.setText(String.valueOf(inmuebleModificar.getNum_banos()));
+                if (!inmuebleModificar.getEquipamiento().equals("")) {
+                    etEquipamientoRegistrarInmueble.setText(inmuebleModificar.getEquipamiento());
+                } else {
+                    etEquipamientoRegistrarInmueble.setText("");
+                }
+                if (inmuebleModificar.isGaraje()) {
+                    cbGarajeRegistrarInmueble.setChecked(true);
+                }
 
+                if (inmuebleModificar.isTrastero()) {
+                    cbTrasteroRegistrarInmueble.setChecked(true);
+                }
+
+                if (inmuebleModificar.isAscensor()) {
+                    cbAscensorRegistrarInmueble.setChecked(true);
+                }
+
+                if (inmuebleModificar.isUltima_planta()) {
+                    cbUltPlantaRegistrarInmueble.setChecked(true);
+                }
+
+                if (inmuebleModificar.isMascotas()) {
+                    cbMascotasRegistrarInmueble.setChecked(true);
+                }
+
+                valueEscalera = inmuebleModificar.getEscalera();
+                valueEdificacion = inmuebleModificar.getTipo_edificacion();
+                valueObra = inmuebleModificar.getTipo_obra();
+                valueExteriores = inmuebleModificar.getExteriores();
             }
         }
     }
 
     public void getDatosSpinners() {
-        Call<ValoresPredeterminadosInmueble> call = ApiAdapter.getApiService().getSpinnersRegistrarInmueble();
+        Call<ValoresPredeterminadosInmueble> call = ApiAdapter.getApiService(getPref()).getSpinnersRegistrarInmueble();
         call.enqueue(new Callback<ValoresPredeterminadosInmueble>() {
             @Override
             public void onResponse(Call<ValoresPredeterminadosInmueble> call, Response<ValoresPredeterminadosInmueble> response) {
 
                 if (response.isSuccessful()) {
-                    ValoresPredeterminadosInmueble valoresSpinners = response.body();
+                    final ValoresPredeterminadosInmueble valoresSpinners = response.body();
+                    setDatosSpinner(valoresSpinners);
 
-                    List<String> listaEscalera = valoresSpinners.getListaEscalera();
-                    List<String> listaExteriores = valoresSpinners.getListaExteriores();
-                    List<String> listaTipoEdificacion = valoresSpinners.getListaTipoEdificacion();
-                    List<String> listaTipoObra = valoresSpinners.getListaTipoObra();
-                    //Para indicar el tipo de foto a subir
-                    List<String> listaTipoHabitacion = valoresSpinners.getListaTipoHabitacion();
-
-                    ArrayAdapter<String> adapterEscalera = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, listaEscalera);
-                    ArrayAdapter<String> adapterExteriores = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, listaExteriores);
-                    ArrayAdapter<String> adapterTipoEdificacion = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, listaTipoEdificacion);
-                    ArrayAdapter<String> adapterTipoObra = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, listaTipoObra);
-
-                    sEscaleraRegistrarInmueble.setAdapter(adapterEscalera);
-                    sExterioresRegistrarInmueble.setAdapter(adapterExteriores);
-                    sTipoEdificacionRegistrarInmueble.setAdapter(adapterTipoEdificacion);
-                    sTipoObraRegistrarInmueble.setAdapter(adapterTipoObra);
 
                 }
             }
@@ -115,16 +157,67 @@ public class RegistrarInmuebleActivity extends AppCompatActivity {
         });
     }
 
+    public void setDatosSpinner(final ValoresPredeterminadosInmueble valoresSpinners) {
+
+        List<String> listaEscalera = valoresSpinners.getListaEscalera();
+        List<String> listaExteriores = valoresSpinners.getListaExteriores();
+        List<String> listaTipoEdificacion = valoresSpinners.getListaTipoEdificacion();
+        List<String> listaTipoObra = valoresSpinners.getListaTipoObra();
+        //Para indicar el tipo de foto a subir
+        List<String> listaTipoHabitacion = valoresSpinners.getListaTipoHabitacion();
+
+        adapterEscalera = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, listaEscalera);
+        adapterEscalera.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapterExteriores = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, listaExteriores);
+        adapterExteriores.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapterTipoEdificacion = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, listaTipoEdificacion);
+        adapterTipoEdificacion.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapterTipoObra = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, listaTipoObra);
+        adapterTipoObra.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        sEscaleraRegistrarInmueble.setAdapter(adapterEscalera);
+        sExterioresRegistrarInmueble.setAdapter(adapterExteriores);
+        sTipoEdificacionRegistrarInmueble.setAdapter(adapterTipoEdificacion);
+        sTipoObraRegistrarInmueble.setAdapter(adapterTipoObra);
+
+        setValoresInmuebleModificar();
+    }
+
+    public void setValoresInmuebleModificar() {
+        if (inmuebleModificar != null) {
+            sEscaleraRegistrarInmueble.setSelection(obtenerPosicionItem(sEscaleraRegistrarInmueble,valueEscalera));
+            sTipoEdificacionRegistrarInmueble.setSelection(obtenerPosicionItem(sTipoEdificacionRegistrarInmueble,valueEdificacion));
+            sTipoObraRegistrarInmueble.setSelection(obtenerPosicionItem(sTipoObraRegistrarInmueble,valueObra));
+            sExterioresRegistrarInmueble.setSelection(obtenerPosicionItem(sExterioresRegistrarInmueble,valueExteriores));
+        }
+    }
+
+    public static int obtenerPosicionItem(Spinner spinner, String valor) {
+        //Creamos la variable posicion y lo inicializamos en 0
+        int posicion = 0;
+        //Recorre el spinner en busca del ítem que coincida con el parametro `String fruta`
+        //que lo pasaremos posteriormente
+        for (int i = 0; i < spinner.getCount(); i++) {
+            //Almacena la posición del ítem que coincida con la búsqueda
+            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(valor)) {
+                posicion = i;
+            }
+        }
+        //Devuelve un valor entero (si encontro una coincidencia devuelve la
+        // posición 0 o N, de lo contrario devuelve 0 = posición inicial)
+        return posicion;
+    }
+
     public void OnClickRegistrarInmueble(View v) {
         if (etProvinciaRegistrarInmueble.getText().toString().equals("") || etLocalidadRegistrarInmueble.getText().toString().equals("") || etCalleRegistrarInmueble.getText().toString().equals("")
                 || etNumeroRegistrarInmueble.getText().toString().equals("") || etPisoRegistrarInmueble.getText().toString().equals("") || etPuertaRegistrarInmueble.getText().toString().equals("")
-                || etDescripcionRegistrarInmueble.getText().toString().equals("") || etMetros2RegistrarInmueble.getText().toString().equals("") || etNumHabRegistrarInmueble.getText().toString().equals("")
-                || etNumBanosRegistrarInmueble.getText().toString().equals("") || etEquipamientoRegistrarInmueble.getText().toString().equals("")) {
+                || etMetros2RegistrarInmueble.getText().toString().equals("") || etNumHabRegistrarInmueble.getText().toString().equals("") || etNumBanosRegistrarInmueble.getText().toString().equals("")) {
 
             Toast.makeText(getApplicationContext(), "Rellena todos los campos por favor", Toast.LENGTH_LONG).show();
 
         } else {
             inmueble = new Inmueble();
+            inmueble.setPropietario(idUsario);
             inmueble.setProvincia(etProvinciaRegistrarInmueble.getText().toString());
             inmueble.setLocalidad(etLocalidadRegistrarInmueble.getText().toString());
             inmueble.setCalle(etCalleRegistrarInmueble.getText().toString());
@@ -132,7 +225,7 @@ public class RegistrarInmuebleActivity extends AppCompatActivity {
             inmueble.setPiso(Integer.parseInt(etPisoRegistrarInmueble.getText().toString()));
             inmueble.setPuerta(etPuertaRegistrarInmueble.getText().toString());
             inmueble.setDescripcion(etDescripcionRegistrarInmueble.getText().toString());
-            inmueble.setMetros2(Integer.parseInt(etMetros2RegistrarInmueble.getText().toString()));
+            inmueble.setMetros2(Double.parseDouble(etMetros2RegistrarInmueble.getText().toString()));
             inmueble.setNum_habitaciones(Integer.parseInt(etNumHabRegistrarInmueble.getText().toString()));
             inmueble.setNum_banos(Integer.parseInt(etNumBanosRegistrarInmueble.getText().toString()));
             inmueble.setEquipamiento(etEquipamientoRegistrarInmueble.getText().toString());
@@ -167,14 +260,12 @@ public class RegistrarInmuebleActivity extends AppCompatActivity {
             }
             inmueble.setPropietario(idUsario);
             if (inmuebleModificar == null) {
-                Call<Void> callNuevoInmueble = ApiAdapter.getApiService().createInmueble(inmueble);
+                Call<Void> callNuevoInmueble = ApiAdapter.getApiService(getPref()).createInmueble(inmueble);
                 callNuevoInmueble.enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
                         if (response.code() == 201) {
-                            Toast.makeText(getApplicationContext(), "El inmueble ha sido creado correctamente", Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(getApplicationContext(), RecyclerViewMisInmueblesFragment.class);
-                            startActivity(intent);
+                            finish();
                         } else {
                             Toast.makeText(getApplicationContext(), "La peticion no es correcta", Toast.LENGTH_LONG).show();
                         }
@@ -186,11 +277,12 @@ public class RegistrarInmuebleActivity extends AppCompatActivity {
                     }
                 });
             } else {
-                Call<Void> callModificarInmueble = ApiAdapter.getApiService().putModificarInmueblePerfil(inmuebleModificar.getId_inmueble(), inmueble);
+                Call<Void> callModificarInmueble = ApiAdapter.getApiService(getPref()).putModificarInmueble(inmuebleModificar.getId_inmueble(), inmueble);
                 callModificarInmueble.enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
-                        if (response.code() == 200){
+                        if (response.code() == 200) {
+                            finish();
                             Toast.makeText(getApplicationContext(), "Inmueble modificado con exito", Toast.LENGTH_LONG).show();
                         }
                     }
@@ -202,5 +294,13 @@ public class RegistrarInmuebleActivity extends AppCompatActivity {
                 });
             }
         }
+    }
+
+    public String getPref() {
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        String defaultValue = getResources().getString(R.string.baseURL);
+        String baseURL = sharedPref.getString(getString(R.string.baseURL), defaultValue);
+
+        return baseURL;
     }
 }
