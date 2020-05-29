@@ -1,4 +1,6 @@
 
+drop database inmobiliaria;
+
 CREATE database inmobiliaria;
 
 use inmobiliaria;
@@ -43,7 +45,6 @@ CREATE TABLE `usuario` (
   `imagen_perfil` mediumblob,
   CONSTRAINT `pk_usuario` PRIMARY KEY (`correo`),
   CONSTRAINT `un_usuario_id_usuario` UNIQUE KEY (`id_usuario`)
-  on delete cascade on update cascade
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `inmueble` (
