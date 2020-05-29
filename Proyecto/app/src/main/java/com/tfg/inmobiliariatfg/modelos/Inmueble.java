@@ -1,9 +1,14 @@
 package com.tfg.inmobiliariatfg.modelos;
 
+import android.net.Uri;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.File;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Inmueble implements Serializable {
     @SerializedName("provincia")
@@ -72,6 +77,7 @@ public class Inmueble implements Serializable {
     @SerializedName("mascotas")
     @Expose
     private boolean mascotas;
+    private ArrayList<Integer> imagenesInmueble;
 
     public Inmueble() {
     }
@@ -278,6 +284,14 @@ public class Inmueble implements Serializable {
 
     public void setMascotas(boolean mascotas) {
         this.mascotas = mascotas;
+    }
+
+    public ArrayList<Integer> getImagenesInmueble() {
+        return imagenesInmueble;
+    }
+
+    public void setImagenesInmueble(ArrayList<Integer> imagenesInmueble) {
+        this.imagenesInmueble = imagenesInmueble;
     }
 
 }

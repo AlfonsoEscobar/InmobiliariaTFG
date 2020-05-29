@@ -27,6 +27,8 @@
         android:background="@color/colorAccent2"
         android:fontFamily="@font/source_sans_pro"
         android:letterSpacing="0"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
         android:text="@string/textError"
         android:textSize="20sp"
         android:textStyle="bold"

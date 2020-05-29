@@ -17,12 +17,21 @@ public class InfoAnuncio implements Serializable {
     @SerializedName("tipo_anuncio")
     @Expose
     private String tipo_anuncio;
-    @SerializedName("fecha_anunciado")
+    @SerializedName("feha_anunciado")
     @Expose
     private Date fecha_anunciado;
     @SerializedName("fecha_ultima_actualizacion")
     @Expose
     private Date fecha_ultima_actualizacion;
+    @SerializedName("telefono1")
+    @Expose
+    private String telefono1;
+    @SerializedName("telefono2")
+    @Expose
+    private String telefono2;
+    @SerializedName("correo")
+    @Expose
+    private String correo;
     @SerializedName("inmueble")
     @Expose
     private Inmueble inmueble;
@@ -84,5 +93,33 @@ public class InfoAnuncio implements Serializable {
 
     public void setInmueble(Inmueble inmueble) {
         this.inmueble = inmueble;
+    }
+
+    public Date getFecha_anunciado() {
+        return fecha_anunciado;
+    }
+
+    public String getTelefono1() {
+        return telefono1;
+    }
+
+    public String getTelefono2() {
+        return telefono2;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setTelefono1(String telefono1) {
+        this.telefono1 = telefono1;
+    }
+
+    public void setTelefono2(String telefono2) {
+        this.telefono2 = telefono2;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 }
