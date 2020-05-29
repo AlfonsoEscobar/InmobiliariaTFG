@@ -98,16 +98,41 @@ public class ServicioFotografia {
 		}
 	}
 	
-	
+	/*
 	@GET
 	@Path("/inmueble/{id_piso}/{nombreFichero}")
 	@Produces("images/jpeg")
 	public Response getFicheroInmueble(@PathParam("nombreFichero") String nombreFichero,
 							   @PathParam("id_piso") String id_piso) {
+		
 		File fichero = new File("/home/alfonso/Imágenes/App/Pisos/"+ id_piso + "/" + nombreFichero);
+		
 		return Response.ok(fichero).header("Content-Length", fichero.length()).build();
+		
 	}
-
+	*/
+	
+	@GET
+	@Path("/inmueble/{id_piso}")
+	@Produces("images/jpeg")
+	public Response getFicheroInmueble(@PathParam("id_piso") String id_piso) {
+		
+		List<File> listaFicheros = new LinkedList<File>();
+		File fichero = new File("/home/alfonso/Imágenes/App/Pisos/"+ id_piso);
+		
+		if(fichero.isDirectory()) {
+			String[] lista = fichero.list();
+			
+			for(String l : lista) {
+				File f = new File("/home/alfonso/Imágenes/App/Pisos/"+ id_piso + "/" + l);
+				
+				listaFicheros.add(f);
+			}
+		}
+		
+		return Response.ok(listaFicheros).header("Content-Length", fichero.length()).build();
+		
+	}
 
 	@PUT
 	@Path("/inmueble/{id_inmueble}/{tipo_habitacion}")
@@ -160,7 +185,7 @@ public class ServicioFotografia {
 	@Produces("images/jpeg")
 	public Response getFicheroUsuario(@PathParam("id_usuario") int id_usuario) {
 		
-		File fichero = new File("/home/alfonso/Imágenes/App/Usuario/"+ id_usuario);
+		File fichero = new File("/home/alfonso/Imágenes/App/Usuarios/"+ String.valueOf(id_usuario));
 		return Response.ok(fichero).header("Content-Length", fichero.length()).build();
 		
 	}
@@ -175,14 +200,16 @@ public class ServicioFotografia {
 		claseFotografia = new MySQLFotografiaDAO(dataSource);
 		Response.Status responseStatus = Response.Status.OK;
 		
-		File nombreFoto = new File("/home/alfonso/Imágenes/App/Usuario/" + String.valueOf(id_usuario) + ".jpg");
+		//fichero.renameTo(new File("/home/alfonso/Imágenes/App/Usuarios/" + String.valueOf(id_usuario)));
+		
+		File nombreFoto = new File("/home/alfonso/Imágenes/App/Usuarios/" + String.valueOf(id_usuario));
 		
 		if(nombreFoto.exists()) {
 			if(nombreFoto.delete()) {
-				fichero.renameTo(new File("/home/alfonso/Imágenes/App/Usuario/" + String.valueOf(id_usuario) + ".jpg"));
+				fichero.renameTo(new File("/home/alfonso/Imágenes/App/Usuarios/" + String.valueOf(id_usuario)));
 			}
 		} else {
-			fichero.renameTo(new File("/home/alfonso/Imágenes/App/Usuario/" + String.valueOf(id_usuario) + ".jpg"));
+			fichero.renameTo(new File("/home/alfonso/Imágenes/App/Usuarios/" + String.valueOf(id_usuario)));
 		}
 
 		/*try {

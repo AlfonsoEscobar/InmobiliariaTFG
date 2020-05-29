@@ -52,20 +52,16 @@ public class MySQLFavoritoDAO {
 
 		PreparedStatement stat = null;
 		ResultSet generatedKeys = null;
-		int generatedId = -1;
+		int filasInsertadas = -1;
 
 		try {
 
-			stat = conexion.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
+			stat = conexion.prepareStatement(INSERT);
 			stat.setInt(1, favorito.getUsuario_favorito());
 			stat.setInt(2, favorito.getInmueble_favorito());
 			stat.setString(3, favorito.getTipo_anuncio());
 
-			stat.executeUpdate();
-			
-			generatedKeys = stat.getGeneratedKeys();
-			if (generatedKeys.next())
-				generatedId = generatedKeys.getInt(1);
+			filasInsertadas = stat.executeUpdate();
 
 		} catch (SQLException ex) {
 			throw new DAOException("Error en SQL", ex);
@@ -79,7 +75,7 @@ public class MySQLFavoritoDAO {
 			}
 		}
 
-		return generatedId;
+		return filasInsertadas;
 
 	}
 

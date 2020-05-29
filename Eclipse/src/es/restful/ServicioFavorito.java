@@ -105,13 +105,13 @@ public class ServicioFavorito {
 	public Response postFavorito(@Context UriInfo uriInfo, Favorito favorito) {
 		
 		Response.Status respuesta = Response.Status.OK;
-		int idGenerados = 0;
+		int filasInsertadas = 0;
 		
 		try {
 			
-			idGenerados = claseFavorito.insertar(favorito);
+			filasInsertadas = claseFavorito.insertar(favorito);
 			
-			if (idGenerados <= 0) {
+			if (filasInsertadas == 0) {
 				respuesta = Response.Status.NOT_FOUND;
 			}
 			
@@ -120,13 +120,9 @@ public class ServicioFavorito {
 		}
 			
 		
-		if (respuesta == Response.Status.OK) {
-			UriBuilder uriBuilder = uriInfo.getRequestUriBuilder();
-			URI uri = uriBuilder.path(Integer.toString(idGenerados)).build();
-			return Response.created(uri).build();
-		}else {
-			return Response.status(respuesta).build();
-		}
+		
+		return Response.status(respuesta).build();
+		
 		
 	}
 
