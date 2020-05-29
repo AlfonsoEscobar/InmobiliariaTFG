@@ -21,7 +21,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
-import es.dao.DAOException;
+import es.dao.mysql.DAOException;
 import es.dao.mysql.MySQLAnuncioDAO;
 import es.dao.mysql.MySQLInmuebleDAO;
 import es.modelos.Inmueble;

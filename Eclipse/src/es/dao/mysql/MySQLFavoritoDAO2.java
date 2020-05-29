@@ -15,7 +15,7 @@ import es.dao.util.InfoAnuncio;
 import es.modelos.Anuncio;
 import es.modelos.Favorito;
 
-public class MySQLFavoritoDAO {
+public class MySQLFavoritoDAO2 {
 
 	final String INSERT = "INSERT INTO favorito(usuario_favorito, inmueble_favorito, tipo_anuncio) " + "VALUES(?,?,?)";
 
@@ -38,7 +38,7 @@ public class MySQLFavoritoDAO {
 
 	private Connection conexion;
 
-	public MySQLFavoritoDAO(DataSource conexion) {
+	public MySQLFavoritoDAO2(DataSource conexion) {
 		try {
 			this.conexion = conexion.getConnection();
 		} catch (SQLException e) {

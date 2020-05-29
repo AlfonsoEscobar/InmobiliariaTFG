@@ -1,4 +1,4 @@
-package es.dao;
+package es.dao.mysql;
 
 public class DAOException extends Throwable {
 
