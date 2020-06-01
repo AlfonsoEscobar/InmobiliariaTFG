@@ -111,7 +111,7 @@ CREATE TABLE `fotografia` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
-insert into usuario values("alfonso@gmail.es", "alfonso123", 0, "Alfonso Escobar", "111111111", "222222222", null);
+insert into usuario values("alfonso@gmail.es", "a115168db2baaf8afae6387b2857b9096dd6ef159e449d8193bfbbe5e4fae550", 0, "Alfonso Escobar", "111111111", "222222222", null);
 insert into usuario values("jorge@gmail.es", "jorge123", 0, "Jorge Sierra", "333333333", "444444444", null);
 insert into usuario values("javier@gmail.es", "javier123", 0, "Javier Mencia", "555555555", null, null);
 

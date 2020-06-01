@@ -98,7 +98,7 @@ public class ServicioFotografia {
 		}
 	}
 	
-	/*
+	
 	@GET
 	@Path("/inmueble/{id_piso}/{nombreFichero}")
 	@Produces("images/jpeg")
@@ -110,30 +110,8 @@ public class ServicioFotografia {
 		return Response.ok(fichero).header("Content-Length", fichero.length()).build();
 		
 	}
-	*/
 	
-	@GET
-	@Path("/inmueble/{id_piso}")
-	@Produces("images/jpeg")
-	public Response getFicheroInmueble(@PathParam("id_piso") String id_piso) {
-		
-		List<File> listaFicheros = new LinkedList<File>();
-		File fichero = new File("/home/alfonso/Imágenes/App/Pisos/"+ id_piso);
-		
-		if(fichero.isDirectory()) {
-			String[] lista = fichero.list();
-			
-			for(String l : lista) {
-				File f = new File("/home/alfonso/Imágenes/App/Pisos/"+ id_piso + "/" + l);
-				
-				listaFicheros.add(f);
-			}
-		}
-		
-		return Response.ok(listaFicheros).header("Content-Length", fichero.length()).build();
-		
-	}
-
+	
 	@PUT
 	@Path("/inmueble/{id_inmueble}/{tipo_habitacion}")
 	@Consumes("images/jpeg")
@@ -146,24 +124,26 @@ public class ServicioFotografia {
 		
 		Fotografia foto = new Fotografia();
 		
+		String nombreFoto = String .valueOf(System.currentTimeMillis());
+		
 		File nombreCarpeta = new File("/home/alfonso/Imágenes/App/Pisos/" + String.valueOf(id_inmueble));
 		
 		if(!nombreCarpeta.exists()) {
 			
 			nombreCarpeta.mkdir();
 			
-			fichero.renameTo(new File("/home/alfonso/Imágenes/App/Pisos/" + String.valueOf(id_inmueble) + "/", tipo_habitacion));
+			fichero.renameTo(new File("/home/alfonso/Imágenes/App/Pisos/" + String.valueOf(id_inmueble) + "/", nombreFoto));
 			
 			foto.setTipo_habitacion(tipo_habitacion);
-			foto.setRuta("/home/alfonso/Imágenes/App/Pisos/" + String.valueOf(id_inmueble) + "/" + tipo_habitacion);
+			foto.setRuta("/home/alfonso/Imágenes/App/Pisos/" + String.valueOf(id_inmueble) + "/" + nombreFoto);
 			foto.setInmueble(id_inmueble);
 			
 		} else {
 			
-			fichero.renameTo(new File("/home/alfonso/Imágenes/App/Pisos/" + String.valueOf(id_inmueble) + "/", tipo_habitacion));
+			fichero.renameTo(new File("/home/alfonso/Imágenes/App/Pisos/" + String.valueOf(id_inmueble) + "/", nombreFoto));
 			
 			foto.setTipo_habitacion(tipo_habitacion);
-			foto.setRuta("/home/alfonso/Imágenes/App/Pisos/" + String.valueOf(id_inmueble) + "/" + tipo_habitacion);
+			foto.setRuta("/home/alfonso/Imágenes/App/Pisos/" + String.valueOf(id_inmueble) + "/" + nombreFoto);
 			foto.setInmueble(id_inmueble);
 			
 		}
