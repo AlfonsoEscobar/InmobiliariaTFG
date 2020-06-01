@@ -2,7 +2,6 @@ package es.restful;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
-import java.net.URI;
 import java.sql.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,8 +20,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
+import javax.xml.ws.soap.AddressingFeature.Responses;
 
 import es.dao.DAOException;
 import es.dao.mysql.MySQLAnuncioDAO;
@@ -251,13 +250,13 @@ public class ServicioAnuncio {
 		claseAnuncio = new MySQLAnuncioDAO(dataSource);
 
 		Response.Status respuesta = Response.Status.OK;
-		int idGenerados = -1;
+		int filasInsertadas = 0;
 
 		try {
 
-			idGenerados = claseAnuncio.insertar(anuncio);
+			filasInsertadas = claseAnuncio.insertar(anuncio);
 			
-			if (idGenerados < 0) {
+			if (filasInsertadas == 0) {
 				respuesta = Response.Status.NOT_FOUND;
 			}
 
@@ -265,13 +264,13 @@ public class ServicioAnuncio {
 			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
 		}
 		
-		if (respuesta == Response.Status.OK) {
-			UriBuilder uriBuilder = uriInfo.getRequestUriBuilder();
-			URI uri = uriBuilder.path(Integer.toString(idGenerados)).build();
-			return Response.created(uri).build();
+		if(respuesta == Response.Status.OK) {
+			return Response.status(201).build();
 		}else {
 			return Response.status(respuesta).build();
 		}
+		
+		
 	}
 
 	@DELETE

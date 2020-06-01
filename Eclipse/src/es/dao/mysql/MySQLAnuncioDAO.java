@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.LinkedList;
@@ -62,22 +61,17 @@ public class MySQLAnuncioDAO {
 	public int insertar(Anuncio anuncio) throws DAOException {
 
 		PreparedStatement stat = null;
-		ResultSet generatedKeys = null;
-		int generatedId = -1;
+		int filasInsertadas = -1;
 		
 		
 		try {
 
-			stat = conexion.prepareStatement(INSERTCONFECHAS, Statement.RETURN_GENERATED_KEYS);
+			stat = conexion.prepareStatement(INSERTCONFECHAS);
 			stat.setInt(1, anuncio.getId_inmueble());
 			stat.setString(2, anuncio.getTipo_anuncio());
 			stat.setDouble(3, anuncio.getPrecio());
 
-			stat.executeUpdate();
-			
-			generatedKeys = stat.getGeneratedKeys();
-			if (generatedKeys.next())
-				generatedId = generatedKeys.getInt(1);
+			filasInsertadas = stat.executeUpdate();
 
 		} catch (SQLException ex) {
 			throw new DAOException("Error en SQL", ex);
@@ -93,7 +87,7 @@ public class MySQLAnuncioDAO {
 
 		}
 
-		return generatedId;
+		return filasInsertadas;
 
 	}
 
