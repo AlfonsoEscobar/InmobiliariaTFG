@@ -22,13 +22,13 @@ import com.tfg.inmobiliariatfg.modelos.Usuario;
 
 public class BuscadorFragment extends Fragment {
 
-    Bundle datos;
-    Usuario usuario;
-    int idUsuario;
-    EditText etLocalidadBuscador;
-    ImageView ivBuscador;
-    RadioButton rbComprarBuscador, rbAlquilarBuscador;
-    Button btnBuscarBuscador;
+    private Bundle datos;
+    private Usuario usuario;
+    private int idUsuario;
+    private EditText etLocalidadBuscador;
+    private ImageView ivBuscador;
+    private RadioButton rbComprarBuscador, rbAlquilarBuscador;
+    private Button btnBuscarBuscador;
 
     @Nullable
     @Override
@@ -45,16 +45,16 @@ public class BuscadorFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), RecyclerViewBusquedaActivity.class);
-                i.putExtra("idUsuario",idUsuario);
                 String localidad = etLocalidadBuscador.getText().toString();
                 if (localidad.equals("")) {
                     Log.i("Error", "No ha sido introducido una localidad");
                 } else {
                     String localidadPut = etLocalidadBuscador.getText().toString();
                     String tipoPut;
+                    i.putExtra("idUsuario",idUsuario);
                     i.putExtra("localidad", localidadPut);
                     if (rbAlquilarBuscador.isChecked()) {
-                        tipoPut = "alquiler";
+                        tipoPut = "alquilar";
                         i.putExtra("tipo", tipoPut);
                     } else {
                         tipoPut = "comprar";

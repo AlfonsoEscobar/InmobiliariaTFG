@@ -10,13 +10,15 @@ import java.util.LinkedList;
 
 import javax.sql.DataSource;
 
-import es.dao.DAOException;
 import es.dao.util.Conversor;
 import es.dao.util.InfoAnuncio;
 import es.modelos.Anuncio;
 
 public class MySQLAnuncioDAO {
 
+
+
+	//final String INSERT = "INSERT INTO anuncio(id_inmueble, tipo_anuncio, precio, fecha_anuncio, fecha_utlima_actualizacion)" + "VALUES(?,?,?,?,?)";
 
 	final String INSERTCONFECHAS = "INSERT INTO anuncio(id_inmueble, tipo_anuncio, precio, fecha_anunciado, "
 							+ "fecha_ultima_actualizacion) VALUES(?, ?, ?, CURRENT_DATE, CURRENT_DATE)";

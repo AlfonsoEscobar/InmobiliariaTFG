@@ -121,3 +121,293 @@ Métodos para trabajar con mi CriterioBusqeda
 	 * 
 	 * lista = obtenerIdsCoincidentes(id_anuncios, id_inmuebles); return lista; }
 	 */
+
+
+
+
+
+
+CLASES DE CRITERIOS DE BUSQUEDA
+package es.dao.util;
+
+import es.dao.util.enums.Equipamiento;
+import es.dao.util.enums.Exteriores;
+import es.dao.util.enums.TipoEdificacion;
+import es.dao.util.enums.TipoEnteros;
+import es.dao.util.enums.TipoObra;
+import es.dao.util.enums.TiposBooleanos;
+
+public class CriterioBusqueda {
+	private String clausula;
+	private String localidad;
+	private String tipo_anuncio;
+	/*private double metro2_min;
+	private double metros2_max;
+	private int num_habitaciones;
+	private int num_banos;
+	private TipoEdificacion tipo_edificacion;
+	private TipoObra tipo_obra;
+	private Equipamiento equipamiento;
+	private Exteriores exteriores;
+	private boolean garaje;
+	private boolean trastero;
+	private boolean ascensor;
+	private boolean ultima_planta;
+	private boolean mascotas;*/
+
+	public CriterioBusqueda (CriterioBusquedaBuilder builder) {
+		this.clausula = builder.getClausula();
+		this.localidad = builder.getLocalidad();
+		this.tipo_anuncio = builder.getTipo_anuncio();
+	}
+	
+	public CriterioBusqueda(TiposBooleanos tipo, boolean valor) {
+		if(tipo.name().equals(tipo.GARAJE)) {
+			this.clausula = "garaje = " + valor;
+		}else if(tipo.name().equals(tipo.TRASTERO)) {
+			this.clausula = "trastero = " + valor;
+		}else if(tipo.name().equals(tipo.ASCENSOR)) {
+			this.clausula = "ascensor = " + valor;
+		}else if(tipo.name().equals(tipo.MASCOTAS)){
+			this.clausula = "mascotas = " + valor;
+		}else if(tipo.name().equals(tipo.ULTIMA_PLANTA)){
+			this.clausula = "ultima_planta = " + valor;
+		}
+	}
+
+	public CriterioBusqueda(Equipamiento equipamiento) {
+		this.clausula = "equipamiento = " + equipamiento.name();
+	}
+
+	public CriterioBusqueda(TipoEdificacion tipo_edificacion) {
+		this.clausula = "tipo_edificacion = " + tipo_edificacion.name();
+	}
+
+	public CriterioBusqueda(TipoObra tipo_obra) {
+		this.clausula = "tipo_obra = " + tipo_obra.name();
+	}
+
+	public CriterioBusqueda(Exteriores exteriores) {
+		this.clausula = "exteriores = " + exteriores.name();
+	}
+
+	public CriterioBusqueda(double minmetros, double maxmetros) {
+		double mayor, menor;
+		if (maxmetros > minmetros) {
+			mayor = maxmetros;
+			menor = minmetros;
+		} else {
+			mayor = minmetros;
+			menor = maxmetros;
+		}
+		this.clausula = "metros2 between " + menor + " and " + mayor;
+	}
+	
+	public CriterioBusqueda (TipoEnteros tipo, int valor) {
+		if(tipo.name().equals(tipo.HABITACIONES)) {
+			if(valor < 4) {
+				this.clausula = "num_habitaciones = " + valor;
+			}else
+				this.clausula = "num_habitaciones > 3" + valor;
+		}else if(tipo.name().equals(tipo.BANOS)) {
+			if(valor < 3) {
+				this.clausula = "num_banos = " + valor;
+			}else
+				this.clausula = "num_banos > 3" + valor;
+		}
+	}
+
+	public String getClausula() {
+		return this.clausula;
+	}
+
+	public String construirSentencia() {
+		String sentencia = "SELECT a.*, i.* from anuncio a, inmuble i on a.id_inmueble = i.id_inmueble"
+				+ "WHERE a.tipo_anuncio = " + this.tipo_anuncio 
+				+ "and i.localidad = " + this.localidad;
+		return sentencia + this.clausula;
+	}
+
+	public void anadirFiltros(CriterioBusqueda criterio) {
+		this.clausula = this.clausula + " and " + criterio.getClausula();
+	}
+
+}
+
+
+
+
+
+package es.dao.util;
+
+import java.sql.Date;
+
+import es.dao.util.enums.Equipamiento;
+import es.dao.util.enums.Exteriores;
+import es.dao.util.enums.TipoEdificacion;
+import es.dao.util.enums.TipoObra;
+
+public class CriterioBusquedaBuilder {
+	private String localidad;
+	private String tipo_anuncio;
+	
+	private String clausula;
+	
+	public CriterioBusquedaBuilder() {
+		this.clausula = "";
+	}
+	
+	public CriterioBusquedaBuilder conLocalidad(String localidad) {
+		this.localidad = localidad;
+		clausula = clausula + " and i.localidad = '" + localidad + "'";
+		return this;
+	}
+	
+	public CriterioBusquedaBuilder conTipo_Anuncio(String tipo_anuncio) {
+		this.tipo_anuncio = tipo_anuncio;
+		clausula = clausula + " and a.tipo_anuncio = '" + tipo_anuncio + "'";
+		return this;
+	}
+	
+	public CriterioBusquedaBuilder conCalle(String calle) {
+		clausula = clausula + " and i.calle = '" + calle + "'";
+		return this;
+	}
+
+	public CriterioBusquedaBuilder conPiso(int piso) {
+		clausula = clausula + " and i.piso = '" + piso + "'";
+		return this;
+	}
+	
+	public CriterioBusquedaBuilder conMetros2(double min_metros2, double max_metros2) {
+		clausula = clausula + " and i.metros2 between " + min_metros2 + " and " + max_metros2;
+		return this;
+	}
+
+
+	public CriterioBusquedaBuilder conNum_habitaciones(int num_habitaciones) {
+		clausula = clausula + " and i.num_habitaciones = " + num_habitaciones;
+		return this;
+	}
+
+	public CriterioBusquedaBuilder conMin_num_habitaciones(int min_num_habitaciones) {
+		clausula = clausula + " and i.num_habitaciones > " + (min_num_habitaciones - 1);
+		return this;
+	}
+	
+
+	public CriterioBusquedaBuilder conNum_banos(int num_banos) {
+		clausula = clausula + " and i.num_banos = " + num_banos;
+		return this;
+	}
+
+	public CriterioBusquedaBuilder conMin_num_banos(int min_num_banos) {
+		clausula = clausula + " and i.num_banos > " + (min_num_banos - 1);
+		return this;
+	}
+
+	public CriterioBusquedaBuilder conTipo_edificacion(TipoEdificacion tipo_edificacion) {
+		clausula = clausula + " and i.tipo_edificacion = '" + tipo_edificacion.name() + "'";
+		return this;
+	}
+
+	public CriterioBusquedaBuilder conTipo_obra(TipoObra tipo_obra) {
+		clausula = clausula + " and i.tipo_obra = '" + tipo_obra.name() + "'";
+		return this;
+	}
+
+	public CriterioBusquedaBuilder conEquipamiento(Equipamiento equipamiento) {
+		clausula = clausula + " and i.equipamiento = '" + equipamiento + "'";
+		return this;
+	}
+
+	public CriterioBusquedaBuilder conExteriores(Exteriores exteriores) {
+		clausula = clausula + " and i.exteriores = '" + exteriores + "'";
+		return this;
+	}
+
+	public CriterioBusquedaBuilder conGaraje(boolean garaje) {
+		clausula = clausula + " and i.garaje = " + garaje;
+		return this;
+	}
+
+	public CriterioBusquedaBuilder conTrastero(boolean trastero) {
+		clausula = clausula + " and i.trastero = " + trastero;
+		return this;
+	}
+
+	public CriterioBusquedaBuilder conAscensor(boolean ascensor) {
+		clausula = clausula + " and i.ascensor = " + ascensor;
+		return this;
+	}
+
+	public CriterioBusquedaBuilder conUltima_planta(boolean ultima_planta) {
+		clausula = clausula + " and i.ultima_planta = " + ultima_planta;
+		return this;
+	}
+
+	public CriterioBusquedaBuilder conMascotas(boolean mascotas) {
+		clausula = clausula + " and i.mascotas = " + mascotas;
+		return this;
+	}
+
+	public CriterioBusquedaBuilder conPrecio (double min_precio, double max_precio) {
+		clausula = clausula + " and a.precio between " + min_precio + " and " + max_precio;
+		return this;
+	}
+
+	public CriterioBusquedaBuilder conFecha_anuncio(Date fecha_anuncio) {
+		clausula = clausula + " and a.fecha_anuncio = '" + fecha_anuncio + "'";
+		return this;
+	}
+
+	public CriterioBusquedaBuilder conFecha_ultima_actualizacion(Date fecha_ultima_actualizacion) {
+		clausula = clausula + " and a.fecha_ultima_actualizacion = '" + fecha_ultima_actualizacion + "'";
+		return this;
+	}
+	
+	public CriterioBusqueda build() {
+		return new CriterioBusqueda(this);
+	}
+	
+	public String getClausula() {
+		return this.clausula;
+	}
+	
+	public String getLocalidad() {
+		return this.localidad;
+	}
+	
+	public String getTipo_anuncio () {
+		return this.tipo_anuncio;
+	}
+}
+
+
+
+ENUMS
+
+public enum Equipamiento {
+	CALEFACCION, AIRE_ACONDICIONADO, ARMARIOS_EMPOTRADOS;
+}
+
+public enum Exteriores {
+	TERRAZA, JARDIN, PISCINA, PATIO;
+}
+
+public enum TipoEdificacion {
+	PISO, CHALET, ATICO, DUPLEX, BUHARDILLA, APARTAMENTO;
+}
+
+public enum TipoEnteros {
+	HABITACIONES, BANOS;
+}
+
+public enum TipoObra {
+	OBRA_NUEVA, SEGUNDA_MANO, COCINA_AMUEBLADA, A_REFORMAR;
+}
+
+public enum TiposBooleanos {
+	GARAJE, TRASTERO, ASCENSOR, ULTIMA_PLANTA, MASCOTAS;
+}
+

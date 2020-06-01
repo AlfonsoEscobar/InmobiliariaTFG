@@ -17,7 +17,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import es.dao.DAOException;
+import es.dao.mysql.DAOException;
 import es.dao.mysql.MySQLFotografiaDAO;
 import es.modelos.Fotografia;
 

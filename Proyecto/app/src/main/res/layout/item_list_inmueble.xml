@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark">
+    android:background="@color/colorPrimaryDark"
+    android:orientation="vertical">
 
     <ScrollView
         android:id="@+id/svMisInmuebles"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:background="@color/colorPrimaryDark"
+        android:nestedScrollingEnabled="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
             android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerImagenesMisInmuebles"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
                 android:background="@color/design_default_color_background"
                 android:orientation="horizontal">
 
@@ -35,11 +35,22 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
                 android:background="@color/design_default_color_background"
                 android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btnOpcionesInmuebles"
+                    android:layout_width="90dp"
+                    android:layout_height="24dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/ic_button"
+                    android:drawableEnd="@drawable/ic_opciones"
+                    android:drawableRight="@drawable/ic_editar"
+                    android:text="@string/btnOpcionesInmueble"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/tvDatosUbicacion"
@@ -123,6 +134,8 @@
                     android:background="@drawable/ic_plaintext"
                     android:backgroundTint="@color/colorAccent"
                     android:fontFamily="@font/source_sans_pro"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
                     android:text="@string/DescripcionDefectoInmueble"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -264,10 +277,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginBottom="20dp"
                     android:fontFamily="@font/source_sans_pro"
                     android:text="@string/ascensorInmueble"
                     android:textSize="16sp"
                     android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvGarajeMisInmuebles" />
 
@@ -277,10 +292,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="50dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginBottom="20dp"
                     android:fontFamily="@font/source_sans_pro"
                     android:text="@string/mascotasInmueble"
                     android:textSize="16sp"
                     android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/ivAscensorMisInmuebles"
                     app:layout_constraintTop_toBottomOf="@+id/tvGarajeMisInmuebles" />
 
@@ -301,7 +318,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:contentDescription="@string/imgpincipal"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tvAscensorMisInmuebles"
                     app:layout_constraintTop_toBottomOf="@+id/tvGarajeMisInmuebles"
                     app:srcCompat="@drawable/ic_not_checked" />
@@ -312,7 +331,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:contentDescription="@string/imgpincipal"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tvMascotasMisInmuebles"
                     app:layout_constraintTop_toBottomOf="@+id/tvGarajeMisInmuebles"
                     app:srcCompat="@drawable/ic_not_checked" />
@@ -343,4 +364,4 @@
         </LinearLayout>
     </ScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

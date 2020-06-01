@@ -2,8 +2,11 @@ package com.tfg.inmobiliariatfg.fragments;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -29,27 +32,24 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
 import com.tfg.inmobiliariatfg.R;
 import com.tfg.inmobiliariatfg.activities.MainActivity;
 import com.tfg.inmobiliariatfg.modelos.Usuario;
 import com.tfg.inmobiliariatfg.utiles.ApiAdapter;
+import com.tfg.inmobiliariatfg.utiles.HiloAuxiliarPutPerfilFoto;
 import com.tfg.inmobiliariatfg.utiles.Metodos;
 
-import java.io.DataOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -57,21 +57,30 @@ import retrofit2.Response;
 
 public class PerfilFragment extends Fragment {
 
+    private String ngrok = "https://165b29b2e1ce.ngrok.io/Restful_Inmo/servicios/fotografia/usuario/";
+
+    private Uri miPath;
+
+    private String currentPhotoPath;
+
+    private static final int PICK_FROM_GALLERY = 1;
+
     private String[] galleryPermissions = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
     private static final String DIRECTORIO_IMAGEN = "pictures";
+
     private String path;
-    File fileImagen;
-    Bitmap bitmap;
+    private File imageFile;
+    private Bitmap bitmap;
 
     private static final int COD_GALLERY = 10;
     private static final int COD_CAMERA = 20;
 
-    String selection;
-    TextView tvNomPerfil, tvCorreoPerfil, tvTelPerfil;
-    Button btnEditarImagenPerfil, btnEditarTelefonosPerfil, btnEditarNombrePerfil, btnEliminarCuentaPerfil;
-    ImageView ivPerfil;
-    Usuario usuario;
+    private String selection;
+    private TextView tvNomPerfil, tvCorreoPerfil, tvTelPerfil;
+    private Button btnEditarImagenPerfil, btnEditarTelefonosPerfil, btnEditarNombrePerfil, btnEliminarCuentaPerfil;
+    private ImageView ivPerfil;
+    private Usuario usuario;
     int idUsuario;
 
     @Nullable
@@ -91,8 +100,9 @@ public class PerfilFragment extends Fragment {
         btnEliminarCuentaPerfil = cl.findViewById(R.id.btnEliminarCuentaPerfil);
         btnEditarImagenPerfil = cl.findViewById(R.id.btnBotonEditarImagenPerfil);
 
-        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-        StrictMode.setVmPolicy(builder.build());
+        //StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        //StrictMode.setVmPolicy(builder.build());
+        //builder.detectFileUriExposure();
 
         btnEditarTelefonosPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,7 +139,7 @@ public class PerfilFragment extends Fragment {
             tvCorreoPerfil.setText(usuario.getCorreo());
             idUsuario = usuario.getId_usuario();
             if (usuario.getImagen_perfil() != null) {
-                ivPerfil.setImageBitmap(bitmap(usuario.getImagen_perfil()));
+                ivPerfil.setImageBitmap(Metodos.bitmap(usuario.getImagen_perfil()));
             }
             tvTelPerfil.setText(usuario.getTelefono1() + "\n");
             if (usuario.getTelefono2() != null) {
@@ -166,12 +176,12 @@ public class PerfilFragment extends Fragment {
                         } else {
                             correo = usuario.getCorreo();
                             pass = Metodos.codificarPass(input.getText().toString());
-                            Call<Usuario> call = ApiAdapter.getApiService().getUsuario(correo, pass);
+                            Call<Usuario> call = ApiAdapter.getApiService(getPref()).getUsuario(correo, pass);
                             call.enqueue(new Callback<Usuario>() {
                                 @Override
                                 public void onResponse(Call<Usuario> call, Response<Usuario> response) {
                                     if (response.isSuccessful()) {
-                                        Call<Void> callDelete = ApiAdapter.getApiService().eliminarUsuario(idUsuario);
+                                        Call<Void> callDelete = ApiAdapter.getApiService(getPref()).eliminarUsuario(idUsuario);
                                         callDelete.enqueue(new Callback<Void>() {
                                             @Override
                                             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -249,7 +259,7 @@ public class PerfilFragment extends Fragment {
                             } else {
                                 usuario.setTelefono2(telefono);
                             }
-                            Call<Void> call = ApiAdapter.getApiService().putModificarUsuarioPerfil(idUsuario, usuario);
+                            Call<Void> call = ApiAdapter.getApiService(getPref()).putModificarUsuarioPerfil(idUsuario, usuario);
                             call.enqueue(new Callback<Void>() {
                                 @Override
                                 public void onResponse(Call<Void> call, Response<Void> response) {
@@ -301,7 +311,7 @@ public class PerfilFragment extends Fragment {
                                     "Porfavor introduzca un Nombre", Toast.LENGTH_LONG).show();
                         } else {
                             usuario.setNombre(nombre);
-                            Call<Void> modificarCall = ApiAdapter.getApiService().putModificarUsuarioPerfil(idUsuario, usuario);
+                            Call<Void> modificarCall = ApiAdapter.getApiService(getPref()).putModificarUsuarioPerfil(idUsuario, usuario);
                             modificarCall.enqueue(new Callback<Void>() {
                                 @Override
                                 public void onResponse(Call<Void> call, Response<Void> response) {
@@ -333,180 +343,93 @@ public class PerfilFragment extends Fragment {
 
     private void cargarImagenDialog() {
 
-        final CharSequence[] opciones = {"Tomar foto", "Cargar imagen", "Cancelar"};
+        final CharSequence[] opciones = {"Galeria", "Cancelar"};
         final AlertDialog.Builder alertOpciones = new AlertDialog.Builder(getContext());
         alertOpciones.setTitle("Seleccione una opción");
         alertOpciones.setItems(opciones, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (opciones[which].equals("Tomar foto")) {
-                    if (EasyPermissions.hasPermissions(getContext(), galleryPermissions)) {
-                        abrirCamara();
-                    } else {
-                        EasyPermissions.requestPermissions(this, "Access for storage",
-                                101, galleryPermissions);
+                if (opciones[which].equals("Galeria")) {
+                    try {
+                        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PICK_FROM_GALLERY);
+                            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            intent.setType("image/");
+                            startActivityForResult(intent.createChooser(intent, "Seleccione la Aplicación"), COD_GALLERY);
+                        }else {
+                            Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            startActivityForResult(galleryIntent, PICK_FROM_GALLERY);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 } else {
-                    if (opciones[which].equals("Cargar imagen")) {
-                        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        intent.setType("image/");
-                        startActivityForResult(intent.createChooser(intent, "Seleccione la Aplicación"), COD_GALLERY);
-                    } else {
-                        dialog.dismiss();
-                    }
+                    dialog.dismiss();
                 }
             }
         });
         alertOpciones.show();
     }
 
-    private void abrirCamara() {
-        File file = new File(Environment.getExternalStorageDirectory(), DIRECTORIO_IMAGEN);
-        boolean isCreada = file.exists();
-
-        if (isCreada == false) {
-            isCreada = file.mkdirs();
-        }
-
-        if (isCreada == true) {
-            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmSS").format(new Date());
-            String nombre = timeStamp + ".jpeg";
-
-            path = Environment.getExternalStorageDirectory() + File.separator + DIRECTORIO_IMAGEN
-                    + File.separator + nombre;
-
-            fileImagen = new File(path);
-
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(fileImagen));
-            startActivityForResult(intent, COD_CAMERA);
-
-        }
-    }
-
-    public Bitmap bitmap(byte[] bImagen) {
-
-        return BitmapFactory.decodeByteArray(bImagen, 0, bImagen.length);
+    @Override
+    public void onStop() {
+        super.onStop();
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        MultipartBody.Part filePart = null;
-        File file = null;
-
         switch (requestCode) {
             case COD_GALLERY:
-                Uri miPath = data.getData();
-                String ipath = getPath(miPath);
-                Log.v("path", "" + ipath);
-                file = new File(ipath);
-                filePart = MultipartBody.Part.createFormData("file", file.getName(),
-                        RequestBody.create(file, MediaType.parse("image/jpeg")));
-                ivPerfil.setImageURI(miPath);
-                break;
-            case COD_CAMERA:
-                //Metodos.verifyStoragePermissions(getActivity());
-                MediaScannerConnection.scanFile(getContext(), new String[]{path}, null,
-                        new MediaScannerConnection.OnScanCompletedListener() {
-                            @Override
-                            public void onScanCompleted(String path, Uri uri) {
-                                Log.v("path", "" + path);
-                            }
-                        });
-                bitmap = BitmapFactory.decodeFile(path);
-                ivPerfil.setImageBitmap(bitmap);
 
-                file = new File(path);
+
+                //bitmap = BitmapFactory.decodeFile(path);
+                //ivPerfil.setImageBitmap(bitmap);
+
+                Uri selectedImageURI = data.getData();
+                path = getPath(selectedImageURI);
+                Log.v("path", "" + path);
+
+                String[] valuesGaleria = {ngrok + idUsuario, path};
+                HiloAuxiliarPutPerfilFoto hiloGaleria = new HiloAuxiliarPutPerfilFoto();
+                hiloGaleria.execute(valuesGaleria);
 
                 break;
         }
-        /*if (file != null) {
-            Call <Void> call = ApiAdapter.getApiServiceSinGson().putImagenPerfil(file);
-            call.enqueue(new Callback<Void>() {
-                @Override
-                public void onResponse(Call<Void> call, Response<Void> response) {
-                    if (response.code() == 200) {
-                        Toast.makeText(getContext(),
-                                "Imagen modificada con exito", Toast.LENGTH_LONG).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Void> call, Throwable t) {
-
-                }
-            });
-            sendFile("https://a24536f8.ngrok.io/Restful_Inmo/servicios/fotografia/inmueble", path);
-        }*/
-    }
-    /*public static int sendFile(String remoteUri, String localFileName) {
-        int resultado = -1;
-
-        try {
-            FileInputStream fIS = new FileInputStream(localFileName);
-            int numeroDeBytesAEnviar = fIS.available();
-            byte[] bytesAEnviar = new byte[numeroDeBytesAEnviar];
-            fIS.read(bytesAEnviar, 0, bytesAEnviar.length);
-            fIS.close();
-
-            URL urlPut = new URL(remoteUri);
-
-            HttpURLConnection urlPutConnection = (HttpURLConnection) urlPut.openConnection();
-            urlPutConnection.setDoOutput(true);
-            urlPutConnection.setRequestMethod("PUT");
-            urlPutConnection.setFixedLengthStreamingMode(bytesAEnviar.length);
-            urlPutConnection.setRequestProperty("Content-Type", "images/jpeg");
-            urlPutConnection.connect();
-
-            OutputStream oS = urlPutConnection.getOutputStream();
-            DataOutputStream dOS = new DataOutputStream(oS);
-            dOS.write(bytesAEnviar, 0, bytesAEnviar.length);
-            dOS.flush();
-            dOS.close();
-
-            resultado = urlPutConnection.getResponseCode();
-            urlPutConnection.disconnect();
-        } catch (IOException IOe) {
-        }
-        Log.v("enviado", "" + resultado);
-        return resultado;
-    }*/
-
-    public String getPath(Uri contentURI) {
-        String result;
-        Cursor cursor = getActivity().getContentResolver().query(contentURI, null, null, null, null);
-        if (cursor == null) {
-            result = contentURI.getPath();
-        } else {
-            cursor.moveToFirst();
-            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-            result = cursor.getString(idx);
-            cursor.close();
-        }
-        return result;
     }
 
-    /*File createImageFile() throws IOException {
+    public String getPath(Uri uri) {
 
-        // Here we create a "non-collision file name", alternatively said, "an unique filename" using the "timeStamp" functionality
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmSS").format(new Date());
-        String imageFileName = "IMAGE_" + timeStamp;
-        // Here we specify the environment location and the exact path where we want to save the so-created file
-        File storageDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES + "/photo_saving_app");
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = getActivity().managedQuery(uri, projection, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
 
+        return cursor.getString(column_index);
+    }
 
-        // Then we create the storage directory if does not exists
-        if (!storageDirectory.exists()) storageDirectory.mkdir();
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case PICK_FROM_GALLERY:
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(galleryIntent, PICK_FROM_GALLERY);
+                } else {
+                    //do something like displaying a message that he didn`t allow the app to access gallery and you wont be able to let him select from gallery
+                }
+                break;
+        }
+    }
 
-        // Here we create the file using a prefix, a suffix and a directory
-        File image = new File(storageDirectory, imageFileName + ".jpg");
-        // File image = File.createTempFile(imageFileName, ".jpg", storageDirectory);
-        mImageFileLocation = image.getAbsolutePath();
-        // fileUri = Uri.parse(mImageFileLocation);
-        // The file is returned to the previous intent across the camera application
-        return image;
-    }*/
+    public String getPref() {
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        String defaultValue = getResources().getString(R.string.baseURL);
+        String baseURL = sharedPref.getString(getString(R.string.baseURL), defaultValue);
 
+        return baseURL;
+    }
 }
+

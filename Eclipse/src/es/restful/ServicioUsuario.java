@@ -19,7 +19,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
-import es.dao.DAOException;
+import es.dao.mysql.DAOException;
 import es.dao.mysql.MySQLUsuarioDAO;
 import es.modelos.Usuario;
 

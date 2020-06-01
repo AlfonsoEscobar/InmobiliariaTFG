@@ -3,6 +3,12 @@
     <!-- Strings de activity_Drawer_Activity -->
     <string name="navigation_drawer_open">Open Navigation drawer</string>
     <string name="navigation_drawer_close">Close Navigation drawer</string>
+    <!-- String de menu_lateral -->
+    <string name="lateralBuscador">Buscador</string>
+    <string name="lateralPerfil">Perfil</string>
+    <string name="lateralFavorito">Mis favorito</string>
+    <string name="lateralInmuebles">Mis inmuebles</string>
+    <string name="lateralAnuncios">Mis anuncios</string>
     <!-- Strings de activity_login -->
     <string name="CorreoLogin">Correo</string>
     <string name="passLogin">Contraseña</string>
@@ -39,7 +45,7 @@
     <string name="introduceRegistro">Introduce:</string>
     <string name="asterisco">*</string>
     <!-- String URL -->
-    <!-- <string name="baseURL">https://5ae4c4c4.ngrok.io/Restful_Inmo/servicios/</string> -->
+    <string name="baseURL">https://165b29b2e1ce.ngrok.io/Restful_Inmo/servicios/</string>
     <!-- Strings de item_list_inmueble-->
     <string name="datosUbicacion">Datos de Ubicación</string>
     <string name="caracteristicasInmueble">Caracteristicas de inmueble</string>
@@ -56,6 +62,7 @@
     <string name="ultPlantaInmueble">Ultima planta:</string>
     <string name="mascotasInmueble">Mascotas:</string>
     <string name="DescripcionDefectoInmueble">No se ha ingresado Descripcion del inmueble.</string>
+    <string name="btnOpcionesInmueble">Opciones</string>
     <!-- Strings de recycler_view_mis_inmuebles-->
     <string name="btnRegistrarInmueble">Registrar inmueble</string>
     <!-- String de activity_registrar_inmueble -->

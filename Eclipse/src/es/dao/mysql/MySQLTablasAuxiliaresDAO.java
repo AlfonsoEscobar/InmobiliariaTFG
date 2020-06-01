@@ -9,8 +9,6 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import es.dao.DAOException;
-
 public class MySQLTablasAuxiliaresDAO {
 
 	private final String TIPOHABIT = "SELECT tipo FROM tipo_habitacion";

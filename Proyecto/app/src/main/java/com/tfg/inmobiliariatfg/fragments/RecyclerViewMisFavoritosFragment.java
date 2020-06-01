@@ -1,11 +1,14 @@
 package com.tfg.inmobiliariatfg.fragments;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,14 +21,12 @@ import com.tfg.inmobiliariatfg.R;
 import com.tfg.inmobiliariatfg.activities.AnuncioCompletoActivity;
 import com.tfg.inmobiliariatfg.modelos.Favorito;
 import com.tfg.inmobiliariatfg.modelos.InfoAnuncio;
-import com.tfg.inmobiliariatfg.modelos.Inmueble;
 import com.tfg.inmobiliariatfg.modelos.Usuario;
 import com.tfg.inmobiliariatfg.utiles.ApiAdapter;
 import com.tfg.inmobiliariatfg.utiles.Metodos;
-import com.tfg.inmobiliariatfg.utiles.RecyclerViewInfoAnuncioAdapter;
-import com.tfg.inmobiliariatfg.utiles.RecyclerViewInmuebleAdapter;
+import com.tfg.inmobiliariatfg.adapters.RecyclerViewInfoAnuncioAdapter;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
 
 import retrofit2.Call;
@@ -39,8 +40,8 @@ public class RecyclerViewMisFavoritosFragment extends Fragment {
     private RecyclerView recyclerViewFavorito;
     private RecyclerViewInfoAnuncioAdapter adaptadorFavorito;
     private Bundle extras;
-    Usuario usuario;
-    int idUsuario;
+    private Usuario usuario;
+    private int idUsuario;
 
     @Nullable
     @Override
@@ -59,9 +60,6 @@ public class RecyclerViewMisFavoritosFragment extends Fragment {
             idUsuario = 0;
         }
 
-        compararFavorito(idUsuario);
-        ObtenerAnunciosFavortios();
-
         return view;
     }
 
@@ -70,25 +68,29 @@ public class RecyclerViewMisFavoritosFragment extends Fragment {
         progressDialog = new ProgressDialog(getContext());
         Metodos.mostrarDialogo(progressDialog);
         progressDialog.setMessage("Cargando tus favoritos...");
-        Call<List<InfoAnuncio>> listCall = ApiAdapter.getApiService().getFavortiosUsuario(idUsuario);
+        Call<List<InfoAnuncio>> listCall = ApiAdapter.getApiService(getPref()).getFavortiosUsuario(idUsuario);
         listCall.enqueue(new Callback<List<InfoAnuncio>>() {
             @Override
             public void onResponse(Call<List<InfoAnuncio>> call, Response<List<InfoAnuncio>> response) {
                 if (response.isSuccessful()) {
                     ShowIt(response.body());
                     progressDialog.dismiss();
+                }else {
+                    Toast.makeText(getActivity(), "No tienes favoritos todavia.", Toast.LENGTH_LONG).show();
+                    progressDialog.dismiss();
                 }
             }
 
             @Override
             public void onFailure(Call<List<InfoAnuncio>> call, Throwable t) {
-
+                progressDialog.dismiss();
             }
         });
     }
+
     private void compararFavorito(int idUsuario) {
         if (idUsuario != 0) {
-            final Call<List<Favorito>> callCompararFavoritos = ApiAdapter.getApiService().getCompararFavorito(idUsuario);
+            final Call<List<Favorito>> callCompararFavoritos = ApiAdapter.getApiService(getPref()).getCompararFavorito(idUsuario);
             callCompararFavoritos.enqueue(new Callback<List<Favorito>>() {
                 @Override
                 public void onResponse(Call<List<Favorito>> call, Response<List<Favorito>> response) {
@@ -119,11 +121,28 @@ public class RecyclerViewMisFavoritosFragment extends Fragment {
             public void onClick(View v) {
                 InfoAnuncio anuncio = response.get(recyclerViewFavorito.getChildAdapterPosition(v));
                 Intent intent = new Intent(getActivity(), AnuncioCompletoActivity.class);
+                intent.putExtra("favoritos", (Serializable) listaFavoritos);
+                intent.putExtra("idUsuario", idUsuario);
                 intent.putExtra("anuncio", anuncio);
                 startActivity(intent);
             }
         });
 
         recyclerViewFavorito.setAdapter(adaptadorFavorito);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        compararFavorito(idUsuario);
+        ObtenerAnunciosFavortios();
+    }
+
+    public String getPref() {
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        String defaultValue = getResources().getString(R.string.baseURL);
+        String baseURL = sharedPref.getString(getString(R.string.baseURL), defaultValue);
+
+        return baseURL;
     }
 }

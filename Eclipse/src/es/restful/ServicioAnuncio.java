@@ -23,7 +23,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import javax.xml.ws.soap.AddressingFeature.Responses;
 
-import es.dao.DAOException;
+import es.dao.mysql.DAOException;
 import es.dao.mysql.MySQLAnuncioDAO;
 import es.dao.util.CriterioBusqueda2;
 import es.dao.util.CriterioBusqueda2Builder;

@@ -15,7 +15,7 @@ import es.dao.util.InfoAnuncio;
 import es.modelos.Anuncio;
 import es.modelos.Favorito;
 
-public class MySQLFavoritoDAO {
+public class MySQLFavoritoDAO2 {
 
 	final String INSERT = "INSERT INTO favorito(usuario_favorito, inmueble_favorito, tipo_anuncio) " + "VALUES(?,?,?)";
 
@@ -38,7 +38,7 @@ public class MySQLFavoritoDAO {
 
 	private Connection conexion;
 
-	public MySQLFavoritoDAO(DataSource conexion) {
+	public MySQLFavoritoDAO2(DataSource conexion) {
 		try {
 			this.conexion = conexion.getConnection();
 		} catch (SQLException e) {
@@ -51,16 +51,20 @@ public class MySQLFavoritoDAO {
 
 		PreparedStatement stat = null;
 		ResultSet generatedKeys = null;
-		int filasInsertadas = -1;
+		int generatedId = -1;
 
 		try {
 
-			stat = conexion.prepareStatement(INSERT);
+			stat = conexion.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
 			stat.setInt(1, favorito.getUsuario_favorito());
 			stat.setInt(2, favorito.getInmueble_favorito());
 			stat.setString(3, favorito.getTipo_anuncio());
 
-			filasInsertadas = stat.executeUpdate();
+			stat.executeUpdate();
+			
+			generatedKeys = stat.getGeneratedKeys();
+			if (generatedKeys.next())
+				generatedId = generatedKeys.getInt(1);
 
 		} catch (SQLException ex) {
 			throw new DAOException("Error en SQL", ex);
@@ -74,7 +78,7 @@ public class MySQLFavoritoDAO {
 			}
 		}
 
-		return filasInsertadas;
+		return generatedId;
 
 	}
 

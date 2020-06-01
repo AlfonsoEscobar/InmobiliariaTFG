@@ -5,6 +5,7 @@ import com.tfg.inmobiliariatfg.modelos.Favorito;
 import com.tfg.inmobiliariatfg.modelos.InfoAnuncio;
 import com.tfg.inmobiliariatfg.modelos.Inmueble;
 import com.tfg.inmobiliariatfg.modelos.Usuario;
+import com.tfg.inmobiliariatfg.modelos.ValoresBusqueda;
 import com.tfg.inmobiliariatfg.modelos.ValoresPredeterminadosInmueble;
 
 import java.io.File;
@@ -19,22 +20,23 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface ApiService {
-    @PUT("fotografia/inmueble")
-    Call<Void> putImagenPerfil(@Body File file);
 
     @PUT("usuario/{idUsuario}")
     Call<Void> putModificarUsuarioPerfil(@Path("idUsuario") int idUsuario, @Body Usuario usuario);
 
-    @PUT("usuario/{idInmueble}")
-    Call<Void> putModificarInmueblePerfil(@Path("idInmueble") int idInmueble, @Body Inmueble inmueble);
+    @PUT("inmueble/{idInmueble}")
+    Call<Void> putModificarInmueble(@Path("idInmueble") int idInmueble, @Body Inmueble inmueble);
 
-    @PUT("usuario/{idAnuncio}")
-    Call<Void> putModificarAnuncioPerfil(@Path("idAnuncio") int idAnuncio, @Body InfoAnuncio anuncio);
+    @PUT("anuncio/{idInmueble}/{tipoAnuncio}/{precio}")
+    Call<Void> putModificarAnuncio(@Path("idInmueble") int idInmueble, @Path("tipoAnuncio") String tipoAnuncio,@Path("precio")  Double precio);
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------
 
     @GET("valores")
     Call<ValoresPredeterminadosInmueble> getSpinnersRegistrarInmueble();
+
+    @GET("anuncio/criteriosBusqueda")
+    Call <List<InfoAnuncio>> getAnunciosAvanzados(@Body ValoresBusqueda valoresBusqueda);
 
     @GET("favorito/{idUsuario}")
     Call <List<Favorito>> getCompararFavorito(@Path("idUsuario") int idUsuario);
@@ -80,6 +82,6 @@ public interface ApiService {
     Call<Void> eliminarFavorito(@Path("idUsuario") int idUsuario, @Path("idInmueble") int idInmueble, @Path("tipo_anuncio") String tipo_anuncio);
 
     @DELETE("anuncio/{idInmueble}/{tipoAnuncio}")
-    Call<Void> eliminarAnuncio(@Path("idInmueble") int idInmueble, @Path("idUsuario") int idUsuario);
+    Call<Void> eliminarAnuncio(@Path("idInmueble") int idInmueble, @Path("tipoAnuncio") String tipoAnuncio);
 
 }

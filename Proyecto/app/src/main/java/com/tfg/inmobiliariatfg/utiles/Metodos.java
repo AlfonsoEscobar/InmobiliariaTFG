@@ -8,6 +8,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.provider.MediaStore;
+import android.view.View;
 
 import androidx.core.app.ActivityCompat;
 
@@ -22,12 +28,12 @@ import retrofit2.Response;
 
 public class Metodos {
 
-    public static String codificarPass(String Pass){
+    public static String codificarPass(String Pass) {
         MessageDigest md = null;
-        try{
+        try {
             md = MessageDigest.getInstance("SHA-256");
 
-        }catch (NoSuchAlgorithmException e){
+        } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
             return null;
         }
@@ -35,7 +41,7 @@ public class Metodos {
         byte[] hash = md.digest(Pass.getBytes());
         StringBuilder sb = new StringBuilder();
 
-        for(byte b : hash){
+        for (byte b : hash) {
             sb.append(String.format("%02x", b));
         }
         return sb.toString();
@@ -49,28 +55,6 @@ public class Metodos {
         progressDialog.show();
     }
 
-    public static boolean comprobarCredencialesBorrar(String correo, String pass){
-        final boolean[] comprobacion = {false};
-        Call<Usuario> call = ApiAdapter.getApiService().getUsuario(correo, pass);
-        call.enqueue(new Callback<Usuario>() {
-            @Override
-            public void onResponse(Call<Usuario> call, Response<Usuario> response) {
-                boolean respuesta = false;
-                if(response.isSuccessful()){
-                    respuesta = true;
-                }
-                comprobacion[0] = respuesta;
-            }
-
-            @Override
-            public void onFailure(Call<Usuario> call, Throwable t) {
-
-            }
-        });
-        return comprobacion[0];
-    }
-
-
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -79,7 +63,7 @@ public class Metodos {
 
     /**
      * Comprueba que la app tenga los permisos de escritura
-     *
+     * <p>
      * Si la app no tiene permisos se los pedira al usuario dentro de la propia app
      *
      * @param activity
@@ -96,5 +80,24 @@ public class Metodos {
                     REQUEST_EXTERNAL_STORAGE
             );
         }
+    }
+
+    public static String getPath(Context context, Uri contentURI) {
+        String result;
+        Cursor cursor = context.getContentResolver().query(contentURI, null, null, null, null);
+        if (cursor == null) {
+            result = contentURI.getPath();
+        } else {
+            cursor.moveToFirst();
+            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            result = cursor.getString(idx);
+            cursor.close();
+        }
+        return result;
+    }
+
+    public static Bitmap bitmap(byte[] bImagen) {
+
+        return BitmapFactory.decodeByteArray(bImagen, 0, bImagen.length);
     }
 }

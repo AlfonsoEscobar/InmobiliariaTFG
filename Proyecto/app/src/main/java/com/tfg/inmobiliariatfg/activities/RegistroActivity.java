@@ -2,7 +2,9 @@ package com.tfg.inmobiliariatfg.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -25,8 +27,7 @@ public class RegistroActivity extends AppCompatActivity {
     private EditText etCorreoRegistro, etNomRegistro, etTelRegistro,
             etTelOpRegistro, etPassRegistro, etPass2Registro;
     private Button btnConfirmarRegistro;
-
-    Usuario usuario;
+    private Usuario usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +61,7 @@ public class RegistroActivity extends AppCompatActivity {
                         usuario.setId_usuario(0);
                         usuario.setImagen_perfil(null);
 
-                        Call<Void> usuarioCall = ApiAdapter.getApiService().createUsuario(usuario);
+                        Call<Void> usuarioCall = ApiAdapter.getApiService(getPref()).createUsuario(usuario);
                         usuarioCall.enqueue(new Callback<Void>() {
                             @Override
                             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -86,5 +87,13 @@ public class RegistroActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public String getPref() {
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        String defaultValue = getResources().getString(R.string.baseURL);
+        String baseURL = sharedPref.getString(getString(R.string.baseURL), defaultValue);
+
+        return baseURL;
     }
 }

@@ -12,7 +12,6 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import es.dao.DAOException;
 import es.dao.util.Conversor;
 import es.modelos.Fotografia;
 

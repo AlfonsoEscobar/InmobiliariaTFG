@@ -19,6 +19,8 @@
         android:fontFamily="@font/source_sans_pro"
         android:hint="@string/CorreoLogin"
         android:inputType="textPersonName"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,6 +39,8 @@
         android:fontFamily="@font/source_sans_pro"
         android:hint="@string/passLogin"
         android:inputType="textPassword"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etCorreoLogin" />

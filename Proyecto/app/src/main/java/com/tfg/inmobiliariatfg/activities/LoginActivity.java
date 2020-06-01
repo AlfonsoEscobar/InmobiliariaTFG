@@ -3,7 +3,9 @@ package com.tfg.inmobiliariatfg.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -53,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
                 String PassHash = Metodos.codificarPass(etPassLogin.getText().toString());
                 String Correo = etCorreoLogin.getText().toString();
 
-                Call<Usuario> call = ApiAdapter.getApiService().getUsuario(Correo, PassHash);
+                Call<Usuario> call = ApiAdapter.getApiService(getPref()).getUsuario(Correo, PassHash);
                 call.enqueue(new Callback<Usuario>() {
                     @Override
                     public void onResponse(Call<Usuario> call, Response<Usuario> response) {
@@ -80,5 +82,13 @@ public class LoginActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    public String getPref() {
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        String defaultValue = getResources().getString(R.string.baseURL);
+        String baseURL = sharedPref.getString(getString(R.string.baseURL), defaultValue);
+
+        return baseURL;
     }
 }
