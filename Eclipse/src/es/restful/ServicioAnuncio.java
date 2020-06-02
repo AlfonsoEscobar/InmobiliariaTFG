@@ -102,7 +102,7 @@ public class ServicioAnuncio {
 			return Response.status(respuesta).build();
 	}
 
-	@GET
+	@PUT
 	@Path("/criteriosBusqueda")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAnuncioCriterios(@Context UriInfo uriInfo, ValoresBusqueda valores) {
