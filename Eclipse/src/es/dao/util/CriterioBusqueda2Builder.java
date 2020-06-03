@@ -73,7 +73,6 @@ public class CriterioBusqueda2Builder {
 		return this;
 	}
 
-
 	public CriterioBusqueda2Builder conNum_habitaciones(int num_habitaciones) {
 		sentencia = sentencia + " and i.num_habitaciones = " + num_habitaciones;
 		return this;
@@ -83,7 +82,6 @@ public class CriterioBusqueda2Builder {
 		sentencia = sentencia + " and i.num_habitaciones > " + (min_num_habitaciones - 1);
 		return this;
 	}
-	
 
 	public CriterioBusqueda2Builder conNum_banos(int num_banos) {
 		sentencia = sentencia + " and i.num_banos = " + num_banos;
@@ -177,7 +175,7 @@ public class CriterioBusqueda2Builder {
 		char c;
 		for(int i = 0; i < cadena.length(); i ++) {
 			c = cadena.charAt(i);
-			if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == ' ')) {
+			if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c == ' '))) {
 				valida = false;
 			}
 		}
