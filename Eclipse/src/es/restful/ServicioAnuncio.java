@@ -211,9 +211,9 @@ public class ServicioAnuncio {
 		.conMascotas(valores.isMascotas())
 		.conTrastero(valores.isTrastero())
 		.conUltima_planta(valores.isUltima_planta())
-		.conPrecio(valores.getMin_precio(), valores.getMax_precio())
-		.conFecha_anuncio((Date) valores.getFecha_anunciado())
-		.conFecha_ultima_actualizacion((Date) valores.getFecha_ultima_actualizacion()).build();
+		.conPrecio(valores.getMin_precio(), valores.getMax_precio()).build();
+		//.conFecha_anuncio((Date) valores.getFecha_anunciado())
+		//.conFecha_ultima_actualizacion((Date) valores.getFecha_ultima_actualizacion())
 		
 		String sentenciaSQL = criterio.obtenerCriterioSQL();
 
