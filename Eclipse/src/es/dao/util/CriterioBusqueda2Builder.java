@@ -64,7 +64,7 @@ public class CriterioBusqueda2Builder {
 	}
 
 	public CriterioBusqueda2Builder conPiso(int piso) {
-		sentencia = sentencia + " and i.piso = '" + piso + "'";
+		sentencia = sentencia + " and i.piso = " + piso;
 		return this;
 	}
 	
