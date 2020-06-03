@@ -114,7 +114,7 @@ public class ServicioAnuncio {
 		
 		CriterioBusqueda2Builder builder = new CriterioBusqueda2Builder();
 		
-		if(!((valores.getLocalidad()) == "")) {
+		/*if(!((valores.getLocalidad()) == "")) {
 			builder.conLocalidad(valores.getLocalidad());
 		}
 		
@@ -193,8 +193,28 @@ public class ServicioAnuncio {
 			builder.conFecha_ultima_actualizacion((Date) valores.getFecha_ultima_actualizacion());
 		}
 		
-		
-		criterio = builder.build();
+		criterio = builder.build();*/
+		criterio = builder.conLocalidad(valores.getLocalidad())
+		.conTipo_Anuncio(valores.getTipo_anuncio())
+		.conCalle(valores.getCalle())
+		.conPiso(valores.getPiso())
+		.conNum_banos(valores.getNum_banos())
+		.conMin_num_banos(valores.getMin_num_banos())
+		.conNum_habitaciones(valores.getNum_habitaciones())
+		.conMin_num_habitaciones(valores.getMin_num_habitaciones())
+		.conMetros2(valores.getMin_metros2(), valores.getMax_metros2())
+		.conTipo_edificacion(valores.getTipo_edificacion())
+		.conTipo_obra(valores.getTipo_obra())
+		.conEquipamiento(valores.getEquipamiento())
+		.conExteriores(valores.getExteriores())
+		.conAscensor(valores.isAscensor())
+		.conGaraje(valores.isGaraje())
+		.conMascotas(valores.isMascotas())
+		.conTrastero(valores.isTrastero())
+		.conUltima_planta(valores.isUltima_planta())
+		.conPrecio(valores.getMin_precio(), valores.getMax_precio())
+		.conFecha_anuncio((Date) valores.getFecha_anunciado())
+		.conFecha_ultima_actualizacion((Date) valores.getFecha_ultima_actualizacion()).build();
 		
 		String sentenciaSQL = criterio.obtenerCriterioSQL();
 

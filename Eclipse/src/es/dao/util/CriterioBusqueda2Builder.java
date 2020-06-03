@@ -64,52 +64,68 @@ public class CriterioBusqueda2Builder {
 	}
 
 	public CriterioBusqueda2Builder conPiso(int piso) {
-		sentencia = sentencia + " and i.piso = " + piso;
+		if(piso !=0)
+			sentencia = sentencia + " and i.piso = " + piso;
+
 		return this;
 	}
 	
 	public CriterioBusqueda2Builder conMetros2(double min_metros2, double max_metros2) {
-		sentencia = sentencia + " and i.metros2 between " + min_metros2 + " and " + max_metros2;
+		if(max_metros2 > min_metros2) {
+			if(min_metros2 >= 0 && max_metros2 != 0)
+				sentencia = sentencia + " and i.metros2 between " + min_metros2 + " and " + max_metros2;
+			else if(min_metros2 >= 0 && max_metros2 == 0)
+				sentencia = sentencia + " and i.metros2 between " + min_metros2 + " and " + 9999;
+		}
+			
 		return this;
 	}
 
 	public CriterioBusqueda2Builder conNum_habitaciones(int num_habitaciones) {
-		sentencia = sentencia + " and i.num_habitaciones = " + num_habitaciones;
+		if(num_habitaciones !=0)
+			sentencia = sentencia + " and i.num_habitaciones = " + num_habitaciones;
 		return this;
 	}
 
 	public CriterioBusqueda2Builder conMin_num_habitaciones(int min_num_habitaciones) {
-		sentencia = sentencia + " and i.num_habitaciones > " + (min_num_habitaciones - 1);
+		if(min_num_habitaciones !=0)
+			sentencia = sentencia + " and i.num_habitaciones > " + (min_num_habitaciones - 1);
 		return this;
 	}
 
 	public CriterioBusqueda2Builder conNum_banos(int num_banos) {
-		sentencia = sentencia + " and i.num_banos = " + num_banos;
+		if(num_banos !=0)	
+			sentencia = sentencia + " and i.num_banos = " + num_banos;
 		return this;
 	}
 
 	public CriterioBusqueda2Builder conMin_num_banos(int min_num_banos) {
-		sentencia = sentencia + " and i.num_banos > " + (min_num_banos - 1);
+		if(min_num_banos !=0)
+			sentencia = sentencia + " and i.num_banos > " + (min_num_banos - 1);
 		return this;
 	}
 
 	public CriterioBusqueda2Builder conTipo_edificacion(String tipo_edificacion) {
-		sentencia = sentencia + " and i.tipo_edificacion = '" + tipo_edificacion + "'";
+		if(comprobarCadena(tipo_edificacion) == true)
+			sentencia = sentencia + " and i.tipo_edificacion = '" + tipo_edificacion + "'";
 		return this;
 	}
 
 	public CriterioBusqueda2Builder conTipo_obra(String tipo_obra) {
-		sentencia = sentencia + " and i.tipo_obra = '" + tipo_obra + "'";
+		if(comprobarCadena(tipo_obra) == true)
+			sentencia = sentencia + " and i.tipo_obra = '" + tipo_obra + "'";
 		return this;
 	}
 
 	public CriterioBusqueda2Builder conEquipamiento(String equipamiento) {
-		sentencia = sentencia + " and i.equipamiento = '" + equipamiento + "'";
+		if(comprobarCadena(equipamiento) == true)
+			sentencia = sentencia + " and i.equipamiento = '" + equipamiento + "'";
 		return this;
 	}
 
 	public CriterioBusqueda2Builder conExteriores(String exteriores) {
-		sentencia = sentencia + " and i.exteriores = '" + exteriores + "'";
+		if(comprobarCadena(exteriores) == true)
+			sentencia = sentencia + " and i.exteriores = '" + exteriores + "'";
 		return this;
 	}
 
@@ -139,17 +155,25 @@ public class CriterioBusqueda2Builder {
 	}
 
 	public CriterioBusqueda2Builder conPrecio (double min_precio, double max_precio) {
-		sentencia = sentencia + " and a.precio between " + min_precio + " and " + max_precio;
+		if(min_precio < max_precio) {
+			if(min_precio >=0 && max_precio !=0)
+				sentencia = sentencia + " and a.precio between " + min_precio + " and " + max_precio;
+			else if(min_precio >=0 && max_precio == 0)
+				sentencia = sentencia + " and a.precio between " + min_precio + " and " + 999999;
+		}
+			
 		return this;
 	}
 
 	public CriterioBusqueda2Builder conFecha_anuncio(Date fecha_anuncio) {
-		sentencia = sentencia + " and a.fecha_anuncio = '" + fecha_anuncio + "'";
+		if(fecha_anuncio != null)
+			sentencia = sentencia + " and a.fecha_anunciado = '" + fecha_anuncio + "'";
 		return this;
 	}
 
 	public CriterioBusqueda2Builder conFecha_ultima_actualizacion(Date fecha_ultima_actualizacion) {
-		sentencia = sentencia + " and a.fecha_ultima_actualizacion = '" + fecha_ultima_actualizacion + "'";
+		if(fecha_ultima_actualizacion != null)
+			sentencia = sentencia + " and a.fecha_ultima_actualizacion = '" + fecha_ultima_actualizacion + "'";
 		return this;
 	}
 	
