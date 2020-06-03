@@ -105,7 +105,7 @@ public class ServicioAnuncio {
 	@PUT
 	@Path("/criteriosBusqueda")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAnuncioCriterios(@Context UriInfo uriInfo, ValoresBusqueda valores) {
+	public Response getAnuncioCriterios(ValoresBusqueda valores) {
 
 		claseAnuncio = new MySQLAnuncioDAO(dataSource);
 		Response.Status respuesta = Response.Status.OK;
@@ -184,6 +184,7 @@ public class ServicioAnuncio {
 			builder.conPrecio(valores.getMin_precio(), 999999);
 		}
 		
+		/*
 		if(valores.getFecha_anunciado() != null) {
 			builder.conFecha_anuncio((Date) valores.getFecha_anunciado());
 		}
@@ -191,6 +192,7 @@ public class ServicioAnuncio {
 		if(valores.getFecha_ultima_actualizacion() != null) {
 			builder.conFecha_ultima_actualizacion((Date) valores.getFecha_ultima_actualizacion());
 		}
+		*/
 		
 		criterio = builder.build();
 		
