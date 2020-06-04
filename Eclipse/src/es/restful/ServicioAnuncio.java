@@ -196,9 +196,11 @@ public class ServicioAnuncio {
 		criterio = builder.build();
 		*/
 		
-		criterio = builder.conLocalidad(valores.getLocalidad())
-						.conTipo_Anuncio(valores.getTipo_anuncio())
-						.conCalle(valores.getCalle())
+		/*.conLocalidad(valores.getLocalidad())
+		  .conTipo_Anuncio(valores.getTipo_anuncio())
+		*/
+		
+		criterio = builder.conCalle(valores.getCalle())
 						.conPiso(valores.getPiso())
 						.conNum_banos(valores.getNum_banos())
 						.conMin_num_banos(valores.getMin_num_banos())
@@ -215,8 +217,9 @@ public class ServicioAnuncio {
 						.conTrastero(valores.isTrastero())
 						.conUltima_planta(valores.isUltima_planta())
 						.conPrecio(valores.getMin_precio(), valores.getMax_precio())
-						.conFecha_anuncio((Date) valores.getFecha_anunciado())
-						.conFecha_ultima_actualizacion((Date) valores.getFecha_ultima_actualizacion()).build();
+						.build();
+						//.conFecha_anuncio((Date) valores.getFecha_anunciado())
+						//.conFecha_ultima_actualizacion((Date) valores.getFecha_ultima_actualizacion()).build();
 		
 		String sentenciaSQL = criterio.obtenerCriterioSQL();
 
