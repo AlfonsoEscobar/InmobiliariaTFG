@@ -200,7 +200,9 @@ public class ServicioAnuncio {
 		  .conTipo_Anuncio(valores.getTipo_anuncio())
 		*/
 		
-		criterio = builder.conCalle(valores.getCalle())
+		criterio = builder.conTipo_Anuncio(valores.getTipo_anuncio())
+						.conLocalidad(valores.getLocalidad())
+						.conCalle(valores.getCalle())
 						.conPiso(valores.getPiso())
 						.conNum_banos(valores.getNum_banos())
 						.conMin_num_banos(valores.getMin_num_banos())
