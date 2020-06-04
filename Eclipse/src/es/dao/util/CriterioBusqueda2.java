@@ -37,22 +37,11 @@ public class CriterioBusqueda2 {
 	
 	private String sentencia;
 	
-	public CriterioBusqueda2() {
-		
-	}
-	
 	public CriterioBusqueda2(CriterioBusqueda2Builder builder) {
 		this.sentencia = builder.getSentencia();
 		this.localidad = builder.getLocalidad();
 		this.tipo_anuncio = builder.getTipo_anuncio();
 	}
-	
-	/*public CriterioBusqueda2(String localidad, String tipo_anuncio) {
-
-		this.localidad = localidad;
-		this.tipo_anuncio = tipo_anuncio;
-
-	}*/
 	
 	public String obtenerCriterioSQL() {
 		String busqueda = "SELECT a.*, i.* FROM anuncio a inner join inmueble i on a.id_inmueble = i.id_inmueble"
