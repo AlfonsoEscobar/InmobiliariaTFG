@@ -110,9 +110,6 @@ public class ServicioAnuncio {
 		claseAnuncio = new MySQLAnuncioDAO(dataSource);
 		Response.Status respuesta = Response.Status.OK;
 		List<InfoAnuncio> listaAnuncio = null;
-		CriterioBusqueda2 criterio;
-		
-		CriterioBusqueda2Builder builder = new CriterioBusqueda2Builder();
 		
 		/*if(!((valores.getLocalidad()) == "")) {
 			builder.conLocalidad(valores.getLocalidad());
@@ -200,7 +197,8 @@ public class ServicioAnuncio {
 		  .conTipo_Anuncio(valores.getTipo_anuncio())
 		*/
 		
-		criterio = builder.conTipo_Anuncio(valores.getTipo_anuncio())
+		CriterioBusqueda2 criterio = new CriterioBusqueda2Builder()
+						.conTipo_Anuncio(valores.getTipo_anuncio())
 						.conLocalidad(valores.getLocalidad())
 						.conCalle(valores.getCalle())
 						.conPiso(valores.getPiso())

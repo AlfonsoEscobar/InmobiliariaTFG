@@ -121,14 +121,14 @@ insert into inmueble values("Madrid", "Fuenlabrada", "Falsa", 2, 4, "C", "unica"
 insert into inmueble values("Madrid", "Villaverde", "inventada", 15, 1, "B", "drch", 0, 3, "Este piso no esta mal", 85, 2, 1, "piso", "nuevo", "aire acondicionado", "terraza", 1, 1, 1, 0, 1);
 
 
-insert into anuncio values(1, "alquiler", 500, null, null);
-insert into anuncio values(2, "alquiler", 750, null, null);
-insert into anuncio values(3, "alquiler", 650, null, null);
-insert into anuncio values(3, "venta", 650, null, null);
+insert into anuncio values(1, "alquilar", 500, null, null);
+insert into anuncio values(2, "alquilar", 750, null, null);
+insert into anuncio values(3, "alquilar", 650, null, null);
+insert into anuncio values(3, "comprar", 650, null, null);
 
-insert into favorito values(1, 3, "venta");
-insert into favorito values(1, 3, "alquiler");
-insert into favorito values(2, 1, "alquiler");
+insert into favorito values(1, 3, "comprar");
+insert into favorito values(1, 3, "alquilar");
+insert into favorito values(2, 1, "alquilar");
 
 insert into tipo_edificacion values(0, "Piso");
 insert into tipo_edificacion values(0, "Chalet");
