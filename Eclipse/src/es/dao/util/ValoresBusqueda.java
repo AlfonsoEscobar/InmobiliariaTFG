@@ -22,11 +22,11 @@ public class ValoresBusqueda {
 	private String tipo_obra;
 	private String equipamiento;
 	private String exteriores;
-	private boolean garaje;
-	private boolean trastero;
-	private boolean ascensor;
-	private boolean ultima_planta;
-	private boolean mascotas;
+	private String garaje;
+	private String trastero;
+	private String ascensor;
+	private String ultima_planta;
+	private String mascotas;
 
 	private double min_precio;
 	private double max_precio;
@@ -40,8 +40,8 @@ public class ValoresBusqueda {
 
 	public ValoresBusqueda(String tipo_anuncio, String localidad, String calle, int piso, double min_metros2,
 			double max_metros2, int num_habitaciones, int min_num_habitaciones, int num_banos, int min_num_banos,
-			String tipo_edificacion, String tipo_obra, String equipamiento, String exteriores, boolean garaje,
-			boolean trastero, boolean ascensor, boolean ultima_planta, boolean mascotas, double min_precio,
+			String tipo_edificacion, String tipo_obra, String equipamiento, String exteriores, String garaje,
+			String trastero, String ascensor, String ultima_planta, String mascotas, double min_precio,
 			double max_precio, Date fecha_anunciado, Date fecha_ultima_actualizacion) {
 		super();
 		this.tipo_anuncio = tipo_anuncio;
@@ -181,43 +181,43 @@ public class ValoresBusqueda {
 		this.exteriores = exteriores;
 	}
 
-	public boolean isGaraje() {
+	public String getGaraje() {
 		return garaje;
 	}
 
-	public void setGaraje(boolean garaje) {
+	public void setGaraje(String garaje) {
 		this.garaje = garaje;
 	}
 
-	public boolean isTrastero() {
+	public String getTrastero() {
 		return trastero;
 	}
 
-	public void setTrastero(boolean trastero) {
+	public void setTrastero(String trastero) {
 		this.trastero = trastero;
 	}
 
-	public boolean isAscensor() {
+	public String getAscensor() {
 		return ascensor;
 	}
 
-	public void setAscensor(boolean ascensor) {
+	public void setAscensor(String ascensor) {
 		this.ascensor = ascensor;
 	}
 
-	public boolean isUltima_planta() {
+	public String getUltima_planta() {
 		return ultima_planta;
 	}
 
-	public void setUltima_planta(boolean ultima_planta) {
+	public void setUltima_planta(String ultima_planta) {
 		this.ultima_planta = ultima_planta;
 	}
 
-	public boolean isMascotas() {
+	public String getMascotas() {
 		return mascotas;
 	}
 
-	public void setMascotas(boolean mascotas) {
+	public void setMascotas(String mascotas) {
 		this.mascotas = mascotas;
 	}
 

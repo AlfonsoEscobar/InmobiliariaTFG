@@ -169,11 +169,11 @@ public class ServicioAnuncio {
 			builder.conExteriores(valores.getExteriores());
 		}
 		
-		builder.conAscensor(valores.isAscensor())
-		.conGaraje(valores.isGaraje())
-		.conMascotas(valores.isMascotas())
-		.conTrastero(valores.isTrastero())
-		.conUltima_planta(valores.isUltima_planta());
+		builder.conAscensor(valores.getAscensor())
+		.conGaraje(valores.getGaraje())
+		.conMascotas(valores.getMascotas())
+		.conTrastero(valores.getTrastero())
+		.conUltima_planta(valores.getUltima_planta());
 		
 		if(((valores.getMin_precio()) >= 0 && valores.getMax_precio() != 0)) {
 			builder.conPrecio(valores.getMin_precio(), valores.getMax_precio());

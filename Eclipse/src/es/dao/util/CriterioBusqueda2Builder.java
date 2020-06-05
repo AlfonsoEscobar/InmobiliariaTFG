@@ -119,27 +119,27 @@ public class CriterioBusqueda2Builder {
 		return this;
 	}
 
-	public CriterioBusqueda2Builder conGaraje(boolean garaje) {
+	public CriterioBusqueda2Builder conGaraje(String garaje) {
 		sentencia = sentencia + " and i.garaje = " + garaje;
 		return this;
 	}
 
-	public CriterioBusqueda2Builder conTrastero(boolean trastero) {
+	public CriterioBusqueda2Builder conTrastero(String trastero) {
 		sentencia = sentencia + " and i.trastero = " + trastero;
 		return this;
 	}
 
-	public CriterioBusqueda2Builder conAscensor(boolean ascensor) {
+	public CriterioBusqueda2Builder conAscensor(String ascensor) {
 		sentencia = sentencia + " and i.ascensor = " + ascensor;
 		return this;
 	}
 
-	public CriterioBusqueda2Builder conUltima_planta(boolean ultima_planta) {
+	public CriterioBusqueda2Builder conUltima_planta(String ultima_planta) {
 		sentencia = sentencia + " and i.ultima_planta = " + ultima_planta;
 		return this;
 	}
 
-	public CriterioBusqueda2Builder conMascotas(boolean mascotas) {
+	public CriterioBusqueda2Builder conMascotas(String mascotas) {
 		sentencia = sentencia + " and i.mascotas = " + mascotas;
 		return this;
 	}
