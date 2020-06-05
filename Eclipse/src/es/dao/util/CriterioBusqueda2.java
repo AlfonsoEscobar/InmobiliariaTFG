@@ -44,9 +44,10 @@ public class CriterioBusqueda2 {
 	}
 	
 	public String obtenerCriterioSQL() {
-		String busqueda = "SELECT a.*, i.* FROM anuncio a inner join inmueble i on a.id_inmueble = i.id_inmueble"
-				+ " WHERE a.tipo_anuncio = '" + this.tipo_anuncio 
-				+ "' and i.localidad = '" + this.localidad + "'";
+		String busqueda = "SELECT a.*, i.*, u.* FROM anuncio a inner join inmueble i " + 
+				"on a.id_inmueble = i.id_inmueble inner join usuario u on i.propietario = u.id_usuario " +
+				"WHERE a.tipo_anuncio = '" + this.tipo_anuncio + 
+				"' and i.localidad = '" + this.localidad + "'";
 		return busqueda + this.sentencia;
 	}
 	
