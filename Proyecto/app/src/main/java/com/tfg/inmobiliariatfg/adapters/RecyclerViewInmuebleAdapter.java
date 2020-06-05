@@ -1,12 +1,12 @@
 package com.tfg.inmobiliariatfg.adapters;
 
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -53,7 +53,7 @@ public class RecyclerViewInmuebleAdapter extends RecyclerView.Adapter<RecyclerVi
         public ViewHolder(View itemView) {
             super(itemView);
             svMisInmuebles = itemView.findViewById(R.id.svMisInmuebles);
-            recyclerView = itemView.findViewById(R.id.recyclerImagenesMisInmuebles);
+            recyclerView = itemView.findViewById(R.id.recyclerViewImagenesAnuncio);
             tvProvinciaMisInmuebles = itemView.findViewById(R.id.tvProvinciaMisInmuebles);
             tvLocalidadMisInmuebles = itemView.findViewById(R.id.tvLocalidadMisInmuebles);
             tvDireccionMisInmuebles = itemView.findViewById(R.id.tvDireccionMisInmuebles);

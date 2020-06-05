@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark">
+
+    <Button
+        android:id="@+id/btnConfirmarFiltros"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/ic_button"
+        android:fontFamily="@font/source_sans_pro"
+        android:onClick="onClickFiltros"
+        android:text="@string/btnConfirmarFiltro"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="643dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintTop_toBottomOf="@+id/btnConfirmarFiltros">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/design_default_color_background"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textTituloFiltros"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:fontFamily="@font/source_sans_pro"
+                android:gravity="center"
+                android:text="@string/textTiltFiltros"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textLocalidadFiltros"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/source_sans_pro"
+                android:text="@string/localidadFiltros"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/etLocalidadFiltros"
+                android:layout_width="290dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/ic_plaintext"
+                android:backgroundTint="@color/colorAccent"
+                android:ems="10"
+                android:fontFamily="@font/source_sans_pro"
+                android:hint="@string/introduceEtFiltros"
+                android:inputType="textPersonName"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp" />
+
+            <TextView
+                android:id="@+id/textCalleFiltros"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/source_sans_pro"
+                android:text="@string/calleFiltros"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/etCalleFiltros"
+                android:layout_width="290dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/ic_plaintext"
+                android:backgroundTint="@color/colorAccent"
+                android:ems="10"
+                android:fontFamily="@font/source_sans_pro"
+                android:hint="@string/introduceEtFiltros"
+                android:inputType="textPersonName"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp" />
+
+            <TextView
+                android:id="@+id/textPisoFiltros"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/source_sans_pro"
+                android:text="@string/pisoFiltros"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/etPisoFiltros"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/ic_plaintext"
+                android:backgroundTint="@color/colorAccent"
+                android:ems="10"
+                android:fontFamily="@font/source_sans_pro"
+                android:hint="@string/introduceEtFiltros"
+                android:inputType="number"
+                android:maxLength="999"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp" />
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rbComprarFiltros"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/cbComprarFiltros" />
+
+                <RadioButton
+                    android:id="@+id/rbAlquilarFiltros"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/cbAlquilarFiltros" />
+            </RadioGroup>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp">
+
+                <TextView
+                    android:id="@+id/textMinMetrosFiltros"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/MinMetrosFiltros"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/etMinMetrosFiltros"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/ic_plaintext"
+                    android:backgroundTint="@color/colorAccent"
+                    android:ems="10"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:hint="@string/introduceEtFiltros"
+                    android:inputType="numberDecimal"
+                    android:maxLength="99"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textMinMetrosFiltros" />
+
+                <TextView
+                    android:id="@+id/textMaxMetrosFiltros"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="90dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/MaxMetrosFiltros"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/etMaxMetrosFiltros"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="80dp"
+                    android:background="@drawable/ic_plaintext"
+                    android:backgroundTint="@color/colorAccent"
+                    android:ems="10"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:hint="@string/introduceEtFiltros"
+                    android:inputType="numberDecimal"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textMaxMetrosFiltros" />
+
+                <TextView
+                    android:id="@+id/textMinHabFiltros"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/numHabFiltros"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etMinMetrosFiltros" />
+
+                <EditText
+                    android:id="@+id/etNumHabFiltros"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/ic_plaintext"
+                    android:backgroundTint="@color/colorAccent"
+                    android:ems="10"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:hint="@string/introduceEtFiltros"
+                    android:inputType="numberDecimal"
+                    android:maxLength="99"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textMinHabFiltros" />
+
+                <TextView
+                    android:id="@+id/textMaxHabFiltros"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="120dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/minHabFiltros"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etMinMetrosFiltros" />
+
+                <EditText
+                    android:id="@+id/etMinHabFiltros"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="80dp"
+                    android:background="@drawable/ic_plaintext"
+                    android:backgroundTint="@color/colorAccent"
+                    android:ems="10"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:hint="@string/introduceEtFiltros"
+                    android:inputType="numberDecimal"
+                    android:maxLength="99"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textMaxHabFiltros" />
+
+                <TextView
+                    android:id="@+id/textMinBanosFiltros"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/numBanosFiltros"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etNumHabFiltros" />
+
+                <EditText
+                    android:id="@+id/etNumBanosFiltros"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/ic_plaintext"
+                    android:backgroundTint="@color/colorAccent"
+                    android:ems="10"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:hint="@string/introduceEtFiltros"
+                    android:inputType="numberDecimal"
+                    android:maxLength="99"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textMinBanosFiltros" />
+
+                <TextView
+                    android:id="@+id/textMaxBanosFiltros"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="105dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/minBanosFiltros"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etMinHabFiltros" />
+
+                <EditText
+                    android:id="@+id/etMinBanosFiltros"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="80dp"
+                    android:background="@drawable/ic_plaintext"
+                    android:backgroundTint="@color/colorAccent"
+                    android:ems="10"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:hint="@string/introduceEtFiltros"
+                    android:inputType="numberDecimal"
+                    android:maxLength="99"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textMaxBanosFiltros" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/textTipoEdificacionFiltros"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/source_sans_pro"
+                android:text="@string/tipoEdificacionFiltros"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/sTipoEdificacionFiltros"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" />
+
+            <TextView
+                android:id="@+id/textTipoObraFiltros"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/source_sans_pro"
+                android:text="@string/tipoObraFiltros"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/sTipoObraFiltros"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" />
+
+            <TextView
+                android:id="@+id/textExterioresFiltros"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/source_sans_pro"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:text="@string/exterioresFiltros" />
+
+            <Spinner
+                android:id="@+id/sExterioresFiltros"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/textMinPrecioFiltros"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/MinPrecioFiltros"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/etMinPrecioFiltros"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/ic_plaintext"
+                    android:backgroundTint="@color/colorAccent"
+                    android:ems="10"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:hint="@string/introduceEtFiltros"
+                    android:inputType="number"
+                    android:maxLength="999"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textMinPrecioFiltros" />
+
+                <TextView
+                    android:id="@+id/textMaxPrecioFiltros"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="97dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/MaxPrecioFiltros"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@+id/textMinPrecioFiltros"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/etMaxPrecioFiltros"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="107dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/ic_plaintext"
+                    android:backgroundTint="@color/colorAccent"
+                    android:ems="10"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:hint="@string/introduceEtFiltros"
+                    android:inputType="number"
+                    android:maxLength="999"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    app:layout_constraintStart_toEndOf="@+id/etMinPrecioFiltros"
+                    app:layout_constraintTop_toBottomOf="@+id/textMaxPrecioFiltros" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingBottom="30dp">
+
+                <TextView
+                    android:id="@+id/textCaracteristicasAdiFiltros"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/caracteristicasAdicionalesRegistrarInmueble"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <CheckBox
+                    android:id="@+id/cbGarajeFiltros"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/garajeRegistrarInmueble"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textCaracteristicasAdiFiltros" />
+
+                <CheckBox
+                    android:id="@+id/cbTrasteroFiltros"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/trasteroRegistrarInmueble"
+                    app:layout_constraintStart_toEndOf="@+id/cbGarajeFiltros"
+                    app:layout_constraintTop_toBottomOf="@+id/textCaracteristicasAdiFiltros" />
+
+                <CheckBox
+                    android:id="@+id/cbAscensorFiltros"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="43dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/ascensorRegistrarInmueble"
+                    app:layout_constraintStart_toEndOf="@+id/cbTrasteroFiltros"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <CheckBox
+                    android:id="@+id/cbUltPlantaFiltros"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="60dp"
+                    android:layout_marginTop="25dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/ultPlantaRegistrarInmueble"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cbGarajeFiltros" />
+
+                <CheckBox
+                    android:id="@+id/cbMascotasFiltros"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="60dp"
+                    android:layout_marginTop="25dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="@string/mascotasRegistrarInmueble"
+                    app:layout_constraintStart_toEndOf="@+id/cbUltPlantaFiltros"
+                    app:layout_constraintTop_toBottomOf="@+id/cbAscensorFiltros" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,7 @@
 package com.tfg.inmobiliariatfg.utiles;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.DataOutputStream;
 import java.io.FileInputStream;
@@ -14,6 +15,7 @@ public class HiloAuxiliarPutPerfilFoto extends AsyncTask<String, Void, Void> {
     protected Void doInBackground(String... urls) {
         String remoteUri = urls[0];
         String path = urls[1];
+        URL urlPut;
         try {
             FileInputStream fIS = new FileInputStream(path);
             int numeroDeBytesAEnviar = fIS.available();
@@ -21,9 +23,11 @@ public class HiloAuxiliarPutPerfilFoto extends AsyncTask<String, Void, Void> {
             fIS.read(bytesAEnviar, 0, bytesAEnviar.length);
             fIS.close();
 
-            URL urlPut = new URL(remoteUri);
-
+            urlPut = new URL(remoteUri);
             HttpURLConnection urlPutConnection = (HttpURLConnection) urlPut.openConnection();
+            
+            urlPutConnection.setConnectTimeout(10000);
+            urlPutConnection.setReadTimeout(10000);
             urlPutConnection.setDoOutput(true);
             urlPutConnection.setRequestMethod("PUT");
             urlPutConnection.setFixedLengthStreamingMode(bytesAEnviar.length);
@@ -38,6 +42,7 @@ public class HiloAuxiliarPutPerfilFoto extends AsyncTask<String, Void, Void> {
 
             urlPutConnection.disconnect();
         } catch (IOException IOe) {
+            Log.v("IOException", "" + IOe.getMessage());
         }
         return null;
     }

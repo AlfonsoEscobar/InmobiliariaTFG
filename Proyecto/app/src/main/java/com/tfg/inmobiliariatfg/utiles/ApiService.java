@@ -35,7 +35,7 @@ public interface ApiService {
     @GET("valores")
     Call<ValoresPredeterminadosInmueble> getSpinnersRegistrarInmueble();
 
-    @GET("anuncio/criteriosBusqueda")
+    @PUT("anuncio/criteriosBusqueda")
     Call <List<InfoAnuncio>> getAnunciosAvanzados(@Body ValoresBusqueda valoresBusqueda);
 
     @GET("favorito/{idUsuario}")
