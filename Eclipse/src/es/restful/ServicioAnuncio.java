@@ -113,15 +113,15 @@ public class ServicioAnuncio {
 		CriterioBusqueda2 criterio;
 		CriterioBusqueda2Builder builder = new CriterioBusqueda2Builder();
 		
-		if(!((valores.getLocalidad() == "") && (valores.getLocalidad().equals(null)))) {
+		if(valores.getLocalidad() != null) {
 			builder.conLocalidad(valores.getLocalidad());
 		}
 		
-		if(!((valores.getTipo_anuncio() == "") && (valores.getTipo_anuncio().equals(null)))) {
+		if(valores.getTipo_anuncio() != null) {
 			builder.conTipo_Anuncio(valores.getTipo_anuncio());
 		}
 		
-		if(!((valores.getCalle() == ""))) {
+		if(valores.getCalle() != null) {
 			builder.conCalle(valores.getCalle());
 		}
 		
@@ -153,19 +153,19 @@ public class ServicioAnuncio {
 			builder.conMetros2(valores.getMin_metros2(), 9999);
 		}
 		
-		if(!((valores.getTipo_edificacion() == "") && (valores.getTipo_edificacion().equals(null)))) {
+		if(valores.getTipo_edificacion() != null) {
 			builder.conTipo_edificacion(valores.getTipo_edificacion());
 		}
 		
-		if(!((valores.getTipo_obra() == "") && (valores.getTipo_obra().equals(null)))) {
+		if(valores.getTipo_obra() != null) {
 			builder.conTipo_obra(valores.getTipo_obra());
 		}
 		
-		if(!((valores.getEquipamiento() == "") && (valores.getEquipamiento().equals(null)))) {
+		if(valores.getEquipamiento() != null) {
 			builder.conEquipamiento(valores.getEquipamiento());
 		}
 		
-		if(!((valores.getExteriores() == "") && (valores.getExteriores().equals(null)))) {
+		if(valores.getExteriores() != null) {
 			builder.conExteriores(valores.getExteriores());
 		}
 		
