@@ -1,7 +1,11 @@
 package com.tfg.inmobiliariatfg.fragments;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +20,18 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.tfg.inmobiliariatfg.R;
 import com.tfg.inmobiliariatfg.activities.RecyclerViewBusquedaActivity;
 import com.tfg.inmobiliariatfg.modelos.Usuario;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import cz.msebera.android.httpclient.Header;
 
 public class BuscadorFragment extends Fragment {
 
@@ -29,6 +42,7 @@ public class BuscadorFragment extends Fragment {
     private ImageView ivBuscador;
     private RadioButton rbComprarBuscador, rbAlquilarBuscador;
     private Button btnBuscarBuscador;
+    private String remoteUri;
 
     @Nullable
     @Override
@@ -72,6 +86,55 @@ public class BuscadorFragment extends Fragment {
             usuario = (Usuario) datos.getSerializable("usuario");
             idUsuario = usuario.getId_usuario();
         }
+        int random = (int) (Math.random()*3+1);
+        remoteUri = getPref() +  "fotografia/portada/1";
+        cargarImagen(remoteUri);
+
         return cl;
+    }
+
+    public void cargarImagen(String remoteUri){
+        final File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "TFG/");
+        final String pathGuardar;
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        pathGuardar = dir.getAbsolutePath() + "/TFG";
+        Log.v("pathGuardar", "" + pathGuardar);
+
+        new AsyncHttpClient().get(remoteUri, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                String nombre = System.currentTimeMillis() / 100 + ".jpeg";
+                Uri uriPath = null;
+                FileOutputStream fOS;
+                try {
+                    fOS = new FileOutputStream(pathGuardar + nombre);
+                    fOS.write(responseBody, 0, responseBody.length);
+                    fOS.close();
+                    uriPath = Uri.parse(pathGuardar + nombre);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (uriPath != null) {
+                    ivBuscador.setImageURI(uriPath);
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+        });
+    }
+
+    public String getPref() {
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        String defaultValue = getResources().getString(R.string.baseURL);
+        String baseURL = sharedPref.getString(getString(R.string.baseURL), defaultValue);
+
+        return baseURL;
     }
 }

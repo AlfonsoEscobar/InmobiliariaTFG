@@ -2,6 +2,8 @@ package com.tfg.inmobiliariatfg.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -24,11 +26,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tfg.inmobiliariatfg.R;
+import com.tfg.inmobiliariatfg.adapters.ImagenesHorizontalAdapter;
+import com.tfg.inmobiliariatfg.adapters.RecyclerViewInmuebleAdapter;
+import com.tfg.inmobiliariatfg.fragments.FiltrosBusquedaFragment;
 import com.tfg.inmobiliariatfg.modelos.Favorito;
 import com.tfg.inmobiliariatfg.modelos.InfoAnuncio;
+import com.tfg.inmobiliariatfg.modelos.Inmueble;
 import com.tfg.inmobiliariatfg.utiles.ApiAdapter;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import pub.devrel.easypermissions.EasyPermissions;
@@ -42,6 +49,9 @@ public class AnuncioCompletoActivity extends AppCompatActivity {
     private List<Favorito> favoritosUsuario;
     private InfoAnuncio anuncio;
     private int idUsuario;
+
+    private RecyclerView recyclerViewImagenesAnuncio;
+    private ImagenesHorizontalAdapter imagenesHorizontalAdapter;
 
     private TextView tvProvinciaMisInmueblesAnuncioCompleto, tvLocalidadMisInmueblesAnuncioCompleto, tvDireccionMisInmueblesAnuncioCompleto, tvPisoMisInmueblesAnuncioCompleto, tvDescripcionMisInmueblesAnuncioCompleto,
             tvHabitacionesMisInmueblesAnuncioCompleto, tvBanosMisInmueblesAnuncioCompleto, tvMetrosMisInmueblesAnuncioCompleto, tvTObraMisInmueblesAnuncioCompleto, tvTEdificacionMisInmueblesAnuncioCompleto,
@@ -81,6 +91,9 @@ public class AnuncioCompletoActivity extends AppCompatActivity {
         btnFavoritoAnuncioCompleto = findViewById(R.id.btnFavoritoAnuncioCompleto);
         btnCopiarCorreoAnuncioCompleto = findViewById(R.id.btnCopiarCorreoAnuncioCompleto);
         btnDialogTelefonoAnuncioCompleto = findViewById(R.id.btnDialogTelefonoAnuncioCompleto);
+
+        recyclerViewImagenesAnuncio = findViewById(R.id.recyclerViewImagenesAnuncio);
+        recyclerViewImagenesAnuncio.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
 
         datosAnuncio = getIntent().getExtras();
         if (datosAnuncio != null) {
@@ -137,6 +150,8 @@ public class AnuncioCompletoActivity extends AppCompatActivity {
             }
             comprobarFavorito();
         }
+
+        setImagenes(anuncio);
     }
 
     public void botonFavorito(View view) {
@@ -232,7 +247,7 @@ public class AnuncioCompletoActivity extends AppCompatActivity {
                         btnFavoritoAnuncioCompleto.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, drawable, null);
                         favorito = true;
                         break;
-                    }else {
+                    } else {
                         Drawable drawable = getDrawable(R.drawable.ic_favorito_unchecked);
                         btnFavoritoAnuncioCompleto.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, drawable, null);
                     }
@@ -298,5 +313,22 @@ public class AnuncioCompletoActivity extends AppCompatActivity {
         String baseURL = sharedPref.getString(getString(R.string.baseURL), defaultValue);
 
         return baseURL;
+    }
+
+    private void setImagenes(InfoAnuncio anuncio) {
+
+        int idInmueble = anuncio.getInmueble().getId_inmueble();
+        ArrayList<Integer> listUriImages = new ArrayList<>();
+        //falta llamada a servidor donde cogera las fotos de este anuncio
+        // for del response
+        for (int j = 0; j <= 5; j++) {
+
+            listUriImages.add(R.drawable.ic_sin_imagen);
+        }
+        //salida del for
+        anuncio.getInmueble().setImagenesInmueble(listUriImages);
+
+        imagenesHorizontalAdapter = new ImagenesHorizontalAdapter(getApplicationContext(), listUriImages);
+        recyclerViewImagenesAnuncio.setAdapter(imagenesHorizontalAdapter);
     }
 }
