@@ -216,38 +216,6 @@ public class ServicioFotografia {
 		return Response.status(responseStatus).build();
 
 	}
-	/*
-	@RequestMap(value = "/usuario/{id_usuario}", method)
-	public Response putFicheroUs(@PathParam("id_usuario") int id_usuario,
-									  @QueryParam("file") File fichero) {
-
-		claseFotografia = new MySQLFotografiaDAO(dataSource);
-		Response.Status responseStatus = Response.Status.OK;
-		
-		//fichero.renameTo(new File("/home/alfonso/Imágenes/App/Usuarios/" + String.valueOf(id_usuario)));
-		
-		File nombreFoto = new File("/home/alfonso/Imágenes/App/Usuarios/" + String.valueOf(id_usuario));
-		
-		if(nombreFoto.exists()) {
-			if(nombreFoto.delete()) {
-				fichero.renameTo(new File("/home/alfonso/Imágenes/App/Usuarios/" + String.valueOf(id_usuario)));
-			}
-		} else {
-			fichero.renameTo(new File("/home/alfonso/Imágenes/App/Usuarios/" + String.valueOf(id_usuario)));
-		}
-
-		/*try {
-			
-			claseFotografia.insertar(foto);
-			
-		} catch (DAOException e) {
-			responseStatus = Response.Status.INTERNAL_SERVER_ERROR;
-		}
-
-		return Response.status(responseStatus).build();
-
-	}
-*/
 
 	@DELETE
 	@Path("/{id}")
