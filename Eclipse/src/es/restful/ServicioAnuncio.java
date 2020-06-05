@@ -121,7 +121,7 @@ public class ServicioAnuncio {
 			builder.conTipo_Anuncio(valores.getTipo_anuncio());
 		}
 		
-		if(valores.getCalle() != null) {
+		if(valores.getCalle() != null && !valores.getCalle().equals("")) {
 			builder.conCalle(valores.getCalle());
 		}
 		
