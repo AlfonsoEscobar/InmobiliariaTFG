@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.faces.annotation.RequestMap;
+import javax.faces.annotation.RequestParameterMap;
 import javax.inject.Inject;
 import javax.sql.DataSource;
 import javax.ws.rs.Consumes;
@@ -14,6 +16,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -161,6 +164,16 @@ public class ServicioFotografia {
 	}
 	
 	@GET
+	@Path("/portada/{id_imagen}")
+	@Produces("images/jpeg")
+	public Response getFicheroPortada(@PathParam("id_imagen") int id_imagen) {
+		
+		File fichero = new File("/home/alfonso/Imágenes/App/Portada/"+ String.valueOf(id_imagen));
+		return Response.ok(fichero).header("Content-Length", fichero.length()).build();
+		
+	}
+	
+	@GET
 	@Path("/usuario/{id_usuario}")
 	@Produces("images/jpeg")
 	public Response getFicheroUsuario(@PathParam("id_usuario") int id_usuario) {
@@ -175,7 +188,7 @@ public class ServicioFotografia {
 	@Path("/usuario/{id_usuario}")
 	@Consumes("images/jpeg")
 	public Response putFicheroUsuario(@PathParam("id_usuario") int id_usuario,
-									File fichero) {
+									  @QueryParam("file") File fichero) {
 
 		claseFotografia = new MySQLFotografiaDAO(dataSource);
 		Response.Status responseStatus = Response.Status.OK;
@@ -203,7 +216,38 @@ public class ServicioFotografia {
 		return Response.status(responseStatus).build();
 
 	}
+	/*
+	@RequestMap(value = "/usuario/{id_usuario}", method)
+	public Response putFicheroUs(@PathParam("id_usuario") int id_usuario,
+									  @QueryParam("file") File fichero) {
 
+		claseFotografia = new MySQLFotografiaDAO(dataSource);
+		Response.Status responseStatus = Response.Status.OK;
+		
+		//fichero.renameTo(new File("/home/alfonso/Imágenes/App/Usuarios/" + String.valueOf(id_usuario)));
+		
+		File nombreFoto = new File("/home/alfonso/Imágenes/App/Usuarios/" + String.valueOf(id_usuario));
+		
+		if(nombreFoto.exists()) {
+			if(nombreFoto.delete()) {
+				fichero.renameTo(new File("/home/alfonso/Imágenes/App/Usuarios/" + String.valueOf(id_usuario)));
+			}
+		} else {
+			fichero.renameTo(new File("/home/alfonso/Imágenes/App/Usuarios/" + String.valueOf(id_usuario)));
+		}
+
+		/*try {
+			
+			claseFotografia.insertar(foto);
+			
+		} catch (DAOException e) {
+			responseStatus = Response.Status.INTERNAL_SERVER_ERROR;
+		}
+
+		return Response.status(responseStatus).build();
+
+	}
+*/
 
 	@DELETE
 	@Path("/{id}")

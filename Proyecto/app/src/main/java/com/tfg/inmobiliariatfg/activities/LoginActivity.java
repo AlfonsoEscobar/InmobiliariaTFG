@@ -6,25 +6,40 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.tfg.inmobiliariatfg.R;
 import com.tfg.inmobiliariatfg.modelos.Usuario;
 import com.tfg.inmobiliariatfg.utiles.ApiAdapter;
 import com.tfg.inmobiliariatfg.utiles.Metodos;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Random;
+
+import cz.msebera.android.httpclient.Header;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
     private static ProgressDialog progressDialog;
-    EditText etCorreoLogin, etPassLogin;
-    Button btnRegistrar, btnLogin;
+    private EditText etCorreoLogin, etPassLogin;
+    private Button btnRegistrar, btnLogin;
+    private ImageView ivLogin;
+    private String remoteUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
 
         etCorreoLogin = findViewById(R.id.etCorreoLogin);
         etPassLogin = findViewById(R.id.etPassLogin);
+        ivLogin = findViewById(R.id.ivLogin);
         btnRegistrar = findViewById(R.id.btnRegistrar);
         btnLogin = findViewById(R.id.btnLogin);
 
@@ -80,6 +96,46 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "La conexion con la API no se esta realizando", Toast.LENGTH_LONG).show();
                     }
                 });
+            }
+        });
+        int random = (int) (Math.random()*3+1);
+        remoteUri = getPref() +  "fotografia/portada/1";
+        cargarImagen(remoteUri);
+    }
+
+    public void cargarImagen(String remoteUri){
+        final File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "TFG/");
+        final String pathGuardar;
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        pathGuardar = dir.getAbsolutePath() + "/TFG";
+        Log.v("pathGuardar", "" + pathGuardar);
+
+        new AsyncHttpClient().get(remoteUri, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                String nombre = System.currentTimeMillis() / 100 + ".jpeg";
+                Uri uriPath = null;
+                FileOutputStream fOS;
+                try {
+                    fOS = new FileOutputStream(pathGuardar + nombre);
+                    fOS.write(responseBody, 0, responseBody.length);
+                    fOS.close();
+                    uriPath = Uri.parse(pathGuardar + nombre);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (uriPath != null) {
+                    ivLogin.setImageURI(uriPath);
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
             }
         });
     }

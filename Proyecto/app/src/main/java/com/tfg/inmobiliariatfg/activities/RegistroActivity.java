@@ -2,6 +2,7 @@ package com.tfg.inmobiliariatfg.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,6 +25,7 @@ import retrofit2.Response;
 
 public class RegistroActivity extends AppCompatActivity {
 
+    private static ProgressDialog progressDialog;
     private EditText etCorreoRegistro, etNomRegistro, etTelRegistro,
             etTelOpRegistro, etPassRegistro, etPass2Registro;
     private Button btnConfirmarRegistro;
@@ -61,6 +63,10 @@ public class RegistroActivity extends AppCompatActivity {
                         usuario.setId_usuario(0);
                         usuario.setImagen_perfil(null);
 
+                        progressDialog = new ProgressDialog(v.getContext());
+                        progressDialog.setMessage("Autentificando credenciales...");
+                        Metodos.mostrarDialogo(progressDialog);
+
                         Call<Void> usuarioCall = ApiAdapter.getApiService(getPref()).createUsuario(usuario);
                         usuarioCall.enqueue(new Callback<Void>() {
                             @Override
@@ -69,14 +75,17 @@ public class RegistroActivity extends AppCompatActivity {
                                     Toast.makeText(getApplicationContext(), "El usuario ha sido registrado correctamente", Toast.LENGTH_LONG).show();
                                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                                     startActivity(intent);
+                                    progressDialog.dismiss();
                                 } else {
                                     Toast.makeText(getApplicationContext(), "La peticion no es correcta", Toast.LENGTH_LONG).show();
+                                    progressDialog.dismiss();
                                 }
                             }
 
                             @Override
                             public void onFailure(Call<Void> call, Throwable t) {
                                 Toast.makeText(getApplicationContext(), "Fallo en la conexion", Toast.LENGTH_LONG).show();
+                                progressDialog.dismiss();
                             }
                         });
                     } else {

@@ -45,7 +45,7 @@
     <string name="introduceRegistro">Introduce:</string>
     <string name="asterisco">*</string>
     <!-- String URL -->
-    <string name="baseURL">https://165b29b2e1ce.ngrok.io/Restful_Inmo/servicios/</string>
+    <string name="baseURL">https://C98B54797357.ngrok.io/Restful_Inmo/servicios/</string>
     <!-- Strings de item_list_inmueble-->
     <string name="datosUbicacion">Datos de Ubicación</string>
     <string name="caracteristicasInmueble">Caracteristicas de inmueble</string>
@@ -120,4 +120,27 @@
     <!-- String de fragment_mis_anuncios -->
     <string name="btnCrearAnuncio">Crear Anuncio</string>
     <string name="titCrearAnuncio">Crear anuncio</string>
+    <!-- String de recyclerView_busqueda -->
+    <string name="btnRecyclerAnuncios">Anuncios</string>
+    <string name="btnRecyclerFiltros">Filtros</string>
+    <!-- String de fragment_filtros_busqueda -->
+    <string name="textTiltFiltros">Filtros de busqueda</string>
+    <string name="localidadFiltros">Localidad</string>
+    <string name="calleFiltros">Calle</string>
+    <string name="pisoFiltros">Piso</string>
+    <string name="MinMetrosFiltros">Min Metros²</string>
+    <string name="MaxMetrosFiltros">Max Metros²</string>
+    <string name="numHabFiltros">num Hab</string>
+    <string name="minHabFiltros">Min Hab</string>
+    <string name="cbComprarFiltros">Comprar</string>
+    <string name="cbAlquilarFiltros">Alquilar</string>
+    <string name="numBanosFiltros">Num Baños</string>
+    <string name="minBanosFiltros">Min Baños</string>
+    <string name="tipoEdificacionFiltros">Tipo Edificación</string>
+    <string name="tipoObraFiltros">Tipo Obra</string>
+    <string name="exterioresFiltros">Exteriores</string>
+    <string name="MinPrecioFiltros">Precio minimo</string>
+    <string name="MaxPrecioFiltros">Precio maximo</string>
+    <string name="introduceEtFiltros">Introduce: </string>
+    <string name="btnConfirmarFiltro">Anuncios</string>
 </resources>
