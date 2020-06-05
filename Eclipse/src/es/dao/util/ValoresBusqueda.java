@@ -35,6 +35,39 @@ public class ValoresBusqueda {
 	private Date fecha_ultima_actualizacion;
 	
 	public ValoresBusqueda() {}
+	
+	
+
+	public ValoresBusqueda(String tipo_anuncio, String localidad, String calle, int piso, double min_metros2,
+			double max_metros2, int num_habitaciones, int min_num_habitaciones, int num_banos, int min_num_banos,
+			String tipo_edificacion, String tipo_obra, String equipamiento, String exteriores, boolean garaje,
+			boolean trastero, boolean ascensor, boolean ultima_planta, boolean mascotas, double min_precio,
+			double max_precio, Date fecha_anunciado, Date fecha_ultima_actualizacion) {
+		super();
+		this.tipo_anuncio = tipo_anuncio;
+		this.localidad = localidad;
+		this.calle = calle;
+		this.piso = piso;
+		this.min_metros2 = min_metros2;
+		this.max_metros2 = max_metros2;
+		this.num_habitaciones = num_habitaciones;
+		this.min_num_habitaciones = min_num_habitaciones;
+		this.num_banos = num_banos;
+		this.min_num_banos = min_num_banos;
+		this.tipo_edificacion = tipo_edificacion;
+		this.tipo_obra = tipo_obra;
+		this.equipamiento = equipamiento;
+		this.exteriores = exteriores;
+		this.garaje = garaje;
+		this.trastero = trastero;
+		this.ascensor = ascensor;
+		this.ultima_planta = ultima_planta;
+		this.mascotas = mascotas;
+		this.min_precio = min_precio;
+		this.max_precio = max_precio;
+		this.fecha_anunciado = fecha_anunciado;
+		this.fecha_ultima_actualizacion = fecha_ultima_actualizacion;
+	}
 
 	public String getTipo_anuncio() {
 		return tipo_anuncio;

@@ -110,16 +110,18 @@ public class ServicioAnuncio {
 		claseAnuncio = new MySQLAnuncioDAO(dataSource);
 		Response.Status respuesta = Response.Status.OK;
 		List<InfoAnuncio> listaAnuncio = null;
+		CriterioBusqueda2 criterio;
+		CriterioBusqueda2Builder builder = new CriterioBusqueda2Builder();
 		
-		/*if(!((valores.getLocalidad()) == "")) {
+		if(!((valores.getLocalidad() == "") && (valores.getLocalidad().equals(null)))) {
 			builder.conLocalidad(valores.getLocalidad());
 		}
 		
-		if(!((valores.getTipo_anuncio()) == "")) {
+		if(!((valores.getTipo_anuncio() == "") && (valores.getTipo_anuncio().equals(null)))) {
 			builder.conTipo_Anuncio(valores.getTipo_anuncio());
 		}
 		
-		if(!((valores.getCalle()) == "")) {
+		if(!((valores.getCalle() == ""))) {
 			builder.conCalle(valores.getCalle());
 		}
 		
@@ -151,19 +153,19 @@ public class ServicioAnuncio {
 			builder.conMetros2(valores.getMin_metros2(), 9999);
 		}
 		
-		if(!((valores.getTipo_edificacion()) == "")) {
+		if(!((valores.getTipo_edificacion() == "") && (valores.getTipo_edificacion().equals(null)))) {
 			builder.conTipo_edificacion(valores.getTipo_edificacion());
 		}
 		
-		if(!((valores.getTipo_obra()) == "")) {
+		if(!((valores.getTipo_obra() == "") && (valores.getTipo_obra().equals(null)))) {
 			builder.conTipo_obra(valores.getTipo_obra());
 		}
 		
-		if(!((valores.getEquipamiento()) == "")) {
+		if(!((valores.getEquipamiento() == "") && (valores.getEquipamiento().equals(null)))) {
 			builder.conEquipamiento(valores.getEquipamiento());
 		}
 		
-		if(!((valores.getExteriores()) == "")) {
+		if(!((valores.getExteriores() == "") && (valores.getExteriores().equals(null)))) {
 			builder.conExteriores(valores.getExteriores());
 		}
 		
@@ -191,13 +193,8 @@ public class ServicioAnuncio {
 		}
 		
 		criterio = builder.build();
-		*/
 		
-		/*.conLocalidad(valores.getLocalidad())
-		  .conTipo_Anuncio(valores.getTipo_anuncio())
-		*/
-		
-		CriterioBusqueda2 criterio = new CriterioBusqueda2Builder()
+		/*CriterioBusqueda2 criterio = new CriterioBusqueda2Builder()
 						.conTipo_Anuncio(valores.getTipo_anuncio())
 						.conLocalidad(valores.getLocalidad())
 						.conCalle(valores.getCalle())
@@ -219,7 +216,7 @@ public class ServicioAnuncio {
 						.conPrecio(valores.getMin_precio(), valores.getMax_precio())
 						.build();
 						//.conFecha_anuncio((Date) valores.getFecha_anunciado())
-						//.conFecha_ultima_actualizacion((Date) valores.getFecha_ultima_actualizacion()).build();
+						//.conFecha_ultima_actualizacion((Date) valores.getFecha_ultima_actualizacion()).build();*/
 		
 		String sentenciaSQL = criterio.obtenerCriterioSQL();
 
