@@ -76,7 +76,7 @@ public class ServicioFotografia {
 		
 		Response.Status respuesta = Response.Status.OK;
 		
-		List<Fotografia> listaFotografia = new LinkedList<>();
+		List<String> listaFotografia = null;
 		
 		try {
 
