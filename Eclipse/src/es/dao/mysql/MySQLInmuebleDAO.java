@@ -286,4 +286,5 @@ public class MySQLInmuebleDAO {
 		}
 		return inmuebles;
 	}
+	
 }

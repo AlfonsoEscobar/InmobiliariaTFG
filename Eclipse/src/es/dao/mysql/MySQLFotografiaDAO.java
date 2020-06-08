@@ -198,6 +198,47 @@ public class MySQLFotografiaDAO {
 		return fotografias;
 
 	}
+	
+	public LinkedList<String> obtenerListaRutas(int id) throws DAOException{
+		PreparedStatement stat = null;
+		ResultSet rs = null;
+		LinkedList<String> listaRutas = new LinkedList<String>();
+		
+		try {
+
+			stat = conexion.prepareStatement("SELECT ruta FROM fotografia WHERE inmueble = ?");
+			stat.setInt(1, id);
+			rs = stat.executeQuery();
+
+			while (rs.next()) {
+				
+				listaRutas.add(rs.getString("ruta"));
+
+			}
+
+		} catch (SQLException ex) {
+			throw new DAOException("Error en SQL", ex);
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException ex) {
+					throw new DAOException("Error en SQL", ex);
+				}
+			}
+			if (stat != null) {
+				try {
+					stat.close();
+				} catch (SQLException ex) {
+					throw new DAOException("Error en SQL", ex);
+				}
+			}
+
+		}
+		
+		
+		return listaRutas;
+	}
 
 	public List<Fotografia> listaFotografiasPorTipoHabitacion(String tipo_habitacion) throws DAOException {
 		PreparedStatement stat = null;
