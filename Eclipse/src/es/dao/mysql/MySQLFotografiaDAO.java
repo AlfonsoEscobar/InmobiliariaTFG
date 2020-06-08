@@ -35,7 +35,6 @@ public class MySQLFotografiaDAO {
 		try {
 			this.conexion = conexion.getConnection();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

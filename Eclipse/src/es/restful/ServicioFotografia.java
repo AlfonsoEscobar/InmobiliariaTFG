@@ -5,8 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.faces.annotation.RequestMap;
-import javax.faces.annotation.RequestParameterMap;
 import javax.inject.Inject;
 import javax.sql.DataSource;
 import javax.ws.rs.Consumes;
@@ -82,7 +80,7 @@ public class ServicioFotografia {
 		
 		try {
 
-			listaFotografia = claseFotografia.listaFotografiasDeInmueble(id_inmueble);
+			listaFotografia = claseFotografia.obtenerListaRutas(id_inmueble);
 			
 		} catch (DAOException e) {
 			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
@@ -93,9 +91,7 @@ public class ServicioFotografia {
 		}
 		
 		if (respuesta == Response.Status.OK) {
-			
 			return Response.ok(listaFotografia).build();
-			
 		}else{
 			return Response.status(respuesta).build();
 		}
