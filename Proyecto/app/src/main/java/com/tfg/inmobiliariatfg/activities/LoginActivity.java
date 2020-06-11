@@ -27,7 +27,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Random;
 
 import cz.msebera.android.httpclient.Header;
 import retrofit2.Call;
@@ -77,18 +76,16 @@ public class LoginActivity extends AppCompatActivity {
                     public void onResponse(Call<Usuario> call, Response<Usuario> response) {
                         if (response.isSuccessful()) {
                             Usuario usuario = response.body();
-                            //int idUsuario = usuario.getId_usuario();
                             Intent i = new Intent(getApplicationContext(), MainActivity.class);
                             i.putExtra("usuario", usuario);
                             startActivity(i);
-                            progressDialog.dismiss();
 
                         } else {
                             etCorreoLogin.setHint("Correo");
                             etPassLogin.setHint("Contraseña");
                             Toast.makeText(getApplicationContext(), "El correo o la contraseña no son correctos", Toast.LENGTH_LONG).show();
-                            progressDialog.dismiss();
                         }
+                        progressDialog.dismiss();
                     }
 
                     @Override
@@ -98,7 +95,6 @@ public class LoginActivity extends AppCompatActivity {
                 });
             }
         });
-        int random = (int) (Math.random()*3+1);
         remoteUri = getPref() +  "fotografia/portada/1";
         cargarImagen(remoteUri);
     }
@@ -141,10 +137,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public String getPref() {
-        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
-        String defaultValue = getResources().getString(R.string.baseURL);
-        String baseURL = sharedPref.getString(getString(R.string.baseURL), defaultValue);
-
+        SharedPreferences sharedPref = getSharedPreferences("rutaURL",Context.MODE_PRIVATE);
+        String baseURL = sharedPref.getString("baseUrl","https://34af4e85d798.ngrok.io/Restful_Inmo/servicios/");
         return baseURL;
     }
 }

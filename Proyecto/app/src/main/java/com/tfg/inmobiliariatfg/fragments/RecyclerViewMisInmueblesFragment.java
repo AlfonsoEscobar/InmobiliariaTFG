@@ -4,7 +4,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +20,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.tfg.inmobiliariatfg.R;
 import com.tfg.inmobiliariatfg.activities.RegistrarInmuebleActivity;
 import com.tfg.inmobiliariatfg.modelos.Inmueble;
@@ -25,9 +30,14 @@ import com.tfg.inmobiliariatfg.utiles.ApiAdapter;
 import com.tfg.inmobiliariatfg.utiles.Metodos;
 import com.tfg.inmobiliariatfg.adapters.RecyclerViewInmuebleAdapter;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import cz.msebera.android.httpclient.Header;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,12 +50,13 @@ public class RecyclerViewMisInmueblesFragment extends Fragment {
     private Button btnRegistrarInmueble;
     private Usuario usuario;
     private int idUsuario;
+    List<String> listaRutas;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view =  inflater.inflate(R.layout.fragment_recycler_view_mis_inmuebles, container, false);
+        View view = inflater.inflate(R.layout.fragment_recycler_view_mis_inmuebles, container, false);
 
         btnRegistrarInmueble = view.findViewById(R.id.btnRegistrarInmueble);
         btnRegistrarInmueble.setOnClickListener(new View.OnClickListener() {
@@ -59,7 +70,7 @@ public class RecyclerViewMisInmueblesFragment extends Fragment {
 
         recyclerMisInmuebles = view.findViewById(R.id.recyclerMisInmuebles);
 
-        recyclerMisInmuebles.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL, false));
+        recyclerMisInmuebles.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 
         extras = getArguments();
         if (extras != null) {
@@ -82,10 +93,10 @@ public class RecyclerViewMisInmueblesFragment extends Fragment {
         listCall.enqueue(new Callback<List<Inmueble>>() {
             @Override
             public void onResponse(Call<List<Inmueble>> call, Response<List<Inmueble>> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     ShowIt(response.body());
                     progressDialog.dismiss();
-                }else{
+                } else {
                     Toast.makeText(getContext(), "No tienes inmuebles todavia.", Toast.LENGTH_LONG);
                     progressDialog.dismiss();
                 }
@@ -100,7 +111,7 @@ public class RecyclerViewMisInmueblesFragment extends Fragment {
 
     }
 
-    private void ShowIt(final List<Inmueble> response){
+    private void ShowIt(final List<Inmueble> response) {
         List<Inmueble> inmueblesLista = response;
         adaptadorMisInmuebles = new RecyclerViewInmuebleAdapter(getContext(), inmueblesLista);
         recyclerMisInmuebles.setAdapter(adaptadorMisInmuebles);
@@ -109,18 +120,73 @@ public class RecyclerViewMisInmueblesFragment extends Fragment {
     }
 
     private void setImagenes(List<Inmueble> inmueblesLista) {
+        final File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "TFG/");
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        final String pathGuardar = dir.getAbsolutePath() + "/TFG";
+        Log.v("pathGuardar", "" + pathGuardar);
 
-        for(int i = 0; i < inmueblesLista.size(); i++){
+
+        for (int i = 0; i < inmueblesLista.size(); i++) {
+
+            final ArrayList<Uri> listUriImages = new ArrayList<>();
             int idInmueble = inmueblesLista.get(i).getId_inmueble();
-            ArrayList<Integer> listUriImages = new ArrayList<>();
-            //falta llamada a servidor donde cogera las fotos de cada inmuble mediante su id.
-            // for del response
-            for(int j = 0; j <=5; j++){
 
-                listUriImages.add(R.drawable.ic_sin_imagen);
+            Call<List<String>> listCall = ApiAdapter.getApiService(getPref()).getStringsUriFotos(idInmueble);
+            listCall.enqueue(new Callback<List<String>>() {
+                @Override
+                public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                    if (response.body() != null) {
+                        nombreImagenes(response.body());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<String>> call, Throwable t) {
+
+                }
+            });
+            if (listaRutas != null) {
+                for (int j = 0; j < listaRutas.size(); j++) {
+                    String ruta = getPref() + "fotografia/inmueble/" + idInmueble + "/" + listaRutas.get(j);
+                    new AsyncHttpClient().get(ruta, new AsyncHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                            String nombre = System.currentTimeMillis() / 100 + ".jpeg";
+                            Uri uriPath = null;
+                            FileOutputStream fOS;
+                            try {
+                                fOS = new FileOutputStream(pathGuardar + nombre);
+                                fOS.write(responseBody, 0, responseBody.length);
+                                fOS.close();
+                                uriPath = Uri.parse(pathGuardar + nombre);
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            if (uriPath != null) {
+                                listUriImages.add(uriPath);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+                        }
+                    });
+
+                }
+            } else {
+                String archivo = "android.resource://" + getActivity().getPackageName() + "/" + R.drawable.ic_sin_imagen;
+                Uri ruta = Uri.parse(archivo);
+                listUriImages.add(ruta);
+                listUriImages.add(ruta);
+                listUriImages.add(ruta);
+                listUriImages.add(ruta);
             }
-            //salida del for
-            inmueblesLista.get(i).setImagenesInmueble(listUriImages);
+            inmueblesLista.get(i).setRutasFile(listUriImages);
         }
         adaptadorMisInmuebles.notifyDataSetChanged();
     }
@@ -132,11 +198,13 @@ public class RecyclerViewMisInmueblesFragment extends Fragment {
     }
 
     public String getPref() {
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        String defaultValue = getResources().getString(R.string.baseURL);
-        String baseURL = sharedPref.getString(getString(R.string.baseURL), defaultValue);
-
+        SharedPreferences sharedPref = getActivity().getSharedPreferences("rutaURL",Context.MODE_PRIVATE);
+        String baseURL = sharedPref.getString("baseUrl","https://34af4e85d798.ngrok.io/Restful_Inmo/servicios/");
         return baseURL;
+    }
+
+    private void nombreImagenes(List<String> response) {
+        listaRutas = response;
     }
 
 }

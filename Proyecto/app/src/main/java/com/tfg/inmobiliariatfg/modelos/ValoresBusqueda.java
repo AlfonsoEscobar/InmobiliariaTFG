@@ -23,11 +23,11 @@ public class ValoresBusqueda implements Serializable {
     private String tipo_obra;
     private String equipamiento;
     private String exteriores;
-    private boolean garaje;
-    private boolean trastero;
-    private boolean ascensor;
-    private boolean ultima_planta;
-    private boolean mascotas;
+    private String garaje;
+    private String trastero;
+    private String ascensor;
+    private String ultima_planta;
+    private String mascotas;
 
     private double min_precio;
     private double max_precio;
@@ -150,43 +150,43 @@ public class ValoresBusqueda implements Serializable {
         this.exteriores = exteriores;
     }
 
-    public boolean isGaraje() {
+    public String getGaraje() {
         return garaje;
     }
 
-    public void setGaraje(boolean garaje) {
+    public void setGaraje(String garaje) {
         this.garaje = garaje;
     }
 
-    public boolean isTrastero() {
+    public String getTrastero() {
         return trastero;
     }
 
-    public void setTrastero(boolean trastero) {
+    public void setTrastero(String trastero) {
         this.trastero = trastero;
     }
 
-    public boolean isAscensor() {
+    public String getAscensor() {
         return ascensor;
     }
 
-    public void setAscensor(boolean ascensor) {
+    public void setAscensor(String ascensor) {
         this.ascensor = ascensor;
     }
 
-    public boolean isUltima_planta() {
+    public String getUltima_planta() {
         return ultima_planta;
     }
 
-    public void setUltima_planta(boolean ultima_planta) {
+    public void setUltima_planta(String ultima_planta) {
         this.ultima_planta = ultima_planta;
     }
 
-    public boolean isMascotas() {
+    public String getMascotas() {
         return mascotas;
     }
 
-    public void setMascotas(boolean mascotas) {
+    public void setMascotas(String mascotas) {
         this.mascotas = mascotas;
     }
 

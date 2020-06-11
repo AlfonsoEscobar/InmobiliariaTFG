@@ -371,14 +371,14 @@
                 android:layout_marginTop="10dp" />
 
             <TextView
-                android:id="@+id/textExterioresFiltros"
+                android:id="@+id/textTipoExterioresFiltros"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/source_sans_pro"
+                android:text="@string/exterioresFiltros"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                tools:text="@string/exterioresFiltros" />
+                android:textStyle="bold" />
 
             <Spinner
                 android:id="@+id/sExterioresFiltros"
@@ -471,60 +471,201 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <CheckBox
-                    android:id="@+id/cbGarajeFiltros"
+                <TextView
+                    android:id="@+id/textIgualChecksFiltros"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/source_sans_pro"
-                    android:text="@string/garajeRegistrarInmueble"
+                    android:text="@string/textMeDaIgual"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textCaracteristicasAdiFiltros" />
 
-                <CheckBox
-                    android:id="@+id/cbTrasteroFiltros"
+                <TextView
+                    android:id="@+id/textSiChecksFiltros"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="50dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/source_sans_pro"
-                    android:text="@string/trasteroRegistrarInmueble"
-                    app:layout_constraintStart_toEndOf="@+id/cbGarajeFiltros"
+                    android:text="@string/textSi"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@+id/textIgualChecksFiltros"
                     app:layout_constraintTop_toBottomOf="@+id/textCaracteristicasAdiFiltros" />
 
-                <CheckBox
-                    android:id="@+id/cbAscensorFiltros"
+                <TextView
+                    android:id="@+id/textNoChecksFiltros"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="50dp"
-                    android:layout_marginTop="43dp"
+                    android:layout_marginStart="45dp"
+                    android:layout_marginTop="10dp"
                     android:fontFamily="@font/source_sans_pro"
-                    android:text="@string/ascensorRegistrarInmueble"
-                    app:layout_constraintStart_toEndOf="@+id/cbTrasteroFiltros"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:text="@string/textNo"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@+id/textSiChecksFiltros"
+                    app:layout_constraintTop_toBottomOf="@+id/textCaracteristicasAdiFiltros" />
 
-                <CheckBox
-                    android:id="@+id/cbUltPlantaFiltros"
+                <RadioGroup
+                    android:id="@+id/radioGroup"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="60dp"
-                    android:layout_marginTop="25dp"
-                    android:fontFamily="@font/source_sans_pro"
-                    android:text="@string/ultPlantaRegistrarInmueble"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cbGarajeFiltros" />
+                    app:layout_constraintTop_toBottomOf="@+id/textNoChecksFiltros">
 
-                <CheckBox
-                    android:id="@+id/cbMascotasFiltros"
+                    <RadioButton
+                        android:id="@+id/rbIgualGarajeFiltros"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/source_sans_pro" />
+
+                    <RadioButton
+                        android:id="@+id/rbSiGarajeFiltros"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:fontFamily="@font/source_sans_pro" />
+
+                    <RadioButton
+                        android:id="@+id/rbNoGarajeFiltros"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:fontFamily="@font/source_sans_pro"
+                        android:text="@string/garajeRegistrarInmueble" />
+
+                </RadioGroup>
+
+                <RadioGroup
+                    android:id="@+id/radioGroup2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="60dp"
-                    android:layout_marginTop="25dp"
-                    android:fontFamily="@font/source_sans_pro"
-                    android:text="@string/mascotasRegistrarInmueble"
-                    app:layout_constraintStart_toEndOf="@+id/cbUltPlantaFiltros"
-                    app:layout_constraintTop_toBottomOf="@+id/cbAscensorFiltros" />
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/radioGroup">
+
+                    <RadioButton
+                        android:id="@+id/rbIgualTrasteroFiltros"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/source_sans_pro" />
+
+                    <RadioButton
+                        android:id="@+id/rbSiTrasteroFiltros"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp" />
+
+                    <RadioButton
+                        android:id="@+id/rbNoTrasteroFiltros"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:text="@string/trasteroRegistrarInmueble" />
+
+                </RadioGroup>
+
+                <RadioGroup
+                    android:id="@+id/radioGroup3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="60dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/radioGroup2">
+
+                    <RadioButton
+                        android:id="@+id/rbIgualAscensorFiltros"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/source_sans_pro" />
+
+                    <RadioButton
+                        android:id="@+id/rbSiAscensorFiltros"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp" />
+
+                    <RadioButton
+                        android:id="@+id/rbNoAscensorFiltros"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:text="@string/ascensorRegistrarInmueble" />
+                </RadioGroup>
+
+                <RadioGroup
+                    android:id="@+id/radioGroup4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="60dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/radioGroup3">
+
+                    <RadioButton
+                        android:id="@+id/rbIgualUltPlantFiltros"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/source_sans_pro" />
+
+                    <RadioButton
+                        android:id="@+id/rbSiUltPlantFiltros"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:layout_weight="1" />
+
+                    <RadioButton
+                        android:id="@+id/rbNoUltPlantFiltros"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:layout_weight="1"
+                        android:text="@string/ultPlantaRegistrarInmueble" />
+                </RadioGroup>
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="60dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/radioGroup4">
+
+                    <RadioButton
+                        android:id="@+id/rbIgualMascotasFiltros"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/source_sans_pro" />
+
+                    <RadioButton
+                        android:id="@+id/rbSiMascotasFiltros"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:layout_weight="1" />
+
+                    <RadioButton
+                        android:id="@+id/rbNoMascotasFiltros"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:layout_weight="1"
+                        android:text="@string/mascotasRegistrarInmueble" />
+                </RadioGroup>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

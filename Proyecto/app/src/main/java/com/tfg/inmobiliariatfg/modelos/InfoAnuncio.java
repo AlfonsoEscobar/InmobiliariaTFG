@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class InfoAnuncio implements Serializable {
 
@@ -35,7 +36,9 @@ public class InfoAnuncio implements Serializable {
     @SerializedName("inmueble")
     @Expose
     private Inmueble inmueble;
-
+    @SerializedName("listaRutas")
+    @Expose
+    private List<String> listaRutas;
     public InfoAnuncio() {
 
     }
@@ -122,4 +125,13 @@ public class InfoAnuncio implements Serializable {
     public void setCorreo(String correo) {
         this.correo = correo;
     }
+
+    public List<String> getListaRutas() {
+        return listaRutas;
+    }
+
+    public void setListaRutas(List<String> listaRutas) {
+        this.listaRutas = listaRutas;
+    }
+
 }
