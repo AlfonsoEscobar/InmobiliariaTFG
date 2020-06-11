@@ -1,6 +1,5 @@
 package es.restful;
 
-import java.net.URI;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -16,7 +15,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import es.dao.mysql.DAOException;
