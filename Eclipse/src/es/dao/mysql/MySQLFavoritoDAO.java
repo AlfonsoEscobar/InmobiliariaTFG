@@ -34,7 +34,8 @@ public class MySQLFavoritoDAO {
 	final String GETINFOANUNCIOSFAV = "SELECT i.*, a.*, u.* from inmueble i inner join anuncio a "
 										+ "on a.id_inmueble = i.id_inmueble inner join usuario u on i.propietario = "
 										+ "u.id_usuario WHERE a.id_inmueble in "
-										+ "(SELECT inmueble_favorito FROM favorito WHERE usuario_favorito = ?)";
+										+ "(SELECT inmueble_favorito FROM favorito WHERE usuario_favorito = ?) and "
+										+ "a.tipo_anuncio in (SELECT tipo_anuncio FROM favorito WHERE usuario_favorito = ?)";
 
 	private Connection conexion;
 
@@ -283,6 +284,7 @@ public class MySQLFavoritoDAO {
 
 			stat = conexion.prepareStatement(GETINFOANUNCIOSFAV);
 			stat.setInt(1, usuario);
+			stat.setInt(2, usuario);
 			rs = stat.executeQuery();
 
 			while (rs.next()) {

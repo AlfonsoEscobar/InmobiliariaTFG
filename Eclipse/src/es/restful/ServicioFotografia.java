@@ -31,42 +31,6 @@ public class ServicioFotografia {
 	
 	MySQLFotografiaDAO claseFotografia;
 	
-	
-	@GET
-	@Path("/unica/{tipo}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getUnicaFotografia(@PathParam("tipo") String tipo){
-		
-		claseFotografia = new MySQLFotografiaDAO(dataSource);
-		
-		Response.Status respuesta = Response.Status.OK;
-		
-		List<Fotografia> listaFotografia = new LinkedList<>();
-		
-		try {
-
-			listaFotografia = claseFotografia.listaFotografiasPorTipoHabitacion(tipo);
-			
-		} catch (DAOException e) {
-			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
-		}
-		
-		if(listaFotografia.isEmpty()) {
-			respuesta = Response.Status.NOT_FOUND;
-		}
-		
-		if (respuesta == Response.Status.OK) {
-			
-			int random = (int)(Math.random() * listaFotografia.size()) + 1;
-			
-			return Response.ok(listaFotografia.get(random)).build();
-			
-		} else {
-			return Response.status(respuesta).build();
-		}
-	}
-	
-	
 	@GET
 	@Path("/{id_inmueble}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -134,7 +98,7 @@ public class ServicioFotografia {
 			fichero.renameTo(new File("/home/alfonso/Imágenes/App/Pisos/" + String.valueOf(id_inmueble) + "/", nombreFoto));
 			
 			foto.setTipo_habitacion(tipo_habitacion);
-			foto.setRuta("/home/alfonso/Imágenes/App/Pisos/" + String.valueOf(id_inmueble) + "/" + nombreFoto);
+			foto.setRuta(nombreFoto);
 			foto.setInmueble(id_inmueble);
 			
 		} else {
@@ -142,18 +106,18 @@ public class ServicioFotografia {
 			fichero.renameTo(new File("/home/alfonso/Imágenes/App/Pisos/" + String.valueOf(id_inmueble) + "/", nombreFoto));
 			
 			foto.setTipo_habitacion(tipo_habitacion);
-			foto.setRuta("/home/alfonso/Imágenes/App/Pisos/" + String.valueOf(id_inmueble) + "/" + nombreFoto);
+			foto.setRuta(nombreFoto);
 			foto.setInmueble(id_inmueble);
 			
 		}
 
-		/*try {
+		try {
 			
 			claseFotografia.insertar(foto);
 			
 		} catch (DAOException e) {
 			responseStatus = Response.Status.INTERNAL_SERVER_ERROR;
-		}*/
+		}
 
 		return Response.status(responseStatus).build();
 
@@ -200,16 +164,14 @@ public class ServicioFotografia {
 		} else {
 			fichero.renameTo(new File("/home/alfonso/Imágenes/App/Usuarios/" + String.valueOf(id_usuario)));
 		}
-
-		/*try {
-			
-			claseFotografia.insertar(foto);
-			
-		} catch (DAOException e) {
+		
+		if(responseStatus == Response.Status.OK) {
+			return Response.status(responseStatus).build();
+		}else {
 			responseStatus = Response.Status.INTERNAL_SERVER_ERROR;
-		}*/
-
-		return Response.status(responseStatus).build();
+			return Response.status(responseStatus).build();
+		}
+		
 
 	}
 
@@ -223,6 +185,8 @@ public class ServicioFotografia {
 		
 		List<Fotografia> listaFotografia = new LinkedList<>();
 		
+		String id_inmueble = String.valueOf(id);
+		
 		int filasModificadas = 0;
 		
 		try {
@@ -230,7 +194,7 @@ public class ServicioFotografia {
 			listaFotografia = claseFotografia.listaFotografiasDeInmueble(id);
 			
 			for (Fotografia f : listaFotografia) {
-				claseFotografia.borrarFotografia(f.getRuta());
+				claseFotografia.borrarFotografia(id_inmueble, f.getRuta());
 			}
 			
 			filasModificadas = claseFotografia.eliminarFotografiasDeInmueble(id);

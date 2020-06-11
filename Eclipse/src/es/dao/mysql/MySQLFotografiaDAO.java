@@ -273,9 +273,9 @@ public class MySQLFotografiaDAO {
 
 	}
 
-	public void borrarFotografia(String ruta) {
+	public void borrarFotografia(String id, String nombre) {
 
-		File f = new File(ruta);
+		File f = new File("/home/alfonso/Imágenes/App/Pisos/" + id + "/" + nombre);
 
 		if (f.exists()) {
 			f.delete();
