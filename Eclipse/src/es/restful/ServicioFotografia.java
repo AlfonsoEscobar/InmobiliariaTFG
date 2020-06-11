@@ -5,8 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.faces.annotation.RequestMap;
-import javax.faces.annotation.RequestParameterMap;
 import javax.inject.Inject;
 import javax.sql.DataSource;
 import javax.ws.rs.Consumes;
