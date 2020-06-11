@@ -76,11 +76,11 @@ public class ServicioFotografia {
 		
 		Response.Status respuesta = Response.Status.OK;
 		
-		List<Fotografia> listaFotografia = new LinkedList<>();
+		List<String> listaFotografia = null;
 		
 		try {
 
-			listaFotografia = claseFotografia.listaFotografiasDeInmueble(id_inmueble);
+			listaFotografia = claseFotografia.obtenerListaRutas(id_inmueble);
 			
 		} catch (DAOException e) {
 			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
@@ -91,9 +91,7 @@ public class ServicioFotografia {
 		}
 		
 		if (respuesta == Response.Status.OK) {
-			
 			return Response.ok(listaFotografia).build();
-			
 		}else{
 			return Response.status(respuesta).build();
 		}

@@ -42,7 +42,6 @@ CREATE TABLE `usuario` (
   `nombre` varchar(50) NOT NULL,
   `telefono1` varchar(9) NOT NULL,
   `telefono2` varchar(9),
-  `imagen_perfil` mediumblob,
   CONSTRAINT `pk_usuario` PRIMARY KEY (`correo`),
   CONSTRAINT `un_usuario_id_usuario` UNIQUE KEY (`id_usuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
