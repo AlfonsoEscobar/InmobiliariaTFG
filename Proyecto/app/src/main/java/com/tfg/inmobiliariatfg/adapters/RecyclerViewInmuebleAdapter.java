@@ -173,7 +173,7 @@ public class RecyclerViewInmuebleAdapter extends RecyclerView.Adapter<RecyclerVi
             public void onClick(DialogInterface dialog, int which) {
                 if (opciones[which].equals("Modificar Inmueble")) {
                     Intent intent = new Intent(context, RegistrarInmuebleActivity.class);
-                    intent.putExtra("inmueble", response);
+                    intent.putExtra("inmueble", inmueble);
                     context.startActivity(intent);
 
                 } else {
