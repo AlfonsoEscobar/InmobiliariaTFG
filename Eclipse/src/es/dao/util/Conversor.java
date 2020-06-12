@@ -20,7 +20,6 @@ public class Conversor {
 		usuario.setNombre(rs.getString("nombre"));
 		usuario.setTelefono1(rs.getString("telefono1"));
 		usuario.setTelefono2(rs.getString("telefono2"));
-		usuario.setImagen_perfil(rs.getBytes("imagen_perfil"));
 		
 		return usuario;
 	}

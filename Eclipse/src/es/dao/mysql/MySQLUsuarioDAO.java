@@ -13,32 +13,28 @@ import es.modelos.Usuario;
 
 public class MySQLUsuarioDAO {
 
-	final String INSERT = "INSERT INTO usuario(correo, contrasena, nombre,"
-			+ "telefono1, telefono2, imagen_perfil) VALUES(?,?,?,?,?,?)";
-
+	final String INSERT = "INSERT INTO usuario(correo, contrasena, nombre, "
+			+ "telefono1, telefono2) VALUES(?,?,?,?,?)";
 
 	final String MODIFICAR = "UPDATE usuario SET nombre = ?, telefono1 = ?,"
 			+ "telefono2 = ? WHERE id_usuario = ?";
 
 	final String UPDATE2 = "UPDATE usuario SET contrasena = ?, nombre = ?, telefono1 = ?,"
-			+ "telefono2 = ?, imagen_perfil = ? WHERE id_usuario = ?";
+			+ "telefono2 = ? WHERE id_usuario = ?";
 
 	final String DELETE = "DELETE FROM usuario WHERE correo = ?";
 	
 	final String DELETE2 = "DELETE FROM usuario WHERE id_usuario = ?";
 
 	final String GETONE = "SELECT id_usuario, correo, contrasena, nombre, telefono1,"
-						+ "telefono2, imagen_perfil FROM usuario WHERE correo = ?";
+						+ "telefono2 FROM usuario WHERE correo = ?";
 	
 	final String GETONEID = "SELECT id_usuario, correo, contrasena, nombre, telefono1,"
-			+ "telefono2, imagen_perfil FROM usuario WHERE id_usuario = ?";
+			+ "telefono2 FROM usuario WHERE id_usuario = ?";
 
 	final String VERIFICAR = "SELECT * FROM usuario WHERE correo = ? and contrasena = ?";
 
 	final String REPETIDO = "SELECT * FROM usuario WHERE correo = ?";
-	
-	final String UPDATEPERFIL = "UPDATE usuario SET imagen_perfil = ? WHERE id_usuario = ?";
-
 
 	private Connection conexion;
 
@@ -66,8 +62,6 @@ public class MySQLUsuarioDAO {
 			stat.setString(3, usuario.getNombre());
 			stat.setString(4, usuario.getTelefono1());
 			stat.setString(5, usuario.getTelefono2());
-			
-			stat.setBytes(6, usuario.getImagen_perfil());
 			
 			stat.executeUpdate();
 			
@@ -103,8 +97,7 @@ public class MySQLUsuarioDAO {
 			stat.setString(2, usuario.getNombre());
 			stat.setString(3, usuario.getTelefono1());
 			stat.setString(4, usuario.getTelefono2());
-			stat.setBytes(5, usuario.getImagen_perfil());
-			stat.setString(6, correo);
+			stat.setString(5, correo);
 			filasAfectadas = stat.executeUpdate();
 		} catch (SQLException ex) {
 			throw new DAOException("Error en SQL", ex);
@@ -351,31 +344,6 @@ public class MySQLUsuarioDAO {
 		}
 
 		return repetido;
-	}
-	
-	public int establecerFotoPerfil(byte[] foto, int id_usuario) throws DAOException {
-		PreparedStatement stat = null;
-		int filasAfectadas = 0;
-		
-		try {
-			stat = conexion.prepareStatement(UPDATEPERFIL);
-			stat.setBytes(1, foto);
-			stat.setInt(2, id_usuario);
-			filasAfectadas = stat.executeUpdate();
-		} catch (SQLException ex) {
-			throw new DAOException("Error en SQL", ex);
-
-		} finally {
-			if (stat != null) {
-				try {
-					stat.close();
-				} catch (SQLException ex) {
-					throw new DAOException("Error en SQL", ex);
-				}
-			}
-
-		}
-		return filasAfectadas;
 	}
 
 }

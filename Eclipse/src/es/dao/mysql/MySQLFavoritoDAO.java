@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -51,7 +50,6 @@ public class MySQLFavoritoDAO {
 	public int insertar(Favorito favorito) throws DAOException {
 
 		PreparedStatement stat = null;
-		ResultSet generatedKeys = null;
 		int filasInsertadas = -1;
 
 		try {
@@ -103,9 +101,7 @@ public class MySQLFavoritoDAO {
 		return filasEliminadas;
 	}
 
-	/*
-	 * FUNCIONA
-	 */
+	
 	// Este método borra todos los favoritos de un usuario
 	public int eliminar(Integer id_usuario) throws DAOException {
 
@@ -176,9 +172,7 @@ public class MySQLFavoritoDAO {
 
 	}
 
-	/*
-	 * FUNCIONA
-	 */
+	
 	// Este método obtiene todos los favoritos de un usuario
 	public List<Favorito> listaFavoritosDeUsuario(Integer id_usuario) throws DAOException {
 

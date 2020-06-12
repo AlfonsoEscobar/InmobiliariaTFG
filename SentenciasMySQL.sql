@@ -116,8 +116,18 @@ insert into usuario values("javier@gmail.es", "javier123", 0, "Javier Mencia", "
 
 
 insert into inmueble values("Madrid", "Leganes", "indias", 9, 2, "A", "unica", 0, 1, "Este piso mola", 70, 3, 1, "piso", "segunda mano", "aire acondicionado", "terraza", 0, 0, 1, 0, 1);
+
 insert into inmueble values("Madrid", "Fuenlabrada", "Falsa", 2, 4, "C", "unica", 0, 2, "Este piso es la leche", 95, 2, 1, "piso", "segunda mano", "aire acondicionado", "terraza", 1, 1, 1, 0, 1);
+
 insert into inmueble values("Madrid", "Villaverde", "inventada", 15, 1, "B", "drch", 0, 3, "Este piso no esta mal", 85, 2, 1, "piso", "nuevo", "aire acondicionado", "terraza", 1, 1, 1, 0, 1);
+
+insert into inmueble values("Madrid", "Fuenlabrada", "Camino de la casilla", 9, 2, "A", "unica", 0, 2, "El barrio muy bonito", 70, 3, 1, "piso", "segunda mano", "calefacion", "terraza", 0, 0, 1, 0, 1);
+
+insert into inmueble values("Madrid", "Fuenlabrada", "Embalse", 4, 3, "C", "unica", 0, 2, "Muy iluminado", 80, 3, 1, "piso", "segunda mano", "aire acondicionado", "terraza", 0, 0, 1, 0, 1);
+
+insert into inmueble values("Madrid", "Fuenlabrada", "Seminario", 23, 3, "b", "unica", 0, 3, "Buen barrio y buenos vecinos", 100, 3, 1, "Ático", "segunda mano", "calefacion", "terraza", 0, 0, 1, 0, 1);
+
+insert into inmueble values("Madrid", "Furnlabrada", "Calle del Priorato", 45, 4, "d", "unica", 0, 3, "Precioso para una pareja", 120, 3, 1, "Chalet", "primera mano", "aire acondicionado", "terraza", 0, 0, 1, 0, 0);
 
 
 insert into anuncio values(1, "alquilar", 500, null, null);
