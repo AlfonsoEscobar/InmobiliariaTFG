@@ -5,27 +5,17 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.view.View;
 
 import androidx.core.app.ActivityCompat;
 
-import com.tfg.inmobiliariatfg.R;
-import com.tfg.inmobiliariatfg.modelos.Usuario;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class Metodos {
 
@@ -70,11 +60,10 @@ public class Metodos {
      * @param activity
      */
     public static void verifyStoragePermissions(Activity activity) {
-        // Check if we have write permission
         int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
         if (permission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so prompt the user
+
             ActivityCompat.requestPermissions(
                     activity,
                     PERMISSIONS_STORAGE,

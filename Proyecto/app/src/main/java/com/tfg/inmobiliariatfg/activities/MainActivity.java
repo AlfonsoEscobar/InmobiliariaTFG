@@ -1,5 +1,19 @@
 package com.tfg.inmobiliariatfg.activities;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
+import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,28 +21,29 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.widget.ImageView;
-import android.widget.TextView;
-
 import com.google.android.material.navigation.NavigationView;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.tfg.inmobiliariatfg.R;
-import com.tfg.inmobiliariatfg.fragments.RecyclerViewMisAnunciosFragment;
 import com.tfg.inmobiliariatfg.fragments.BuscadorFragment;
 import com.tfg.inmobiliariatfg.fragments.ErrorFragment;
+import com.tfg.inmobiliariatfg.fragments.PerfilFragment;
+import com.tfg.inmobiliariatfg.fragments.RecyclerViewMisAnunciosFragment;
 import com.tfg.inmobiliariatfg.fragments.RecyclerViewMisFavoritosFragment;
 import com.tfg.inmobiliariatfg.fragments.RecyclerViewMisInmueblesFragment;
-import com.tfg.inmobiliariatfg.fragments.PerfilFragment;
 import com.tfg.inmobiliariatfg.modelos.Usuario;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import cz.msebera.android.httpclient.Header;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
     private Bundle ExtrasLogin;
-    private Context context;
     private Usuario usuario;
     private int idUsuario = 0;
     private String nomUsuarioLateral, correoUsuarioLateral;
@@ -48,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         tvNomMenuLateral = navigationView.getHeaderView(0).findViewById(R.id.tvNomMenuLateral);
         tvCorreoMenuLateral = navigationView.getHeaderView(0).findViewById(R.id.tvCorreoMenuLateral);
+        ivMenuLateral = navigationView.getHeaderView(0).findViewById(R.id.ivMenuLateral);
 
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -55,8 +71,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
-        sharedPreferences();
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
@@ -72,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             correoUsuarioLateral = usuario.getCorreo();
             tvNomMenuLateral.setText(nomUsuarioLateral);
             tvCorreoMenuLateral.setText(correoUsuarioLateral);
+            ImagenDeUsuario();
         }else {
             idUsuario = 0;
         }
@@ -128,8 +143,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     rvMisAnuncios.setArguments(ExtrasLogin);
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                             rvMisAnuncios).commit();
-                    break;
                 }
+                    break;
+
+            case R.id.nav_Ajustes:
+                final AlertDialog.Builder alertMofificarNombrePerfil = new AlertDialog.Builder(MainActivity.this);
+                alertMofificarNombrePerfil.setTitle("Modificar RemoteUri");
+
+                final EditText input = new EditText(MainActivity.this);
+
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT);
+                input.setLayoutParams(lp);
+                alertMofificarNombrePerfil.setView(input);
+
+                alertMofificarNombrePerfil.setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(final DialogInterface dialog, int which) {
+                                String remoteUri = input.getText().toString();
+                                sharedPreferences(remoteUri);
+                            }
+                        });
+                alertMofificarNombrePerfil.setNegativeButton("Cancelar",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                alertMofificarNombrePerfil.show();
+                    break;
         }
 
         drawer.closeDrawer(GravityCompat.START);
@@ -145,10 +190,55 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    private void sharedPreferences(){
-        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+    private void sharedPreferences(String baseURL){
+        SharedPreferences sharedPref = getSharedPreferences("rutaURL",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString("baseUrl", getString(R.string.baseURL));
+        editor.putString("baseUrl", baseURL);
         editor.commit();
+    }
+
+    public String getPref() {
+        SharedPreferences sharedPref = getSharedPreferences("rutaURL",Context.MODE_PRIVATE);
+        String baseURL = sharedPref.getString("baseUrl","https://34af4e85d798.ngrok.io/Restful_Inmo/servicios/");
+        return baseURL;
+    }
+
+    private void ImagenDeUsuario() {
+        String ngrok = getPref() + "fotografia/usuario/";
+        String RemoteUri = ngrok + idUsuario;
+        final File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "TFG/");
+        final String pathGuardar;
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        pathGuardar = dir.getAbsolutePath() + "/TFG";
+        Log.v("pathGuardar", "" + pathGuardar);
+
+        new AsyncHttpClient().get(RemoteUri, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                String nombre = System.currentTimeMillis() / 100 + ".jpeg";
+                Uri uriPath = null;
+                FileOutputStream fOS;
+                try {
+                    fOS = new FileOutputStream(pathGuardar + nombre);
+                    fOS.write(responseBody, 0, responseBody.length);
+                    fOS.close();
+                    uriPath = Uri.parse(pathGuardar + nombre);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (uriPath != null) {
+                    ivMenuLateral.setImageURI(uriPath);
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+        });
     }
 }

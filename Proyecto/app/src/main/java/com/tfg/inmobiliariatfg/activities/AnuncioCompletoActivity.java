@@ -1,11 +1,5 @@
 package com.tfg.inmobiliariatfg.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -13,32 +7,38 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
-import android.icu.text.IDNA;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
+import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.tfg.inmobiliariatfg.R;
 import com.tfg.inmobiliariatfg.adapters.ImagenesHorizontalAdapter;
-import com.tfg.inmobiliariatfg.adapters.RecyclerViewInmuebleAdapter;
-import com.tfg.inmobiliariatfg.fragments.FiltrosBusquedaFragment;
 import com.tfg.inmobiliariatfg.modelos.Favorito;
 import com.tfg.inmobiliariatfg.modelos.InfoAnuncio;
-import com.tfg.inmobiliariatfg.modelos.Inmueble;
 import com.tfg.inmobiliariatfg.utiles.ApiAdapter;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import pub.devrel.easypermissions.EasyPermissions;
+import cz.msebera.android.httpclient.Header;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -308,25 +308,59 @@ public class AnuncioCompletoActivity extends AppCompatActivity {
     }
 
     public String getPref() {
-        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
-        String defaultValue = getResources().getString(R.string.baseURL);
-        String baseURL = sharedPref.getString(getString(R.string.baseURL), defaultValue);
-
+        SharedPreferences sharedPref = getSharedPreferences("rutaURL",Context.MODE_PRIVATE);
+        String baseURL = sharedPref.getString("baseUrl","https://34af4e85d798.ngrok.io/Restful_Inmo/servicios/");
         return baseURL;
     }
 
     private void setImagenes(InfoAnuncio anuncio) {
-
-        int idInmueble = anuncio.getInmueble().getId_inmueble();
-        ArrayList<Integer> listUriImages = new ArrayList<>();
-        //falta llamada a servidor donde cogera las fotos de este anuncio
-        // for del response
-        for (int j = 0; j <= 5; j++) {
-
-            listUriImages.add(R.drawable.ic_sin_imagen);
+        final File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "TFG/");
+        if (!dir.exists()) {
+            dir.mkdirs();
         }
-        //salida del for
-        anuncio.getInmueble().setImagenesInmueble(listUriImages);
+        final String pathGuardar = dir.getAbsolutePath() + "/TFG";
+        Log.v("pathGuardar", "" + pathGuardar);
+
+        List<String> rutas = anuncio.getListaRutas();
+        final ArrayList<Uri> listUriImages = new ArrayList<>();
+        if (rutas != null) {
+            for (int i = 0; i <= rutas.size(); i++) {
+                new AsyncHttpClient().get(rutas.get(i), new AsyncHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                        String nombre = System.currentTimeMillis() / 100 + ".jpeg";
+                        Uri uriPath = null;
+                        FileOutputStream fOS;
+                        try {
+                            fOS = new FileOutputStream(pathGuardar + nombre);
+                            fOS.write(responseBody, 0, responseBody.length);
+                            fOS.close();
+                            uriPath = Uri.parse(pathGuardar + nombre);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        if (uriPath != null) {
+                            listUriImages.add(uriPath);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+                    }
+                });
+            }
+        } else {
+            String archivo = "android.resource://" + getPackageName() + "/" + R.drawable.ic_sin_imagen;
+            Uri ruta = Uri.parse(archivo);
+            listUriImages.add(ruta);
+            listUriImages.add(ruta);
+            listUriImages.add(ruta);
+            listUriImages.add(ruta);
+        }
+        anuncio.getInmueble().setRutasFile(listUriImages);
 
         imagenesHorizontalAdapter = new ImagenesHorizontalAdapter(getApplicationContext(), listUriImages);
         recyclerViewImagenesAnuncio.setAdapter(imagenesHorizontalAdapter);

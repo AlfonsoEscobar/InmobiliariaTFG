@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
@@ -21,7 +20,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.tfg.inmobiliariatfg.R;
-import com.tfg.inmobiliariatfg.activities.RecyclerViewBusquedaActivity;
 import com.tfg.inmobiliariatfg.modelos.ValoresBusqueda;
 import com.tfg.inmobiliariatfg.modelos.ValoresPredeterminadosInmueble;
 import com.tfg.inmobiliariatfg.utiles.ApiAdapter;
@@ -39,8 +37,10 @@ public class FiltrosBusquedaFragment extends Fragment {
             etMinBanosFiltros, etMinPrecioFiltros, etMaxPrecioFiltros;
     private RadioButton rbComprarFiltros, rbAlquilarFiltros;
     private Spinner sTipoEdificacionFiltros, sTipoObraFiltros, sExterioresFiltros;
-    private CheckBox cbGarajeFiltros, cbTrasteroFiltros, cbAscensorFiltros, cbUltPlantaFiltros,
-            cbMascotasFiltros;
+    private RadioButton rbNoGarajeFiltros,rbSiGarajeFiltros ,rbIgualGarajeFiltros, rbIgualTrasteroFiltros,
+            rbSiTrasteroFiltros, rbNoTrasteroFiltros, rbIgualAscensorFiltros, rbSiAscensorFiltros, rbNoAscensorFiltros,
+            rbIgualUltPlantFiltros, rbSiUltPlantFiltros, rbNoUltPlantFiltros, rbIgualMascotasFiltros, rbSiMascotasFiltros,
+            rbNoMascotasFiltros;
     private Bundle bArguments;
     private String localidad, tipo;
     private Button btnConfirmarFiltros;
@@ -81,11 +81,21 @@ public class FiltrosBusquedaFragment extends Fragment {
         sTipoEdificacionFiltros = cl.findViewById(R.id.sTipoEdificacionFiltros);
         sTipoObraFiltros = cl.findViewById(R.id.sTipoObraFiltros);
         sExterioresFiltros = cl.findViewById(R.id.sExterioresFiltros);
-        cbGarajeFiltros = cl.findViewById(R.id.cbGarajeFiltros);
-        cbTrasteroFiltros = cl.findViewById(R.id.cbTrasteroFiltros);
-        cbAscensorFiltros = cl.findViewById(R.id.cbAscensorFiltros);
-        cbUltPlantaFiltros = cl.findViewById(R.id.cbUltPlantaFiltros);
-        cbMascotasFiltros = cl.findViewById(R.id.cbMascotasFiltros);
+        rbNoGarajeFiltros = cl.findViewById(R.id.rbNoGarajeFiltros);
+        rbSiGarajeFiltros = cl.findViewById(R.id.rbSiGarajeFiltros);
+        rbIgualGarajeFiltros = cl.findViewById(R.id.rbIgualGarajeFiltros);
+        rbNoTrasteroFiltros = cl.findViewById(R.id.rbNoTrasteroFiltros);
+        rbIgualTrasteroFiltros = cl.findViewById(R.id.rbIgualTrasteroFiltros);
+        rbSiTrasteroFiltros = cl.findViewById(R.id.rbSiTrasteroFiltros);
+        rbIgualAscensorFiltros = cl.findViewById(R.id.rbIgualAscensorFiltros);
+        rbSiAscensorFiltros = cl.findViewById(R.id.rbSiAscensorFiltros);
+        rbNoAscensorFiltros = cl.findViewById(R.id.rbNoAscensorFiltros);
+        rbIgualUltPlantFiltros = cl.findViewById(R.id.rbIgualUltPlantFiltros);
+        rbSiUltPlantFiltros = cl.findViewById(R.id.rbSiUltPlantFiltros);
+        rbNoUltPlantFiltros = cl.findViewById(R.id.rbNoUltPlantFiltros);
+        rbIgualMascotasFiltros = cl.findViewById(R.id.rbIgualMascotasFiltros);
+        rbSiMascotasFiltros = cl.findViewById(R.id.rbSiMascotasFiltros);
+        rbNoMascotasFiltros = cl.findViewById(R.id.rbNoMascotasFiltros);
         btnConfirmarFiltros = cl.findViewById(R.id.btnConfirmarFiltros);
         btnConfirmarFiltros.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,14 +184,21 @@ public class FiltrosBusquedaFragment extends Fragment {
 
     public ValoresBusqueda guardarFiltros() {
         ValoresBusqueda valoresBusqueda = new ValoresBusqueda();
-        valoresBusqueda.setLocalidad(etLocalidadFiltros.getText().toString());
+        if(!etLocalidadFiltros.getText().toString().equals("")) {
+            valoresBusqueda.setLocalidad(etLocalidadFiltros.getText().toString());
+        }else {
+            valoresBusqueda.setLocalidad(localidad);
+        }
         if(rbAlquilarFiltros.isChecked()) {
             valoresBusqueda.setTipo_anuncio(rbAlquilarFiltros.getText().toString());
         }
         if(rbComprarFiltros.isChecked()){
             valoresBusqueda.setTipo_anuncio(rbComprarFiltros.getText().toString());
         }
-        valoresBusqueda.setCalle(etCalleFiltros.getText().toString());
+        if(!etCalleFiltros.getText().toString().equals("")) {
+            valoresBusqueda.setCalle(etCalleFiltros.getText().toString());
+        }
+
         if (!etPisoFiltros.getText().toString().equals("")) {
             valoresBusqueda.setPiso(Integer.parseInt(etPisoFiltros.getText().toString()));
         }
@@ -212,39 +229,47 @@ public class FiltrosBusquedaFragment extends Fragment {
         if (!sExterioresFiltros.getSelectedItem().toString().equals("Seleccione:")) {
             valoresBusqueda.setExteriores(sExterioresFiltros.getSelectedItem().toString());
         }
-        if (cbGarajeFiltros.isChecked()) {
-            valoresBusqueda.setGaraje(true);
-        } else {
-            valoresBusqueda.setGaraje(false);
+        if (rbSiGarajeFiltros.isChecked()) {
+            valoresBusqueda.setGaraje("true");
+        } else if(rbSiGarajeFiltros.isChecked()) {
+            valoresBusqueda.setGaraje("false");
+        }else if(rbIgualGarajeFiltros.isChecked()){
+            valoresBusqueda.setGaraje(null);
         }
-        if (cbTrasteroFiltros.isChecked()) {
-            valoresBusqueda.setTrastero(true);
-        } else {
-            valoresBusqueda.setTrastero(false);
+        if (rbSiTrasteroFiltros.isChecked()) {
+            valoresBusqueda.setTrastero("true");
+        } else if(rbNoTrasteroFiltros.isChecked()) {
+            valoresBusqueda.setTrastero("false");
+        }else if(rbIgualTrasteroFiltros.isChecked()){
+            valoresBusqueda.setTrastero(null);
         }
-        if (cbAscensorFiltros.isChecked()) {
-            valoresBusqueda.setAscensor(true);
-        } else {
-            valoresBusqueda.setAscensor(false);
+        if (rbSiAscensorFiltros.isChecked()) {
+            valoresBusqueda.setAscensor("true");
+        } else if(rbNoAscensorFiltros.isChecked()) {
+            valoresBusqueda.setAscensor("false");
+        }else if(rbIgualAscensorFiltros.isChecked()){
+            valoresBusqueda.setAscensor(null);
         }
-        if (cbUltPlantaFiltros.isChecked()) {
-            valoresBusqueda.setUltima_planta(true);
-        } else {
-            valoresBusqueda.setUltima_planta(false);
+        if (rbSiUltPlantFiltros.isChecked()) {
+            valoresBusqueda.setUltima_planta("true");
+        } else if(rbNoUltPlantFiltros.isChecked()) {
+            valoresBusqueda.setUltima_planta("false");
+        }else if(rbIgualUltPlantFiltros.isChecked()){
+            valoresBusqueda.setUltima_planta(null);
         }
-        if (cbMascotasFiltros.isChecked()) {
-            valoresBusqueda.setMascotas(true);
-        } else {
-            valoresBusqueda.setMascotas(false);
+        if (rbSiMascotasFiltros.isChecked()) {
+            valoresBusqueda.setMascotas("true");
+        } else if(rbNoMascotasFiltros.isChecked()) {
+            valoresBusqueda.setMascotas("false");
+        }else if(rbIgualMascotasFiltros.isChecked()){
+            valoresBusqueda.setMascotas(null);
         }
         return valoresBusqueda;
     }
 
     public String getPref() {
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        String defaultValue = getResources().getString(R.string.baseURL);
-        String baseURL = sharedPref.getString(getString(R.string.baseURL), defaultValue);
-
+        SharedPreferences sharedPref = getActivity().getSharedPreferences("rutaURL",Context.MODE_PRIVATE);
+        String baseURL = sharedPref.getString("baseUrl","https://34af4e85d798.ngrok.io/Restful_Inmo/servicios/");
         return baseURL;
     }
 }
