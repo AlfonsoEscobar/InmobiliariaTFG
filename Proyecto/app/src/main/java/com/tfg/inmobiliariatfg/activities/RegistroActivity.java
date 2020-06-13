@@ -59,10 +59,9 @@ public class RegistroActivity extends AppCompatActivity {
                         }
                         usuario.setContrasena(Metodos.codificarPass(String.valueOf(etPassRegistro.getText())));
                         usuario.setId_usuario(0);
-                        usuario.setImagen_perfil(null);
 
                         progressDialog = new ProgressDialog(v.getContext());
-                        progressDialog.setMessage("Autentificando credenciales...");
+                        progressDialog.setMessage("Creando usuario...");
                         Metodos.mostrarDialogo(progressDialog);
 
                         Call<Void> usuarioCall = ApiAdapter.getApiService(getPref()).createUsuario(usuario);

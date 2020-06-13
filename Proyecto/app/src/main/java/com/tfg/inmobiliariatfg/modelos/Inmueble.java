@@ -75,7 +75,9 @@ public class Inmueble implements Serializable {
     @SerializedName("mascotas")
     @Expose
     private boolean mascotas;
-    private ArrayList<Uri> rutasFile;
+    @SerializedName("rutasFile")
+    @Expose
+    private transient ArrayList<Uri> rutasFile;
 
     public Inmueble() {
     }

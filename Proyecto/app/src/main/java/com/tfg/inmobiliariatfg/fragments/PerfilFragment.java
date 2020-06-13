@@ -117,9 +117,6 @@ public class PerfilFragment extends Fragment {
             tvNomPerfil.setText(usuario.getNombre());
             tvCorreoPerfil.setText(usuario.getCorreo());
             idUsuario = usuario.getId_usuario();
-            if (usuario.getImagen_perfil() != null) {
-                ivPerfil.setImageBitmap(Metodos.bitmap(usuario.getImagen_perfil()));
-            }
             tvTelPerfil.setText(usuario.getTelefono1() + "\n");
             if (usuario.getTelefono2() != null) {
                 tvTelPerfil.append(usuario.getTelefono2());
