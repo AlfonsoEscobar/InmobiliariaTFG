@@ -8,28 +8,25 @@ public class Usuario {
 	private String nombre;
 	private String telefono1;
 	private String telefono2;
-	private byte[] imagen_perfil;
 	
 	public Usuario() {
 	}
 	
 	public Usuario(String correo, String nombre, String telefono1,
-			String telefono2, byte[] imagen_perfil) {
+			String telefono2) {
 		this.correo = correo;
 		this.nombre = nombre;
 		this.telefono1 = telefono1;
 		this.telefono2 = telefono2;
-		this.imagen_perfil = imagen_perfil;
 	}
 
 	public Usuario(String correo, String contrasena, String nombre, String telefono1,
-					String telefono2, byte[] imagen_perfil) {
+					String telefono2) {
 		this.correo = correo;
 		this.contrasena = contrasena;
 		this.nombre = nombre;
 		this.telefono1 = telefono1;
 		this.telefono2 = telefono2;
-		this.imagen_perfil = imagen_perfil;
 	}
 	
 	public String getCorreo() {
@@ -78,14 +75,6 @@ public class Usuario {
 	
 	public void setTelefono2(String telefono2) {
 		this.telefono2 = telefono2;
-	}
-	
-	public byte[] getImagen_perfil() {
-		return imagen_perfil;
-	}
-	
-	public void setImagen_perfil(byte[] imagen_perfil) {
-		this.imagen_perfil = imagen_perfil;
 	}
 
 }

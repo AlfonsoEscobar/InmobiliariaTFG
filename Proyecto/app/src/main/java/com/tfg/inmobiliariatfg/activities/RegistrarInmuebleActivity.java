@@ -1,9 +1,6 @@
 package com.tfg.inmobiliariatfg.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -11,13 +8,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.tfg.inmobiliariatfg.R;
-import com.tfg.inmobiliariatfg.fragments.RecyclerViewMisInmueblesFragment;
 import com.tfg.inmobiliariatfg.modelos.Inmueble;
 import com.tfg.inmobiliariatfg.modelos.ValoresPredeterminadosInmueble;
 import com.tfg.inmobiliariatfg.utiles.ApiAdapter;
@@ -297,10 +293,8 @@ public class RegistrarInmuebleActivity extends AppCompatActivity {
     }
 
     public String getPref() {
-        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
-        String defaultValue = getResources().getString(R.string.baseURL);
-        String baseURL = sharedPref.getString(getString(R.string.baseURL), defaultValue);
-
+        SharedPreferences sharedPref = getSharedPreferences("rutaURL",Context.MODE_PRIVATE);
+        String baseURL = sharedPref.getString("baseUrl","https://34af4e85d798.ngrok.io/Restful_Inmo/servicios/");
         return baseURL;
     }
 }

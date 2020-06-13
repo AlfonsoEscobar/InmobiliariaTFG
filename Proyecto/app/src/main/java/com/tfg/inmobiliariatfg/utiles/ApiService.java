@@ -30,13 +30,16 @@ public interface ApiService {
     @PUT("anuncio/{idInmueble}/{tipoAnuncio}/{precio}")
     Call<Void> putModificarAnuncio(@Path("idInmueble") int idInmueble, @Path("tipoAnuncio") String tipoAnuncio,@Path("precio")  Double precio);
 
+    @PUT("anuncio/criteriosBusqueda")
+    Call <List<InfoAnuncio>> getAnunciosAvanzados(@Body ValoresBusqueda valoresBusqueda);
+
     //-----------------------------------------------------------------------------------------------------------------------------------------------
+
+    @GET("fotografia/{idInmueble}")
+    Call<List<String>> getStringsUriFotos(@Path("idInmueble") int idInmueble);
 
     @GET("valores")
     Call<ValoresPredeterminadosInmueble> getSpinnersRegistrarInmueble();
-
-    @PUT("anuncio/criteriosBusqueda")
-    Call <List<InfoAnuncio>> getAnunciosAvanzados(@Body ValoresBusqueda valoresBusqueda);
 
     @GET("favorito/{idUsuario}")
     Call <List<Favorito>> getCompararFavorito(@Path("idUsuario") int idUsuario);

@@ -5,10 +5,8 @@ import android.net.Uri;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Inmueble implements Serializable {
     @SerializedName("provincia")
@@ -77,7 +75,9 @@ public class Inmueble implements Serializable {
     @SerializedName("mascotas")
     @Expose
     private boolean mascotas;
-    private ArrayList<Integer> imagenesInmueble;
+    @SerializedName("rutasFile")
+    @Expose
+    private transient ArrayList<Uri> rutasFile;
 
     public Inmueble() {
     }
@@ -286,12 +286,11 @@ public class Inmueble implements Serializable {
         this.mascotas = mascotas;
     }
 
-    public ArrayList<Integer> getImagenesInmueble() {
-        return imagenesInmueble;
+    public ArrayList<Uri> getRutasFile() {
+        return rutasFile;
     }
 
-    public void setImagenesInmueble(ArrayList<Integer> imagenesInmueble) {
-        this.imagenesInmueble = imagenesInmueble;
+    public void setRutasFile(ArrayList<Uri> rutasFile) {
+        this.rutasFile = rutasFile;
     }
-
 }

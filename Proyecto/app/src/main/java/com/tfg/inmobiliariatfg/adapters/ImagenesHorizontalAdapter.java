@@ -1,6 +1,7 @@
 package com.tfg.inmobiliariatfg.adapters;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +16,9 @@ import java.util.ArrayList;
 
 public class ImagenesHorizontalAdapter extends RecyclerView.Adapter<ImagenesHorizontalAdapter.HorizontalViewHolder> {
     Context context;
-    ArrayList<Integer> arrayList;
+    ArrayList<Uri> arrayList;
 
-    public ImagenesHorizontalAdapter(Context context, ArrayList<Integer> arrayList) {
+    public ImagenesHorizontalAdapter(Context context, ArrayList<Uri> arrayList) {
         this.context = context;
         this.arrayList = arrayList;
     }
@@ -31,10 +32,8 @@ public class ImagenesHorizontalAdapter extends RecyclerView.Adapter<ImagenesHori
 
     @Override
     public void onBindViewHolder(@NonNull HorizontalViewHolder holder, int position) {
-        int uri = arrayList.get(position);
-        //String path = Metodos.getPath(context, uri);
-        //Bitmap bitmap = BitmapFactory.decodeFile(path);
-        holder.ivInmuebleHorizontal.setImageResource(uri);
+        Uri uri = arrayList.get(position);
+        holder.ivInmuebleHorizontal.setImageURI(uri);
     }
 
     @Override

@@ -25,5 +25,9 @@
             android:id="@+id/nav_anuncios"
             android:icon="@drawable/ic_anuncio"
             android:title="@string/lateralAnuncios" />
+        <item
+            android:id="@+id/nav_Ajustes"
+            android:icon="@drawable/ic_baseline_settings_24"
+            android:title="@string/lateralAjustes" />
     </group>
 </menu>

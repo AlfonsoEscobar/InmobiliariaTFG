@@ -1,5 +1,6 @@
 package es.restful;
 
+import java.io.File;
 import java.net.URI;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -39,65 +40,24 @@ public class ServicioUsuario {
 								 @PathParam("contrasena") String contrasena) {
 
 		claseUsuario = new MySQLUsuarioDAO(dataSource);
-
 		Response.Status respuesta = Response.Status.OK;
 		Usuario usuario = null;
-
 		try {
-
 			if (claseUsuario.verificarUsuarioEnBase(correo, contrasena)) {
-
 				usuario = claseUsuario.obtener(correo);
-
 			}
-
 			if (usuario == null)
 				respuesta = Response.Status.NOT_FOUND;
-
 		} catch (DAOException e) {
 			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
 		}
-
 		if (respuesta == Response.Status.OK) {
 			return Response.ok(usuario).build();
 		} else {
 			return Response.status(respuesta).build();
 		}
-
 	}
 	
-	/*
-	 * No se utiliza de momento posible para borrar
-	 
-	@GET
-	@Path("/{id_usuario}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getUsuarioPorId(@PathParam("id_usuario") int id_usuario) {
-
-		claseUsuario = new MySQLUsuarioDAO(dataSource);
-
-		Response.Status respuesta = Response.Status.OK;
-		Usuario usuario = null;
-
-		try {
-
-			usuario = claseUsuario.obtenerPorId_usuario(id_usuario);
-
-			if (usuario == null)
-				respuesta = Response.Status.NOT_FOUND;
-
-		} catch (DAOException e) {
-			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
-		}
-
-		if (respuesta == Response.Status.OK) {
-			return Response.ok(usuario).build();
-		} else {
-			return Response.status(respuesta).build();
-		}
-	}
-	*/
-
 	@PUT
 	@Path("/{id_usuario}")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -166,17 +126,23 @@ public class ServicioUsuario {
 
 		Response.Status respuesta = Response.Status.OK;
 
-		int filasModificadas = 0;
+		int filasEliminadas = 0;
 
 		try {
 
-			filasModificadas = claseUsuario.eliminar(id);
+			filasEliminadas = claseUsuario.eliminar(id);
+			
+			File foto = new File("/home/alfonso/Imágenes/App/Usuarios/" +  String.valueOf(id));
+
+			if (foto.exists()) {
+				foto.delete();
+			}
 
 		} catch (DAOException e) {
 			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
 		}
 
-		if (filasModificadas == 0) {
+		if (filasEliminadas == 0) {
 			respuesta = Response.Status.NOT_FOUND;
 		}
 

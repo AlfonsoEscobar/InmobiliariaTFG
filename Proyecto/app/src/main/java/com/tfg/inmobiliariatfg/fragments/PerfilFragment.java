@@ -11,7 +11,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.FileUtils;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.text.InputFilter;
@@ -40,18 +39,12 @@ import com.tfg.inmobiliariatfg.R;
 import com.tfg.inmobiliariatfg.activities.MainActivity;
 import com.tfg.inmobiliariatfg.modelos.Usuario;
 import com.tfg.inmobiliariatfg.utiles.ApiAdapter;
-import com.tfg.inmobiliariatfg.utiles.HiloAuxiliarPutPerfilFoto;
 import com.tfg.inmobiliariatfg.utiles.Metodos;
 
-import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 import cz.msebera.android.httpclient.Header;
 import retrofit2.Call;
@@ -61,9 +54,6 @@ import retrofit2.Response;
 public class PerfilFragment extends Fragment {
 
     private String ngrok;
-
-    private String path;
-    private String pathTempFiles;
 
     private static final int COD_GALLERY = 10;
 
@@ -90,10 +80,6 @@ public class PerfilFragment extends Fragment {
         btnEditarNombrePerfil = cl.findViewById(R.id.btnEditarNombrePerfil);
         btnEliminarCuentaPerfil = cl.findViewById(R.id.btnEliminarCuentaPerfil);
         btnEditarImagenPerfil = cl.findViewById(R.id.btnBotonEditarImagenPerfil);
-
-        //.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-        //.setVmPolicy(builder.build());
-        //builder.detectFileUriExposure();
 
         StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().permitNetwork().build());
 
@@ -131,9 +117,6 @@ public class PerfilFragment extends Fragment {
             tvNomPerfil.setText(usuario.getNombre());
             tvCorreoPerfil.setText(usuario.getCorreo());
             idUsuario = usuario.getId_usuario();
-            if (usuario.getImagen_perfil() != null) {
-                ivPerfil.setImageBitmap(Metodos.bitmap(usuario.getImagen_perfil()));
-            }
             tvTelPerfil.setText(usuario.getTelefono1() + "\n");
             if (usuario.getTelefono2() != null) {
                 tvTelPerfil.append(usuario.getTelefono2());
@@ -422,13 +405,6 @@ public class PerfilFragment extends Fragment {
 
                 String remoteUri = ngrok + idUsuario;
                 putImagen(remoteUri,selectedImageURI);
-                /*try {
-                    hiloGaleria.get();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }*/
                 break;
         }
     }
@@ -474,22 +450,18 @@ public class PerfilFragment extends Fragment {
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
             case COD_GALLERY:
-                // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(galleryIntent, COD_GALLERY);
                 } else {
-                    //do something like displaying a message that he didn`t allow the app to access gallery and you wont be able to let him select from gallery
                 }
                 break;
         }
     }
 
     public String getPref() {
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        String defaultValue = getResources().getString(R.string.baseURL);
-        String baseURL = sharedPref.getString(getString(R.string.baseURL), defaultValue);
-
+        SharedPreferences sharedPref = getActivity().getSharedPreferences("rutaURL",Context.MODE_PRIVATE);
+        String baseURL = sharedPref.getString("baseUrl","https://34af4e85d798.ngrok.io/Restful_Inmo/servicios/");
         return baseURL;
     }
 

@@ -1,7 +1,5 @@
 package com.tfg.inmobiliariatfg.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -12,12 +10,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.tfg.inmobiliariatfg.R;
 import com.tfg.inmobiliariatfg.modelos.Usuario;
 import com.tfg.inmobiliariatfg.utiles.ApiAdapter;
 import com.tfg.inmobiliariatfg.utiles.Metodos;
-
-import java.net.URI;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -61,10 +59,9 @@ public class RegistroActivity extends AppCompatActivity {
                         }
                         usuario.setContrasena(Metodos.codificarPass(String.valueOf(etPassRegistro.getText())));
                         usuario.setId_usuario(0);
-                        usuario.setImagen_perfil(null);
 
                         progressDialog = new ProgressDialog(v.getContext());
-                        progressDialog.setMessage("Autentificando credenciales...");
+                        progressDialog.setMessage("Creando usuario...");
                         Metodos.mostrarDialogo(progressDialog);
 
                         Call<Void> usuarioCall = ApiAdapter.getApiService(getPref()).createUsuario(usuario);
@@ -99,10 +96,8 @@ public class RegistroActivity extends AppCompatActivity {
     }
 
     public String getPref() {
-        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
-        String defaultValue = getResources().getString(R.string.baseURL);
-        String baseURL = sharedPref.getString(getString(R.string.baseURL), defaultValue);
-
+        SharedPreferences sharedPref = getSharedPreferences("rutaURL",Context.MODE_PRIVATE);
+        String baseURL = sharedPref.getString("baseUrl","https://34af4e85d798.ngrok.io/Restful_Inmo/servicios/");
         return baseURL;
     }
 }

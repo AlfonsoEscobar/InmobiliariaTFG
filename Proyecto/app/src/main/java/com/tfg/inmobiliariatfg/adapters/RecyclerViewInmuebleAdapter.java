@@ -1,12 +1,13 @@
 package com.tfg.inmobiliariatfg.adapters;
 
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -151,7 +152,7 @@ public class RecyclerViewInmuebleAdapter extends RecyclerView.Adapter<RecyclerVi
             }
         });
 
-        ArrayList<Integer> imagenesInmuebleItem = inmuebleLista.get(position).getImagenesInmueble();
+        ArrayList<Uri> imagenesInmuebleItem = inmuebleLista.get(position).getRutasFile();
 
         ImagenesHorizontalAdapter imagenHorizontalAdapter = new ImagenesHorizontalAdapter(context, imagenesInmuebleItem);
 
@@ -172,7 +173,7 @@ public class RecyclerViewInmuebleAdapter extends RecyclerView.Adapter<RecyclerVi
             public void onClick(DialogInterface dialog, int which) {
                 if (opciones[which].equals("Modificar Inmueble")) {
                     Intent intent = new Intent(context, RegistrarInmuebleActivity.class);
-                    intent.putExtra("inmueble", response);
+                    intent.putExtra("inmueble", inmueble);
                     context.startActivity(intent);
 
                 } else {
@@ -191,7 +192,7 @@ public class RecyclerViewInmuebleAdapter extends RecyclerView.Adapter<RecyclerVi
         final ProgressDialog progressDialog = new ProgressDialog(context);
         Metodos.mostrarDialogo(progressDialog);
         progressDialog.setMessage("Eliminando inmueble...");
-        Call<Void> call = ApiAdapter.getApiService(String.valueOf(R.string.baseURL)).eliminarInmueble(inmueble.getId_inmueble());
+        Call<Void> call = ApiAdapter.getApiService(getPref()).eliminarInmueble(inmueble.getId_inmueble());
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -217,5 +218,11 @@ public class RecyclerViewInmuebleAdapter extends RecyclerView.Adapter<RecyclerVi
             return inmuebleLista.size();
         }
         return 0;
+    }
+
+    public String getPref() {
+        SharedPreferences sharedPref = context.getSharedPreferences("rutaURL",Context.MODE_PRIVATE);
+        String baseURL = sharedPref.getString("baseUrl","https://34af4e85d798.ngrok.io/Restful_Inmo/servicios/");
+        return baseURL;
     }
 }

@@ -3,7 +3,6 @@ package com.tfg.inmobiliariatfg.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,13 +21,11 @@ public class RecyclerViewInfoAnuncioAdapter extends RecyclerView.Adapter<Recycle
     public List<InfoAnuncio> AnuncioLista;
     public List<Favorito> anunciosFavoritos;
     private View.OnClickListener listener;
-    private int idUsuario;
 
     public static class ViewHolderAnuncios extends RecyclerView.ViewHolder {
 
         private TextView tvBusquedaCalle, tvBusquedaFechIng, tvBusquedaPrecio, tvBusquedaHab, tvBusquedaMetros2, tvBusquedaPiso;
         ConstraintLayout clItemAnuncioDestacado;
-        private ImageView ivBusquedaImagen;
 
         public ViewHolderAnuncios(View itemView) {
             super(itemView);
@@ -40,12 +37,9 @@ public class RecyclerViewInfoAnuncioAdapter extends RecyclerView.Adapter<Recycle
             tvBusquedaHab = itemView.findViewById(R.id.tvBusquedaHab);
             tvBusquedaMetros2 = itemView.findViewById(R.id.tvBusquedaMetros2);
             tvBusquedaPiso = itemView.findViewById(R.id.tvBusquedaPiso);
-            /*ivBusquedaImagen = itemView.findViewById(R.id.ivBusquedaImagen);*/
         }
     }
 
-
-    //Falta añadir el paso de las fotos al arrayAdapter
     public RecyclerViewInfoAnuncioAdapter(List<InfoAnuncio> AnuncioLista, List<Favorito> datosAComparar) {
         this.AnuncioLista = AnuncioLista;
         this.anunciosFavoritos = datosAComparar;
@@ -63,19 +57,19 @@ public class RecyclerViewInfoAnuncioAdapter extends RecyclerView.Adapter<Recycle
     @Override
     public void onBindViewHolder(@NonNull ViewHolderAnuncios holder, int position) {
         if (anunciosFavoritos != null) {
-            for (int i = 0; i < AnuncioLista.size(); i++) {
-                for (int j = 0; j < anunciosFavoritos.size(); j++) {
-                    if (AnuncioLista.get(i).getId_inmueble() == anunciosFavoritos.get(j).getInmueble_favorito() &&
-                            AnuncioLista.get(i).getTipo_anuncio().equals(anunciosFavoritos.get(j).getTipo_anuncio())) {
-                        holder.clItemAnuncioDestacado.setBackgroundResource(R.color.colorAccentDegradado);
-                        break;
-                    }
+            for (int x = 0; x < anunciosFavoritos.size(); x++) {
+                if (AnuncioLista.get(position).getId_inmueble() == anunciosFavoritos.get(x).getInmueble_favorito() &&
+                        AnuncioLista.get(position).getTipo_anuncio().equals(anunciosFavoritos.get(x).getTipo_anuncio())) {
+                    holder.clItemAnuncioDestacado.setBackgroundResource(R.color.colorAccentDegradado);
+                    break;
+                } else {
+                    holder.clItemAnuncioDestacado.setBackgroundResource(R.color.design_default_color_background);
                 }
             }
         }
         holder.tvBusquedaCalle.setText(AnuncioLista.get(position).getInmueble().getCalle());
         holder.tvBusquedaFechIng.setText(new SimpleDateFormat("dd-MM-yyyy").format(AnuncioLista.get(position).getFecha_anunciado()));
-        if (AnuncioLista.get(position).getTipo_anuncio().equalsIgnoreCase("venta")) {
+        if (AnuncioLista.get(position).getTipo_anuncio().equalsIgnoreCase("comprar")) {
             holder.tvBusquedaPrecio.setText(AnuncioLista.get(position).getPrecio() + " €");
         } else {
             holder.tvBusquedaPrecio.setText(AnuncioLista.get(position).getPrecio() + " €/mes");

@@ -17,7 +17,6 @@ public class RecyclerViewCrearAnuncioAdapter extends RecyclerView.Adapter<Recycl
 
     public List<Inmueble> inmuebleLista;
     private View.OnClickListener listener;
-    private int idUsuario;
 
     public static class ViewHolderAnuncios extends RecyclerView.ViewHolder {
     private TextView tvLocalidadCrearAnuncio, tvCalleCrearAnuncio;

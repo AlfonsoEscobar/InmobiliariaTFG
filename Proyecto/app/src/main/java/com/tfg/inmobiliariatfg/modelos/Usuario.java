@@ -31,10 +31,6 @@ public class Usuario implements Serializable {
     @Expose
     private String telefono2;
 
-    @SerializedName("imagen_perfil")
-    @Expose
-    private byte[] imagen_perfil;
-
     public Usuario() {
 
     }
@@ -46,8 +42,6 @@ public class Usuario implements Serializable {
         this.nombre = nombre;
         this.telefono1 = telefono1;
         this.telefono2 = telefono2;
-        this.imagen_perfil = imagen_perfil;
-        //this.id_usuario = 0;//Lo asignaremos cuando vayamos a insertarlo en la base de datos
     }
 
     public String getCorreo() {
@@ -97,13 +91,4 @@ public class Usuario implements Serializable {
     public void setTelefono2(String telefono2) {
         this.telefono2 = telefono2;
     }
-
-    public byte[] getImagen_perfil() {
-        return imagen_perfil;
-    }
-
-    public void setImagen_perfil(byte[] imagen_perfil) {
-        this.imagen_perfil = imagen_perfil;
-    }
-
 }
