@@ -233,25 +233,18 @@ public class MySQLAnuncioDAO {
 	public List<InfoAnuncio> listaInfoAnuncios(int propietario) throws DAOException {
 
 		PreparedStatement stat = null;
-
 		ResultSet rs = null;
-
 		List<InfoAnuncio> InfoAnuncios = new LinkedList<InfoAnuncio>();
-
 		try {
-
 			stat = conexion.prepareStatement(GETINFOANUNCIOPROPIETARIO);
 			stat.setInt(1, propietario);
 			rs = stat.executeQuery();
-
 			while (rs.next()) {
 				InfoAnuncios.add(Conversor.convertirInfoAnuncio(rs));
 			}
-
 		} catch (SQLException ex) {
 			throw new DAOException("Error en SQL", ex);
 		} finally {
-
 			if (rs != null) {
 				try {
 					rs.close();
@@ -259,7 +252,6 @@ public class MySQLAnuncioDAO {
 					throw new DAOException("Error en SQL", ex);
 				}
 			}
-
 			if (stat != null) {
 				try {
 					stat.close();
@@ -267,11 +259,8 @@ public class MySQLAnuncioDAO {
 					throw new DAOException("Error en SQL", ex);
 				}
 			}
-
 		}
-
 		return InfoAnuncios;
-
 	}
 	
 	/*

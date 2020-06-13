@@ -40,31 +40,22 @@ public class ServicioUsuario {
 								 @PathParam("contrasena") String contrasena) {
 
 		claseUsuario = new MySQLUsuarioDAO(dataSource);
-
 		Response.Status respuesta = Response.Status.OK;
 		Usuario usuario = null;
-
 		try {
-
 			if (claseUsuario.verificarUsuarioEnBase(correo, contrasena)) {
-
 				usuario = claseUsuario.obtener(correo);
-
 			}
-
 			if (usuario == null)
 				respuesta = Response.Status.NOT_FOUND;
-
 		} catch (DAOException e) {
 			respuesta = Response.Status.INTERNAL_SERVER_ERROR;
 		}
-
 		if (respuesta == Response.Status.OK) {
 			return Response.ok(usuario).build();
 		} else {
 			return Response.status(respuesta).build();
 		}
-
 	}
 	
 	@PUT

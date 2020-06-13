@@ -14,7 +14,6 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -86,41 +85,27 @@ public class ServicioFotografia {
 		Response.Status responseStatus = Response.Status.OK;
 		
 		Fotografia foto = new Fotografia();
-		
 		String nombreFoto = String .valueOf(System.currentTimeMillis());
-		
 		File nombreCarpeta = new File("/home/alfonso/Imágenes/App/Pisos/" + String.valueOf(id_inmueble));
-		
 		if(!nombreCarpeta.exists()) {
 			
 			nombreCarpeta.mkdir();
-			
 			fichero.renameTo(new File("/home/alfonso/Imágenes/App/Pisos/" + String.valueOf(id_inmueble) + "/", nombreFoto));
-			
 			foto.setTipo_habitacion(tipo_habitacion);
 			foto.setRuta(nombreFoto);
 			foto.setInmueble(id_inmueble);
-			
 		} else {
-			
 			fichero.renameTo(new File("/home/alfonso/Imágenes/App/Pisos/" + String.valueOf(id_inmueble) + "/", nombreFoto));
-			
 			foto.setTipo_habitacion(tipo_habitacion);
 			foto.setRuta(nombreFoto);
 			foto.setInmueble(id_inmueble);
-			
 		}
-
 		try {
-			
 			claseFotografia.insertar(foto);
-			
 		} catch (DAOException e) {
 			responseStatus = Response.Status.INTERNAL_SERVER_ERROR;
 		}
-
 		return Response.status(responseStatus).build();
-
 	}
 	
 	@GET
@@ -128,7 +113,9 @@ public class ServicioFotografia {
 	@Produces("images/jpeg")
 	public Response getFicheroPortada(@PathParam("id_imagen") int id_imagen) {
 		
-		File fichero = new File("/home/alfonso/Imágenes/App/Portada/"+ String.valueOf(id_imagen));
+		int id_foto = (int) (Math.random() * 22 + 1);
+		
+		File fichero = new File("/home/alfonso/Imágenes/App/Portada/"+ String.valueOf(id_foto));
 		return Response.ok(fichero).header("Content-Length", fichero.length()).build();
 		
 	}
@@ -148,13 +135,10 @@ public class ServicioFotografia {
 	@Path("/usuario/{id_usuario}")
 	@Consumes("images/jpeg")
 	public Response putFicheroUsuario(@PathParam("id_usuario") int id_usuario,
-									  @QueryParam("file") File fichero) {
+									  File fichero) {
 
 		claseFotografia = new MySQLFotografiaDAO(dataSource);
 		Response.Status responseStatus = Response.Status.OK;
-		
-		//fichero.renameTo(new File("/home/alfonso/Imágenes/App/Usuarios/" + String.valueOf(id_usuario)));
-		
 		File nombreFoto = new File("/home/alfonso/Imágenes/App/Usuarios/" + String.valueOf(id_usuario));
 		
 		if(nombreFoto.exists()) {
@@ -171,8 +155,6 @@ public class ServicioFotografia {
 			responseStatus = Response.Status.INTERNAL_SERVER_ERROR;
 			return Response.status(responseStatus).build();
 		}
-		
-
 	}
 
 	@DELETE
@@ -180,34 +162,23 @@ public class ServicioFotografia {
 	public Response deleteFotografia(@PathParam("id") int id) {
 
 		claseFotografia = new MySQLFotografiaDAO(dataSource);
-		
 		Response.Status respuestas = Response.Status.OK;
-		
 		List<Fotografia> listaFotografia = new LinkedList<>();
-		
 		String id_inmueble = String.valueOf(id);
-		
 		int filasModificadas = 0;
 		
 		try {
-			
 			listaFotografia = claseFotografia.listaFotografiasDeInmueble(id);
-			
 			for (Fotografia f : listaFotografia) {
 				claseFotografia.borrarFotografia(id_inmueble, f.getRuta());
 			}
-			
 			filasModificadas = claseFotografia.eliminarFotografiasDeInmueble(id);
-			
 		} catch (DAOException e) {
 			respuestas = Response.Status.INTERNAL_SERVER_ERROR;
 		}
-		
 		if (filasModificadas == 0) {
 			respuestas = Response.Status.NOT_FOUND;
 		}
-		
 		return Response.status(respuestas).build();
 	}
-	
 }

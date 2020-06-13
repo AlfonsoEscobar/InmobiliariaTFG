@@ -48,9 +48,6 @@ public class MySQLUsuarioDAO {
 
 	}
 
-	/*
-	 * FUNCIONA
-	 */
 	public int insertar(Usuario usuario) throws DAOException {
 		PreparedStatement stat = null;
 		ResultSet generatedKeys = null;
@@ -85,9 +82,7 @@ public class MySQLUsuarioDAO {
 
 	}
 
-	/*
-	 * FUNCIONA
-	 */
+	
 	public int modificar(String correo, Usuario usuario) throws DAOException {
 		PreparedStatement stat = null;
 		int filasAfectadas = 0;
@@ -115,9 +110,6 @@ public class MySQLUsuarioDAO {
 
 	}
 
-	/*
-	 * FUNCIONA
-	 */
 	public int modificar(int id, Usuario usuario) throws DAOException {
 
 		PreparedStatement stat = null;
@@ -151,9 +143,6 @@ public class MySQLUsuarioDAO {
 
 	}
 
-	/*
-	 * FUNCIONA
-	 */
 	public int eliminar(String correo) throws DAOException {
 		PreparedStatement stat = null;
 		int filasAfectadas;
@@ -196,9 +185,6 @@ public class MySQLUsuarioDAO {
 		return filasAfectadas;
 	}
 
-	/*
-	 * FUNCIONA
-	 */
 	public Usuario obtener(String correo) throws DAOException {
 		PreparedStatement stat = null;
 		ResultSet rs = null;
@@ -272,9 +258,7 @@ public class MySQLUsuarioDAO {
 		return usuario;
 	}
 	
-	/*
-	 * 	FUNCIONA
-	 */
+	
 	public boolean verificarUsuarioEnBase(String correo, String contrasena) throws DAOException {
 		boolean insertado = false;
 		PreparedStatement stat = null;
