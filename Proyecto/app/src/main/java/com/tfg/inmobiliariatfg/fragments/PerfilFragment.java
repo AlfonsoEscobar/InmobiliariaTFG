@@ -136,7 +136,7 @@ public class PerfilFragment extends Fragment {
         if (!dir.exists()) {
             dir.mkdirs();
         }
-        pathGuardar = dir.getAbsolutePath() + "/TFG";
+        pathGuardar = dir.getAbsolutePath() + "/";
         Log.v("pathGuardar", "" + pathGuardar);
 
         new AsyncHttpClient().get(RemoteUri, new AsyncHttpResponseHandler() {
@@ -402,9 +402,8 @@ public class PerfilFragment extends Fragment {
             case COD_GALLERY:
 
                 Uri selectedImageURI = data.getData();
-
                 String remoteUri = ngrok + idUsuario;
-                putImagen(remoteUri,selectedImageURI);
+                putImagen(remoteUri, selectedImageURI);
                 break;
         }
     }

@@ -24,10 +24,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestHandle;
 import com.tfg.inmobiliariatfg.R;
 import com.tfg.inmobiliariatfg.adapters.ImagenesHorizontalAdapter;
 import com.tfg.inmobiliariatfg.modelos.Favorito;
 import com.tfg.inmobiliariatfg.modelos.InfoAnuncio;
+import com.tfg.inmobiliariatfg.modelos.Inmueble;
 import com.tfg.inmobiliariatfg.utiles.ApiAdapter;
 
 import java.io.File;
@@ -59,6 +61,7 @@ public class AnuncioCompletoActivity extends AppCompatActivity {
             tvultimaActualizacionMisInmueblesAnuncioCompleto, tvCorreoAnuncianteMisInmueblesAnuncioCompleto, tvTelefonoAnuncianteMisInmueblesAnuncioCompleto;
     private ImageView ivUltPlantaMisInmueblesAnuncioCompleto, ivGarajeMisInmueblesAnuncioCompleto, ivTrasteroMisInmueblesAnuncioCompleto, ivAscensorMisInmueblesAnuncioCompleto, ivMascotasMisInmueblesAnuncioCompleto;
     private Button btnFavoritoAnuncioCompleto, btnCopiarCorreoAnuncioCompleto, btnDialogTelefonoAnuncioCompleto;
+    List<String> listaRutas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -231,7 +234,7 @@ public class AnuncioCompletoActivity extends AppCompatActivity {
             }
         } else {
             Toast.makeText(getApplicationContext(),
-                    "Por favor, inicia sesion para guardar tus favortios.", Toast.LENGTH_LONG).show();
+                    "Por favor, inicia sesion para guardar tus favoritos.", Toast.LENGTH_LONG).show();
         }
 
     }
@@ -318,51 +321,76 @@ public class AnuncioCompletoActivity extends AppCompatActivity {
         if (!dir.exists()) {
             dir.mkdirs();
         }
-        final String pathGuardar = dir.getAbsolutePath() + "/TFG";
+        final String pathGuardar = dir.getAbsolutePath() + "/";
         Log.v("pathGuardar", "" + pathGuardar);
 
-        List<String> rutas = anuncio.getListaRutas();
-        final ArrayList<Uri> listUriImages = new ArrayList<>();
-        if (rutas != null) {
-            for (int i = 0; i <= rutas.size(); i++) {
-                new AsyncHttpClient().get(rutas.get(i), new AsyncHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                        String nombre = System.currentTimeMillis() / 100 + ".jpeg";
-                        Uri uriPath = null;
-                        FileOutputStream fOS;
-                        try {
-                            fOS = new FileOutputStream(pathGuardar + nombre);
-                            fOS.write(responseBody, 0, responseBody.length);
-                            fOS.close();
-                            uriPath = Uri.parse(pathGuardar + nombre);
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        if (uriPath != null) {
-                            listUriImages.add(uriPath);
-                        }
-                    }
+        Inmueble inmueble = anuncio.getInmueble();
+            final ArrayList<Uri> listUriImages = new ArrayList<>();
+            int idInmueble = inmueble.getId_inmueble();
+            RequestHandle handle = null;
 
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
-                    }
-                });
+            Call<List<String>> listCall = ApiAdapter.getApiService(getPref()).getStringsUriFotos(idInmueble);
+            try {
+                Response<List<String>> response = listCall.execute();
+                nombreImagenes(response.body());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } else {
-            String archivo = "android.resource://" + getPackageName() + "/" + R.drawable.ic_sin_imagen;
-            Uri ruta = Uri.parse(archivo);
-            listUriImages.add(ruta);
-            listUriImages.add(ruta);
-            listUriImages.add(ruta);
-            listUriImages.add(ruta);
-        }
-        anuncio.getInmueble().setRutasFile(listUriImages);
+            if (listaRutas != null) {
+                for (int j = 0; j < listaRutas.size(); j++) {
+                    String ruta = getPref() + "fotografia/inmueble/" + idInmueble + "/" + listaRutas.get(j);
+                    final int finalJ = j;
+                    handle = new AsyncHttpClient().get(ruta, new AsyncHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                            String nombre = System.currentTimeMillis() / 100 + finalJ + ".jpeg";
+                            Uri uriPath = null;
+                            FileOutputStream fOS;
+                            try {
+                                fOS = new FileOutputStream(pathGuardar + nombre);
+                                fOS.write(responseBody, 0, responseBody.length);
+                                fOS.close();
+                                uriPath = Uri.parse(pathGuardar + nombre);
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            if (uriPath != null) {
+                                listUriImages.add(uriPath);
+                                Log.v("list", "" + pathGuardar + nombre);
+                                Log.v("nombre", "" + nombre);
+                            }
+                        }
 
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+                        }
+                    });
+                    while (!handle.isFinished()){
+                        try {
+                            Thread.sleep(200);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+            } else {
+                String archivo = "android.resource://" + getPackageName() + "/" + R.drawable.ic_sin_imagen;
+                Uri ruta = Uri.parse(archivo);
+                listUriImages.add(ruta);
+                listUriImages.add(ruta);
+                listUriImages.add(ruta);
+                listUriImages.add(ruta);
+            }
         imagenesHorizontalAdapter = new ImagenesHorizontalAdapter(getApplicationContext(), listUriImages);
         recyclerViewImagenesAnuncio.setAdapter(imagenesHorizontalAdapter);
+    }
+
+    private void nombreImagenes(List<String> response) {
+        listaRutas = response;
     }
 }

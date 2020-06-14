@@ -33,7 +33,7 @@
     <string name="buscar">Buscar</string>
     <string name="imgpincipal">imgPincipal</string>
     <!-- Strings de activity_access_error -->
-    <string name="textError">No puedes acceder al sitio especificado,\npor favor inicie sesion.</string>
+    <string name="textError">No puedes acceder a este apartado del área de usuario, por favor inicie sesion.</string>
     <string name="btnLoginError">Iniciar sesion</string>
     <!-- Strings de activity_register -->
     <string name="CorreoRegister">Correo:</string>
@@ -46,7 +46,7 @@
     <string name="introduceRegistro">Introduce:</string>
     <string name="asterisco">*</string>
     <!-- String URL -->
-    <!-- <string name="baseURL">"https://34af4e85d798.ngrok.io/Restful_Inmo/servicios/"</string> -->
+    <!-- <string name="baseURL">"https://ba6321fcc5c3.ngrok.io/Restful_Inmo/servicios/"</string> -->
     <!-- Strings de item_list_inmueble-->
     <string name="datosUbicacion">Datos de Ubicación</string>
     <string name="caracteristicasInmueble">Caracteristicas de inmueble</string>

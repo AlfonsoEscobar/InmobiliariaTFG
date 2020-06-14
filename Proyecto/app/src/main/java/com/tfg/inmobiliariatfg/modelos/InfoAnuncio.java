@@ -1,9 +1,12 @@
 package com.tfg.inmobiliariatfg.modelos;
 
+import android.net.Uri;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -38,7 +41,7 @@ public class InfoAnuncio implements Serializable {
     private Inmueble inmueble;
     @SerializedName("listaRutas")
     @Expose
-    private List<String> listaRutas;
+    private transient ArrayList<Uri> rutasFileAnuncio;
     public InfoAnuncio() {
 
     }
@@ -126,12 +129,12 @@ public class InfoAnuncio implements Serializable {
         this.correo = correo;
     }
 
-    public List<String> getListaRutas() {
-        return listaRutas;
+    public ArrayList<Uri> getrutasFileAnuncio() {
+        return rutasFileAnuncio;
     }
 
-    public void setListaRutas(List<String> listaRutas) {
-        this.listaRutas = listaRutas;
+    public void setrutasFileAnuncio(ArrayList<Uri> rutasFile) {
+        this.rutasFileAnuncio = rutasFile;
     }
 
 }

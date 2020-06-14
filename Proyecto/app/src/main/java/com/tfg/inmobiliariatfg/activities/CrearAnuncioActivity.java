@@ -84,7 +84,7 @@ public class CrearAnuncioActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final Inmueble inmueble = response.get(recyclerViewCrearAnuncio.getChildAdapterPosition(v));
                 final int idInmueble = inmueble.getId_inmueble();
-                Call<List<InfoAnuncio>> listComprobarCall = ApiAdapter.getApiService(getPref()).getFavortiosUsuario(idUsuario);
+                Call<List<InfoAnuncio>> listComprobarCall = ApiAdapter.getApiService(getPref()).getAnuncioPropietario(idUsuario);
                 listComprobarCall.enqueue(new Callback<List<InfoAnuncio>>() {
                     @Override
                     public void onResponse(Call<List<InfoAnuncio>> call, Response<List<InfoAnuncio>> response) {

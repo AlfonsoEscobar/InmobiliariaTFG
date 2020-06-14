@@ -3,10 +3,12 @@ package com.tfg.inmobiliariatfg.activities;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -26,7 +28,6 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.tfg.inmobiliariatfg.R;
 import com.tfg.inmobiliariatfg.fragments.BuscadorFragment;
-import com.tfg.inmobiliariatfg.fragments.ErrorFragment;
 import com.tfg.inmobiliariatfg.fragments.PerfilFragment;
 import com.tfg.inmobiliariatfg.fragments.RecyclerViewMisAnunciosFragment;
 import com.tfg.inmobiliariatfg.fragments.RecyclerViewMisFavoritosFragment;
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     new BuscadorFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_buscar);
         }
-
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().permitNetwork().build());
         ExtrasLogin = getIntent().getExtras();
         if (ExtrasLogin != null) {
             usuario = (Usuario) ExtrasLogin.getSerializable("usuario");
@@ -103,8 +104,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_perfil:
                 if (idUsuario == 0) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            new ErrorFragment()).commit();
+                    Intent intent  = new Intent(this, LoginActivity.class);
+                    startActivity(intent);
                 } else {
                     PerfilFragment perfilFragment = new PerfilFragment();
                     perfilFragment.setArguments(ExtrasLogin);
@@ -114,8 +115,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_favoritos:
                 if (idUsuario == 0) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            new ErrorFragment()).commit();
+                    Intent intent  = new Intent(this, LoginActivity.class);
+                    startActivity(intent);
                 } else {
                     RecyclerViewMisFavoritosFragment recyclerViewMisFavoritosFragment = new RecyclerViewMisFavoritosFragment();
                     recyclerViewMisFavoritosFragment.setArguments(ExtrasLogin);
@@ -125,8 +126,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_inmuebles:
                 if (idUsuario == 0) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            new ErrorFragment()).commit();
+                    Intent intent  = new Intent(this, LoginActivity.class);
+                    startActivity(intent);
                 } else {
                     RecyclerViewMisInmueblesFragment recyclerViewMisInmueblesFragment = new RecyclerViewMisInmueblesFragment();
                     recyclerViewMisInmueblesFragment.setArguments(ExtrasLogin);
@@ -136,8 +137,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_anuncios:
                 if (idUsuario == 0) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            new ErrorFragment()).commit();
+                    Intent intent  = new Intent(this, LoginActivity.class);
+                    startActivity(intent);
                 } else {
                     RecyclerViewMisAnunciosFragment rvMisAnuncios = new RecyclerViewMisAnunciosFragment();
                     rvMisAnuncios.setArguments(ExtrasLogin);
@@ -148,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             case R.id.nav_Ajustes:
                 final AlertDialog.Builder alertMofificarNombrePerfil = new AlertDialog.Builder(MainActivity.this);
-                alertMofificarNombrePerfil.setTitle("Modificar RemoteUri");
+                alertMofificarNombrePerfil.setTitle("Modificar ngrok");
 
                 final EditText input = new EditText(MainActivity.this);
 
@@ -193,8 +194,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void sharedPreferences(String baseURL){
         SharedPreferences sharedPref = getSharedPreferences("rutaURL",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString("baseUrl", baseURL);
+        editor.putString("baseUrl", "https://" + baseURL + "/Restful_Inmo/servicios/");
         editor.commit();
+        finish();
+        startActivity(getIntent());
     }
 
     public String getPref() {
