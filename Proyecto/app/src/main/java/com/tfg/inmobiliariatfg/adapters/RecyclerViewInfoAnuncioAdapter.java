@@ -1,8 +1,10 @@
 package com.tfg.inmobiliariatfg.adapters;
 
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -10,6 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tfg.inmobiliariatfg.R;
+import com.tfg.inmobiliariatfg.modelos.Anuncio;
 import com.tfg.inmobiliariatfg.modelos.Favorito;
 import com.tfg.inmobiliariatfg.modelos.InfoAnuncio;
 
@@ -25,6 +28,7 @@ public class RecyclerViewInfoAnuncioAdapter extends RecyclerView.Adapter<Recycle
     public static class ViewHolderAnuncios extends RecyclerView.ViewHolder {
 
         private TextView tvBusquedaCalle, tvBusquedaFechIng, tvBusquedaPrecio, tvBusquedaHab, tvBusquedaMetros2, tvBusquedaPiso;
+        private ImageView ivPrincipal;
         ConstraintLayout clItemAnuncioDestacado;
 
         public ViewHolderAnuncios(View itemView) {
@@ -37,6 +41,7 @@ public class RecyclerViewInfoAnuncioAdapter extends RecyclerView.Adapter<Recycle
             tvBusquedaHab = itemView.findViewById(R.id.tvBusquedaHab);
             tvBusquedaMetros2 = itemView.findViewById(R.id.tvBusquedaMetros2);
             tvBusquedaPiso = itemView.findViewById(R.id.tvBusquedaPiso);
+            ivPrincipal = itemView.findViewById(R.id.ivBusquedaImagen);
         }
     }
 
@@ -77,6 +82,10 @@ public class RecyclerViewInfoAnuncioAdapter extends RecyclerView.Adapter<Recycle
         holder.tvBusquedaHab.setText(AnuncioLista.get(position).getInmueble().getNum_habitaciones() + " habitaciones");
         holder.tvBusquedaMetros2.setText(AnuncioLista.get(position).getInmueble().getMetros2() + " /m²");
         holder.tvBusquedaPiso.setText(AnuncioLista.get(position).getInmueble().getPiso() + "º planta");
+        if (!AnuncioLista.get(position).getrutasFileAnuncio().isEmpty()) {
+            Uri uri = AnuncioLista.get(position).getrutasFileAnuncio().get(0);
+            holder.ivPrincipal.setImageURI(uri);
+        }
     }
 
     @Override

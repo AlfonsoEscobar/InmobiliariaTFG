@@ -5,36 +5,6 @@ CREATE database inmobiliaria;
 
 use inmobiliaria;
 
-CREATE TABLE `tipo_habitacion`(
-  `id_habitacion` int AUTO_INCREMENT,
-  `tipo` varchar(20),
-  CONSTRAINT `pk_tipo_habitacion` PRIMARY KEY (`id_habitacion`)
-)ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-CREATE TABLE `escalera`(
-  `id_escalera` int AUTO_INCREMENT,
-  `tipo` varchar(20),
-  CONSTRAINT `pk_escalera` PRIMARY KEY (`id_escalera`)
-)ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-CREATE TABLE `tipo_edificacion`(
-  `id_edificacion` int AUTO_INCREMENT,
-  `tipo` varchar(20),
-  CONSTRAINT `pk_tipo_edificacion` PRIMARY KEY (`id_edificacion`)
-)ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-CREATE TABLE `exteriores`(
-  `id_exterior` int AUTO_INCREMENT,
-  `tipo` varchar(20),
-  CONSTRAINT `pk_exteriores` PRIMARY KEY (`id_exterior`)
-)ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-CREATE TABLE `tipo_obra`(
-  `id_obra` int AUTO_INCREMENT,
-  `tipo` varchar(20),
-  CONSTRAINT `pk_tipo_obra` PRIMARY KEY (`id_obra`)
-)ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 CREATE TABLE `usuario` (
   `correo` varchar(40),
   `contrasena` varchar(64) NOT NULL,
@@ -108,6 +78,46 @@ CREATE TABLE `fotografia` (
   CONSTRAINT `fk_fotografia_inmueble` FOREIGN KEY (`inmueble`) REFERENCES `inmueble` (`id_inmueble`)
   on delete cascade on update cascade
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `tipo_habitacion`(
+  `id_habitacion` int AUTO_INCREMENT,
+  `tipo` varchar(20),
+  CONSTRAINT `pk_tipo_habitacion` PRIMARY KEY (`id_habitacion`),
+  CONSTRAINT `un_tipo_habitacion_tipo` UNIQUE KEY (`tipo`),
+  CONSTRAINT `fk_tipo_habitacion_fotografia` FOREIGN KEY (`tipo`) REFERENCES `fotografia`(`tipo_habitacion`)
+)ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `escalera`(
+  `id_escalera` int AUTO_INCREMENT,
+  `tipo` varchar(20),
+  CONSTRAINT `pk_escalera` PRIMARY KEY (`id_escalera`),
+  CONSTRAINT `un_escalera_tipo` UNIQUE KEY (`tipo`),
+  CONSTRAINT `fk_escalera_inmueble` FOREIGN KEY (`tipo`) REFERENCES `inmueble`(`escalera`)
+)ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `tipo_edificacion`(
+  `id_edificacion` int AUTO_INCREMENT,
+  `tipo` varchar(20),
+  CONSTRAINT `pk_tipo_edificacion` PRIMARY KEY (`id_edificacion`),
+  CONSTRAINT `un_tipo__tipo` UNIQUE KEY (`tipo`),
+  CONSTRAINT `fk__inmueble` FOREIGN KEY (`tipo`) REFERENCES `inmueble`(`tipo_`)
+)ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `exteriores`(
+  `id_exterior` int AUTO_INCREMENT,
+  `tipo` varchar(20),
+  CONSTRAINT `pk_exteriores` PRIMARY KEY (`id_exterior`),
+  CONSTRAINT `un_exteriores_tipo` UNIQUE KEY (`tipo`),
+  CONSTRAINT `fk_exteriores_inmueble` FOREIGN KEY (`tipo`) REFERENCES `inmueble`(`exteriores`)
+)ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `tipo_obra`(
+  `id_obra` int AUTO_INCREMENT,
+  `tipo` varchar(20),
+  CONSTRAINT `pk_tipo_obra` PRIMARY KEY (`id_obra`),
+  CONSTRAINT `un_tipo_obra_tipo` UNIQUE KEY (`tipo`),
+  CONSTRAINT `fk_obra_inmueble` FOREIGN KEY (`tipo`) REFERENCES `inmueble`(`tipo_obra`)
+)ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
 insert into usuario values("alfonso@gmail.es", "a115168db2baaf8afae6387b2857b9096dd6ef159e449d8193bfbbe5e4fae550", 0, "Alfonso Escobar", "111111111", "222222222", null);

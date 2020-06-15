@@ -1,6 +1,5 @@
 package es.dao.util;
 
-import java.io.File;
 import java.sql.Date;
 import java.util.List;
 
@@ -18,14 +17,12 @@ public class InfoAnuncio {
 	private String correo;
 	
 	private List<String> listaRutas;
-	private File imagen;
 	
 	public InfoAnuncio() {
 		
 	}
 	
 	public InfoAnuncio(int id_inmueble, double precio, Inmueble inmueble) {
-		super();
 		this.id_inmueble = id_inmueble;
 		this.precio = precio;
 		this.inmueble = inmueble;
@@ -77,14 +74,6 @@ public class InfoAnuncio {
 
 	public void setInmueble(Inmueble inmueble) {
 		this.inmueble = inmueble;
-	}
-	
-	public File getImagen() {
-		return imagen;
-	}
-	
-	public void setImagen(File img) {
-		this.imagen = img;
 	}
 	
 	public List<String> getListaRutas(){

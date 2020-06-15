@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,13 +23,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestHandle;
 import com.tfg.inmobiliariatfg.R;
 import com.tfg.inmobiliariatfg.activities.RegistrarInmuebleActivity;
+import com.tfg.inmobiliariatfg.adapters.RecyclerViewInmuebleAdapter;
 import com.tfg.inmobiliariatfg.modelos.Inmueble;
 import com.tfg.inmobiliariatfg.modelos.Usuario;
 import com.tfg.inmobiliariatfg.utiles.ApiAdapter;
 import com.tfg.inmobiliariatfg.utiles.Metodos;
-import com.tfg.inmobiliariatfg.adapters.RecyclerViewInmuebleAdapter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -51,6 +53,7 @@ public class RecyclerViewMisInmueblesFragment extends Fragment {
     private Usuario usuario;
     private int idUsuario;
     List<String> listaRutas;
+    int contador = 1;
 
     @Nullable
     @Override
@@ -69,8 +72,8 @@ public class RecyclerViewMisInmueblesFragment extends Fragment {
         });
 
         recyclerMisInmuebles = view.findViewById(R.id.recyclerMisInmuebles);
-
         recyclerMisInmuebles.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+
 
         extras = getArguments();
         if (extras != null) {
@@ -124,36 +127,34 @@ public class RecyclerViewMisInmueblesFragment extends Fragment {
         if (!dir.exists()) {
             dir.mkdirs();
         }
-        final String pathGuardar = dir.getAbsolutePath() + "/TFG";
+        final String pathGuardar = dir.getAbsolutePath() + "/";
         Log.v("pathGuardar", "" + pathGuardar);
 
 
         for (int i = 0; i < inmueblesLista.size(); i++) {
-
             final ArrayList<Uri> listUriImages = new ArrayList<>();
             int idInmueble = inmueblesLista.get(i).getId_inmueble();
+            RequestHandle handle = null;
 
             Call<List<String>> listCall = ApiAdapter.getApiService(getPref()).getStringsUriFotos(idInmueble);
-            listCall.enqueue(new Callback<List<String>>() {
-                @Override
-                public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                    if (response.body() != null) {
-                        nombreImagenes(response.body());
-                    }
-                }
+            try {
+                Response<List<String>> response = listCall.execute();
+                nombreImagenes(response.body());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-                @Override
-                public void onFailure(Call<List<String>> call, Throwable t) {
-
-                }
-            });
             if (listaRutas != null) {
                 for (int j = 0; j < listaRutas.size(); j++) {
+                    contador++;
                     String ruta = getPref() + "fotografia/inmueble/" + idInmueble + "/" + listaRutas.get(j);
-                    new AsyncHttpClient().get(ruta, new AsyncHttpResponseHandler() {
+                    final int finalJ = j;
+                    final int finalI = i;
+                    final int finalContador = contador;
+                    handle = new AsyncHttpClient().get(ruta, new AsyncHttpResponseHandler() {
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                            String nombre = System.currentTimeMillis() / 100 + ".jpeg";
+                            String nombre = System.currentTimeMillis() / 100 + finalContador + ".jpeg";
                             Uri uriPath = null;
                             FileOutputStream fOS;
                             try {
@@ -168,16 +169,26 @@ public class RecyclerViewMisInmueblesFragment extends Fragment {
                             }
                             if (uriPath != null) {
                                 listUriImages.add(uriPath);
+                                Log.v("list", "" + pathGuardar + nombre);
+                                Log.v("nombre", "" + nombre);
                             }
                         }
+
 
                         @Override
                         public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
 
                         }
                     });
-
+                    while (!handle.isFinished()) {
+                        try {
+                            Thread.sleep(200);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
+
             } else {
                 String archivo = "android.resource://" + getActivity().getPackageName() + "/" + R.drawable.ic_sin_imagen;
                 Uri ruta = Uri.parse(archivo);
@@ -198,8 +209,8 @@ public class RecyclerViewMisInmueblesFragment extends Fragment {
     }
 
     public String getPref() {
-        SharedPreferences sharedPref = getActivity().getSharedPreferences("rutaURL",Context.MODE_PRIVATE);
-        String baseURL = sharedPref.getString("baseUrl","https://34af4e85d798.ngrok.io/Restful_Inmo/servicios/");
+        SharedPreferences sharedPref = getActivity().getSharedPreferences("rutaURL", Context.MODE_PRIVATE);
+        String baseURL = sharedPref.getString("baseUrl", "https://34af4e85d798.ngrok.io/Restful_Inmo/servicios/");
         return baseURL;
     }
 
