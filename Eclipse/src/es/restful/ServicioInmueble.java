@@ -23,7 +23,9 @@ import javax.ws.rs.core.UriInfo;
 
 import es.dao.mysql.DAOException;
 import es.dao.mysql.MySQLAnuncioDAO;
+import es.dao.mysql.MySQLFotografiaDAO;
 import es.dao.mysql.MySQLInmuebleDAO;
+import es.modelos.Fotografia;
 import es.modelos.Inmueble;
 
 @ApplicationScoped
@@ -129,13 +131,21 @@ public class ServicioInmueble {
 	public Response deleteInmueble(@PathParam("id_inmueble") int id) {
 
 		claseInmueble = new MySQLInmuebleDAO(dataSource);
+		MySQLFotografiaDAO claseFotografia = new MySQLFotografiaDAO(dataSource);
 		
 		Response.Status respuesta = Response.Status.OK;
+		List<Fotografia> listaFotografia = null;
 
 		int filasModificadas = 0;
 		
 		try {
 			
+			listaFotografia = claseFotografia.listaFotografiasDeInmueble(id);
+			if(listaFotografia != null) {
+				for (Fotografia f : listaFotografia) {
+					claseFotografia.borrarFotografia(String.valueOf(id), f.getRuta());
+				}
+			}
 			filasModificadas = claseInmueble.eliminar(id);
 			
 		} catch (DAOException e) {

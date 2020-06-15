@@ -40,6 +40,7 @@ public class ServicioUsuario {
 								 @PathParam("contrasena") String contrasena) {
 
 		claseUsuario = new MySQLUsuarioDAO(dataSource);
+		
 		Response.Status respuesta = Response.Status.OK;
 		Usuario usuario = null;
 		try {
