@@ -83,14 +83,16 @@ public class LoginActivity extends AppCompatActivity {
                         } else {
                             etCorreoLogin.setHint("Correo");
                             etPassLogin.setHint("Contraseña");
-                            Toast.makeText(getApplicationContext(), "El correo o la contraseña no son correctos", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(),
+                                    "El correo o la contraseña no son correctos", Toast.LENGTH_LONG).show();
                         }
                         progressDialog.dismiss();
                     }
 
                     @Override
                     public void onFailure(Call<Usuario> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(), "La conexion con la API no se esta realizando", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(),
+                                "La conexion con la API no se esta realizando", Toast.LENGTH_LONG).show();
                     }
                 });
             }
